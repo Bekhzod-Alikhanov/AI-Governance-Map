@@ -67,7 +67,6 @@ export default function App() {
     y: number;
   } | null>(null);
   const [hoverLab, setHoverLab] = useState<{ lab: FrontierLab; x: number; y: number } | null>(null);
-  const [noticeOpen, setNoticeOpen] = useState(true);
   const [showLabs, setShowLabs] = useState(true);
   const [lens, setLens] = useState<LensKind>("geography");
   const [walkthroughStep, setWalkthroughStep] = useState<number | null>(null);
@@ -157,53 +156,6 @@ export default function App() {
           onReset={() => dispatch({ type: "reset" })}
         />
       </div>
-
-      {/* Optional thin data-quality banner */}
-      {noticeOpen && (
-        <div className="z-10 flex shrink-0 items-center gap-3 border-b border-amber-200 bg-amber-50/70 px-5 py-1.5 text-[11px] text-amber-900">
-          <svg
-            aria-hidden="true"
-            width="13"
-            height="13"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="shrink-0 text-amber-700"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 8v4" />
-            <path d="M12 16h.01" />
-          </svg>
-          <p className="flex-1 truncate">
-            <span className="font-semibold">Scope:</span> AI-specific instruments + frontier-AI infrastructure
-            (chips, cloud, BIS export controls). May 2026 snapshot.
-          </p>
-          <button
-            type="button"
-            onClick={() => setNoticeOpen(false)}
-            aria-label="Dismiss data-quality notice"
-            className="rounded p-0.5 text-amber-700 hover:bg-amber-100"
-          >
-            <svg
-              aria-hidden="true"
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M18 6 6 18" />
-              <path d="m6 6 12 12" />
-            </svg>
-          </button>
-        </div>
-      )}
 
       {/* Main canvas — switches between Map / Network / Timeline lenses */}
       <main className="relative flex-1 overflow-hidden">

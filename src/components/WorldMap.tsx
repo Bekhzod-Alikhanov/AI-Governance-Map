@@ -59,14 +59,18 @@ export function WorldMap({
   }, [filters]);
 
   const projectionConfig = useMemo(() => {
-    // Pick the scale that lets the world fit either width or height of the
-    // container, whichever is the tighter constraint. Equal Earth maps the
-    // sphere into roughly 2.05 (width / height) at scale 1.
-    const scaleByWidth = dims.width / 5.5;
-    const scaleByHeight = dims.height / 2.7;
+    // Equal Earth at scale 1 is ~5.4 wide × 2.6 tall. Fit width or
+    // height (whichever is tighter) and translate the origin up so the
+    // populated northern landmass sits flush with the SVG top; the
+    // empty Antarctic / sub-Antarctic ocean takes the slack at the
+    // bottom.
+    const scaleByWidth = dims.width / 5.3;
+    const scaleByHeight = dims.height / 2.6;
+    const scale = Math.max(120, Math.min(scaleByWidth, scaleByHeight));
     return {
-      scale: Math.max(120, Math.min(scaleByWidth, scaleByHeight)),
-      center: [10, 12] as [number, number],
+      scale,
+      center: [10, 10] as [number, number],
+      translate: [dims.width / 2, dims.height * 0.34] as [number, number],
     };
   }, [dims.width, dims.height]);
 
