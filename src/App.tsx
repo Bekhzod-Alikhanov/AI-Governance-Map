@@ -124,9 +124,14 @@ export default function App() {
         </div>
 
         <div className="ml-auto flex flex-1 items-center justify-end gap-3">
-          <span className="hidden text-[11px] text-ink-500 xl:inline">
-            {stats.countries} countries · {stats.labs} labs · {stats.instruments} instruments · {stats.nationalRegs} national rules · {stats.edges} edges
-          </span>
+          <div className="hidden text-right text-[11px] leading-tight text-ink-500 xl:block">
+            <div>
+              {stats.countries} countries · {stats.labs} labs · {stats.instruments} instruments
+            </div>
+            <div>
+              {stats.nationalRegs} national rules · {stats.edges} edges
+            </div>
+          </div>
           <LensSwitch value={lens} onChange={setLens} />
           <button
             type="button"
