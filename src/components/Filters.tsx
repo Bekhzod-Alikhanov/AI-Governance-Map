@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import clsx from "clsx";
 import type {
   FilterState,
@@ -72,47 +72,87 @@ const REGION_OPTIONS: Region[] = [
   "Eurasia",
 ];
 
-function SectionHeading({
-  title,
-  count,
-  open,
-  onToggle,
-}: {
-  title: string;
-  count?: number;
-  open: boolean;
-  onToggle: () => void;
-}) {
+function useOutsideClose(ref: React.RefObject<HTMLDivElement>, onClose: () => void) {
+  useEffect(() => {
+    function handler(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) onClose();
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
+    document.addEventListener("mousedown", handler);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", handler);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [ref, onClose]);
+}
+
+interface DropdownProps {
+  label: string;
+  count: number;
+  align?: "left" | "right";
+  width?: number;
+  children: React.ReactNode;
+}
+
+function FilterDropdown({ label, count, align = "left", width = 320, children }: DropdownProps) {
+  const [open, setOpen] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  useOutsideClose(wrapRef, () => setOpen(false));
+
   return (
-    <button
-      type="button"
-      onClick={onToggle}
-      aria-expanded={open}
-      className="flex w-full items-center justify-between border-b border-canvas-line py-2 text-left"
-    >
-      <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-ink-700">
-        {title}
-        {count != null && count > 0 && (
-          <span className="rounded-full bg-accent/10 px-1.5 py-0.5 text-[10px] font-semibold text-accent">
+    <div ref={wrapRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className={clsx(
+          "flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors",
+          count > 0
+            ? "border-accent bg-accent text-white shadow-sm hover:bg-accent/90"
+            : "border-canvas-line bg-white text-ink-700 hover:border-ink-400"
+        )}
+      >
+        <span>{label}</span>
+        {count > 0 && (
+          <span
+            className={clsx(
+              "rounded-full px-1.5 text-[10px] font-semibold leading-4",
+              count > 0 ? "bg-white/25 text-white" : "bg-accent/10 text-accent"
+            )}
+          >
             {count}
           </span>
         )}
-      </span>
-      <svg
-        aria-hidden="true"
-        width="14"
-        height="14"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={clsx("text-ink-500 transition-transform", open && "rotate-180")}
-      >
-        <path d="m6 9 6 6 6-6" />
-      </svg>
-    </button>
+        <svg
+          aria-hidden="true"
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={clsx("transition-transform", open && "rotate-180")}
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </button>
+      {open && (
+        <div
+          className={clsx(
+            "policy-scroll absolute top-full z-40 mt-2 max-h-[480px] overflow-y-auto rounded-xl border border-canvas-line bg-white p-2 shadow-drawer",
+            align === "right" ? "right-0" : "left-0"
+          )}
+          style={{ width }}
+        >
+          {children}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -126,7 +166,7 @@ function CheckboxRow({
   onChange: (next: boolean) => void;
 }) {
   return (
-    <label className="flex cursor-pointer items-start gap-2 rounded-md px-1.5 py-1 text-xs leading-snug text-ink-700 hover:bg-canvas">
+    <label className="flex cursor-pointer items-start gap-2 rounded-md px-2 py-1.5 text-xs leading-snug text-ink-700 hover:bg-canvas">
       <input
         type="checkbox"
         checked={checked}
@@ -146,17 +186,17 @@ function YesNoAny({
   onChange: (v: "any" | "yes" | "no") => void;
 }) {
   return (
-    <div className="flex gap-1 text-[11px]">
+    <div className="inline-flex overflow-hidden rounded-md border border-canvas-line">
       {(["any", "yes", "no"] as const).map((v) => (
         <button
           key={v}
           type="button"
           onClick={() => onChange(v)}
           className={clsx(
-            "flex-1 rounded-md border px-2 py-1 font-medium capitalize transition-colors",
+            "px-2 py-1 text-[11px] font-medium capitalize transition-colors",
             value === v
-              ? "border-accent bg-accent text-white"
-              : "border-canvas-line text-ink-700 hover:border-ink-400"
+              ? "bg-accent text-white"
+              : "bg-white text-ink-700 hover:bg-canvas"
           )}
         >
           {v}
@@ -167,15 +207,6 @@ function YesNoAny({
 }
 
 export function Filters({ filters, onChange, onReset }: Props) {
-  const [openSection, setOpenSection] = useState<Record<string, boolean>>({
-    instrument: true,
-    participation: false,
-    binding: false,
-    organization: false,
-    region: false,
-    national: false,
-  });
-
   const activeCount = countActiveFilters(filters);
 
   const instrumentsByOrg = useMemo(() => {
@@ -192,10 +223,7 @@ export function Filters({ filters, onChange, onReset }: Props) {
     onChange({ ...filters, selectedInstrumentIds: next });
   }
 
-  function toggleArrayValue<T extends string>(
-    key: keyof FilterState,
-    value: T
-  ) {
+  function toggleArrayValue<T extends string>(key: keyof FilterState, value: T) {
     const current = filters[key] as T[];
     const next = current.includes(value)
       ? current.filter((x) => x !== value)
@@ -204,228 +232,170 @@ export function Filters({ filters, onChange, onReset }: Props) {
   }
 
   return (
-    <aside
-      aria-label="Filters"
-      className="flex h-full w-full flex-col gap-3 overflow-hidden bg-canvas-surface"
-    >
-      <header className="flex items-center justify-between border-b border-canvas-line px-4 py-3">
-        <div>
-          <h2 className="text-sm font-semibold text-ink-900">Filters</h2>
-          <p className="text-[11px] text-ink-500">
-            {activeCount > 0 ? `${activeCount} active` : "None active"}
-          </p>
+    <div className="flex flex-wrap items-center gap-2">
+      {/* International instrument (with AND/OR mode) */}
+      <FilterDropdown
+        label="Instrument"
+        count={filters.selectedInstrumentIds.length}
+        width={380}
+      >
+        <div className="mb-2 flex items-center justify-between border-b border-canvas-line px-2 pb-2">
+          <span className="text-[10px] font-semibold uppercase tracking-wide text-ink-500">
+            Match mode
+          </span>
+          <div className="inline-flex overflow-hidden rounded-md border border-canvas-line">
+            {(["OR", "AND"] as const).map((m) => (
+              <button
+                key={m}
+                type="button"
+                onClick={() => onChange({ ...filters, instrumentMatchMode: m })}
+                className={clsx(
+                  "px-2.5 py-0.5 text-[11px] font-semibold transition-colors",
+                  filters.instrumentMatchMode === m
+                    ? "bg-accent text-white"
+                    : "bg-white text-ink-700 hover:bg-canvas"
+                )}
+              >
+                {m}
+              </button>
+            ))}
+          </div>
         </div>
-        <button
-          type="button"
-          onClick={onReset}
-          disabled={activeCount === 0}
-          className="rounded-md border border-canvas-line px-2.5 py-1 text-[11px] font-medium text-ink-700 hover:border-ink-400 disabled:opacity-40"
-        >
-          Reset
-        </button>
-      </header>
-
-      <div className="policy-scroll flex-1 overflow-y-auto px-4 pb-6">
-        <section>
-          <SectionHeading
-            title="International instrument"
-            count={filters.selectedInstrumentIds.length}
-            open={openSection.instrument}
-            onToggle={() =>
-              setOpenSection((s) => ({ ...s, instrument: !s.instrument }))
-            }
-          />
-          {openSection.instrument && (
-            <div className="space-y-3 pt-2">
-              <div className="flex items-center gap-2 text-[11px] text-ink-700">
-                <span>Match mode:</span>
-                {(["OR", "AND"] as const).map((m) => (
-                  <button
-                    key={m}
-                    type="button"
-                    onClick={() =>
-                      onChange({ ...filters, instrumentMatchMode: m })
-                    }
-                    className={clsx(
-                      "rounded-md border px-2 py-0.5 font-semibold",
-                      filters.instrumentMatchMode === m
-                        ? "border-accent bg-accent text-white"
-                        : "border-canvas-line text-ink-700"
-                    )}
-                  >
-                    {m}
-                  </button>
-                ))}
-              </div>
-              {Object.keys(instrumentsByOrg)
-                .sort()
-                .map((org) => (
-                  <div key={org}>
-                    <p className="px-1.5 pt-1 text-[10px] font-semibold uppercase tracking-wide text-ink-500">
-                      {org}
-                    </p>
-                    {instrumentsByOrg[org].map((inst) => (
-                      <CheckboxRow
-                        key={inst.id}
-                        checked={filters.selectedInstrumentIds.includes(inst.id)}
-                        onChange={() => toggleInstrument(inst.id)}
-                        label={
-                          <span className="font-medium leading-snug">
-                            {inst.name}
-                            {inst.date && (
-                              <span className="ml-1 text-[10px] text-ink-500">
-                                · {inst.date.slice(0, 4)}
-                              </span>
-                            )}
-                          </span>
-                        }
-                      />
-                    ))}
-                  </div>
-                ))}
-            </div>
-          )}
-        </section>
-
-        <section className="mt-4">
-          <SectionHeading
-            title="Participation type"
-            count={filters.selectedParticipationTypes.length}
-            open={openSection.participation}
-            onToggle={() =>
-              setOpenSection((s) => ({ ...s, participation: !s.participation }))
-            }
-          />
-          {openSection.participation && (
-            <div className="pt-2">
-              {PARTICIPATION_OPTIONS.map((p) => (
+        {Object.keys(instrumentsByOrg)
+          .sort()
+          .map((org) => (
+            <div key={org} className="pb-1">
+              <p className="px-2 pt-1 text-[10px] font-semibold uppercase tracking-wide text-ink-500">
+                {org}
+              </p>
+              {instrumentsByOrg[org].map((inst) => (
                 <CheckboxRow
-                  key={p}
-                  checked={filters.selectedParticipationTypes.includes(p)}
-                  onChange={() =>
-                    toggleArrayValue("selectedParticipationTypes", p)
+                  key={inst.id}
+                  checked={filters.selectedInstrumentIds.includes(inst.id)}
+                  onChange={() => toggleInstrument(inst.id)}
+                  label={
+                    <span className="font-medium leading-snug">
+                      {inst.name}
+                      {inst.date && (
+                        <span className="ml-1 text-[10px] text-ink-500">
+                          · {inst.date.slice(0, 4)}
+                        </span>
+                      )}
+                    </span>
                   }
-                  label={PARTICIPATION_LABELS[p]}
                 />
               ))}
             </div>
-          )}
-        </section>
+          ))}
+      </FilterDropdown>
 
-        <section className="mt-4">
-          <SectionHeading
-            title="Binding force"
-            count={filters.selectedBindingStatuses.length}
-            open={openSection.binding}
-            onToggle={() =>
-              setOpenSection((s) => ({ ...s, binding: !s.binding }))
-            }
+      <FilterDropdown
+        label="Participation"
+        count={filters.selectedParticipationTypes.length}
+        width={260}
+      >
+        {PARTICIPATION_OPTIONS.map((p) => (
+          <CheckboxRow
+            key={p}
+            checked={filters.selectedParticipationTypes.includes(p)}
+            onChange={() => toggleArrayValue("selectedParticipationTypes", p)}
+            label={PARTICIPATION_LABELS[p]}
           />
-          {openSection.binding && (
-            <div className="pt-2">
-              {BINDING_OPTIONS.map((b) => (
-                <CheckboxRow
-                  key={b}
-                  checked={filters.selectedBindingStatuses.includes(b)}
-                  onChange={() =>
-                    toggleArrayValue("selectedBindingStatuses", b)
-                  }
-                  label={INSTRUMENT_BINDING_LABELS[b]}
-                />
-              ))}
-            </div>
-          )}
-        </section>
+        ))}
+      </FilterDropdown>
 
-        <section className="mt-4">
-          <SectionHeading
-            title="Organization"
-            count={filters.selectedOrganizations.length}
-            open={openSection.organization}
-            onToggle={() =>
-              setOpenSection((s) => ({ ...s, organization: !s.organization }))
-            }
+      <FilterDropdown
+        label="Binding force"
+        count={filters.selectedBindingStatuses.length}
+        width={240}
+      >
+        {BINDING_OPTIONS.map((b) => (
+          <CheckboxRow
+            key={b}
+            checked={filters.selectedBindingStatuses.includes(b)}
+            onChange={() => toggleArrayValue("selectedBindingStatuses", b)}
+            label={INSTRUMENT_BINDING_LABELS[b]}
           />
-          {openSection.organization && (
-            <div className="pt-2">
-              {ORG_OPTIONS.map((o) => (
-                <CheckboxRow
-                  key={o}
-                  checked={filters.selectedOrganizations.includes(o)}
-                  onChange={() => toggleArrayValue("selectedOrganizations", o)}
-                  label={o}
-                />
-              ))}
-            </div>
-          )}
-        </section>
+        ))}
+      </FilterDropdown>
 
-        <section className="mt-4">
-          <SectionHeading
-            title="Region"
-            count={filters.selectedRegions.length}
-            open={openSection.region}
-            onToggle={() => setOpenSection((s) => ({ ...s, region: !s.region }))}
+      <FilterDropdown
+        label="Organization"
+        count={filters.selectedOrganizations.length}
+        width={220}
+      >
+        {ORG_OPTIONS.map((o) => (
+          <CheckboxRow
+            key={o}
+            checked={filters.selectedOrganizations.includes(o)}
+            onChange={() => toggleArrayValue("selectedOrganizations", o)}
+            label={o}
           />
-          {openSection.region && (
-            <div className="pt-2">
-              {REGION_OPTIONS.map((r) => (
-                <CheckboxRow
-                  key={r}
-                  checked={filters.selectedRegions.includes(r)}
-                  onChange={() => toggleArrayValue("selectedRegions", r)}
-                  label={r}
-                />
-              ))}
-            </div>
-          )}
-        </section>
+        ))}
+      </FilterDropdown>
 
-        <section className="mt-4">
-          <SectionHeading
-            title="National AI rules"
-            open={openSection.national}
-            onToggle={() =>
-              setOpenSection((s) => ({ ...s, national: !s.national }))
-            }
+      <FilterDropdown
+        label="Region"
+        count={filters.selectedRegions.length}
+        width={250}
+      >
+        {REGION_OPTIONS.map((r) => (
+          <CheckboxRow
+            key={r}
+            checked={filters.selectedRegions.includes(r)}
+            onChange={() => toggleArrayValue("selectedRegions", r)}
+            label={r}
           />
-          {openSection.national && (
-            <div className="space-y-3 pt-2">
-              <div>
-                <p className="mb-1 text-[11px] text-ink-700">
-                  Has binding national AI law
-                </p>
-                <YesNoAny
-                  value={filters.hasBindingNationalLaw}
-                  onChange={(v) =>
-                    onChange({ ...filters, hasBindingNationalLaw: v })
-                  }
-                />
-              </div>
-              <div>
-                <p className="mb-1 text-[11px] text-ink-700">
-                  Has any AI-specific rule
-                </p>
-                <YesNoAny
-                  value={filters.hasAnyAIRule}
-                  onChange={(v) => onChange({ ...filters, hasAnyAIRule: v })}
-                />
-              </div>
-              <div>
-                <p className="mb-1 text-[11px] text-ink-700">
-                  Frontier-AI relevant
-                </p>
-                <YesNoAny
-                  value={filters.frontierAIRelevant}
-                  onChange={(v) =>
-                    onChange({ ...filters, frontierAIRelevant: v })
-                  }
-                />
-              </div>
-            </div>
-          )}
-        </section>
-      </div>
-    </aside>
+        ))}
+      </FilterDropdown>
+
+      <FilterDropdown
+        label="National AI rules"
+        count={
+          (filters.hasBindingNationalLaw !== "any" ? 1 : 0) +
+          (filters.hasAnyAIRule !== "any" ? 1 : 0) +
+          (filters.frontierAIRelevant !== "any" ? 1 : 0)
+        }
+        width={300}
+        align="right"
+      >
+        <div className="space-y-3 px-2 py-1">
+          <div>
+            <p className="mb-1 text-[11px] text-ink-700">Has binding national AI law</p>
+            <YesNoAny
+              value={filters.hasBindingNationalLaw}
+              onChange={(v) => onChange({ ...filters, hasBindingNationalLaw: v })}
+            />
+          </div>
+          <div>
+            <p className="mb-1 text-[11px] text-ink-700">Has any AI-specific rule</p>
+            <YesNoAny
+              value={filters.hasAnyAIRule}
+              onChange={(v) => onChange({ ...filters, hasAnyAIRule: v })}
+            />
+          </div>
+          <div>
+            <p className="mb-1 text-[11px] text-ink-700">Frontier-AI relevant</p>
+            <YesNoAny
+              value={filters.frontierAIRelevant}
+              onChange={(v) => onChange({ ...filters, frontierAIRelevant: v })}
+            />
+          </div>
+        </div>
+      </FilterDropdown>
+
+      <span className="ml-1 text-[11px] text-ink-500">
+        {activeCount > 0 ? `${activeCount} filter${activeCount === 1 ? "" : "s"} active` : "No active filters"}
+      </span>
+
+      <button
+        type="button"
+        onClick={onReset}
+        disabled={activeCount === 0}
+        className="ml-auto rounded-md border border-canvas-line bg-white px-2.5 py-1 text-[11px] font-medium text-ink-700 hover:border-ink-400 disabled:opacity-40"
+      >
+        Reset
+      </button>
+    </div>
   );
 }

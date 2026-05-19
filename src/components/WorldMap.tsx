@@ -17,16 +17,15 @@ interface Props {
 
 export function WorldMap({ filters, selectedIso3, onSelectCountry, onHover }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const [dims, setDims] = useState({ width: 1000, height: 540 });
+  const [dims, setDims] = useState({ width: 1200, height: 700 });
 
   useEffect(() => {
     const el = wrapperRef.current;
     if (!el) return;
     const ro = new ResizeObserver((entries) => {
       for (const e of entries) {
-        const { width } = e.contentRect;
-        const height = Math.round(width * 0.54);
-        setDims({ width, height });
+        const { width, height } = e.contentRect;
+        setDims({ width: Math.max(320, width), height: Math.max(280, height) });
       }
     });
     ro.observe(el);
@@ -39,18 +38,22 @@ export function WorldMap({ filters, selectedIso3, onSelectCountry, onHover }: Pr
     return map;
   }, [filters]);
 
-  const projectionConfig = useMemo(
-    () => ({
-      scale: Math.max(150, dims.width / 6.2),
+  const projectionConfig = useMemo(() => {
+    // Pick the scale that lets the world fit either width or height of the
+    // container, whichever is the tighter constraint. Equal Earth maps the
+    // sphere into roughly 2.05 (width / height) at scale 1.
+    const scaleByWidth = dims.width / 5.5;
+    const scaleByHeight = dims.height / 2.7;
+    return {
+      scale: Math.max(120, Math.min(scaleByWidth, scaleByHeight)),
       center: [10, 12] as [number, number],
-    }),
-    [dims.width]
-  );
+    };
+  }, [dims.width, dims.height]);
 
   return (
     <div
       ref={wrapperRef}
-      className="relative h-full w-full overflow-hidden rounded-xl border border-canvas-line bg-canvas-surface"
+      className="relative h-full w-full overflow-hidden bg-canvas-surface"
     >
       <ComposableMap
         projection="geoEqualEarth"

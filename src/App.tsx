@@ -6,8 +6,6 @@ import { CountrySidePanel } from "./components/CountrySidePanel";
 import { CountryTooltip } from "./components/CountryTooltip";
 import { SearchBox } from "./components/SearchBox";
 import { Legend } from "./components/Legend";
-import { DataQualityNotice } from "./components/DataQualityNotice";
-import { DeploymentBadge } from "./components/DeploymentBadge";
 import { runDevValidation } from "./utils/validateData";
 import { COUNTRIES } from "./data/countries";
 import { INTERNATIONAL_INSTRUMENTS } from "./data/internationalInstruments";
@@ -45,6 +43,7 @@ export default function App() {
     x: number;
     y: number;
   } | null>(null);
+  const [noticeOpen, setNoticeOpen] = useState(true);
 
   useEffect(() => {
     runDevValidation();
@@ -60,66 +59,119 @@ export default function App() {
   );
 
   return (
-    <div className="flex h-full min-h-screen flex-col bg-canvas">
-      <header className="border-b border-canvas-line bg-canvas-surface">
-        <div className="mx-auto flex max-w-[1480px] flex-col gap-3 px-6 pb-3 pt-5">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div className="min-w-0">
-              <h1 className="text-[22px] font-semibold leading-tight tracking-tight text-ink-900">
-                Global AI Governance Map
-              </h1>
-              <p className="mt-0.5 text-sm leading-relaxed text-ink-600">
-                AI-specific national regulations and international AI governance instruments
-              </p>
-            </div>
-            <div className="flex w-full max-w-md flex-1 justify-end gap-3">
-              <SearchBox
-                onSelectCountry={(iso3) => setSelectedIso3(iso3)}
-                onSelectInstrument={(id) =>
-                  dispatch({ type: "select-instrument", id })
-                }
-              />
-            </div>
+    <div className="flex h-screen flex-col overflow-hidden bg-canvas">
+      {/* Compact header */}
+      <header className="z-20 flex shrink-0 items-center gap-4 border-b border-canvas-line bg-canvas-surface px-5 py-2.5">
+        <div className="min-w-0">
+          <h1 className="text-base font-semibold leading-tight tracking-tight text-ink-900">
+            Global AI Governance Map
+          </h1>
+          <p className="text-[11px] leading-tight text-ink-500">
+            AI-specific national regulations &amp; international AI governance instruments
+          </p>
+        </div>
+
+        <div className="ml-auto flex flex-1 items-center justify-end gap-3">
+          <span className="hidden text-[11px] text-ink-500 lg:inline">
+            {stats.countries} countries · {stats.instruments} instruments · {stats.nationalRegs} national rules
+          </span>
+          <div className="w-full max-w-xs">
+            <SearchBox
+              onSelectCountry={(iso3) => setSelectedIso3(iso3)}
+              onSelectInstrument={(id) =>
+                dispatch({ type: "select-instrument", id })
+              }
+            />
           </div>
-          <DataQualityNotice />
         </div>
       </header>
 
-      <main className="mx-auto flex w-full max-w-[1480px] flex-1 gap-4 px-6 py-5">
-        <section className="relative flex flex-1 flex-col gap-3 min-w-0">
-          <div className="relative flex flex-1 min-h-[460px] flex-col">
-            <WorldMap
-              filters={filters}
-              selectedIso3={selectedIso3}
-              onSelectCountry={(iso3) => setSelectedIso3(iso3)}
-              onHover={(data) => setHover(data)}
-            />
-            {selectedIso3 && (
-              <CountrySidePanel
-                iso3={selectedIso3}
-                onClose={() => setSelectedIso3(null)}
-              />
-            )}
-          </div>
-          <Legend />
-          <footer className="flex flex-wrap items-center justify-between gap-3 text-[11px] text-ink-500">
-            <p>
-              Dataset: {stats.countries} countries · {stats.instruments} international AI
-              instruments · {stats.nationalRegs} national AI rules. Sources are official wherever
-              possible (EUR-Lex, OECD, UNESCO, Council of Europe, ISO, GOV.UK, NIST, CAC, MSIT,
-              IMDA, MeitY, AU, ASEAN, APEC). Status may change — verify before relying on.
-            </p>
-            <DeploymentBadge />
-          </footer>
-        </section>
+      {/* Filter toolbar */}
+      <div className="z-10 shrink-0 border-b border-canvas-line bg-canvas-surface px-5 py-2">
+        <Filters
+          filters={filters}
+          onChange={(next) => dispatch({ type: "set", filters: next })}
+          onReset={() => dispatch({ type: "reset" })}
+        />
+      </div>
 
-        <div className="w-[340px] shrink-0 rounded-xl border border-canvas-line bg-canvas-surface shadow-panel">
-          <Filters
-            filters={filters}
-            onChange={(next) => dispatch({ type: "set", filters: next })}
-            onReset={() => dispatch({ type: "reset" })}
-          />
+      {/* Optional thin data-quality banner (dismissible) */}
+      {noticeOpen && (
+        <div className="z-10 flex shrink-0 items-center gap-3 border-b border-amber-200 bg-amber-50/70 px-5 py-1.5 text-[11px] text-amber-900">
+          <svg
+            aria-hidden="true"
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="shrink-0 text-amber-700"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 8v4" />
+            <path d="M12 16h.01" />
+          </svg>
+          <p className="flex-1 truncate">
+            <span className="font-semibold">Scope:</span> AI-specific instruments only — privacy,
+            cybersecurity, and export-control laws are out of scope unless explicitly AI-specific.
+            May 2026 snapshot.
+          </p>
+          <button
+            type="button"
+            onClick={() => setNoticeOpen(false)}
+            aria-label="Dismiss data-quality notice"
+            className="rounded p-0.5 text-amber-700 hover:bg-amber-100"
+          >
+            <svg
+              aria-hidden="true"
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
         </div>
+      )}
+
+      {/* Map — fills all remaining vertical space */}
+      <main className="relative flex-1 overflow-hidden">
+        <WorldMap
+          filters={filters}
+          selectedIso3={selectedIso3}
+          onSelectCountry={(iso3) => setSelectedIso3(iso3)}
+          onHover={(data) => setHover(data)}
+        />
+
+        {/* Floating legend, bottom-left */}
+        <div className="pointer-events-none absolute bottom-4 left-4 z-10 max-w-xs">
+          <div className="pointer-events-auto">
+            <Legend />
+          </div>
+        </div>
+
+        {/* Floating source badge, bottom-right */}
+        <div className="pointer-events-none absolute bottom-4 right-4 z-10 max-w-md text-right">
+          <p className="pointer-events-auto inline-block rounded-md bg-white/85 px-2.5 py-1 text-[10px] text-ink-500 shadow-panel backdrop-blur">
+            Official sources: EUR-Lex · OECD · UNESCO · Council of Europe · ISO · GOV.UK · NIST · CAC · MSIT · IMDA · MeitY · AU · ASEAN · APEC · CAIDP Index 2026
+          </p>
+        </div>
+
+        {selectedIso3 && (
+          <CountrySidePanel
+            iso3={selectedIso3}
+            onClose={() => setSelectedIso3(null)}
+          />
+        )}
       </main>
 
       {hover && (
