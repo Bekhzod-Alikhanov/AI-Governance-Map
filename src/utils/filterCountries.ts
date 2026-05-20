@@ -138,6 +138,7 @@ export function countActiveFilters(filters: FilterState): number {
   if (filters.selectedBindingStatuses.length) n += 1;
   if (filters.selectedOrganizations.length) n += 1;
   if (filters.selectedRegions.length) n += 1;
+  if (filters.selectedLabIds.length) n += 1;
   if (filters.hasBindingNationalLaw !== "any") n += 1;
   if (filters.hasAnyAIRule !== "any") n += 1;
   if (filters.frontierAIRelevant !== "any") n += 1;

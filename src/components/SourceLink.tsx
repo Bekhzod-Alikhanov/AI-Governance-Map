@@ -9,9 +9,10 @@ export function SourceLink({ name, url }: Props) {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
+      aria-label={`Open source: ${name}`}
       className="inline-flex items-center gap-1 text-xs font-medium text-accent hover:text-accent/80 underline-offset-2 hover:underline transition-colors"
     >
-      <span>{name}</span>
+      <span>Source: {name}</span>
       <svg
         aria-hidden="true"
         width="12"

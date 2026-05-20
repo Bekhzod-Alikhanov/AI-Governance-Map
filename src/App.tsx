@@ -6,6 +6,7 @@ import { Filters } from "./components/Filters";
 import { CountrySidePanel } from "./components/CountrySidePanel";
 import { LabSidePanel } from "./components/LabSidePanel";
 import { CountryTooltip } from "./components/CountryTooltip";
+import { DataQualityNotice } from "./components/DataQualityNotice";
 import { SearchBox } from "./components/SearchBox";
 import { Legend } from "./components/Legend";
 import { LensSwitch } from "./components/LensSwitch";
@@ -147,6 +148,8 @@ export default function App() {
           </div>
         </div>
       </header>
+
+      <DataQualityNotice />
 
       {/* Filter toolbar */}
       <div className="z-10 shrink-0 border-b border-canvas-line bg-canvas-surface px-5 py-2">

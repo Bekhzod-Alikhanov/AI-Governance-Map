@@ -25,12 +25,18 @@ The dataset is a snapshot as of **19 May 2026**. The Council of Europe AI Conven
 
 ## Tech stack
 
-- Vite + React 18 + TypeScript (strict mode)
-- Tailwind CSS
+- Vite + React 19 + TypeScript (strict mode)
+- Tailwind CSS v4 via `@tailwindcss/vite`
 - `react-simple-maps` with the **Equal Earth** projection
-- `world-atlas` country TopoJSON (loaded from unpkg)
-- `i18n-iso-countries` for ISO numeric ↔ alpha-3 mapping
+- `world-atlas` country TopoJSON bundled from npm
+- Static ISO numeric ↔ alpha-3 mapping in `src/utils/normalizeCountry.ts`
 - No backend, no paid APIs
+
+The project expects Node `^20.19.0 || >=22.12.0` and npm `>=10`.
+
+Security note: `package.json` uses an npm override for transitive `d3-color` so the
+`react-simple-maps` dependency graph resolves to the patched ReDoS-safe version.
+Keep the override until the upstream map dependency ships a clean dependency graph.
 
 ## Run it locally
 
@@ -44,11 +50,15 @@ Then open <http://localhost:5173>.
 To build:
 
 ```bash
+npm run typecheck
+npm run lint
+npm test
 npm run build
 npm run preview
 ```
 
 `npm run build` runs `tsc -b` then `vite build`. The production bundle goes to `dist/`.
+`npm run lint` is currently a TypeScript no-emit check; a full ESLint pass is still a roadmap item.
 
 ## Deploy to Vercel
 
@@ -175,6 +185,8 @@ Official sources are preferred:
 
 Secondary sources are used only to discover leads, never as the authoritative final source.
 
+See [docs/DATA_GOVERNANCE.md](docs/DATA_GOVERNANCE.md) for the dataset taxonomy, verification metadata, and source-review checklist. The current source-audit notes are in [docs/SOURCE_VERIFICATION_2026-05-20.md](docs/SOURCE_VERIFICATION_2026-05-20.md).
+
 ## Known limitations
 
 - UNESCO, UNGA resolutions, and the Global Digital Compact are represented via `covered_by_membership` across UN member states rather than as 193 explicit sign-on rows. This avoids implying participation data we do not have.
@@ -183,8 +195,15 @@ Secondary sources are used only to discover leads, never as the authoritative fi
 - Participation dates are filled only where the underlying official source gives a clean date.
 - The Council of Europe AI Convention is **not yet in force** as of 19 May 2026. Entry into force requires five ratifications including at least three Council of Europe member states.
 - Export controls (BIS, Wassenaar, JP/NL/US semiconductor restrictions) are intentionally excluded from the main dataset; they are catalogued in `outOfScope.ts` as non-AI-specific.
+- This is a research dashboard, not legal advice. Verify time-sensitive legal status against the linked official sources before relying on a claim.
 
 ## Validation
+
+Run the explicit data checks with:
+
+```bash
+npm run validate:data
+```
 
 `src/utils/validateData.ts` runs on dev-mode app start and logs a grouped console report. It checks:
 
@@ -193,6 +212,10 @@ Secondary sources are used only to discover leads, never as the authoritative fi
 - Every international instrument has `aiSpecific === true`.
 - Every participation row references a known instrument id and country iso3.
 - Every regulation and instrument has a `sourceUrl`.
+- Source URLs are parseable and use classified hosts where possible.
+- Snapshot dates do not exceed 19 May 2026.
+- EU-only applicability rows do not attach to non-EU countries.
+- Indirect `covered_by_membership` rows are surfaced for caveat review.
 - No duplicate ids across data sources.
 - No Cyrillic characters in displayed strings (the seed inputs were Russian; the app is English-only).
 

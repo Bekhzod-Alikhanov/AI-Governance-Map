@@ -40,7 +40,23 @@ export type NationalBindingStatus =
   | "proposed"
   | "mixed";
 
-export interface NationalAIRegulation {
+export type SourceKind = "official" | "secondary" | "mixed" | "unknown";
+export type VerificationStatus =
+  | "verified"
+  | "likely_correct"
+  | "uncertain"
+  | "needs_external_check";
+export type DataConfidence = "high" | "medium" | "low";
+
+export interface VerificationMetadata {
+  sourceKind?: SourceKind;
+  verificationStatus?: VerificationStatus;
+  confidence?: DataConfidence;
+  lastVerified?: string;
+  verificationNotes?: string;
+}
+
+export interface NationalAIRegulation extends VerificationMetadata {
   id: string;
   name: string;
   jurisdiction: string;
@@ -101,7 +117,7 @@ export type InstrumentBindingStatus =
   | "standard"
   | "political_guidance";
 
-export interface InternationalInstrument {
+export interface InternationalInstrument extends VerificationMetadata {
   id: string;
   name: string;
   issuer: string;
@@ -130,7 +146,7 @@ export type ParticipationType =
   | "covered_by_membership"
   | "unknown";
 
-export interface InternationalParticipation {
+export interface InternationalParticipation extends VerificationMetadata {
   id: string;
   instrumentId: string;
   countryIso3: string;
@@ -157,7 +173,7 @@ export interface SourceNote {
 // ===== Frontier-lab actor layer (Tier 1.A) =====
 export type SafetyFrameworkMaturity = "published" | "draft" | "internal" | "none";
 
-export interface FrontierLab {
+export interface FrontierLab extends VerificationMetadata {
   id: string;
   name: string;
   hqIso3: string;
@@ -181,7 +197,7 @@ export interface FrontierLab {
 // ===== Infrastructure layer (Tier 1.B) =====
 export type InfrastructureType = "chips" | "cloud" | "export_control";
 
-export interface InfrastructureNode {
+export interface InfrastructureNode extends VerificationMetadata {
   id: string;
   name: string;
   type: InfrastructureType;
@@ -222,7 +238,7 @@ export interface GraphEdge {
 }
 
 // ===== Subnational AI rules (Tier 2.H) =====
-export interface SubnationalAIRule {
+export interface SubnationalAIRule extends VerificationMetadata {
   id: string;
   name: string;
   countryIso3: string;

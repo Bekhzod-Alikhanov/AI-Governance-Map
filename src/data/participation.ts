@@ -63,7 +63,7 @@ const PARIS_STATEMENT_PARTICIPANTS = [
 ];
 
 const INASI_LAUNCH_MEMBERS = [
-  "AUS","CAN",EU,"FRA","JPN","KEN","KOR","SGP","GBR","USA",
+  "AUS","CAN",EU,"FRA","DEU","ITA","JPN","KOR","SGP","GBR","USA",
 ];
 
 const COE_CONVENTION_SIGNATORIES = [
@@ -133,6 +133,9 @@ rows.push(
 // International Network of AI Safety Institutes
 rows.push(
   ...makeRows("intl-network-aisi", INASI_LAUNCH_MEMBERS, "member", {
+    sourceName: "GOV.UK — Seoul Declaration, leaders' session",
+    sourceUrl:
+      "https://www.gov.uk/government/publications/seoul-declaration-for-safe-innovative-and-inclusive-ai-ai-seoul-summit-2024/seoul-declaration-for-safe-innovative-and-inclusive-ai-by-participants-attending-the-leaders-session-ai-seoul-summit-21-may-2024",
     notes: "Launch members of the international network; renamed in December 2025.",
   })
 );

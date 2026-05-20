@@ -7,8 +7,8 @@ import type {
   ParticipationType,
   Region,
 } from "../types";
-import { INTERNATIONAL_INSTRUMENTS } from "../data/internationalInstruments";
-import { FRONTIER_LABS } from "../data/frontierLabs";
+import { INTERNATIONAL_INSTRUMENTS, INSTRUMENT_BY_ID } from "../data/internationalInstruments";
+import { FRONTIER_LABS, LAB_BY_ID } from "../data/frontierLabs";
 import {
   INSTRUMENT_BINDING_LABELS,
   PARTICIPATION_LABELS,
@@ -96,6 +96,44 @@ interface DropdownProps {
   align?: "left" | "right";
   width?: number;
   children: React.ReactNode;
+}
+
+interface ActiveFilterChip {
+  id: string;
+  label: string;
+  onRemove: () => void;
+}
+
+function ActiveChip({ label, onRemove }: Omit<ActiveFilterChip, "id">) {
+  return (
+    <button
+      type="button"
+      onClick={onRemove}
+      aria-label={`Remove filter: ${label}`}
+      className="inline-flex max-w-full items-center gap-1.5 rounded-md border border-accent/25 bg-accent/10 px-2 py-1 text-[11px] font-medium text-accent hover:bg-accent/15"
+    >
+      <span className="truncate">{label}</span>
+      <svg
+        aria-hidden="true"
+        width="12"
+        height="12"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="shrink-0"
+      >
+        <path d="M18 6 6 18" />
+        <path d="m6 6 12 12" />
+      </svg>
+    </button>
+  );
+}
+
+function yesNoLabel(value: "yes" | "no") {
+  return value === "yes" ? "Yes" : "No";
 }
 
 function FilterDropdown({ label, count, align = "left", width = 320, children }: DropdownProps) {
@@ -209,6 +247,95 @@ function YesNoAny({
 
 export function Filters({ filters, onChange, onReset }: Props) {
   const activeCount = countActiveFilters(filters);
+  const activeChips: ActiveFilterChip[] = [];
+
+  for (const id of filters.selectedInstrumentIds) {
+    activeChips.push({
+      id: `instrument-${id}`,
+      label: `Instrument: ${INSTRUMENT_BY_ID[id]?.name ?? id}`,
+      onRemove: () =>
+        onChange({
+          ...filters,
+          selectedInstrumentIds: filters.selectedInstrumentIds.filter((x) => x !== id),
+        }),
+    });
+  }
+  for (const type of filters.selectedParticipationTypes) {
+    activeChips.push({
+      id: `participation-${type}`,
+      label: `Participation: ${PARTICIPATION_LABELS[type]}`,
+      onRemove: () =>
+        onChange({
+          ...filters,
+          selectedParticipationTypes: filters.selectedParticipationTypes.filter((x) => x !== type),
+        }),
+    });
+  }
+  for (const status of filters.selectedBindingStatuses) {
+    activeChips.push({
+      id: `binding-${status}`,
+      label: `Legal effect: ${INSTRUMENT_BINDING_LABELS[status]}`,
+      onRemove: () =>
+        onChange({
+          ...filters,
+          selectedBindingStatuses: filters.selectedBindingStatuses.filter((x) => x !== status),
+        }),
+    });
+  }
+  for (const org of filters.selectedOrganizations) {
+    activeChips.push({
+      id: `organization-${org}`,
+      label: `Organization: ${org}`,
+      onRemove: () =>
+        onChange({
+          ...filters,
+          selectedOrganizations: filters.selectedOrganizations.filter((x) => x !== org),
+        }),
+    });
+  }
+  for (const region of filters.selectedRegions) {
+    activeChips.push({
+      id: `region-${region}`,
+      label: `Region: ${region}`,
+      onRemove: () =>
+        onChange({
+          ...filters,
+          selectedRegions: filters.selectedRegions.filter((x) => x !== region),
+        }),
+    });
+  }
+  for (const id of filters.selectedLabIds) {
+    activeChips.push({
+      id: `lab-${id}`,
+      label: `Lab HQ: ${LAB_BY_ID[id]?.name ?? id}`,
+      onRemove: () =>
+        onChange({
+          ...filters,
+          selectedLabIds: filters.selectedLabIds.filter((x) => x !== id),
+        }),
+    });
+  }
+  if (filters.hasBindingNationalLaw !== "any") {
+    activeChips.push({
+      id: "binding-national-law",
+      label: `Binding AI law applies: ${yesNoLabel(filters.hasBindingNationalLaw)}`,
+      onRemove: () => onChange({ ...filters, hasBindingNationalLaw: "any" }),
+    });
+  }
+  if (filters.hasAnyAIRule !== "any") {
+    activeChips.push({
+      id: "any-ai-rule",
+      label: `Any national AI entry: ${yesNoLabel(filters.hasAnyAIRule)}`,
+      onRemove: () => onChange({ ...filters, hasAnyAIRule: "any" }),
+    });
+  }
+  if (filters.frontierAIRelevant !== "any") {
+    activeChips.push({
+      id: "frontier-relevant",
+      label: `Frontier-AI relevant: ${yesNoLabel(filters.frontierAIRelevant)}`,
+      onRemove: () => onChange({ ...filters, frontierAIRelevant: "any" }),
+    });
+  }
 
   const instrumentsByOrg = useMemo(() => {
     const map: Record<string, typeof INTERNATIONAL_INSTRUMENTS> = {};
@@ -233,7 +360,8 @@ export function Filters({ filters, onChange, onReset }: Props) {
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="space-y-2">
+      <div className="flex flex-wrap items-center gap-2">
       {/* International instrument (with AND/OR mode) */}
       <FilterDropdown
         label="Instrument"
@@ -306,7 +434,7 @@ export function Filters({ filters, onChange, onReset }: Props) {
       </FilterDropdown>
 
       <FilterDropdown
-        label="Binding force"
+        label="Legal effect"
         count={filters.selectedBindingStatuses.length}
         width={240}
       >
@@ -398,14 +526,16 @@ export function Filters({ filters, onChange, onReset }: Props) {
       >
         <div className="space-y-3 px-2 py-1">
           <div>
-            <p className="mb-1 text-[11px] text-ink-700">Has binding national AI law</p>
+            <p className="mb-1 text-[11px] text-ink-700">Binding AI law applies</p>
             <YesNoAny
               value={filters.hasBindingNationalLaw}
               onChange={(v) => onChange({ ...filters, hasBindingNationalLaw: v })}
             />
           </div>
           <div>
-            <p className="mb-1 text-[11px] text-ink-700">Has any AI-specific rule</p>
+            <p className="mb-1 text-[11px] text-ink-700">
+              Any national AI law, proposal, guidance, strategy, or framework
+            </p>
             <YesNoAny
               value={filters.hasAnyAIRule}
               onChange={(v) => onChange({ ...filters, hasAnyAIRule: v })}
@@ -433,6 +563,16 @@ export function Filters({ filters, onChange, onReset }: Props) {
       >
         Reset
       </button>
+      </div>
+
+      {activeChips.length > 0 && (
+        <div className="flex max-h-20 flex-wrap items-center gap-1.5 overflow-y-auto pr-1">
+          <span className="text-[11px] font-medium text-ink-500">Active:</span>
+          {activeChips.map((chip) => (
+            <ActiveChip key={chip.id} label={chip.label} onRemove={chip.onRemove} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

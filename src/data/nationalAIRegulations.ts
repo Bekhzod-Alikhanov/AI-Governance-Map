@@ -1,5 +1,19 @@
 import type { NationalAIRegulation } from "../types";
 
+const OFFICIAL_VERIFIED = {
+  sourceKind: "official",
+  verificationStatus: "verified",
+  confidence: "high",
+  lastVerified: "2026-05-20",
+} as const;
+
+const OFFICIAL_LIKELY = {
+  sourceKind: "official",
+  verificationStatus: "likely_correct",
+  confidence: "medium",
+  lastVerified: "2026-05-20",
+} as const;
+
 export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
   // EU (regional)
   {
@@ -19,6 +33,9 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "EUR-Lex — Regulation 2024/1689",
     sourceUrl: "https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng",
+    ...OFFICIAL_VERIFIED,
+    verificationNotes:
+      "EUR-Lex and European Commission sources confirm in-force date 2024-08-01 and phased application. EU member-state coverage is applicability via EU law, not national enactment.",
   },
   {
     id: "eu-ai-office",
@@ -26,7 +43,7 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     jurisdiction: "European Union",
     regionalEntity: "EU",
     type: "institutional_framework",
-    bindingStatus: "binding",
+    bindingStatus: "non_binding",
     aiSpecific: true,
     status: "Established; operational",
     dateAdopted: "2024-02-21",
@@ -36,6 +53,9 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "European Commission — AI Office",
     sourceUrl: "https://digital-strategy.ec.europa.eu/en/policies/ai-office",
+    ...OFFICIAL_VERIFIED,
+    verificationNotes:
+      "Official Commission source confirms the AI Office's role. It is an institutional framework, not itself a binding AI rule; binding obligations come from the EU AI Act.",
   },
 
   // China
@@ -56,6 +76,7 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "CAC — Interim Measures for Generative AI Services",
     sourceUrl: "https://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm",
+    ...OFFICIAL_LIKELY,
   },
   {
     id: "cn-deep-synthesis",
@@ -74,6 +95,7 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "CAC — Deep Synthesis provisions",
     sourceUrl: "https://www.cac.gov.cn/2022-12/11/c_1672221949354811.htm",
+    ...OFFICIAL_LIKELY,
   },
   {
     id: "cn-algorithm-recommendation",
@@ -92,6 +114,7 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: false,
     sourceName: "CAC — Algorithmic Recommendation provisions",
     sourceUrl: "https://www.cac.gov.cn/2022-01/04/c_1642894606364259.htm",
+    ...OFFICIAL_LIKELY,
   },
   {
     id: "cn-ai-content-labeling",
@@ -110,6 +133,7 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "CAC — AI Content Labeling Measures",
     sourceUrl: "https://www.cac.gov.cn/2025-03/14/c_1743654039182840.htm",
+    ...OFFICIAL_LIKELY,
   },
 
   // South Korea
@@ -131,6 +155,9 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     sourceName: "MSIT — AI Basic Act explanation",
     sourceUrl:
       "https://www.msit.go.kr/eng/bbs/view.do?bbsSeqNo=42&mId=4&mPid=2&nttSeqNo=1214&sCode=eng",
+    ...OFFICIAL_VERIFIED,
+    verificationNotes:
+      "Official MSIT source confirms the Act passed the National Assembly on 2024-12-26 and is scheduled to take effect on 2026-01-22.",
   },
 
   // United Kingdom
@@ -151,6 +178,7 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     sourceName: "GOV.UK — pro-innovation approach response",
     sourceUrl:
       "https://www.gov.uk/government/consultations/ai-regulation-a-pro-innovation-approach-policy-proposals/outcome/a-pro-innovation-approach-to-ai-regulation-government-response",
+    ...OFFICIAL_LIKELY,
   },
   {
     id: "uk-ai-security-institute",
@@ -168,6 +196,7 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "UK AISI — About",
     sourceUrl: "https://www.aisi.gov.uk/about",
+    ...OFFICIAL_LIKELY,
   },
 
   // United States
@@ -187,6 +216,9 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "NIST — AI Risk Management Framework",
     sourceUrl: "https://www.nist.gov/itl/ai-risk-management-framework",
+    ...OFFICIAL_VERIFIED,
+    verificationNotes:
+      "Official NIST page confirms AI RMF 1.0 publication on 2023-01-26 and generative AI profile context; framework is voluntary/non-binding.",
   },
   {
     id: "us-caisi",
@@ -204,6 +236,9 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "NIST — CAISI",
     sourceUrl: "https://www.nist.gov/caisi",
+    ...OFFICIAL_VERIFIED,
+    verificationNotes:
+      "Official NIST CAISI page confirms institutional role; it is not itself a binding legal instrument.",
   },
 
   // Canada
@@ -215,15 +250,21 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     type: "proposed_law",
     bindingStatus: "proposed",
     aiSpecific: true,
-    status: "Proposed in Bill C-27; not yet in force",
+    status: "Historical proposal in Bill C-27; not enacted and not in force",
     dateAdopted: "2022-06-16",
     regulatorOrBody: "Innovation, Science and Economic Development Canada (ISED)",
     summary:
-      "Proposed federal AI statute focused on high-impact AI systems, risk management, and oversight. Has not yet been enacted as of May 2026.",
+      "Proposed federal AI statute focused on high-impact AI systems, risk management, and oversight. Bill C-27 did not become law; no federal AIDA is in force as of the May 2026 snapshot.",
     frontierAIRelevant: true,
     sourceName: "ISED — Artificial Intelligence and Data Act",
     sourceUrl:
       "https://ised-isde.canada.ca/site/innovation-better-canada/en/artificial-intelligence-and-data-act",
+    sourceKind: "official",
+    verificationStatus: "verified",
+    confidence: "medium",
+    lastVerified: "2026-05-20",
+    verificationNotes:
+      "ISED describes AIDA as part of Bill C-27. Parliament status indicates Bill C-27 did not enact; keep as historical/proposed context, not an active bill or law.",
   },
   {
     id: "ca-voluntary-code-genai",
@@ -242,6 +283,7 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     sourceName: "ISED — Voluntary Code of Conduct on Advanced Generative AI",
     sourceUrl:
       "https://ised-isde.canada.ca/site/ised/en/voluntary-code-conduct-responsible-development-and-management-advanced-generative-ai-systems",
+    ...OFFICIAL_LIKELY,
   },
   {
     id: "ca-aisi",
@@ -260,6 +302,7 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     sourceName: "ISED — Canadian Artificial Intelligence Safety Institute",
     sourceUrl:
       "https://ised-isde.canada.ca/site/ised/en/canadian-artificial-intelligence-safety-institute",
+    ...OFFICIAL_LIKELY,
   },
 
   // Japan
@@ -272,14 +315,17 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     bindingStatus: "binding",
     aiSpecific: true,
     status: "In force",
-    dateAdopted: "2025-05-28",
-    dateInForce: "2025-09-01",
+    dateAdopted: "2025-06-04",
+    dateInForce: "2025-06-04",
     regulatorOrBody: "Cabinet Secretariat / Cabinet Office",
     summary:
       "Promotion-focused statute establishing the basic principles, government plan, AI Strategy HQ, and obligations for the development and use of AI-related technologies in Japan.",
     frontierAIRelevant: true,
     sourceName: "Japanese Law Translation — AI-related Promotion Law",
     sourceUrl: "https://www.japaneselawtranslation.go.jp/ja/laws/view/5066/ja",
+    ...OFFICIAL_VERIFIED,
+    verificationNotes:
+      "Japanese Law Translation identifies Act No. 53 of 2025, promulgated/enforced 2025-06-04 except specified provisions.",
   },
   {
     id: "jp-ai-guidelines-business",
@@ -297,6 +343,7 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "METI — AI Guidelines for Business",
     sourceUrl: "https://www.meti.go.jp/english/press/2024/0419_002.html",
+    ...OFFICIAL_LIKELY,
   },
   {
     id: "jp-aisi",
@@ -314,6 +361,7 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "Japan AISI",
     sourceUrl: "https://aisi.go.jp/en/",
+    ...OFFICIAL_LIKELY,
   },
 
   // Singapore
@@ -334,6 +382,7 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     sourceName: "IMDA — Model AI Governance Framework for GenAI",
     sourceUrl:
       "https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/factsheets/2024/gen-ai-and-digital-foss-ai-governance-playbook",
+    ...OFFICIAL_LIKELY,
   },
   {
     id: "sg-ai-verify",
@@ -351,6 +400,10 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "IMDA — AI Verify Foundation",
     sourceUrl: "https://aiverifyfoundation.sg/",
+    sourceKind: "official",
+    verificationStatus: "likely_correct",
+    confidence: "medium",
+    lastVerified: "2026-05-20",
   },
 
   // Australia
@@ -370,6 +423,7 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "Department of Industry, Science and Resources — Voluntary AI Safety Standard",
     sourceUrl: "https://www.industry.gov.au/publications/voluntary-ai-safety-standard",
+    ...OFFICIAL_LIKELY,
   },
   {
     id: "au-proposed-mandatory-guardrails",
@@ -388,6 +442,7 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     sourceName: "Department of Industry, Science and Resources — Proposed mandatory guardrails",
     sourceUrl:
       "https://www.industry.gov.au/publications/introducing-mandatory-guardrails-ai-high-risk-settings-proposals-paper",
+    ...OFFICIAL_LIKELY,
   },
 
   // India
@@ -407,6 +462,7 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "IndiaAI — Official portal",
     sourceUrl: "https://indiaai.gov.in/",
+    ...OFFICIAL_LIKELY,
   },
 
   // ===== CAIDP Index 2026 additions: binding national AI laws =====
@@ -429,6 +485,9 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     sourceUrl:
       "https://adilet.zan.kz/eng/docs/Z2500000241",
     notes: "Accompanied by amendments to existing laws to support AI governance.",
+    ...OFFICIAL_LIKELY,
+    verificationNotes:
+      "Official legal database URL exists in dataset; detailed English/official status still needs a targeted legal-text verification pass.",
   },
   {
     id: "vn-ai-law-2025",
@@ -447,6 +506,12 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     sourceName: "Vietnam National Assembly — Law on AI",
     sourceUrl: "https://quochoi.vn/Pages/dien-dan-truc-tuyen.aspx",
     notes: "Builds on and supersedes the risk-based framework in the Law on Digital Technology Industry (June 2025).",
+    sourceKind: "official",
+    verificationStatus: "uncertain",
+    confidence: "low",
+    lastVerified: "2026-05-20",
+    verificationNotes:
+      "Current source URL is generic and did not provide a stable direct law record in this pass; verify status/date against a direct National Assembly or official gazette record before relying on map coloring.",
   },
   {
     id: "vn-digital-tech-industry-2025",
@@ -464,6 +529,12 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "Vietnam National Assembly — Law on Digital Technology Industry",
     sourceUrl: "https://quochoi.vn/Pages/dien-dan-truc-tuyen.aspx",
+    sourceKind: "official",
+    verificationStatus: "uncertain",
+    confidence: "low",
+    lastVerified: "2026-05-20",
+    verificationNotes:
+      "Generic source URL; needs direct official law text/status verification.",
   },
   {
     id: "tw-ai-basic-act-2025",
@@ -482,6 +553,12 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "Taiwan Ministry of Digital Affairs — AI Fundamental Act",
     sourceUrl: "https://moda.gov.tw/en/press/press-releases",
+    sourceKind: "official",
+    verificationStatus: "uncertain",
+    confidence: "low",
+    lastVerified: "2026-05-20",
+    verificationNotes:
+      "Source URL is a generic press-release index rather than a direct act record; verify the legal text, status, and dates before relying on map coloring.",
   },
   {
     id: "it-law-132-2025",
@@ -500,6 +577,7 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "Gazzetta Ufficiale — Law 132/2025",
     sourceUrl: "https://www.gazzettaufficiale.it/eli/id/2025/09/25/25G00143/sg",
+    ...OFFICIAL_LIKELY,
   },
   {
     id: "si-eu-ai-act-implementation-2025",
@@ -517,6 +595,12 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "Government of Slovenia — Digital Transformation",
     sourceUrl: "https://www.gov.si/en/state-authorities/ministries/ministry-of-digital-transformation/",
+    sourceKind: "official",
+    verificationStatus: "uncertain",
+    confidence: "low",
+    lastVerified: "2026-05-20",
+    verificationNotes:
+      "Source URL is a ministry landing page rather than a direct law or official gazette record; verify before treating as confirmed national implementation law.",
   },
   {
     id: "us-take-it-down-act-2025",
@@ -530,10 +614,16 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     dateAdopted: "2025-05-19",
     regulatorOrBody: "Federal Trade Commission",
     summary:
-      "Federal statute criminalising the nonconsensual publication of intimate images, including AI-generated 'digital forgeries' (deepfakes). Requires covered online platforms to implement notice-and-removal processes for intimate images at the depicted individual's request.",
-    frontierAIRelevant: true,
+      "Federal statute criminalising the nonconsensual publication of intimate images, including AI-generated 'digital forgeries' (deepfakes). Requires covered online platforms to implement notice-and-removal processes for intimate images at the depicted individual's request. Included as an AI-specific content/deepfake law, not as broad frontier-model governance.",
+    frontierAIRelevant: false,
     sourceName: "U.S. Congress — Public Law 119-12 (TAKE IT DOWN Act)",
     sourceUrl: "https://www.congress.gov/bill/119th-congress/senate-bill/146",
+    sourceKind: "official",
+    verificationStatus: "verified",
+    confidence: "medium",
+    lastVerified: "2026-05-20",
+    verificationNotes:
+      "Congress.gov verifies enactment as Public Law 119-12. Inclusion is narrower than frontier AI governance; treat as a content/deepfake statute.",
   },
   {
     id: "ir-seventh-five-year-plan-ai-2024",

@@ -3,13 +3,22 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0",
+    "npm": ">=10"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "lint": "tsc -b --noEmit",
+    "typecheck": "tsc -b --noEmit",
+    "validate:data": "vitest run src/utils/validateData.test.ts src/utils/governanceTaxonomy.test.ts",
     "test": "vitest run",
     "test:watch": "vitest"
+  },
+  "overrides": {
+    "d3-color": "^3.1.0"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",

@@ -1,5 +1,9 @@
 import { useMemo, useRef, useState, useEffect } from "react";
+import { geoEqualEarth, geoPath, type GeoPermissibleObjects } from "d3-geo";
 import { ComposableMap, Geographies, Geography, Sphere, Graticule } from "react-simple-maps";
+import type { ProjectionFunction } from "react-simple-maps";
+import { feature } from "topojson-client";
+import type { GeometryCollection, Topology } from "topojson-specification";
 import type { FilterState, FrontierLab, LensKind } from "../types";
 import { numericToAlpha3 } from "../utils/normalizeCountry";
 import { COUNTRY_BY_ISO3 } from "../data/countries";
@@ -12,6 +16,13 @@ import { LabPin } from "./LabPin";
 import worldTopo from "world-atlas/countries-110m.json";
 
 const GEO_DATA = worldTopo as unknown as Parameters<typeof Geographies>[0]["geography"];
+const TOPOLOGY = worldTopo as unknown as Topology<{ countries: GeometryCollection }>;
+const COUNTRY_FEATURES = feature(TOPOLOGY, TOPOLOGY.objects.countries) as GeoPermissibleObjects;
+const MAP_PADDING = 12;
+
+const BASE_COUNTRY_BOUNDS = geoPath(
+  geoEqualEarth().scale(1).center([10, 10]).translate([0, 0])
+).bounds(COUNTRY_FEATURES);
 
 interface Props {
   filters: FilterState;
@@ -58,20 +69,24 @@ export function WorldMap({
     return map;
   }, [filters]);
 
-  const projectionConfig = useMemo(() => {
-    // Equal Earth at scale 1 is ~5.4 wide × 2.6 tall. Fit width or
-    // height (whichever is tighter) and translate the origin up so the
-    // populated northern landmass sits flush with the SVG top; the
-    // empty Antarctic / sub-Antarctic ocean takes the slack at the
-    // bottom.
-    const scaleByWidth = dims.width / 5.3;
-    const scaleByHeight = dims.height / 2.6;
-    const scale = Math.max(120, Math.min(scaleByWidth, scaleByHeight));
-    return {
-      scale,
-      center: [10, 10] as [number, number],
-      translate: [dims.width / 2, dims.height * 0.34] as [number, number],
-    };
+  const projection = useMemo(() => {
+    const [[x0, y0], [x1, y1]] = BASE_COUNTRY_BOUNDS;
+    const boundedWidth = x1 - x0;
+    const boundedHeight = y1 - y0;
+    const availableWidth = Math.max(1, dims.width - MAP_PADDING * 2);
+    const availableHeight = Math.max(1, dims.height - MAP_PADDING * 2);
+    const scale = Math.min(
+      availableWidth / boundedWidth,
+      availableHeight / boundedHeight
+    );
+
+    return geoEqualEarth()
+      .scale(scale)
+      .center([10, 10])
+      .translate([
+        dims.width / 2 - ((x0 + x1) / 2) * scale,
+        MAP_PADDING - y0 * scale,
+      ]) as unknown as ProjectionFunction;
   }, [dims.width, dims.height]);
 
   return (
@@ -80,8 +95,7 @@ export function WorldMap({
       className="relative h-full w-full overflow-hidden bg-canvas-surface"
     >
       <ComposableMap
-        projection="geoEqualEarth"
-        projectionConfig={projectionConfig}
+        projection={projection}
         width={dims.width}
         height={dims.height}
         style={{ width: "100%", height: "100%" }}

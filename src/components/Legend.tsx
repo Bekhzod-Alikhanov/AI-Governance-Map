@@ -1,16 +1,16 @@
 import { useState } from "react";
 
 const FILLS = [
-  { color: "#E5E7EB", label: "No AI-specific data in dataset" },
-  { color: "#BFDBFE", label: "Guidance / voluntary framework" },
-  { color: "#60A5FA", label: "Proposed law or mixed framework" },
-  { color: "#1D4ED8", label: "Binding national AI law in force" },
+  { color: "#E5E7EB", label: "No included AI-specific entry" },
+  { color: "#BFDBFE", label: "Guidance, strategy, or voluntary framework only" },
+  { color: "#60A5FA", label: "Proposed law or mixed legal effect" },
+  { color: "#1D4ED8", label: "Binding AI-specific law applies" },
 ];
 
 const OUTLINES = [
   { color: "#B45309", label: "Matches selected international instrument" },
   { color: "#6D28D9", label: "Ratified binding AI treaty", dashed: false },
-  { color: "#6D28D9", label: "Signed binding AI treaty (not ratified)", dashed: true },
+  { color: "#6D28D9", label: "Signed only; not ratified", dashed: true },
 ];
 
 export function Legend() {
@@ -88,6 +88,10 @@ export function Legend() {
               </li>
             </ul>
           </div>
+          <p className="md:col-span-2 rounded-md bg-canvas px-2 py-1.5 text-[11px] leading-relaxed text-ink-600">
+            Map colors are dataset classifications, not legal conclusions. EU member states can show binding
+            applicability through the EU AI Act rather than a separate national AI law.
+          </p>
         </div>
       )}
     </div>

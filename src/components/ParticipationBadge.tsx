@@ -2,8 +2,11 @@ import clsx from "clsx";
 import type { ParticipationType, InstrumentBindingStatus, NationalBindingStatus } from "../types";
 import {
   PARTICIPATION_LABELS,
+  PARTICIPATION_DESCRIPTIONS,
   INSTRUMENT_BINDING_LABELS,
+  INSTRUMENT_BINDING_DESCRIPTIONS,
   NATIONAL_BINDING_LABELS,
+  NATIONAL_BINDING_DESCRIPTIONS,
 } from "../utils/getParticipationLabel";
 
 const PARTICIPATION_STYLES: Record<ParticipationType, string> = {
@@ -39,25 +42,43 @@ const NATIONAL_BINDING_STYLES: Record<NationalBindingStatus, string> = {
 const BASE = "inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] font-medium";
 
 export function ParticipationBadge({ type }: { type: ParticipationType }) {
+  const label = PARTICIPATION_LABELS[type];
+  const description = PARTICIPATION_DESCRIPTIONS[type];
   return (
-    <span className={clsx(BASE, PARTICIPATION_STYLES[type])}>
-      {PARTICIPATION_LABELS[type]}
+    <span
+      className={clsx(BASE, PARTICIPATION_STYLES[type])}
+      title={description}
+      aria-label={`${label}: ${description}`}
+    >
+      {label}
     </span>
   );
 }
 
 export function InstrumentBindingBadge({ status }: { status: InstrumentBindingStatus }) {
+  const label = INSTRUMENT_BINDING_LABELS[status];
+  const description = INSTRUMENT_BINDING_DESCRIPTIONS[status];
   return (
-    <span className={clsx(BASE, INSTRUMENT_BINDING_STYLES[status])}>
-      {INSTRUMENT_BINDING_LABELS[status]}
+    <span
+      className={clsx(BASE, INSTRUMENT_BINDING_STYLES[status])}
+      title={description}
+      aria-label={`${label}: ${description}`}
+    >
+      {label}
     </span>
   );
 }
 
 export function NationalBindingBadge({ status }: { status: NationalBindingStatus }) {
+  const label = NATIONAL_BINDING_LABELS[status];
+  const description = NATIONAL_BINDING_DESCRIPTIONS[status];
   return (
-    <span className={clsx(BASE, NATIONAL_BINDING_STYLES[status])}>
-      {NATIONAL_BINDING_LABELS[status]}
+    <span
+      className={clsx(BASE, NATIONAL_BINDING_STYLES[status])}
+      title={description}
+      aria-label={`${label}: ${description}`}
+    >
+      {label}
     </span>
   );
 }

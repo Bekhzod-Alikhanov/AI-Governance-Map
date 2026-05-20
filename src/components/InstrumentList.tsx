@@ -1,6 +1,12 @@
 import { useState } from "react";
 import type { InternationalParticipation, InternationalInstrument } from "../types";
 import {
+  INSTRUMENT_BINDING_DESCRIPTIONS,
+  PARTICIPATION_DESCRIPTIONS,
+  PARTICIPATION_LABELS,
+  INSTRUMENT_BINDING_LABELS,
+} from "../utils/getParticipationLabel";
+import {
   InstrumentBindingBadge,
   ParticipationBadge,
 } from "./ParticipationBadge";
@@ -77,6 +83,24 @@ export function InstrumentList({ items }: Props) {
             {expanded && (
               <div className="space-y-2 border-t border-canvas-line px-3 py-2.5 text-xs text-ink-700">
                 <p className="leading-relaxed">{instrument.summary}</p>
+                <dl className="grid gap-2 rounded-md bg-canvas px-2 py-2 text-[11px] leading-relaxed sm:grid-cols-2">
+                  <div>
+                    <dt className="font-semibold text-ink-900">
+                      Participation: {PARTICIPATION_LABELS[participation.participationType]}
+                    </dt>
+                    <dd className="mt-0.5 text-ink-700">
+                      {PARTICIPATION_DESCRIPTIONS[participation.participationType]}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="font-semibold text-ink-900">
+                      Legal effect: {INSTRUMENT_BINDING_LABELS[instrument.bindingStatus]}
+                    </dt>
+                    <dd className="mt-0.5 text-ink-700">
+                      {INSTRUMENT_BINDING_DESCRIPTIONS[instrument.bindingStatus]}
+                    </dd>
+                  </div>
+                </dl>
                 {participation.notes && (
                   <p className="rounded bg-canvas px-2 py-1.5 text-[11px] leading-relaxed text-ink-700">
                     <span className="font-semibold text-ink-900">Note: </span>

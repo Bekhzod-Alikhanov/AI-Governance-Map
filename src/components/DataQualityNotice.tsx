@@ -3,8 +3,12 @@ import { useState } from "react";
 export function DataQualityNotice() {
   const [open, setOpen] = useState(true);
   if (!open) return null;
+
   return (
-    <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50/70 px-4 py-2.5 text-xs leading-relaxed text-amber-900">
+    <div
+      role="note"
+      className="z-10 flex shrink-0 items-start gap-3 border-b border-amber-200 bg-amber-50/85 px-5 py-1.5 text-xs leading-relaxed text-amber-950"
+    >
       <svg
         aria-hidden="true"
         width="16"
@@ -22,9 +26,9 @@ export function DataQualityNotice() {
         <path d="M12 16h.01" />
       </svg>
       <p className="flex-1">
-        <span className="font-semibold">Scope:</span> This map tracks AI-specific governance instruments only. It
-        excludes general privacy, export-control, chip, semiconductor, and cybersecurity instruments unless they
-        are explicitly AI-specific. May 2026 snapshot — verify time-sensitive details against official sources.
+        <span className="font-semibold">Snapshot: 19 May 2026.</span> Research dashboard, not legal advice. Verify
+        time-sensitive legal status against official sources. Scope excludes general privacy, export-control,
+        semiconductor, and cybersecurity instruments unless explicitly AI-specific.
       </p>
       <button
         type="button"

@@ -73,7 +73,7 @@ export function CountrySidePanel({ iso3, onClose, onSelectLab }: Props) {
               {summary.nationalRegulations.length}
             </p>
             <p className="text-[10px] uppercase tracking-wide text-ink-500">
-              National rules
+              National entries
             </p>
           </div>
           <div>
@@ -89,7 +89,7 @@ export function CountrySidePanel({ iso3, onClose, onSelectLab }: Props) {
               {summary.hasBindingNationalLaw ? "Yes" : "—"}
             </p>
             <p className="text-[10px] uppercase tracking-wide text-ink-500">
-              Binding AI law
+              Binding law applies
             </p>
           </div>
         </section>
@@ -130,7 +130,7 @@ export function CountrySidePanel({ iso3, onClose, onSelectLab }: Props) {
 
         <section className="mt-6">
           <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">
-            National AI regulations
+            National AI laws, proposals, and guidance
           </h3>
           <NationalRegulationList regulations={summary.nationalRegulations} />
         </section>
@@ -169,7 +169,7 @@ export function CountrySidePanel({ iso3, onClose, onSelectLab }: Props) {
 
         <section className="mt-6">
           <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">
-            International AI instruments
+            International instruments and participation
           </h3>
           <InstrumentList items={summary.participations} />
         </section>

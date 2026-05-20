@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { NationalAIRegulation } from "../types";
 import { NationalBindingBadge } from "./ParticipationBadge";
+import { NATIONAL_BINDING_DESCRIPTIONS, NATIONAL_BINDING_LABELS } from "../utils/getParticipationLabel";
 import { SourceLink } from "./SourceLink";
 import { EmptyState } from "./EmptyState";
 
@@ -70,6 +71,14 @@ export function NationalRegulationList({ regulations }: Props) {
               <div className="space-y-2 border-t border-canvas-line px-3 py-2.5 text-xs text-ink-700">
                 <p className="leading-relaxed">{reg.summary}</p>
                 <dl className="grid grid-cols-2 gap-x-3 gap-y-1.5 text-[11px]">
+                  <div className="col-span-2">
+                    <dt className="text-ink-500">
+                      Legal status: {NATIONAL_BINDING_LABELS[reg.bindingStatus]}
+                    </dt>
+                    <dd className="text-ink-800">
+                      {NATIONAL_BINDING_DESCRIPTIONS[reg.bindingStatus]}
+                    </dd>
+                  </div>
                   <div>
                     <dt className="text-ink-500">Status</dt>
                     <dd className="text-ink-800">{reg.status}</dd>
