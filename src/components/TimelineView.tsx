@@ -83,10 +83,13 @@ export function TimelineView() {
   return (
     <div className="flex h-full flex-col overflow-hidden bg-canvas-surface">
       <header className="flex items-center justify-between border-b border-canvas-line px-5 py-2.5">
+        <div>
+          <h2 className="text-sm font-semibold text-ink-900">Chronology of AI governance</h2>
         <p className="text-xs text-ink-700">
           Showing <span className="font-semibold text-ink-900">{visible.length}</span> AI governance
           milestones from {years[0] ?? "—"} to {years[years.length - 1] ?? "—"}.
         </p>
+        </div>
         <div className="inline-flex overflow-hidden rounded-lg border border-canvas-line">
           {(["all", "international", "national", "subnational"] as const).map((c) => (
             <button

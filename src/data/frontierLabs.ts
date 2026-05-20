@@ -1,9 +1,22 @@
 import type { FrontierLab } from "../types";
 
+const LAB_SOURCE_METADATA = {
+  sourceKind: "official",
+  verificationStatus: "likely_correct",
+  confidence: "medium",
+  lastVerified: "2026-05-20",
+  verificationNotes:
+    "Primary company source checked for model or safety-framework reference; frontier-lab inclusion, HQ treatment, and power score remain methodology judgments.",
+} satisfies Pick<
+  FrontierLab,
+  "sourceKind" | "verificationStatus" | "confidence" | "lastVerified" | "verificationNotes"
+>;
+
 export const FRONTIER_LABS: FrontierLab[] = [
   {
     id: "openai",
     name: "OpenAI",
+    ...LAB_SOURCE_METADATA,
     hqIso3: "USA",
     hqCountryName: "United States",
     flagshipModels: ["GPT-5.x", "GPT-5.4 / 5.5", "o-series"],
@@ -24,6 +37,7 @@ export const FRONTIER_LABS: FrontierLab[] = [
   {
     id: "anthropic",
     name: "Anthropic",
+    ...LAB_SOURCE_METADATA,
     hqIso3: "USA",
     hqCountryName: "United States",
     flagshipModels: ["Claude 4 family", "Claude Opus line"],
@@ -44,6 +58,7 @@ export const FRONTIER_LABS: FrontierLab[] = [
   {
     id: "google-deepmind",
     name: "Google DeepMind",
+    ...LAB_SOURCE_METADATA,
     hqIso3: "USA",
     hqCountryName: "United States",
     flagshipModels: ["Gemini family"],
@@ -64,6 +79,7 @@ export const FRONTIER_LABS: FrontierLab[] = [
   {
     id: "meta",
     name: "Meta",
+    ...LAB_SOURCE_METADATA,
     hqIso3: "USA",
     hqCountryName: "United States",
     flagshipModels: ["Llama family"],
@@ -84,6 +100,7 @@ export const FRONTIER_LABS: FrontierLab[] = [
   {
     id: "microsoft",
     name: "Microsoft",
+    ...LAB_SOURCE_METADATA,
     hqIso3: "USA",
     hqCountryName: "United States",
     flagshipModels: ["Phi family", "Azure AI stack"],
@@ -104,6 +121,7 @@ export const FRONTIER_LABS: FrontierLab[] = [
   {
     id: "amazon",
     name: "Amazon",
+    ...LAB_SOURCE_METADATA,
     hqIso3: "USA",
     hqCountryName: "United States",
     flagshipModels: ["Nova family"],
@@ -124,6 +142,7 @@ export const FRONTIER_LABS: FrontierLab[] = [
   {
     id: "xai",
     name: "xAI",
+    ...LAB_SOURCE_METADATA,
     hqIso3: "USA",
     hqCountryName: "United States",
     flagshipModels: ["Grok 3"],
@@ -144,6 +163,7 @@ export const FRONTIER_LABS: FrontierLab[] = [
   {
     id: "mistral",
     name: "Mistral",
+    ...LAB_SOURCE_METADATA,
     hqIso3: "FRA",
     hqCountryName: "France",
     flagshipModels: ["Mistral Large 3", "Mistral Medium 3.5", "Le Chat"],
@@ -164,6 +184,7 @@ export const FRONTIER_LABS: FrontierLab[] = [
   {
     id: "cohere",
     name: "Cohere",
+    ...LAB_SOURCE_METADATA,
     hqIso3: "CAN",
     hqCountryName: "Canada",
     flagshipModels: ["Command A", "Enterprise stack"],
@@ -184,6 +205,7 @@ export const FRONTIER_LABS: FrontierLab[] = [
   {
     id: "deepseek",
     name: "DeepSeek",
+    ...LAB_SOURCE_METADATA,
     hqIso3: "CHN",
     hqCountryName: "China",
     flagshipModels: ["DeepSeek-R1", "DeepSeek-V3"],
@@ -204,6 +226,7 @@ export const FRONTIER_LABS: FrontierLab[] = [
   {
     id: "baidu",
     name: "Baidu",
+    ...LAB_SOURCE_METADATA,
     hqIso3: "CHN",
     hqCountryName: "China",
     flagshipModels: ["ERNIE 5.1", "ERNIE 4.5"],
@@ -224,6 +247,7 @@ export const FRONTIER_LABS: FrontierLab[] = [
   {
     id: "alibaba",
     name: "Alibaba",
+    ...LAB_SOURCE_METADATA,
     hqIso3: "CHN",
     hqCountryName: "China",
     flagshipModels: ["Qwen 3", "Qwen-Plus"],
@@ -244,6 +268,7 @@ export const FRONTIER_LABS: FrontierLab[] = [
   {
     id: "tencent",
     name: "Tencent",
+    ...LAB_SOURCE_METADATA,
     hqIso3: "CHN",
     hqCountryName: "China",
     flagshipModels: ["Hunyuan / Hy family"],

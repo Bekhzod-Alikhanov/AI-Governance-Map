@@ -1,10 +1,33 @@
 import type { SubnationalAIRule } from "../types";
 
+const VERIFIED_OFFICIAL_SOURCE = {
+  sourceKind: "official",
+  verificationStatus: "verified",
+  confidence: "high",
+  lastVerified: "2026-05-20",
+} satisfies Pick<
+  SubnationalAIRule,
+  "sourceKind" | "verificationStatus" | "confidence" | "lastVerified"
+>;
+
+const UNCERTAIN_OFFICIAL_SOURCE = {
+  sourceKind: "official",
+  verificationStatus: "uncertain",
+  confidence: "low",
+  lastVerified: "2026-05-20",
+} satisfies Pick<
+  SubnationalAIRule,
+  "sourceKind" | "verificationStatus" | "confidence" | "lastVerified"
+>;
+
 export const SUBNATIONAL_AI_RULES: SubnationalAIRule[] = [
   // ===== United States — state and city level =====
   {
     id: "us-il-aivia",
     name: "Illinois Artificial Intelligence Video Interview Act (820 ILCS 42)",
+    ...VERIFIED_OFFICIAL_SOURCE,
+    verificationNotes:
+      "ILGA statute page confirms the Act title, effective date, disclosure, consent, sharing, deletion, and reporting duties.",
     countryIso3: "USA",
     jurisdictionName: "Illinois",
     jurisdictionType: "us_state",
@@ -22,6 +45,9 @@ export const SUBNATIONAL_AI_RULES: SubnationalAIRule[] = [
   {
     id: "us-nyc-local-law-144",
     name: "New York City Local Law 144 — Automated Employment Decision Tools",
+    ...VERIFIED_OFFICIAL_SOURCE,
+    verificationNotes:
+      "NYC DCWP page confirms Local Law 144, AEDT bias-audit, notice, and July 5, 2023 enforcement details.",
     countryIso3: "USA",
     jurisdictionName: "New York City",
     jurisdictionType: "us_city",
@@ -39,6 +65,9 @@ export const SUBNATIONAL_AI_RULES: SubnationalAIRule[] = [
   {
     id: "us-ny-gbs-349a",
     name: "New York General Business Law §349-A — Surveillance Pricing disclosure",
+    ...VERIFIED_OFFICIAL_SOURCE,
+    verificationNotes:
+      "New York Senate statute page confirms the 2025-07-11 revision and personalized algorithmic pricing disclosure requirement.",
     countryIso3: "USA",
     jurisdictionName: "New York State",
     jurisdictionType: "us_state",
@@ -55,23 +84,30 @@ export const SUBNATIONAL_AI_RULES: SubnationalAIRule[] = [
   },
   {
     id: "us-ca-2025-ai-package",
-    name: "California 2025 AI legislative package (13 bills signed)",
+    name: "California 2025 AI legislative activity package",
+    ...UNCERTAIN_OFFICIAL_SOURCE,
+    verificationNotes:
+      "Original package-count claim was not verified against a single official source; retain only as a representative package marker pending a specific bill-by-bill source.",
     countryIso3: "USA",
     jurisdictionName: "California",
     jurisdictionType: "us_state",
-    type: "law",
-    bindingStatus: "binding",
+    type: "framework",
+    bindingStatus: "mixed",
     aiSpecific: true,
-    status: "In force",
-    dateAdopted: "2025-09-28",
+    status: "Representative package entry; not a single codified act",
+    dateAdopted: "2025-09-29",
     summary:
-      "Governor Newsom signed 13 AI-related bills in 2025, including safety, transparency, deepfake, and AI-in-elections measures. Largest state-level frontier-AI legislative push to date.",
-    sourceName: "California Governor's Office — 2025 AI bill signings",
-    sourceUrl: "https://www.gov.ca.gov/2025/09/29/governor-newsom-announces-actions-on-ai-bills/",
+      "Represents California's 2025 state-level AI lawmaking activity. SB 53 is separately tracked as the binding frontier-AI transparency law; the broader package count and boundaries require bill-by-bill verification.",
+    sourceName: "Governor of California - SB 53 signing",
+    sourceUrl:
+      "https://www.gov.ca.gov/2025/09/29/governor-newsom-signs-sb-53-advancing-californias-world-leading-artificial-intelligence-industry/",
   },
   {
     id: "us-ca-sb-53-frontier",
     name: "California SB 53 — Transparency in Frontier Artificial Intelligence Act",
+    ...VERIFIED_OFFICIAL_SOURCE,
+    verificationNotes:
+      "California Legislature page shows SB 53 as chaptered; Governor source confirms signing of the Transparency in Frontier Artificial Intelligence Act.",
     countryIso3: "USA",
     jurisdictionName: "California",
     jurisdictionType: "us_state",
@@ -90,6 +126,9 @@ export const SUBNATIONAL_AI_RULES: SubnationalAIRule[] = [
   {
     id: "fr-ai-act-implementation-draft",
     name: "France — draft EU AI Act implementation",
+    ...UNCERTAIN_OFFICIAL_SOURCE,
+    verificationNotes:
+      "Current URL is a general French AI strategy page rather than a specific implementation bill or competent-authority act; needs targeted legal-source follow-up.",
     countryIso3: "FRA",
     jurisdictionName: "France",
     jurisdictionType: "eu_member",
@@ -106,6 +145,9 @@ export const SUBNATIONAL_AI_RULES: SubnationalAIRule[] = [
   {
     id: "de-ai-act-implementation-draft",
     name: "Germany — draft EU AI Act implementation",
+    ...UNCERTAIN_OFFICIAL_SOURCE,
+    verificationNotes:
+      "Current URL is a ministry homepage rather than the specific implementation draft; BNetzA designation claim needs targeted legal-source follow-up.",
     countryIso3: "DEU",
     jurisdictionName: "Germany",
     jurisdictionType: "eu_member",

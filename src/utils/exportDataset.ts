@@ -10,13 +10,19 @@ import { INTERNATIONAL_PARTICIPATION } from "../data/participation";
 import { SOURCE_NOTES } from "../data/sourceNotes";
 import { SUBNATIONAL_AI_RULES } from "../data/subnationalRules";
 import { DATA_SNAPSHOT_DATE } from "./governanceTaxonomy";
+import { DATASET_SCHEMA_ID, DATASET_SCHEMA_VERSION } from "./datasetSchema";
 
-export const DATASET_SCHEMA_VERSION = "2026.05";
+export { DATASET_SCHEMA_VERSION } from "./datasetSchema";
 
 export function buildDatasetSnapshot() {
   return {
     schemaVersion: DATASET_SCHEMA_VERSION,
     snapshotDate: DATA_SNAPSHOT_DATE,
+    schema: {
+      id: DATASET_SCHEMA_ID,
+      version: DATASET_SCHEMA_VERSION,
+      format: "json-schema-draft-2020-12",
+    },
     title: "Global AI Governance Map dataset",
     caveat:
       "Research dataset only. It is not legal advice and time-sensitive legal status should be verified against official sources.",

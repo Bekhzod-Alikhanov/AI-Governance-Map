@@ -12,6 +12,7 @@ import {
 } from "./ParticipationBadge";
 import { SourceLink } from "./SourceLink";
 import { EmptyState } from "./EmptyState";
+import { VerificationMeta } from "./VerificationMeta";
 
 interface Item {
   participation: InternationalParticipation;
@@ -113,6 +114,8 @@ export function InstrumentList({ items }: Props) {
                     {instrument.notes}
                   </p>
                 )}
+                <VerificationMeta item={participation} label="Participation verification" />
+                <VerificationMeta item={instrument} label="Instrument verification" />
                 <div className="flex flex-wrap items-center gap-3 pt-1">
                   <SourceLink
                     name={participation.sourceName}

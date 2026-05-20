@@ -4,6 +4,12 @@ export const INFRASTRUCTURE_NODES: InfrastructureNode[] = [
   {
     id: "advanced-ai-chips",
     name: "Advanced AI chips",
+    sourceKind: "mixed",
+    verificationStatus: "likely_correct",
+    confidence: "medium",
+    lastVerified: "2026-05-20",
+    verificationNotes:
+      "NVIDIA primary source verifies H100 as a representative advanced AI GPU; broader chip ecosystem and bottleneck assessment are analytical synthesis.",
     type: "chips",
     powerScore: 5,
     description:
@@ -16,6 +22,12 @@ export const INFRASTRUCTURE_NODES: InfrastructureNode[] = [
   {
     id: "hyperscale-cloud",
     name: "Hyperscale cloud",
+    sourceKind: "secondary",
+    verificationStatus: "likely_correct",
+    confidence: "medium",
+    lastVerified: "2026-05-20",
+    verificationNotes:
+      "Cloud-provider market structure is sourced from a secondary market-analysis provider and should be periodically refreshed.",
     type: "cloud",
     powerScore: 5,
     description:
@@ -28,6 +40,12 @@ export const INFRASTRUCTURE_NODES: InfrastructureNode[] = [
   {
     id: "us-bis-export-controls",
     name: "U.S. BIS export controls on advanced computing ICs",
+    sourceKind: "official",
+    verificationStatus: "likely_correct",
+    confidence: "medium",
+    lastVerified: "2026-05-20",
+    verificationNotes:
+      "BIS source verifies the 2025 AI-chip export-control action; this record remains out-of-scope as AI-specific law and is included as frontier-AI infrastructure governance.",
     type: "export_control",
     jurisdiction: "United States",
     hqIso3: "USA",

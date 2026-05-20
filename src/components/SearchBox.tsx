@@ -14,6 +14,10 @@ export function SearchBox({ onSelectCountry, onSelectInstrument }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
 
   const results = useMemo<SearchResult[]>(() => searchData(query, 12), [query]);
+  const listboxId = "global-search-results";
+  const activeOptionId = results[activeIndex]
+    ? `global-search-option-${results[activeIndex].kind}-${results[activeIndex].id}`
+    : undefined;
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
@@ -75,6 +79,11 @@ export function SearchBox({ onSelectCountry, onSelectInstrument }: Props) {
           type="search"
           autoComplete="off"
           spellCheck={false}
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded={open && results.length > 0}
+          aria-controls={listboxId}
+          aria-activedescendant={open ? activeOptionId : undefined}
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
@@ -90,11 +99,13 @@ export function SearchBox({ onSelectCountry, onSelectInstrument }: Props) {
 
       {open && results.length > 0 && (
         <ul
+          id={listboxId}
           role="listbox"
           className="policy-scroll absolute left-0 right-0 top-full z-40 mt-2 max-h-80 overflow-y-auto rounded-lg border border-canvas-line bg-white py-1 shadow-drawer"
         >
           {results.map((r, i) => (
             <li
+              id={`global-search-option-${r.kind}-${r.id}`}
               key={`${r.kind}:${r.id}`}
               role="option"
               aria-selected={i === activeIndex}

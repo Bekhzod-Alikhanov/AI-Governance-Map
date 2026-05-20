@@ -3,6 +3,9 @@ dist
 .vite
 .vercel
 .npm-cache
+playwright-report
+test-results
+debug.log
 .DS_Store
 *.local
 *.tsbuildinfo

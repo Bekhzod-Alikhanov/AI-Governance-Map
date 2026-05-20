@@ -134,7 +134,6 @@ function getLayerStyle(
 
   let outline = OUTLINE.base;
   let strokeWidth = 0.5;
-  let strokeDasharray: string | undefined;
   let opacity = 1;
 
   if (filters.selectedInstrumentIds.length > 0) {
@@ -148,7 +147,7 @@ function getLayerStyle(
     opacity = 0.25;
   }
 
-  return { fill, outline, strokeWidth, strokeDasharray, opacity };
+  return { fill, outline, strokeWidth, opacity };
 }
 
 export { pickPrimaryLayer };

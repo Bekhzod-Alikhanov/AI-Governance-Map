@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { INSTRUMENT_BY_ID } from "../data/internationalInstruments";
 import { NATIONAL_REG_BY_ID } from "../data/nationalAIRegulations";
 import { PARTICIPATION_BY_INSTRUMENT } from "../data/participation";
+import { SUBNATIONAL_BY_ID } from "../data/subnationalRules";
 import {
   assessSourceUrl,
   classifyInternationalInstrument,
@@ -31,6 +32,9 @@ describe("governance taxonomy", () => {
 
   it("classifies source URLs by host and protocol", () => {
     expect(assessSourceUrl("https://eur-lex.europa.eu/legal-content/EN/TXT/").sourceKind).toBe("official");
+    expect(assessSourceUrl("https://asean.org/example").sourceKind).toBe("official");
+    expect(assessSourceUrl("https://www.gov.ca.gov/example").sourceKind).toBe("official");
+    expect(assessSourceUrl("https://developers.openai.com/api/docs/models/all").sourceKind).toBe("official");
     expect(assessSourceUrl("https://perma.cc/example").sourceKind).toBe("secondary");
     expect(assessSourceUrl("http://example.com").issues).toContain("source URL is not HTTPS");
   });
@@ -43,6 +47,8 @@ describe("governance taxonomy", () => {
     expect(NATIONAL_REG_BY_ID["jp-ai-promotion-act"].dateInForce).toBe("2025-06-04");
     expect(NATIONAL_REG_BY_ID["ca-aida-proposed"].status).toContain("Historical proposal");
     expect(NATIONAL_REG_BY_ID["us-take-it-down-act-2025"].frontierAIRelevant).toBe(false);
+    expect(SUBNATIONAL_BY_ID["us-ca-2025-ai-package"].bindingStatus).toBe("mixed");
+    expect(SUBNATIONAL_BY_ID["us-ca-2025-ai-package"].verificationStatus).toBe("uncertain");
   });
 
   it("uses the official INASI launch-member list", () => {

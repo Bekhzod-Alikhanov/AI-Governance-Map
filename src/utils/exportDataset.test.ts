@@ -5,6 +5,7 @@ import { INTERNATIONAL_INSTRUMENTS } from "../data/internationalInstruments";
 import { NATIONAL_AI_REGULATIONS } from "../data/nationalAIRegulations";
 import { DATA_SNAPSHOT_DATE } from "./governanceTaxonomy";
 import { buildCitationText, buildDatasetSnapshot, DATASET_SCHEMA_VERSION, toPrettyJson } from "./exportDataset";
+import { DATASET_SCHEMA_ID, validateDatasetSnapshotShape } from "./datasetSchema";
 
 describe("dataset export helpers", () => {
   it("builds a snapshot with declared schema, counts, and primary data arrays", () => {
@@ -12,12 +13,18 @@ describe("dataset export helpers", () => {
 
     expect(snapshot.schemaVersion).toBe(DATASET_SCHEMA_VERSION);
     expect(snapshot.snapshotDate).toBe(DATA_SNAPSHOT_DATE);
+    expect(snapshot.schema).toEqual({
+      id: DATASET_SCHEMA_ID,
+      version: DATASET_SCHEMA_VERSION,
+      format: "json-schema-draft-2020-12",
+    });
     expect(snapshot.counts.countries).toBe(COUNTRIES.filter((country) => country.iso3 !== "EUU").length);
     expect(snapshot.counts.frontierLabs).toBe(FRONTIER_LABS.length);
     expect(snapshot.counts.internationalInstruments).toBe(INTERNATIONAL_INSTRUMENTS.length);
     expect(snapshot.counts.nationalAIRegulations).toBe(NATIONAL_AI_REGULATIONS.length);
     expect(snapshot.data.countries).toBe(COUNTRIES);
     expect(snapshot.data.frontierLabs).toBe(FRONTIER_LABS);
+    expect(validateDatasetSnapshotShape(snapshot)).toEqual([]);
   });
 
   it("builds citation text with snapshot date and public project URLs", () => {

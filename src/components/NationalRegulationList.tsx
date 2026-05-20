@@ -4,6 +4,7 @@ import { NationalBindingBadge } from "./ParticipationBadge";
 import { NATIONAL_BINDING_DESCRIPTIONS, NATIONAL_BINDING_LABELS } from "../utils/getParticipationLabel";
 import { SourceLink } from "./SourceLink";
 import { EmptyState } from "./EmptyState";
+import { VerificationMeta } from "./VerificationMeta";
 
 interface Props {
   regulations: NationalAIRegulation[];
@@ -106,6 +107,7 @@ export function NationalRegulationList({ regulations }: Props) {
                     {reg.notes}
                   </p>
                 )}
+                <VerificationMeta item={reg} />
                 <SourceLink name={reg.sourceName} url={reg.sourceUrl} />
               </div>
             )}

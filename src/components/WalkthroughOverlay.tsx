@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import clsx from "clsx";
 import { WALKTHROUGH_STEPS } from "../data/walkthrough";
 import type { LensKind, FilterState } from "../types";
+import { useDialogFocus } from "../utils/useDialogFocus";
 
 interface Props {
   stepIndex: number;
@@ -12,6 +13,7 @@ interface Props {
 
 export function WalkthroughOverlay({ stepIndex, onStepChange, onApplyStep, onClose }: Props) {
   const step = WALKTHROUGH_STEPS[stepIndex];
+  const dialogRef = useDialogFocus<HTMLDivElement>(onClose);
 
   useEffect(() => {
     if (!step) return;
@@ -21,7 +23,6 @@ export function WalkthroughOverlay({ stepIndex, onStepChange, onApplyStep, onClo
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") onClose();
       if (e.key === "ArrowRight" && stepIndex < WALKTHROUGH_STEPS.length - 1)
         onStepChange(stepIndex + 1);
       if (e.key === "ArrowLeft" && stepIndex > 0) onStepChange(stepIndex - 1);
@@ -34,8 +35,11 @@ export function WalkthroughOverlay({ stepIndex, onStepChange, onApplyStep, onClo
 
   return (
     <div
+      ref={dialogRef}
       role="dialog"
-      aria-label={`Walkthrough — ${step.title}`}
+      aria-modal="true"
+      tabIndex={-1}
+      aria-label={`Walkthrough - ${step.title}`}
       className="pointer-events-auto fixed bottom-6 left-1/2 z-40 w-[min(640px,calc(100vw-32px))] -translate-x-1/2 rounded-2xl border border-canvas-line bg-white shadow-drawer"
     >
       <div className="flex items-start gap-4 p-4">
@@ -44,7 +48,7 @@ export function WalkthroughOverlay({ stepIndex, onStepChange, onApplyStep, onClo
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-500">
-            Guided walkthrough · {stepIndex + 1} of {WALKTHROUGH_STEPS.length}
+            Guided walkthrough - {stepIndex + 1} of {WALKTHROUGH_STEPS.length}
           </p>
           <h2 className="mt-0.5 text-sm font-semibold leading-tight text-ink-900">{step.title}</h2>
           <p className="mt-2 text-xs leading-relaxed text-ink-700">{step.narrative}</p>
@@ -92,7 +96,7 @@ export function WalkthroughOverlay({ stepIndex, onStepChange, onApplyStep, onClo
               onClick={() => onStepChange(stepIndex + 1)}
               className="rounded-md bg-accent px-2.5 py-1 text-[11px] font-semibold text-white hover:bg-accent/90"
             >
-              Next →
+              Next
             </button>
           ) : (
             <button

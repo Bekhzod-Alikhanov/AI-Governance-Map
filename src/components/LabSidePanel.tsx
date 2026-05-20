@@ -1,7 +1,8 @@
-import { useEffect } from "react";
 import { getLabSummary } from "../utils/getLabSummary";
 import { SourceLink } from "./SourceLink";
 import { ConnectionsSection } from "./ConnectionsSection";
+import { useDialogFocus } from "../utils/useDialogFocus";
+import { VerificationMeta } from "./VerificationMeta";
 
 interface Props {
   labId: string;
@@ -10,21 +11,17 @@ interface Props {
 
 export function LabSidePanel({ labId, onClose }: Props) {
   const { lab, regulatoryExposure } = getLabSummary(labId);
-
-  useEffect(() => {
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") onClose();
-    }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+  const dialogRef = useDialogFocus<HTMLElement>(onClose);
 
   if (!lab) return null;
 
   return (
     <aside
+      ref={dialogRef}
       role="dialog"
+      aria-modal="true"
       aria-label={`${lab.name} frontier-lab details`}
+      tabIndex={-1}
       className="absolute inset-y-0 right-0 z-30 flex w-full max-w-md flex-col border-l border-canvas-line bg-white shadow-drawer"
     >
       <header className="flex items-start gap-3 border-b border-canvas-line px-5 py-4">
@@ -53,6 +50,9 @@ export function LabSidePanel({ labId, onClose }: Props) {
 
       <div className="policy-scroll flex-1 overflow-y-auto px-5 py-5">
         <p className="text-sm leading-relaxed text-ink-700">{lab.summary}</p>
+        <div className="mt-3">
+          <VerificationMeta item={lab} />
+        </div>
 
         <section className="mt-5">
           <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">
@@ -105,7 +105,8 @@ export function LabSidePanel({ labId, onClose }: Props) {
                 >
                   <p className="font-medium text-ink-900">{r.name}</p>
                   {r.sourceUrl && (
-                    <div className="mt-1">
+                    <div className="mt-1.5 space-y-1.5">
+                      <VerificationMeta item={r} compact />
                       <SourceLink name="Source" url={r.sourceUrl} />
                     </div>
                   )}
@@ -126,6 +127,9 @@ export function LabSidePanel({ labId, onClose }: Props) {
           <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">
             Source
           </h3>
+          <div className="mb-2">
+            <VerificationMeta item={lab} compact />
+          </div>
           <SourceLink name={lab.sourceName} url={lab.sourceUrl} />
         </section>
       </div>

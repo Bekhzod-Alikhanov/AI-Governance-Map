@@ -75,6 +75,7 @@ export default function App() {
   const [networkSelection, setNetworkSelection] = useState<string | null>(null);
 
   useEffect(() => {
+    if (import.meta.env.VITE_SKIP_DEV_VALIDATION === "1") return;
     runDevValidation();
   }, []);
 
@@ -112,6 +113,14 @@ export default function App() {
     else if (kind === "lab") handleSelectLab(id);
   }
 
+  function handleLensChange(nextLens: LensKind) {
+    setLens(nextLens);
+    setHover(null);
+    setHoverLab(null);
+    setSelectedIso3(null);
+    setSelectedLabId(null);
+  }
+
   function handleWalkthroughApply(patch: Partial<FilterState>, nextLens: LensKind) {
     dispatch({ type: "patch", patch });
     setLens(nextLens);
@@ -119,6 +128,12 @@ export default function App() {
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-canvas">
+      <a
+        href="#main-content"
+        className="sr-only z-50 rounded-md bg-white px-3 py-2 text-sm font-semibold text-accent shadow-panel focus:not-sr-only focus:fixed focus:left-3 focus:top-3"
+      >
+        Skip to main content
+      </a>
       <header className="z-20 flex shrink-0 flex-wrap items-center gap-3 border-b border-canvas-line bg-canvas-surface px-5 py-2.5">
         <div className="min-w-0">
           <h1 className="text-base font-semibold leading-tight tracking-tight text-ink-900">
@@ -138,7 +153,7 @@ export default function App() {
               {stats.nationalRegs} national rules · {stats.edges} edges
             </div>
           </div>
-          <LensSwitch value={lens} onChange={setLens} />
+          <LensSwitch value={lens} onChange={handleLensChange} />
           <DataActions />
           <button
             type="button"
@@ -172,7 +187,7 @@ export default function App() {
       </div>
 
       {/* Main canvas — switches between Map / Network / Timeline lenses */}
-      <main className="relative flex-1 overflow-hidden">
+      <main id="main-content" tabIndex={-1} className="relative flex-1 overflow-hidden">
         {showsMap && (
           <WorldMap
             filters={filters}

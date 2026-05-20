@@ -1,10 +1,11 @@
-import { useEffect } from "react";
 import { getCountryGovernanceSummary } from "../utils/getCountryGovernanceSummary";
 import { InstrumentList } from "./InstrumentList";
 import { NationalRegulationList } from "./NationalRegulationList";
 import { ConnectionsSection } from "./ConnectionsSection";
 import { SourceLink } from "./SourceLink";
 import { NationalBindingBadge } from "./ParticipationBadge";
+import { useDialogFocus } from "../utils/useDialogFocus";
+import { VerificationMeta } from "./VerificationMeta";
 
 interface Props {
   iso3: string;
@@ -15,21 +16,17 @@ interface Props {
 export function CountrySidePanel({ iso3, onClose, onSelectLab }: Props) {
   const summary = getCountryGovernanceSummary(iso3);
   const country = summary.country;
-
-  useEffect(() => {
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") onClose();
-    }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+  const dialogRef = useDialogFocus<HTMLElement>(onClose);
 
   if (!country) return null;
 
   return (
     <aside
+      ref={dialogRef}
       role="dialog"
+      aria-modal="true"
       aria-label={`${country.name} AI governance details`}
+      tabIndex={-1}
       className="absolute inset-y-0 right-0 z-30 flex w-full max-w-md flex-col border-l border-canvas-line bg-white shadow-drawer"
     >
       <header className="flex items-start gap-3 border-b border-canvas-line px-5 py-4">
@@ -103,25 +100,27 @@ export function CountrySidePanel({ iso3, onClose, onSelectLab }: Props) {
               {summary.hqLabs.map((lab) => (
                 <li
                   key={lab.id}
-                  className="flex cursor-pointer items-start gap-2 rounded-md border border-canvas-line bg-white px-3 py-2 hover:border-accent"
-                  onClick={() => onSelectLab(lab.id)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") onSelectLab(lab.id);
-                  }}
-                  tabIndex={0}
+                  className="rounded-md border border-canvas-line bg-white hover:border-accent"
                 >
+                  <button
+                    type="button"
+                    onClick={() => onSelectLab(lab.id)}
+                    className="flex w-full items-start gap-2 px-3 py-2 text-left"
+                  >
                   <span
+                    aria-hidden="true"
                     className="mt-0.5 inline-block h-2.5 w-2.5 shrink-0 rounded-full"
                     style={{ background: lab.isFMFMember ? "#B45309" : "#1E40AF" }}
                   />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold leading-snug text-ink-900">{lab.name}</p>
-                    <p className="text-[11px] text-ink-500">
+                  <span className="flex-1 min-w-0">
+                    <span className="block text-sm font-semibold leading-snug text-ink-900">{lab.name}</span>
+                    <span className="block text-[11px] text-ink-500">
                       Power {lab.powerScore}/5
                       {lab.isFMFMember && " · FMF member"}
                       {lab.safetyFramework && ` · ${lab.safetyFramework.name}`}
-                    </p>
-                  </div>
+                    </span>
+                  </span>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -153,6 +152,9 @@ export function CountrySidePanel({ iso3, onClose, onSelectLab }: Props) {
                   <div className="mt-1.5 flex flex-wrap items-center gap-2">
                     <NationalBindingBadge status={rule.bindingStatus} />
                     <SourceLink name={rule.sourceName} url={rule.sourceUrl} />
+                  </div>
+                  <div className="mt-2">
+                    <VerificationMeta item={rule} compact />
                   </div>
                 </li>
               ))}

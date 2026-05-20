@@ -75,8 +75,6 @@ export function NetworkView({ selectedNodeId, onSelectNode }: Props) {
       involvedIds.add(edge.sourceId);
       involvedIds.add(edge.targetId);
     }
-    // Marker so eslint doesn't complain about unused dims here
-    void dims;
 
     const nodes: SimNode[] = [];
     for (const c of COUNTRIES) {
@@ -187,7 +185,7 @@ export function NetworkView({ selectedNodeId, onSelectNode }: Props) {
         width={dims.w}
         height={dims.h}
         className="h-full w-full"
-        role="img"
+        role="group"
         aria-label="Dependency network of countries, frontier labs, AI governance instruments, national rules, and infrastructure nodes"
       >
         <title>AI governance dependency network</title>

@@ -254,17 +254,14 @@ export function runDevValidation(): void {
   if (typeof window !== "undefined" && import.meta.env.DEV) {
     const report = validateData();
     if (report.errors.length === 0 && report.warnings.length === 0) {
-      // eslint-disable-next-line no-console
       console.info(
         `%c[Data] OK · ${COUNTRIES.length} countries · ${INTERNATIONAL_INSTRUMENTS.length} instruments · ${NATIONAL_AI_REGULATIONS.length} national regs · ${SUBNATIONAL_AI_RULES.length} subnational rules · ${FRONTIER_LABS.length} frontier labs · ${INFRASTRUCTURE_NODES.length} infrastructure nodes · ${DEPENDENCY_EDGES.length} edges · ${INTERNATIONAL_PARTICIPATION.length} participation rows`,
         "color:#1E40AF;font-weight:600"
       );
     } else {
-      // eslint-disable-next-line no-console
       console.group("[Data] Validation report");
       report.errors.forEach((e) => console.error("[err]", e));
       report.warnings.forEach((w) => console.warn("[warn]", w));
-      // eslint-disable-next-line no-console
       console.groupEnd();
     }
   }
