@@ -13,6 +13,7 @@ import {
 import { SourceLink } from "./SourceLink";
 import { EmptyState } from "./EmptyState";
 import { VerificationMeta } from "./VerificationMeta";
+import { CorrectionLink } from "./CorrectionLink";
 
 interface Item {
   participation: InternationalParticipation;
@@ -127,6 +128,14 @@ export function InstrumentList({ items }: Props) {
                       url={instrument.sourceUrl}
                     />
                   )}
+                  <CorrectionLink
+                    recordKind="international_instrument"
+                    recordId={instrument.id}
+                    recordName={instrument.name}
+                    sourceUrl={instrument.sourceUrl}
+                    claim={instrument.summary}
+                    compact
+                  />
                 </div>
               </div>
             )}

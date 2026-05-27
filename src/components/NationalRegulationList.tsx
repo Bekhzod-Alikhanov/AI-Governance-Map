@@ -5,6 +5,7 @@ import { NATIONAL_BINDING_DESCRIPTIONS, NATIONAL_BINDING_LABELS } from "../utils
 import { SourceLink } from "./SourceLink";
 import { EmptyState } from "./EmptyState";
 import { VerificationMeta } from "./VerificationMeta";
+import { CorrectionLink } from "./CorrectionLink";
 
 interface Props {
   regulations: NationalAIRegulation[];
@@ -108,7 +109,17 @@ export function NationalRegulationList({ regulations }: Props) {
                   </p>
                 )}
                 <VerificationMeta item={reg} />
-                <SourceLink name={reg.sourceName} url={reg.sourceUrl} />
+                <div className="flex flex-wrap items-center gap-2">
+                  <SourceLink name={reg.sourceName} url={reg.sourceUrl} />
+                  <CorrectionLink
+                    recordKind="national_ai_regulation"
+                    recordId={reg.id}
+                    recordName={reg.name}
+                    sourceUrl={reg.sourceUrl}
+                    claim={reg.summary}
+                    compact
+                  />
+                </div>
               </div>
             )}
           </li>

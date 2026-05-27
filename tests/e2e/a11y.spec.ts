@@ -32,4 +32,21 @@ test.describe("accessibility smoke checks", () => {
 
     await expectNoA11yViolations(page);
   });
+
+  test("table view has no automated WCAG A/AA violations", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("tab", { name: "Table" }).click();
+    await expect(page.getByRole("heading", { name: "Research table" })).toBeVisible();
+
+    await expectNoA11yViolations(page);
+  });
+
+  test("methodology panel has no automated WCAG A/AA violations", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: "Data", exact: true }).click();
+    await page.getByRole("button", { name: "Methodology" }).click();
+    await expect(page.getByRole("dialog", { name: "Methodology" })).toBeVisible();
+
+    await expectNoA11yViolations(page);
+  });
 });

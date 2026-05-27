@@ -3,6 +3,7 @@ import { SourceLink } from "./SourceLink";
 import { ConnectionsSection } from "./ConnectionsSection";
 import { useDialogFocus } from "../utils/useDialogFocus";
 import { VerificationMeta } from "./VerificationMeta";
+import { CorrectionLink } from "./CorrectionLink";
 
 interface Props {
   labId: string;
@@ -107,7 +108,16 @@ export function LabSidePanel({ labId, onClose }: Props) {
                   {r.sourceUrl && (
                     <div className="mt-1.5 space-y-1.5">
                       <VerificationMeta item={r} compact />
-                      <SourceLink name="Source" url={r.sourceUrl} />
+                      <div className="flex flex-wrap items-center gap-2">
+                        <SourceLink name="Source" url={r.sourceUrl} />
+                        <CorrectionLink
+                          recordKind="lab_regulatory_exposure"
+                          recordId={r.id}
+                          recordName={r.name}
+                          sourceUrl={r.sourceUrl}
+                          compact
+                        />
+                      </div>
                     </div>
                   )}
                 </li>
@@ -130,7 +140,17 @@ export function LabSidePanel({ labId, onClose }: Props) {
           <div className="mb-2">
             <VerificationMeta item={lab} compact />
           </div>
-          <SourceLink name={lab.sourceName} url={lab.sourceUrl} />
+          <div className="flex flex-wrap items-center gap-2">
+            <SourceLink name={lab.sourceName} url={lab.sourceUrl} />
+            <CorrectionLink
+              recordKind="frontier_lab"
+              recordId={lab.id}
+              recordName={lab.name}
+              sourceUrl={lab.sourceUrl}
+              claim={lab.summary}
+              compact
+            />
+          </div>
         </section>
       </div>
     </aside>

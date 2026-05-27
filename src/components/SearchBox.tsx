@@ -3,12 +3,13 @@ import { searchData } from "../utils/searchData";
 import type { SearchResult } from "../utils/searchData";
 
 interface Props {
+  query: string;
+  onQueryChange: (query: string) => void;
   onSelectCountry: (iso3: string) => void;
   onSelectInstrument: (instrumentId: string) => void;
 }
 
-export function SearchBox({ onSelectCountry, onSelectInstrument }: Props) {
-  const [query, setQuery] = useState("");
+export function SearchBox({ query, onQueryChange, onSelectCountry, onSelectInstrument }: Props) {
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -34,7 +35,7 @@ export function SearchBox({ onSelectCountry, onSelectInstrument }: Props) {
     else if (r.kind === "instrument") onSelectInstrument(r.id);
     // regulations: scroll to country side panel via country lookup not in scope; close box
     setOpen(false);
-    setQuery("");
+    onQueryChange("");
   }
 
   function onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -86,7 +87,7 @@ export function SearchBox({ onSelectCountry, onSelectInstrument }: Props) {
           aria-activedescendant={open ? activeOptionId : undefined}
           value={query}
           onChange={(e) => {
-            setQuery(e.target.value);
+            onQueryChange(e.target.value);
             setOpen(true);
             setActiveIndex(0);
           }}

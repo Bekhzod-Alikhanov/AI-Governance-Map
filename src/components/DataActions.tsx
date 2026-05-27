@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { downloadCitationText, downloadDatasetJson } from "../utils/exportDataset";
 
-export function DataActions() {
+interface Props {
+  onOpenMethodology: () => void;
+}
+
+export function DataActions({ onOpenMethodology }: Props) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -68,6 +72,16 @@ export function DataActions() {
             className="block w-full rounded-md px-2.5 py-2 text-left font-medium text-ink-800 hover:bg-canvas"
           >
             Download citation
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              onOpenMethodology();
+              setOpen(false);
+            }}
+            className="block w-full rounded-md px-2.5 py-2 text-left font-medium text-ink-800 hover:bg-canvas"
+          >
+            Methodology
           </button>
           <a
             href="https://github.com/Bekhzod-Alikhanov/global-ai-governance-map/blob/main/docs/SOURCE_VERIFICATION_2026-05-20.md"

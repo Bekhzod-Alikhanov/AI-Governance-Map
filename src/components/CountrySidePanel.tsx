@@ -6,6 +6,7 @@ import { SourceLink } from "./SourceLink";
 import { NationalBindingBadge } from "./ParticipationBadge";
 import { useDialogFocus } from "../utils/useDialogFocus";
 import { VerificationMeta } from "./VerificationMeta";
+import { CorrectionLink } from "./CorrectionLink";
 
 interface Props {
   iso3: string;
@@ -39,6 +40,15 @@ export function CountrySidePanel({ iso3, onClose, onSelectLab }: Props) {
             {country.name}
           </h2>
           <p className="mt-0.5 text-xs text-ink-500">ISO-3166 alpha-3 · {country.iso3}</p>
+          <div className="mt-2">
+            <CorrectionLink
+              recordKind="country"
+              recordId={country.iso3}
+              recordName={country.name}
+              claim={country.notes ?? `Country summary and governance aggregation for ${country.name}.`}
+              compact
+            />
+          </div>
         </div>
         <button
           type="button"
@@ -152,6 +162,14 @@ export function CountrySidePanel({ iso3, onClose, onSelectLab }: Props) {
                   <div className="mt-1.5 flex flex-wrap items-center gap-2">
                     <NationalBindingBadge status={rule.bindingStatus} />
                     <SourceLink name={rule.sourceName} url={rule.sourceUrl} />
+                    <CorrectionLink
+                      recordKind="subnational_ai_rule"
+                      recordId={rule.id}
+                      recordName={rule.name}
+                      sourceUrl={rule.sourceUrl}
+                      claim={rule.summary}
+                      compact
+                    />
                   </div>
                   <div className="mt-2">
                     <VerificationMeta item={rule} compact />

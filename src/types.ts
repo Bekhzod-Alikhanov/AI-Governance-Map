@@ -256,7 +256,21 @@ export interface SubnationalAIRule extends VerificationMetadata {
 }
 
 // ===== Guided walkthrough (Tier 2.F) =====
-export type LensKind = "geography" | "layer" | "network" | "timeline";
+export type LensKind = "geography" | "layer" | "network" | "timeline" | "table";
+export type NetworkPresetId =
+  | "all"
+  | "labs-laws"
+  | "summit-process"
+  | "standards-layer"
+  | "compute-chokepoints";
+export type NetworkDensity = "all" | "core" | "sparse";
+export type TimelineLane =
+  | "all"
+  | "international"
+  | "national_binding"
+  | "national_proposed"
+  | "standards"
+  | "labs_infrastructure";
 
 export interface WalkthroughStep {
   id: string;
@@ -265,6 +279,19 @@ export interface WalkthroughStep {
   lens: LensKind;
   filterPatch?: Partial<FilterState>;
   highlightNodeIds?: string[];
+}
+
+export interface ResearchPreset {
+  id: string;
+  title: string;
+  description: string;
+  lens: LensKind;
+  filterPatch?: Partial<FilterState>;
+  selectedIso3?: string;
+  selectedLabId?: string;
+  selectedNetworkNodeId?: string;
+  networkPreset?: NetworkPresetId;
+  timelineLane?: TimelineLane;
 }
 
 // ===== Application state =====

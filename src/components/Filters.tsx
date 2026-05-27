@@ -336,6 +336,13 @@ export function Filters({ filters, onChange, onReset }: Props) {
       onRemove: () => onChange({ ...filters, frontierAIRelevant: "any" }),
     });
   }
+  if (filters.searchQuery.trim()) {
+    activeChips.push({
+      id: "search-query",
+      label: `Search: ${filters.searchQuery.trim()}`,
+      onRemove: () => onChange({ ...filters, searchQuery: "" }),
+    });
+  }
 
   const instrumentsByOrg = useMemo(() => {
     const map: Record<string, typeof INTERNATIONAL_INSTRUMENTS> = {};

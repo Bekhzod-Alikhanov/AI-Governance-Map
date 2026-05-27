@@ -1,6 +1,15 @@
 import { lazy, Suspense, useEffect, useMemo, useReducer, useState } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { DEFAULT_FILTER_STATE, type FilterState, type LensKind, type FrontierLab } from "./types";
+import {
+  DEFAULT_FILTER_STATE,
+  type FilterState,
+  type FrontierLab,
+  type LensKind,
+  type NetworkDensity,
+  type NetworkPresetId,
+  type ResearchPreset,
+  type TimelineLane,
+} from "./types";
 import { WorldMap } from "./components/WorldMap";
 import { Filters } from "./components/Filters";
 import { CountrySidePanel } from "./components/CountrySidePanel";
@@ -12,7 +21,10 @@ import { SearchBox } from "./components/SearchBox";
 import { Legend } from "./components/Legend";
 import { LensSwitch } from "./components/LensSwitch";
 import { WalkthroughOverlay } from "./components/WalkthroughOverlay";
+import { ResearchQuestionsPanel } from "./components/ResearchQuestionsPanel";
+import { MethodologyPanel } from "./components/MethodologyPanel";
 import { runDevValidation } from "./utils/validateData";
+import { DEFAULT_SHAREABLE_STATE, parseShareableState, serializeShareableState } from "./utils/urlState";
 import { COUNTRIES, COUNTRY_BY_ISO3 } from "./data/countries";
 import { INTERNATIONAL_INSTRUMENTS } from "./data/internationalInstruments";
 import { NATIONAL_AI_REGULATIONS } from "./data/nationalAIRegulations";
@@ -23,6 +35,7 @@ import { DEPENDENCY_EDGES } from "./data/dependencies";
 // and the timeline list don't ship in the initial bundle.
 const NetworkView = lazy(() => import("./components/NetworkView").then((m) => ({ default: m.NetworkView })));
 const TimelineView = lazy(() => import("./components/TimelineView").then((m) => ({ default: m.TimelineView })));
+const TableView = lazy(() => import("./components/TableView").then((m) => ({ default: m.TableView })));
 
 function LensFallback() {
   return (
@@ -59,9 +72,16 @@ function filterReducer(state: FilterState, action: Action): FilterState {
 }
 
 export default function App() {
-  const [filters, dispatch] = useReducer(filterReducer, DEFAULT_FILTER_STATE);
-  const [selectedIso3, setSelectedIso3] = useState<string | null>(null);
-  const [selectedLabId, setSelectedLabId] = useState<string | null>(null);
+  const initialUrlState = useMemo(
+    () =>
+      typeof window === "undefined"
+        ? DEFAULT_SHAREABLE_STATE
+        : parseShareableState(window.location.search),
+    []
+  );
+  const [filters, dispatch] = useReducer(filterReducer, initialUrlState.filters);
+  const [selectedIso3, setSelectedIso3] = useState<string | null>(initialUrlState.selectedIso3);
+  const [selectedLabId, setSelectedLabId] = useState<string | null>(initialUrlState.selectedLabId);
   const [hover, setHover] = useState<{
     iso3: string;
     name: string;
@@ -70,14 +90,71 @@ export default function App() {
   } | null>(null);
   const [hoverLab, setHoverLab] = useState<{ lab: FrontierLab; x: number; y: number } | null>(null);
   const [showLabs, setShowLabs] = useState(true);
-  const [lens, setLens] = useState<LensKind>("geography");
+  const [lens, setLens] = useState<LensKind>(initialUrlState.lens);
   const [walkthroughStep, setWalkthroughStep] = useState<number | null>(null);
-  const [networkSelection, setNetworkSelection] = useState<string | null>(null);
+  const [networkSelection, setNetworkSelection] = useState<string | null>(initialUrlState.networkSelection);
+  const [networkPreset, setNetworkPreset] = useState<NetworkPresetId>(initialUrlState.networkPreset);
+  const [networkDensity, setNetworkDensity] = useState<NetworkDensity>(initialUrlState.networkDensity);
+  const [networkFrontierOnly, setNetworkFrontierOnly] = useState(initialUrlState.networkFrontierOnly);
+  const [timelineLane, setTimelineLane] = useState<TimelineLane>(initialUrlState.timelineLane);
+  const [timelineFrontierOnly, setTimelineFrontierOnly] = useState(false);
+  const [activePresetId, setActivePresetId] = useState<string | null>(null);
+  const [showMethodology, setShowMethodology] = useState(false);
 
   useEffect(() => {
     if (import.meta.env.VITE_SKIP_DEV_VALIDATION === "1") return;
     runDevValidation();
   }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    function handlePopState() {
+      const next = parseShareableState(window.location.search);
+      dispatch({ type: "set", filters: next.filters });
+      setLens(next.lens);
+      setSelectedIso3(next.selectedIso3);
+      setSelectedLabId(next.selectedLabId);
+      setNetworkSelection(next.networkSelection);
+      setNetworkPreset(next.networkPreset);
+      setNetworkDensity(next.networkDensity);
+      setNetworkFrontierOnly(next.networkFrontierOnly);
+      setTimelineLane(next.timelineLane);
+      setActivePresetId(null);
+    }
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const query = serializeShareableState({
+      lens,
+      filters,
+      selectedIso3,
+      selectedLabId,
+      networkSelection,
+      networkPreset,
+      networkDensity,
+      networkFrontierOnly,
+      timelineLane,
+    });
+    const nextUrl = `${window.location.pathname}${query}${window.location.hash}`;
+    if (nextUrl !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
+      window.history.replaceState(null, "", nextUrl);
+    }
+  }, [
+    filters,
+    lens,
+    networkDensity,
+    networkFrontierOnly,
+    networkPreset,
+    networkSelection,
+    selectedIso3,
+    selectedLabId,
+    timelineLane,
+  ]);
 
   const stats = useMemo(
     () => ({
@@ -100,11 +177,13 @@ export default function App() {
   function handleSelectCountry(iso3: string) {
     setSelectedLabId(null);
     setSelectedIso3(iso3);
+    setActivePresetId(null);
   }
 
   function handleSelectLab(id: string) {
     setSelectedIso3(null);
     setSelectedLabId(id);
+    setActivePresetId(null);
   }
 
   function handleNetworkSelect(id: string, kind: string) {
@@ -119,11 +198,25 @@ export default function App() {
     setHoverLab(null);
     setSelectedIso3(null);
     setSelectedLabId(null);
+    setNetworkSelection(null);
+    setActivePresetId(null);
   }
 
   function handleWalkthroughApply(patch: Partial<FilterState>, nextLens: LensKind) {
     dispatch({ type: "patch", patch });
     setLens(nextLens);
+    setActivePresetId(null);
+  }
+
+  function handleApplyPreset(preset: ResearchPreset) {
+    dispatch({ type: "patch", patch: preset.filterPatch ?? {} });
+    setLens(preset.lens);
+    setSelectedIso3(preset.selectedIso3 ?? null);
+    setSelectedLabId(preset.selectedLabId ?? null);
+    setNetworkSelection(preset.selectedNetworkNodeId ?? null);
+    setNetworkPreset(preset.networkPreset ?? "all");
+    setTimelineLane(preset.timelineLane ?? "all");
+    setActivePresetId(preset.id);
   }
 
   return (
@@ -154,7 +247,8 @@ export default function App() {
             </div>
           </div>
           <LensSwitch value={lens} onChange={handleLensChange} />
-          <DataActions />
+          <ResearchQuestionsPanel activePresetId={activePresetId} onApplyPreset={handleApplyPreset} />
+          <DataActions onOpenMethodology={() => setShowMethodology(true)} />
           <button
             type="button"
             onClick={() => setWalkthroughStep(0)}
@@ -164,6 +258,8 @@ export default function App() {
           </button>
           <div className="w-full min-w-52 max-w-xs sm:w-64">
             <SearchBox
+              query={filters.searchQuery}
+              onQueryChange={(query) => dispatch({ type: "set", filters: { ...filters, searchQuery: query } })}
               onSelectCountry={(iso3) => handleSelectCountry(iso3)}
               onSelectInstrument={(id) => dispatch({ type: "select-instrument", id })}
             />
@@ -206,12 +302,33 @@ export default function App() {
             <NetworkView
               selectedNodeId={networkSelection}
               onSelectNode={handleNetworkSelect}
+              preset={networkPreset}
+              onPresetChange={setNetworkPreset}
+              density={networkDensity}
+              onDensityChange={setNetworkDensity}
+              frontierOnly={networkFrontierOnly}
+              onFrontierOnlyChange={setNetworkFrontierOnly}
             />
           </Suspense>
         )}
         {lens === "timeline" && (
           <Suspense fallback={<LensFallback />}>
-            <TimelineView />
+            <TimelineView
+              lane={timelineLane}
+              onLaneChange={setTimelineLane}
+              frontierOnly={timelineFrontierOnly}
+              onFrontierOnlyChange={setTimelineFrontierOnly}
+            />
+          </Suspense>
+        )}
+        {lens === "table" && (
+          <Suspense fallback={<LensFallback />}>
+            <TableView
+              filters={filters}
+              onSelectCountry={handleSelectCountry}
+              onSelectLab={handleSelectLab}
+              onSelectInstrument={(id) => dispatch({ type: "select-instrument", id })}
+            />
           </Suspense>
         )}
 
@@ -295,6 +412,8 @@ export default function App() {
           onClose={() => setWalkthroughStep(null)}
         />
       )}
+
+      {showMethodology && <MethodologyPanel onClose={() => setShowMethodology(false)} />}
 
       <SpeedInsights />
     </div>

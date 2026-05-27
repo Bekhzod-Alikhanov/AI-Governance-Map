@@ -1,21 +1,43 @@
 import { useMemo, useState } from "react";
 import clsx from "clsx";
+import { FRONTIER_LABS } from "../data/frontierLabs";
+import { INFRASTRUCTURE_NODES } from "../data/infrastructure";
 import { INTERNATIONAL_INSTRUMENTS } from "../data/internationalInstruments";
 import { NATIONAL_AI_REGULATIONS } from "../data/nationalAIRegulations";
 import { SUBNATIONAL_AI_RULES } from "../data/subnationalRules";
+import type { TimelineLane } from "../types";
+import { DATA_SNAPSHOT_DATE } from "../utils/governanceTaxonomy";
 import { SourceLink } from "./SourceLink";
 
 interface TimelineItem {
   id: string;
   date: string;
   year: number;
-  category: "international" | "national" | "subnational";
+  category: "international" | "national" | "subnational" | "labs_infrastructure";
+  lane: TimelineLane;
   title: string;
   jurisdiction: string;
   bindingHint: string;
   sourceName: string;
   sourceUrl: string;
+  frontierAIRelevant: boolean;
 }
+
+interface Props {
+  lane: TimelineLane;
+  onLaneChange: (lane: TimelineLane) => void;
+  frontierOnly: boolean;
+  onFrontierOnlyChange: (frontierOnly: boolean) => void;
+}
+
+const LANES: Array<{ id: TimelineLane; label: string }> = [
+  { id: "all", label: "All" },
+  { id: "international", label: "International" },
+  { id: "national_binding", label: "National binding" },
+  { id: "national_proposed", label: "National proposed" },
+  { id: "standards", label: "Standards" },
+  { id: "labs_infrastructure", label: "Labs/infrastructure" },
+];
 
 function pickDate(input?: string): string | null {
   if (!input) return null;
@@ -24,7 +46,7 @@ function pickDate(input?: string): string | null {
   return null;
 }
 
-export function TimelineView() {
+export function TimelineView({ lane, onLaneChange, frontierOnly, onFrontierOnlyChange }: Props) {
   const items = useMemo<TimelineItem[]>(() => {
     const rows: TimelineItem[] = [];
     for (const inst of INTERNATIONAL_INSTRUMENTS) {
@@ -35,11 +57,13 @@ export function TimelineView() {
         date: d,
         year: Number(d.slice(0, 4)),
         category: "international",
+        lane: inst.bindingStatus === "standard" || inst.organizationType === "ISO/IEC" ? "standards" : "international",
         title: inst.name,
         jurisdiction: inst.organizationType,
         bindingHint: inst.bindingStatus.replace(/_/g, " "),
         sourceName: inst.sourceName,
         sourceUrl: inst.sourceUrl,
+        frontierAIRelevant: inst.frontierAIRelevant,
       });
     }
     for (const reg of NATIONAL_AI_REGULATIONS) {
@@ -50,11 +74,13 @@ export function TimelineView() {
         date: d,
         year: Number(d.slice(0, 4)),
         category: "national",
+        lane: reg.bindingStatus === "proposed" || reg.type === "proposed_law" ? "national_proposed" : "national_binding",
         title: reg.name,
         jurisdiction: reg.jurisdiction,
         bindingHint: reg.bindingStatus,
         sourceName: reg.sourceName,
         sourceUrl: reg.sourceUrl,
+        frontierAIRelevant: reg.frontierAIRelevant,
       });
     }
     for (const sub of SUBNATIONAL_AI_RULES) {
@@ -65,18 +91,55 @@ export function TimelineView() {
         date: d,
         year: Number(d.slice(0, 4)),
         category: "subnational",
+        lane: sub.bindingStatus === "proposed" || sub.type === "proposed_law" ? "national_proposed" : "national_binding",
         title: sub.name,
         jurisdiction: `${sub.jurisdictionName} (${sub.countryIso3})`,
         bindingHint: sub.bindingStatus,
         sourceName: sub.sourceName,
         sourceUrl: sub.sourceUrl,
+        frontierAIRelevant: true,
+      });
+    }
+    for (const lab of FRONTIER_LABS) {
+      rows.push({
+        id: `lab:${lab.id}`,
+        date: DATA_SNAPSHOT_DATE,
+        year: Number(DATA_SNAPSHOT_DATE.slice(0, 4)),
+        category: "labs_infrastructure",
+        lane: "labs_infrastructure",
+        title: lab.name,
+        jurisdiction: `HQ: ${lab.hqCountryName}`,
+        bindingHint: lab.isFMFMember ? "frontier lab / FMF member" : "frontier lab",
+        sourceName: lab.sourceName,
+        sourceUrl: lab.sourceUrl,
+        frontierAIRelevant: true,
+      });
+    }
+    for (const node of INFRASTRUCTURE_NODES) {
+      rows.push({
+        id: `infra:${node.id}`,
+        date: DATA_SNAPSHOT_DATE,
+        year: Number(DATA_SNAPSHOT_DATE.slice(0, 4)),
+        category: "labs_infrastructure",
+        lane: "labs_infrastructure",
+        title: node.name,
+        jurisdiction: node.jurisdiction ?? "Infrastructure",
+        bindingHint: node.type.replace(/_/g, " "),
+        sourceName: node.sourceName,
+        sourceUrl: node.sourceUrl,
+        frontierAIRelevant: true,
       });
     }
     return rows.sort((a, b) => a.date.localeCompare(b.date));
   }, []);
 
-  const [filter, setFilter] = useState<"all" | TimelineItem["category"]>("all");
-  const visible = filter === "all" ? items : items.filter((i) => i.category === filter);
+  const [categoryFilter, setCategoryFilter] = useState<"all" | TimelineItem["category"]>("all");
+  const visible = items.filter((item) => {
+    if (categoryFilter !== "all" && item.category !== categoryFilter) return false;
+    if (lane !== "all" && item.lane !== lane) return false;
+    if (frontierOnly && !item.frontierAIRelevant) return false;
+    return true;
+  });
 
   const years = [...new Set(visible.map((i) => i.year))].sort((a, b) => a - b);
 
@@ -90,20 +153,46 @@ export function TimelineView() {
           milestones from {years[0] ?? "—"} to {years[years.length - 1] ?? "—"}.
         </p>
         </div>
+        <div className="flex flex-wrap items-center justify-end gap-2">
+        <div className="inline-flex max-w-full overflow-x-auto rounded-lg border border-canvas-line">
+          {LANES.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => onLaneChange(item.id)}
+              className={clsx(
+                "whitespace-nowrap px-2.5 py-1 text-[11px] font-medium transition-colors",
+                lane === item.id ? "bg-accent text-white" : "bg-white text-ink-700 hover:bg-canvas"
+              )}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
         <div className="inline-flex overflow-hidden rounded-lg border border-canvas-line">
           {(["all", "international", "national", "subnational"] as const).map((c) => (
             <button
               key={c}
               type="button"
-              onClick={() => setFilter(c)}
+              onClick={() => setCategoryFilter(c)}
               className={clsx(
                 "px-2.5 py-1 text-[11px] font-medium capitalize transition-colors",
-                filter === c ? "bg-accent text-white" : "bg-white text-ink-700 hover:bg-canvas"
+                categoryFilter === c ? "bg-ink-800 text-white" : "bg-white text-ink-700 hover:bg-canvas"
               )}
             >
               {c}
             </button>
           ))}
+        </div>
+        <label className="inline-flex cursor-pointer items-center gap-1.5 text-[11px] font-medium text-ink-700">
+          <input
+            type="checkbox"
+            checked={frontierOnly}
+            onChange={(event) => onFrontierOnlyChange(event.target.checked)}
+            className="h-3.5 w-3.5 cursor-pointer rounded border-canvas-line text-accent focus:ring-accent"
+          />
+          Frontier only
+        </label>
         </div>
       </header>
 
@@ -117,7 +206,8 @@ export function TimelineView() {
                   "absolute -left-1.5 mt-1 h-3 w-3 rounded-full border-2 border-white",
                   item.category === "international" && "bg-violet-600",
                   item.category === "national" && "bg-blue-700",
-                  item.category === "subnational" && "bg-emerald-600"
+                  item.category === "subnational" && "bg-emerald-600",
+                  item.category === "labs_infrastructure" && "bg-ink-800"
                 )}
               />
               <p className="text-[11px] uppercase tracking-wide text-ink-500">

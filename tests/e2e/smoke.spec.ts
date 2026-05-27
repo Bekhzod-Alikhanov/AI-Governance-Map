@@ -10,6 +10,7 @@ test.describe("governance map smoke flows", () => {
     await page.getByRole("button", { name: "Data", exact: true }).click();
     await expect(page.getByRole("button", { name: "Download dataset JSON" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Download citation" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Methodology" })).toBeVisible();
 
     const downloadPromise = page.waitForEvent("download");
     await page.getByRole("button", { name: "Download citation" }).click();
@@ -18,6 +19,7 @@ test.describe("governance map smoke flows", () => {
 
     await page.getByRole("button", { name: "Canada - open country details" }).press("Enter");
     await expect(page.getByRole("dialog", { name: "Canada AI governance details" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Report correction" }).first()).toBeVisible();
   });
 
   test("supports the network node list and detail drawers", async ({ page }) => {
@@ -52,5 +54,29 @@ test.describe("governance map smoke flows", () => {
     await expect(walkthrough).toContainText(/2 of/);
     await page.getByRole("button", { name: "Exit walkthrough" }).click();
     await expect(walkthrough).toBeHidden();
+  });
+
+  test("supports research presets, shareable URLs, methodology, and table export", async ({ page }) => {
+    await page.goto("/");
+
+    await page.getByRole("button", { name: "Questions" }).click();
+    await page.getByRole("button", { name: /Who signed or ratified the Council of Europe AI Convention/ }).click();
+    await expect(page).toHaveURL(/coe-ai-convention/);
+    await page.reload();
+    await expect(page.getByText(/Instrument: Council of Europe Framework Convention/)).toBeVisible();
+
+    await page.getByRole("button", { name: "Data", exact: true }).click();
+    await page.getByRole("button", { name: "Methodology" }).click();
+    await expect(page.getByRole("dialog", { name: "Methodology" })).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("dialog", { name: "Methodology" })).toBeHidden();
+
+    await page.getByRole("tab", { name: "Table" }).click();
+    await expect(page.getByRole("heading", { name: "Research table" })).toBeVisible();
+    await page.getByRole("button", { name: "Instruments" }).click();
+    const downloadPromise = page.waitForEvent("download");
+    await page.getByRole("button", { name: "Export CSV" }).click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toBe("global-ai-governance-map-instruments.csv");
   });
 });

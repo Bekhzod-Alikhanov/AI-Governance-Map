@@ -40,6 +40,16 @@ jobs:
       - name: Validate dataset export
         run: npm run validate:export
 
+      - name: Audit source freshness and links
+        run: npm run audit:sources -- --output=source-audit-report.md --check-links
+
+      - name: Upload source audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-audit-report
+          path: source-audit-report.md
+
       - name: Build
         run: npm run build
 

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import clsx from "clsx";
 import {
   forceCenter,
   forceCollide,
@@ -16,7 +17,7 @@ import { INFRASTRUCTURE_NODES } from "../data/infrastructure";
 import { INTERNATIONAL_INSTRUMENTS } from "../data/internationalInstruments";
 import { NATIONAL_AI_REGULATIONS } from "../data/nationalAIRegulations";
 import { DEPENDENCY_EDGES } from "../data/dependencies";
-import type { GraphNodeType } from "../types";
+import type { GraphEdge, GraphNodeType, NetworkDensity, NetworkPresetId } from "../types";
 import { activateOnKeyboard } from "../utils/keyboardActivation";
 
 type NodeKind = GraphNodeType;
@@ -45,13 +46,40 @@ const KIND_COLOR: Record<NodeKind, string> = {
 };
 
 const NODE_LIST_LIMIT = 80;
+const NETWORK_PRESETS: Array<{ id: NetworkPresetId; label: string }> = [
+  { id: "all", label: "All" },
+  { id: "labs-laws", label: "Labs and laws" },
+  { id: "summit-process", label: "Summits" },
+  { id: "standards-layer", label: "Standards" },
+  { id: "compute-chokepoints", label: "Compute" },
+];
+const DENSITY_OPTIONS: Array<{ id: NetworkDensity; label: string; minStrength: number }> = [
+  { id: "all", label: "All edges", minStrength: 1 },
+  { id: "core", label: "Core", minStrength: 3 },
+  { id: "sparse", label: "Sparse", minStrength: 4 },
+];
 
 interface Props {
   selectedNodeId: string | null;
   onSelectNode: (id: string, kind: NodeKind) => void;
+  preset: NetworkPresetId;
+  onPresetChange: (preset: NetworkPresetId) => void;
+  density: NetworkDensity;
+  onDensityChange: (density: NetworkDensity) => void;
+  frontierOnly: boolean;
+  onFrontierOnlyChange: (frontierOnly: boolean) => void;
 }
 
-export function NetworkView({ selectedNodeId, onSelectNode }: Props) {
+export function NetworkView({
+  selectedNodeId,
+  onSelectNode,
+  preset,
+  onPresetChange,
+  density,
+  onDensityChange,
+  frontierOnly,
+  onFrontierOnlyChange,
+}: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [dims, setDims] = useState({ w: 1200, h: 700 });
   const [showNodeList, setShowNodeList] = useState(false);
@@ -71,7 +99,15 @@ export function NetworkView({ selectedNodeId, onSelectNode }: Props) {
 
   const { nodes, links } = useMemo(() => {
     const involvedIds = new Set<string>();
-    for (const edge of DEPENDENCY_EDGES) {
+    const minStrength = DENSITY_OPTIONS.find((option) => option.id === density)?.minStrength ?? 1;
+    const visibleEdges = DEPENDENCY_EDGES.filter(
+      (edge) =>
+        edge.strength >= minStrength &&
+        edgeMatchesPreset(edge, preset) &&
+        (!frontierOnly || edgeHasFrontierRelevance(edge))
+    );
+
+    for (const edge of visibleEdges) {
       involvedIds.add(edge.sourceId);
       involvedIds.add(edge.targetId);
     }
@@ -88,6 +124,7 @@ export function NetworkView({ selectedNodeId, onSelectNode }: Props) {
       });
     }
     for (const l of FRONTIER_LABS) {
+      if (preset !== "all" && !involvedIds.has(l.id)) continue;
       nodes.push({ id: l.id, kind: "lab", label: l.name, size: 4 + l.powerScore * 1.5, color: KIND_COLOR.lab });
     }
     for (const i of INFRASTRUCTURE_NODES) {
@@ -116,7 +153,7 @@ export function NetworkView({ selectedNodeId, onSelectNode }: Props) {
 
     const nodeById = new Map(nodes.map((n) => [n.id, n]));
     const links: SimLink[] = [];
-    for (const edge of DEPENDENCY_EDGES) {
+    for (const edge of visibleEdges) {
       if (!nodeById.has(edge.sourceId) || !nodeById.has(edge.targetId)) continue;
       links.push({
         source: edge.sourceId,
@@ -126,7 +163,7 @@ export function NetworkView({ selectedNodeId, onSelectNode }: Props) {
       });
     }
     return { nodes, links };
-  }, []);
+  }, [density, frontierOnly, preset]);
 
   // Run the simulation synchronously once, then freeze positions.
   // Re-run whenever container size changes meaningfully.
@@ -323,6 +360,53 @@ export function NetworkView({ selectedNodeId, onSelectNode }: Props) {
         )}
       </div>
 
+      <div className="absolute bottom-4 left-4 z-10 w-[min(620px,calc(100vw-2rem))] rounded-xl border border-canvas-line bg-white/90 p-3 text-xs shadow-panel backdrop-blur">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-[10px] font-semibold uppercase tracking-wide text-ink-500">
+            Network preset
+          </span>
+          <div className="inline-flex max-w-full overflow-x-auto rounded-lg border border-canvas-line">
+            {NETWORK_PRESETS.map((option) => (
+              <button
+                key={option.id}
+                type="button"
+                onClick={() => onPresetChange(option.id)}
+                className={clsx(
+                  "whitespace-nowrap px-2 py-1 text-[11px] font-medium",
+                  preset === option.id ? "bg-accent text-white" : "bg-white text-ink-700 hover:bg-canvas"
+                )}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+          <div className="inline-flex overflow-hidden rounded-lg border border-canvas-line">
+            {DENSITY_OPTIONS.map((option) => (
+              <button
+                key={option.id}
+                type="button"
+                onClick={() => onDensityChange(option.id)}
+                className={clsx(
+                  "whitespace-nowrap px-2 py-1 text-[11px] font-medium",
+                  density === option.id ? "bg-ink-800 text-white" : "bg-white text-ink-700 hover:bg-canvas"
+                )}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+          <label className="inline-flex cursor-pointer items-center gap-1.5 text-[11px] font-medium text-ink-700">
+            <input
+              type="checkbox"
+              checked={frontierOnly}
+              onChange={(event) => onFrontierOnlyChange(event.target.checked)}
+              className="h-3.5 w-3.5 cursor-pointer rounded border-canvas-line text-accent focus:ring-accent"
+            />
+            Frontier only
+          </label>
+        </div>
+      </div>
+
       {/* Legend */}
       <div className="absolute left-4 top-4 rounded-xl border border-canvas-line bg-white/90 p-3 text-xs shadow-panel backdrop-blur">
         <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wide text-ink-500">
@@ -356,4 +440,55 @@ function getNodeActionLabel(kind: NodeKind): string {
   if (kind === "country") return "open country details";
   if (kind === "lab") return "open lab details";
   return "highlight related nodes";
+}
+
+function edgeMatchesPreset(edge: GraphEdge, preset: NetworkPresetId): boolean {
+  if (preset === "all") return true;
+  if (preset === "labs-laws") {
+    return (
+      edge.sourceType === "lab" ||
+      edge.targetType === "lab" ||
+      edge.sourceType === "national_rule" ||
+      edge.targetType === "national_rule"
+    );
+  }
+  if (preset === "compute-chokepoints") {
+    return edge.sourceType === "infrastructure" || edge.targetType === "infrastructure";
+  }
+  if (preset === "summit-process") {
+    return isSummitNode(edge.sourceId) || isSummitNode(edge.targetId);
+  }
+  return isStandardsNode(edge.sourceId) || isStandardsNode(edge.targetId);
+}
+
+function edgeHasFrontierRelevance(edge: GraphEdge): boolean {
+  return isFrontierNode(edge.sourceType, edge.sourceId) || isFrontierNode(edge.targetType, edge.targetId);
+}
+
+function isFrontierNode(kind: GraphNodeType, id: string): boolean {
+  if (kind === "lab" || kind === "infrastructure") return true;
+  if (kind === "instrument") return INTERNATIONAL_INSTRUMENTS.some((item) => item.id === id && item.frontierAIRelevant);
+  if (kind === "national_rule") return NATIONAL_AI_REGULATIONS.some((item) => item.id === id && item.frontierAIRelevant);
+  return false;
+}
+
+function isSummitNode(id: string): boolean {
+  return (
+    id.includes("bletchley") ||
+    id.includes("seoul") ||
+    id.includes("paris") ||
+    id.includes("aisi") ||
+    id === "intl-network-aisi"
+  );
+}
+
+function isStandardsNode(id: string): boolean {
+  return (
+    id.includes("iso-iec") ||
+    id.includes("nist") ||
+    id.includes("cen-cenelec") ||
+    id.includes("hiroshima") ||
+    id === "oecd-ai-principles" ||
+    id === "eu-ai-act-regional"
+  );
 }
