@@ -44,6 +44,7 @@ interface Props {
   onHoverLab?: (data: { lab: FrontierLab; x: number; y: number } | null) => void;
   showLabs: boolean;
   lens: LensKind;
+  scaleBoost?: number;
 }
 
 export function WorldMap({
@@ -56,6 +57,7 @@ export function WorldMap({
   onHoverLab,
   showLabs,
   lens,
+  scaleBoost = 1,
 }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [dims, setDims] = useState({ width: 1200, height: 700 });
@@ -88,7 +90,7 @@ export function WorldMap({
     const scale = Math.min(
       availableWidth / boundedWidth,
       availableHeight / boundedHeight
-    );
+    ) * scaleBoost;
 
     return geoEqualEarth()
       .scale(scale)
@@ -97,7 +99,7 @@ export function WorldMap({
         dims.width / 2 - ((x0 + x1) / 2) * scale,
         MAP_TOP_PADDING - y0 * scale,
       ]) as unknown as ProjectionFunction;
-  }, [dims.width, dims.height]);
+  }, [dims.width, dims.height, scaleBoost]);
 
   return (
     <div

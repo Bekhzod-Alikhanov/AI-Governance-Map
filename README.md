@@ -431,6 +431,11 @@ npm run audit:sources
 npm run audit:sources -- --check-links
 ```
 
+`audit:sources -- --check-links` is an editorial aid, not a public UI signal. Some official
+government and standards sites reject scripted `HEAD`/`GET` checks or time out even when a
+human browser can open them, so unresolved link-check warnings should be manually spot-checked
+before changing a record's legal/source status.
+
 `validateData.ts` runs on dev-mode app start and logs a grouped console report. It checks:
 
 - Every country has `iso3`, `name`, `region`.

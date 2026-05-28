@@ -99,6 +99,7 @@ export default function App() {
   const [timelineFrontierOnly, setTimelineFrontierOnly] = useState(false);
   const [activePresetId, setActivePresetId] = useState<string | null>(null);
   const [showMethodology, setShowMethodology] = useState(false);
+  const [isMapMaximized, setIsMapMaximized] = useState(false);
 
   useEffect(() => {
     if (import.meta.env.VITE_SKIP_DEV_VALIDATION === "1") return;
@@ -120,6 +121,7 @@ export default function App() {
       setNetworkFrontierOnly(next.networkFrontierOnly);
       setTimelineLane(next.timelineLane);
       setActivePresetId(null);
+      setIsMapMaximized(false);
     }
 
     window.addEventListener("popstate", handlePopState);
@@ -167,6 +169,19 @@ export default function App() {
   );
 
   const showsMap = lens === "geography" || lens === "layer";
+  const mapChromeHidden = showsMap && isMapMaximized;
+
+  useEffect(() => {
+    if (!isMapMaximized) return;
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setIsMapMaximized(false);
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isMapMaximized]);
+
   const selectionAnnouncement = selectedIso3
     ? `Selected country ${COUNTRY_BY_ISO3[selectedIso3]?.name ?? selectedIso3}`
     : selectedLabId
@@ -193,6 +208,7 @@ export default function App() {
 
   function handleLensChange(nextLens: LensKind) {
     setLens(nextLens);
+    setIsMapMaximized(false);
     setHover(null);
     setHoverLab(null);
     setSelectedIso3(null);
@@ -204,12 +220,14 @@ export default function App() {
   function handleWalkthroughApply(patch: Partial<FilterState>, nextLens: LensKind) {
     dispatch({ type: "patch", patch });
     setLens(nextLens);
+    setIsMapMaximized(false);
     setActivePresetId(null);
   }
 
   function handleApplyPreset(preset: ResearchPreset) {
     dispatch({ type: "patch", patch: preset.filterPatch ?? {} });
     setLens(preset.lens);
+    setIsMapMaximized(false);
     setSelectedIso3(preset.selectedIso3 ?? null);
     setSelectedLabId(preset.selectedLabId ?? null);
     setNetworkSelection(preset.selectedNetworkNodeId ?? null);
@@ -226,60 +244,64 @@ export default function App() {
       >
         Skip to main content
       </a>
-      <header className="z-20 flex shrink-0 flex-wrap items-center gap-2 border-b border-canvas-line bg-canvas-surface px-4 py-1.5">
-        <div className="min-w-0 shrink-0">
-          <h1 className="text-base font-semibold leading-tight tracking-tight text-ink-900">
-            Global AI Governance Map
-          </h1>
-          <p className="hidden text-[11px] leading-tight text-ink-500 md:block">
-            Frontier AI governance: actors, instruments, dependencies
-          </p>
-        </div>
-
-        <LensSwitch value={lens} onChange={handleLensChange} />
-
-        <div className="min-w-44 w-56 shrink-0 md:w-64 xl:w-72">
-          <SearchBox
-            query={filters.searchQuery}
-            onQueryChange={(query) => dispatch({ type: "set", filters: { ...filters, searchQuery: query } })}
-            onSelectCountry={(iso3) => handleSelectCountry(iso3)}
-            onSelectInstrument={(id) => dispatch({ type: "select-instrument", id })}
-          />
-        </div>
-
-        <div className="ml-auto flex min-w-0 flex-wrap items-center justify-end gap-2">
-          <div className="hidden text-right text-[11px] leading-tight text-ink-500 xl:block">
-            <div>
-              {stats.countries} countries · {stats.labs} labs · {stats.instruments} instruments
-            </div>
-            <div>
-              {stats.nationalRegs} national rules · {stats.edges} edges
-            </div>
+      {!mapChromeHidden && (
+        <header className="z-20 flex shrink-0 flex-wrap items-center gap-2 border-b border-canvas-line bg-canvas-surface px-4 py-1.5">
+          <div className="min-w-0 shrink-0">
+            <h1 className="text-base font-semibold leading-tight tracking-tight text-ink-900">
+              Global AI Governance Map
+            </h1>
+            <p className="hidden text-[11px] leading-tight text-ink-500 md:block">
+              Frontier AI governance: actors, instruments, dependencies
+            </p>
           </div>
-          <ResearchQuestionsPanel activePresetId={activePresetId} onApplyPreset={handleApplyPreset} />
-          <DataActions onOpenMethodology={() => setShowMethodology(true)} />
-          <button
-            type="button"
-            onClick={() => setWalkthroughStep(0)}
-            className="rounded-md border border-accent bg-accent/5 px-2.5 py-1.5 text-xs font-medium text-accent hover:bg-accent/10"
-          >
-            Take the tour
-          </button>
-        </div>
-      </header>
+
+          <LensSwitch value={lens} onChange={handleLensChange} />
+
+          <div className="min-w-44 w-56 shrink-0 md:w-64 xl:w-72">
+            <SearchBox
+              query={filters.searchQuery}
+              onQueryChange={(query) => dispatch({ type: "set", filters: { ...filters, searchQuery: query } })}
+              onSelectCountry={(iso3) => handleSelectCountry(iso3)}
+              onSelectInstrument={(id) => dispatch({ type: "select-instrument", id })}
+            />
+          </div>
+
+          <div className="ml-auto flex min-w-0 flex-wrap items-center justify-end gap-2">
+            <div className="hidden text-right text-[11px] leading-tight text-ink-500 xl:block">
+              <div>
+                {stats.countries} countries · {stats.labs} labs · {stats.instruments} instruments
+              </div>
+              <div>
+                {stats.nationalRegs} national rules · {stats.edges} edges
+              </div>
+            </div>
+            <ResearchQuestionsPanel activePresetId={activePresetId} onApplyPreset={handleApplyPreset} />
+            <DataActions onOpenMethodology={() => setShowMethodology(true)} />
+            <button
+              type="button"
+              onClick={() => setWalkthroughStep(0)}
+              className="rounded-md border border-accent bg-accent/5 px-2.5 py-1.5 text-xs font-medium text-accent hover:bg-accent/10"
+            >
+              Take the tour
+            </button>
+          </div>
+        </header>
+      )}
 
       <div className="sr-only" aria-live="polite">
         {selectionAnnouncement}
       </div>
 
       {/* Filter toolbar */}
-      <div data-filter-toolbar className="z-10 shrink-0 border-b border-canvas-line bg-canvas-surface px-4 py-1">
-        <Filters
-          filters={filters}
-          onChange={(next) => dispatch({ type: "set", filters: next })}
-          onReset={() => dispatch({ type: "reset" })}
-        />
-      </div>
+      {!mapChromeHidden && (
+        <div data-filter-toolbar className="z-10 shrink-0 border-b border-canvas-line bg-canvas-surface px-4 py-1">
+          <Filters
+            filters={filters}
+            onChange={(next) => dispatch({ type: "set", filters: next })}
+            onReset={() => dispatch({ type: "reset" })}
+          />
+        </div>
+      )}
 
       {/* Main canvas — switches between Map / Network / Timeline lenses */}
       <main id="main-content" tabIndex={-1} className="relative flex-1 overflow-hidden">
@@ -294,6 +316,7 @@ export default function App() {
             onHoverLab={(data) => setHoverLab(data)}
             showLabs={showLabs}
             lens={lens}
+            scaleBoost={mapChromeHidden ? 1.08 : 1}
           />
         )}
         {lens === "network" && (
@@ -331,11 +354,49 @@ export default function App() {
           </Suspense>
         )}
 
+        {showsMap && (
+          <button
+            type="button"
+            onClick={() => setIsMapMaximized((next) => !next)}
+            aria-pressed={mapChromeHidden}
+            className="absolute right-4 top-3 z-20 inline-flex items-center gap-1.5 rounded-md border border-canvas-line bg-white/90 px-2.5 py-1.5 text-xs font-semibold text-ink-800 shadow-panel backdrop-blur hover:border-accent hover:text-accent"
+          >
+            <svg
+              aria-hidden="true"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              {mapChromeHidden ? (
+                <>
+                  <path d="M8 3v5H3" />
+                  <path d="M16 3v5h5" />
+                  <path d="M8 21v-5H3" />
+                  <path d="M16 21v-5h5" />
+                </>
+              ) : (
+                <>
+                  <path d="M3 8V3h5" />
+                  <path d="M21 8V3h-5" />
+                  <path d="M3 16v5h5" />
+                  <path d="M21 16v5h-5" />
+                </>
+              )}
+            </svg>
+            {mapChromeHidden ? "Exit maximize" : "Maximize map"}
+          </button>
+        )}
+
         {/* Floating legend + lab toggle, bottom-left */}
         {showsMap && (
           <div className="pointer-events-none absolute bottom-4 left-4 z-10 max-w-xs space-y-2">
             <div className="pointer-events-auto">
-              <Legend />
+              <Legend key={mapChromeHidden ? "maximized" : "normal"} />
             </div>
             <label className="pointer-events-auto inline-flex cursor-pointer items-center gap-2 rounded-md border border-canvas-line bg-white px-2.5 py-1 text-[11px] font-medium text-ink-700 shadow-panel">
               <input
@@ -344,13 +405,13 @@ export default function App() {
                 onChange={(e) => setShowLabs(e.target.checked)}
                 className="h-3.5 w-3.5 cursor-pointer rounded border-canvas-line text-accent focus:ring-accent"
               />
-              Show frontier-lab HQs ({stats.labs})
+              {mapChromeHidden ? `Labs (${stats.labs})` : `Show frontier-lab HQs (${stats.labs})`}
             </label>
           </div>
         )}
 
         {/* Floating source badge */}
-        {showsMap && (
+        {showsMap && !mapChromeHidden && (
           <div className="pointer-events-none absolute bottom-4 right-4 z-10 max-w-md text-right">
             <p className="pointer-events-auto inline-block rounded-md bg-white/85 px-2.5 py-1 text-[10px] text-ink-500 shadow-panel backdrop-blur">
               Sources: EUR-Lex · OECD · UNESCO · CoE · ISO · GOV.UK · NIST · CAC · MSIT · IMDA · MeitY · AU · ASEAN · APEC · CAIDP Index 2026 · doc1 frontier-AI brief

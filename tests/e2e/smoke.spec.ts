@@ -41,6 +41,22 @@ test.describe("governance map smoke flows", () => {
     await expect(page.getByRole("dialog", { name: "United States AI governance details" })).toBeVisible();
   });
 
+  test("supports in-page map maximize mode", async ({ page }) => {
+    await page.goto("/");
+
+    await page.getByRole("button", { name: "Maximize map" }).click();
+    await expect(page.getByRole("button", { name: "Exit maximize" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Global AI Governance Map" })).toHaveCount(0);
+    await expect(page.getByText(/^Sources:/)).toHaveCount(0);
+    await page.getByRole("button", { name: "Exit maximize" }).click();
+    await expect(page.getByRole("heading", { name: "Global AI Governance Map" })).toBeVisible();
+
+    await page.getByRole("tab", { name: "Layers" }).click();
+    await page.getByRole("button", { name: "Maximize map" }).click();
+    await expect(page.getByRole("button", { name: "Exit maximize" })).toBeVisible();
+    await page.getByRole("button", { name: "Exit maximize" }).click();
+  });
+
   test("keeps timeline and tour reachable", async ({ page }) => {
     await page.goto("/");
 
