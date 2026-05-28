@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { extractSourceRecordsFromText } from "./audit-sources.mjs";
+import { buildSourceAuditData, extractSourceRecordsFromText } from "./audit-sources.mjs";
 
 describe("source audit extraction", () => {
   it("uses nested source metadata without losing the parent id", () => {
@@ -30,10 +30,12 @@ export const FRONTIER_LABS = [{
     expect(records).toEqual([
       expect.objectContaining({
         id: "example-lab.safetyFramework",
+        name: "Safety Framework",
         lastVerified: "2026-05-20",
       }),
       expect.objectContaining({
         id: "example-lab",
+        name: "Example Lab",
         lastVerified: "2026-05-20",
       }),
     ]);
@@ -60,5 +62,20 @@ rows.push(
         lastVerified: "2026-05-27",
       }),
     ]);
+  });
+
+  it("builds machine-readable audit data without metadata warnings", async () => {
+    const report = await buildSourceAuditData();
+
+    expect(report.recordCount).toBeGreaterThan(100);
+    expect(report.records[0]).toEqual(
+      expect.objectContaining({
+        file: expect.any(String),
+        id: expect.any(String),
+        sourceUrl: expect.any(String),
+      })
+    );
+    expect(report.metadataWarnings).toEqual([]);
+    expect(report.metadataWarningCount).toBe(0);
   });
 });

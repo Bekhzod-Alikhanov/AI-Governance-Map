@@ -431,12 +431,16 @@ Secondary sources are used only to discover leads, never as the authoritative fi
 npm run validate:data
 npm run audit:sources
 npm run audit:sources -- --check-links
+npm run audit:sources -- --output=source-audit-report.md --json-output=source-audit-report.json
 ```
 
 `audit:sources -- --check-links` is an editorial aid, not a public UI signal. Some official
 government and standards sites reject scripted `HEAD`/`GET` checks or time out even when a
 human browser can open them, so unresolved link-check warnings should be manually spot-checked
 before changing a record's legal/source status.
+
+CI uploads both Markdown and JSON source-audit artifacts. Metadata warnings fail CI; link
+warnings remain non-failing because automated checks can be blocked by official sites.
 
 `validateData.ts` runs on dev-mode app start and logs a grouped console report. It checks:
 

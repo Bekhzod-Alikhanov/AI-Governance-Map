@@ -19,15 +19,27 @@ const OFFICIAL_SUFFIXES = sourceHostConfig.officialHostSuffixes;
 const now = new Date();
 
 if (isCli()) {
-  const report = await buildSourceAuditReport({ checkLinks: args.has("check-links") });
+  const data = await buildSourceAuditData({ checkLinks: args.has("check-links") });
+  const report = formatSourceAuditMarkdown(data);
   const output = args.get("output");
+  const jsonOutput = args.get("json-output");
   if (output) {
     await fs.writeFile(path.resolve(root, output), report);
   }
+  if (jsonOutput) {
+    await fs.writeFile(path.resolve(root, jsonOutput), `${JSON.stringify(data, null, 2)}\n`);
+  }
   console.log(report);
+  if (args.has("fail-on-metadata-warnings") && data.metadataWarnings.length > 0) {
+    process.exitCode = 1;
+  }
 }
 
 export async function buildSourceAuditReport({ checkLinks = false } = {}) {
+  return formatSourceAuditMarkdown(await buildSourceAuditData({ checkLinks }));
+}
+
+export async function buildSourceAuditData({ checkLinks = false } = {}) {
   const records = [];
 
   for (const file of await fs.readdir(dataDir)) {
@@ -59,17 +71,36 @@ export async function buildSourceAuditReport({ checkLinks = false } = {}) {
 
   const linkWarnings = checkLinks ? await checkLinksForRecords(records) : [];
 
+  return {
+    generatedAt: now.toISOString(),
+    recordCount: records.length,
+    checkLinks,
+    metadataWarningCount: warnings.length,
+    linkWarningCount: linkWarnings.length,
+    records,
+    metadataWarnings: warnings,
+    linkWarnings,
+  };
+}
+
+function formatSourceAuditMarkdown(data) {
   return [
     "# Source Audit Report",
     "",
-    `Generated: ${now.toISOString()}`,
-    `Records with sourceUrl: ${records.length}`,
+    `Generated: ${data.generatedAt}`,
+    `Records with sourceUrl: ${data.recordCount}`,
+    `Metadata warnings: ${data.metadataWarningCount}`,
+    `Link warnings: ${data.linkWarningCount}`,
     "",
     "## Metadata Warnings",
-    warnings.length ? warnings.map((item) => `- ${item}`).join("\n") : "No metadata warnings.",
+    data.metadataWarnings.length
+      ? data.metadataWarnings.map((item) => `- ${formatWarning(item)}`).join("\n")
+      : "No metadata warnings.",
     "",
     "## Link Warnings",
-    linkWarnings.length ? linkWarnings.map((item) => `- ${item}`).join("\n") : "No link warnings, or link checks were not requested.",
+    data.linkWarnings.length
+      ? data.linkWarnings.map((item) => `- ${formatWarning(item)}`).join("\n")
+      : "No link warnings, or link checks were not requested.",
     "",
   ].join("\n");
 }
@@ -98,13 +129,15 @@ export function extractSourceRecordsFromText(text, file = "inline.ts") {
       (parentId && propertyName ? `${parentId}.${propertyName}` : parentId) ??
       generatedParticipationId ??
       "unknown";
+    const sourceName = pick(sourceContext, /name:\s*"([^"]+)"/g);
+    const recordName = pickFirst(recordContext, /name:\s*"([^"]+)"/g);
 
     return {
       file,
       id,
       name:
-        pick(sourceContext, /name:\s*"([^"]+)"/g) ??
-        pick(recordContext, /name:\s*"([^"]+)"/g) ??
+        (propertyName ? sourceName : recordName) ??
+        sourceName ??
         pick(sourceContext, /sourceName:\s*"([^"]+)"/g) ??
         "Unnamed record",
       sourceUrl,
@@ -198,6 +231,11 @@ function pick(context, regex) {
   return matches.at(-1)?.[1] ?? null;
 }
 
+function pickFirst(context, regex) {
+  const matches = [...context.matchAll(regex)];
+  return matches[0]?.[1] ?? null;
+}
+
 function getHost(sourceUrl) {
   try {
     return new URL(sourceUrl).hostname.toLowerCase();
@@ -217,7 +255,17 @@ function ageInDays(dateText) {
 }
 
 function warn(record, message) {
-  return `${record.file} :: ${record.id} :: ${message}`;
+  return {
+    file: record.file,
+    id: record.id,
+    name: record.name,
+    sourceUrl: record.sourceUrl,
+    message,
+  };
+}
+
+function formatWarning(warning) {
+  return `${warning.file} :: ${warning.id} :: ${warning.message}`;
 }
 
 async function checkLinksForRecords(sourceRecords) {

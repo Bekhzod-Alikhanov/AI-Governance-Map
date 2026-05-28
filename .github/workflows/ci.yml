@@ -41,14 +41,16 @@ jobs:
         run: npm run validate:export
 
       - name: Audit source freshness and links
-        run: npm run audit:sources -- --output=source-audit-report.md --check-links
+        run: npm run audit:sources -- --output=source-audit-report.md --json-output=source-audit-report.json --check-links --fail-on-metadata-warnings
 
       - name: Upload source audit report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: source-audit-report
-          path: source-audit-report.md
+          path: |
+            source-audit-report.md
+            source-audit-report.json
 
       - name: Build
         run: npm run build
