@@ -52,6 +52,18 @@ jobs:
             source-audit-report.md
             source-audit-report.json
 
+      - name: Build editorial data review report
+        run: npm run audit:data-review -- --output=data-review-report.md --json-output=data-review-report.json
+
+      - name: Upload editorial data review report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: data-review-report
+          path: |
+            data-review-report.md
+            data-review-report.json
+
       - name: Build
         run: npm run build
 

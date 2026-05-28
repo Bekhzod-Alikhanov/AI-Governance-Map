@@ -16,6 +16,7 @@
     "validate:data": "vitest run src/utils/validateData.test.ts src/utils/governanceTaxonomy.test.ts",
     "validate:export": "vitest run src/utils/exportDataset.test.ts src/utils/datasetSchema.test.ts",
     "audit:sources": "node scripts/audit-sources.mjs",
+    "audit:data-review": "node scripts/audit-data-review.mjs",
     "test:e2e": "node ./scripts/run-playwright.mjs",
     "test:a11y": "node ./scripts/run-playwright.mjs tests/e2e/a11y.spec.ts",
     "test": "vitest run",

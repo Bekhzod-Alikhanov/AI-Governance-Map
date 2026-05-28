@@ -1,0 +1,43 @@
+name: Data correction
+description: Report a source, legal-status, participation-status, or date correction.
+title: "Data correction: "
+labels:
+  - data
+  - correction
+body:
+  - type: input
+    id: record-id
+    attributes:
+      label: Record ID
+      description: Use the ID from a drawer, table row, exported dataset, or source link if available.
+      placeholder: coe-ai-convention
+  - type: input
+    id: record-name
+    attributes:
+      label: Record name
+      placeholder: Council of Europe Framework Convention on AI
+  - type: textarea
+    id: current-claim
+    attributes:
+      label: Current claim
+      description: What does the site currently say?
+    validations:
+      required: true
+  - type: textarea
+    id: proposed-correction
+    attributes:
+      label: Proposed correction
+      description: What should be changed?
+    validations:
+      required: true
+  - type: input
+    id: source-url
+    attributes:
+      label: Official source URL
+      description: Prefer treaty offices, official gazettes, regulators, ministries, standards bodies, or issuer-controlled pages.
+      placeholder: https://
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Mention uncertainty, jurisdiction scope, adoption/in-force status, signature/ratification distinction, or membership coverage.

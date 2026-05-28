@@ -2,6 +2,8 @@
 
 This dashboard is a research tool, not legal advice. Dataset updates should preserve the distinction between legal status, participation status, and source confidence.
 
+For the practical contribution workflow, templates, and pull-request checklist, see `docs/EDITORIAL_WORKFLOW.md`.
+
 ## Snapshot Discipline
 
 - Current snapshot date: 19 May 2026.
@@ -59,4 +61,5 @@ Before adding or changing a high-impact record:
 2. Verify the displayed status, date, jurisdiction, and legal effect against the source.
 3. Add a note when participation is indirect, partial, conditional, or uncertain.
 4. Do not classify privacy, cybersecurity, export-control, semiconductor, or generic digital-policy instruments as AI-specific unless the source is explicitly AI-specific.
-5. Run `npm run validate:data`, `npm test`, and `npm run build`.
+5. Run `npm run validate:data`, `npm run validate:export`, `npm run audit:sources`, and `npm run audit:data-review`.
+6. If UI behavior, exports, or derived selectors changed, also run `npm test`, `npm run build`, and `npm run test:e2e`.

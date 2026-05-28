@@ -6,6 +6,8 @@ dist
 playwright-report
 test-results
 debug.log
+source-audit-report.*
+data-review-report.*
 .DS_Store
 *.local
 *.tsbuildinfo

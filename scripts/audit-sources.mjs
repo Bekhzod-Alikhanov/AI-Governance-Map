@@ -145,6 +145,7 @@ export function extractSourceRecordsFromText(text, file = "inline.ts") {
       verificationStatus: metadata.verificationStatus,
       confidence: metadata.confidence,
       lastVerified: metadata.lastVerified,
+      verificationNotes: metadata.verificationNotes,
       bindingStatus: metadata.bindingStatus ?? pick(recordContext, /bindingStatus:\s*"([^"]+)"/g),
     };
   });
@@ -175,6 +176,7 @@ function extractLiteralMetadata(context) {
     verificationStatus: pick(context, /verificationStatus:\s*"([^"]+)"/g),
     confidence: pick(context, /confidence:\s*"([^"]+)"/g),
     lastVerified: pick(context, /lastVerified:\s*"([^"]+)"/g),
+    verificationNotes: pick(context, /verificationNotes:\s*"([^"]+)"/g),
     bindingStatus: pick(context, /bindingStatus:\s*"([^"]+)"/g),
   };
   return Object.fromEntries(Object.entries(metadata).filter(([, value]) => value !== null));

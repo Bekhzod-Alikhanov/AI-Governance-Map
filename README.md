@@ -38,6 +38,7 @@
 - [Deployment (Vercel)](#deployment-vercel)
 - [How the map colour logic works](#how-the-map-colour-logic-works)
 - [How to add data](#how-to-add-data)
+- [Editorial workflow](#editorial-workflow)
 - [Source rules](#source-rules)
 - [Validation](#validation)
 - [Known limitations](#known-limitations)
@@ -292,6 +293,7 @@ Production build: ~0.6 s with SWC + Rolldown. Dev HMR: instant.
 - **Linting** — **ESLint 10** with `eslint-plugin-react-hooks` and `eslint-plugin-jsx-a11y`. Run with `npm run lint`.
 - **Type checking** — `npm run typecheck` runs `tsc -b --noEmit` against strict TypeScript.
 - **Dataset checks** — `npm run validate:data` and `npm run validate:export` run the relevant vitest files in isolation, for quick pre-commit dataset sanity checks.
+- **Editorial data review** — `npm run audit:data-review` produces Markdown/JSON review artifacts for stale, uncertain, low-confidence, or strong legal-effect records needing human review.
 - **GitHub Actions** (`.github/workflows/ci.yml`) runs ESLint, `tsc -b`, `vitest run`, and `vite build` on every push and PR.
 - **Dependabot** (`.github/dependabot.yml`) opens a PR each week for npm minor/patch updates.
 - A dev-mode runtime validator (`validateData.ts`) prints a green-bold summary line if the dataset is clean: `✅ Data OK · 192 countries · 33 instruments · 75 national regs · 13 labs · 85 edges · 1410 participation rows`.
@@ -313,6 +315,7 @@ npm run typecheck         # tsc -b --noEmit
 npm test                  # vitest run (unit + selector tests)
 npm run validate:data     # vitest run on validateData + governanceTaxonomy only
 npm run validate:export   # vitest run on exportDataset + datasetSchema only
+npm run audit:data-review # editorial report for source freshness and legal-status review
 npm run test:e2e          # Playwright smoke + a11y end-to-end
 npm run test:a11y         # Playwright a11y suite only
 npm run build             # tsc -b && vite build  →  dist/
@@ -408,6 +411,19 @@ Same schema as above plus `organizationType`, `instrumentType`, `bindingStatus`,
 - Provide `sourceName` + `sourceUrl` to the official treaty office / declaration page, not a media summary.
 - Add a `note` when participation is partial, indirect, or via membership.
 
+## Editorial workflow
+
+The lightweight editorial workflow is documented in [`docs/EDITORIAL_WORKFLOW.md`](docs/EDITORIAL_WORKFLOW.md). It keeps the app static and Git-reviewed while giving contributors templates and review checks for source-backed updates.
+
+Use the templates in [`docs/templates/`](docs/templates/) before adding or correcting:
+
+- National AI regulations.
+- International instruments and participation rows.
+- Source/status corrections.
+- Frontier-lab, infrastructure, and dependency records.
+
+Public correction reports can also use the GitHub issue form in [`.github/ISSUE_TEMPLATE/data-correction.yml`](.github/ISSUE_TEMPLATE/data-correction.yml).
+
 ## Source rules
 
 Official sources are preferred:
@@ -432,6 +448,8 @@ npm run validate:data
 npm run audit:sources
 npm run audit:sources -- --check-links
 npm run audit:sources -- --output=source-audit-report.md --json-output=source-audit-report.json
+npm run audit:data-review
+npm run audit:data-review -- --output=data-review-report.md --json-output=data-review-report.json
 ```
 
 `audit:sources -- --check-links` is an editorial aid, not a public UI signal. Some official
@@ -441,6 +459,10 @@ before changing a record's legal/source status.
 
 CI uploads both Markdown and JSON source-audit artifacts. Metadata warnings fail CI; link
 warnings remain non-failing because automated checks can be blocked by official sites.
+
+CI also uploads Markdown and JSON editorial data-review artifacts. These are warning-first
+review aids for source freshness, low-confidence records, uncertain status, and strong
+legal-effect claims that deserve human attention before public citation.
 
 `validateData.ts` runs on dev-mode app start and logs a grouped console report. It checks:
 
