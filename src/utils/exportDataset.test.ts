@@ -4,8 +4,15 @@ import { FRONTIER_LABS } from "../data/frontierLabs";
 import { INTERNATIONAL_INSTRUMENTS } from "../data/internationalInstruments";
 import { NATIONAL_AI_REGULATIONS } from "../data/nationalAIRegulations";
 import { DATA_SNAPSHOT_DATE } from "./governanceTaxonomy";
-import { buildCitationText, buildDatasetSnapshot, DATASET_SCHEMA_VERSION, toPrettyJson } from "./exportDataset";
+import {
+  buildCitationText,
+  buildDatasetSnapshot,
+  buildFilteredDatasetSnapshot,
+  DATASET_SCHEMA_VERSION,
+  toPrettyJson,
+} from "./exportDataset";
 import { DATASET_SCHEMA_ID, validateDatasetSnapshotShape } from "./datasetSchema";
+import { DEFAULT_FILTER_STATE } from "../types";
 
 describe("dataset export helpers", () => {
   it("builds a snapshot with declared schema, counts, and primary data arrays", () => {
@@ -39,5 +46,35 @@ describe("dataset export helpers", () => {
     expect(toPrettyJson({ source: "official", confidence: "high" })).toBe(
       '{\n  "source": "official",\n  "confidence": "high"\n}'
     );
+  });
+
+  it("builds a filtered snapshot for the current research scope", () => {
+    const filtered = buildFilteredDatasetSnapshot({
+      ...DEFAULT_FILTER_STATE,
+      selectedRegions: ["Europe"],
+    });
+
+    expect(filtered.title).toContain("filtered");
+    expect(filtered.filters.selectedRegions).toEqual(["Europe"]);
+    expect(filtered.counts.countries).toBeLessThan(buildDatasetSnapshot().counts.countries);
+    expect(filtered.data.countries.every((country) => country.region === "Europe")).toBe(true);
+  });
+
+  it("keeps the full dataset when no filters are active", () => {
+    const filtered = buildFilteredDatasetSnapshot(DEFAULT_FILTER_STATE);
+    const full = buildDatasetSnapshot();
+
+    expect(filtered.counts).toEqual(full.counts);
+    expect(filtered.data.internationalInstruments).toBe(INTERNATIONAL_INSTRUMENTS);
+  });
+
+  it("includes search-matched labs and their HQ countries", () => {
+    const filtered = buildFilteredDatasetSnapshot({
+      ...DEFAULT_FILTER_STATE,
+      searchQuery: "OpenAI",
+    });
+
+    expect(filtered.data.frontierLabs.map((lab) => lab.id)).toContain("openai");
+    expect(filtered.data.countries.map((country) => country.iso3)).toContain("USA");
   });
 });

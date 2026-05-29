@@ -304,6 +304,13 @@ export interface MapFitTarget {
   summaryLabel: string;
 }
 
+export type CompareItemKind = "country" | "lab" | "instrument";
+
+export interface CompareItem {
+  kind: CompareItemKind;
+  id: string;
+}
+
 // ===== Application state =====
 export interface FilterState {
   selectedInstrumentIds: string[];

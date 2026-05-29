@@ -14,6 +14,9 @@ import { SourceLink } from "./SourceLink";
 import { EmptyState } from "./EmptyState";
 import { VerificationMeta } from "./VerificationMeta";
 import { CorrectionLink } from "./CorrectionLink";
+import { CopyTextButton } from "./CopyTextButton";
+import { PinCompareButton } from "./PinCompareButton";
+import { buildRecordCitation } from "../utils/citation";
 
 interface Item {
   participation: InternationalParticipation;
@@ -22,9 +25,11 @@ interface Item {
 
 interface Props {
   items: Item[];
+  onPinInstrument?: (instrumentId: string) => void;
+  isInstrumentPinned?: (instrumentId: string) => boolean;
 }
 
-export function InstrumentList({ items }: Props) {
+export function InstrumentList({ items, onPinInstrument, isInstrumentPinned }: Props) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   if (items.length === 0) {
@@ -118,6 +123,24 @@ export function InstrumentList({ items }: Props) {
                 <VerificationMeta item={participation} label="Participation verification" />
                 <VerificationMeta item={instrument} label="Instrument verification" />
                 <div className="flex flex-wrap items-center gap-3 pt-1">
+                  {onPinInstrument && isInstrumentPinned && (
+                    <PinCompareButton
+                      pinned={isInstrumentPinned(instrument.id)}
+                      onToggle={() => onPinInstrument(instrument.id)}
+                      label={isInstrumentPinned(instrument.id) ? "Pinned" : "Compare instrument"}
+                    />
+                  )}
+                  <CopyTextButton
+                    text={buildRecordCitation({
+                      ...instrument,
+                      recordKind: "international instrument",
+                      recordId: instrument.id,
+                      recordName: instrument.name,
+                      sourceName: instrument.sourceName,
+                      sourceUrl: instrument.sourceUrl,
+                      claim: instrument.summary,
+                    })}
+                  />
                   <SourceLink
                     name={participation.sourceName}
                     url={participation.sourceUrl}

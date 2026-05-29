@@ -2,6 +2,8 @@ import { lazy, Suspense, useEffect, useMemo, useReducer, useState } from "react"
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import {
   DEFAULT_FILTER_STATE,
+  type CompareItem,
+  type CompareItemKind,
   type FilterState,
   type FrontierLab,
   type LensKind,
@@ -23,6 +25,7 @@ import { LensSwitch } from "./components/LensSwitch";
 import { WalkthroughOverlay } from "./components/WalkthroughOverlay";
 import { ResearchQuestionsPanel } from "./components/ResearchQuestionsPanel";
 import { MethodologyPanel } from "./components/MethodologyPanel";
+import { ComparisonTray } from "./components/ComparisonTray";
 import { runDevValidation } from "./utils/validateData";
 import { DEFAULT_SHAREABLE_STATE, parseShareableState, serializeShareableState } from "./utils/urlState";
 import { COUNTRIES, COUNTRY_BY_ISO3 } from "./data/countries";
@@ -128,6 +131,7 @@ export default function App() {
   const [showMethodology, setShowMethodology] = useState(false);
   const [isMapMaximized, setIsMapMaximized] = useState(false);
   const [mapView, setMapView] = useState<MapViewState>(DEFAULT_MAP_VIEW);
+  const [compareItems, setCompareItems] = useState<CompareItem[]>([]);
 
   useEffect(() => {
     if (import.meta.env.VITE_SKIP_DEV_VALIDATION === "1") return;
@@ -328,6 +332,25 @@ export default function App() {
     if (target) setMapView(createFitMapView(target));
   }
 
+  function isComparePinned(kind: CompareItemKind, id: string) {
+    return compareItems.some((item) => item.kind === kind && item.id === id);
+  }
+
+  function toggleCompareItem(item: CompareItem) {
+    setCompareItems((current) => {
+      if (current.some((existing) => existing.kind === item.kind && existing.id === item.id)) {
+        return current.filter((existing) => existing.kind !== item.kind || existing.id !== item.id);
+      }
+      return [...current, item].slice(-5);
+    });
+  }
+
+  function removeCompareItem(item: CompareItem) {
+    setCompareItems((current) =>
+      current.filter((existing) => existing.kind !== item.kind || existing.id !== item.id)
+    );
+  }
+
   function handleZoomToResults() {
     if (!resultFitTarget) return;
     setMapView(createFitMapView(resultFitTarget));
@@ -365,7 +388,7 @@ export default function App() {
         Skip to main content
       </a>
       {!mapChromeHidden && (
-        <header className="z-20 flex shrink-0 flex-wrap items-center gap-2 border-b border-canvas-line bg-canvas-surface px-4 py-1.5">
+        <header className="relative z-40 flex shrink-0 flex-wrap items-center gap-2 border-b border-canvas-line bg-canvas-surface px-4 py-1.5">
           <div className="min-w-0 shrink-0">
             <h1 className="text-base font-semibold leading-tight tracking-tight text-ink-900">
               Global AI Governance Map
@@ -393,7 +416,7 @@ export default function App() {
               </div>
             </div>
             <ResearchQuestionsPanel activePresetId={activePresetId} onApplyPreset={handleApplyPreset} />
-            <DataActions onOpenMethodology={() => setShowMethodology(true)} />
+            <DataActions filters={filters} onOpenMethodology={() => setShowMethodology(true)} />
             <button
               type="button"
               onClick={() => setWalkthroughStep(0)}
@@ -411,7 +434,7 @@ export default function App() {
 
       {/* Filter toolbar */}
       {!mapChromeHidden && (
-        <div data-filter-toolbar className="z-10 shrink-0 border-b border-canvas-line bg-canvas-surface px-4 py-1">
+        <div data-filter-toolbar className="relative z-30 shrink-0 border-b border-canvas-line bg-canvas-surface px-4 py-1">
           <Filters
             filters={filters}
             onChange={handleFilterChange}
@@ -421,7 +444,7 @@ export default function App() {
       )}
 
       {/* Main canvas — switches between Map / Network / Timeline lenses */}
-      <main id="main-content" tabIndex={-1} className="relative flex-1 overflow-hidden">
+      <main id="main-content" tabIndex={-1} className="relative z-0 flex-1 overflow-hidden">
         {showsMap && (
           <WorldMap
             filters={filters}
@@ -642,12 +665,33 @@ export default function App() {
             iso3={selectedIso3}
             onClose={() => setSelectedIso3(null)}
             onSelectLab={handleSelectLab}
+            onPinCountry={() => toggleCompareItem({ kind: "country", id: selectedIso3 })}
+            isCountryPinned={isComparePinned("country", selectedIso3)}
+            onPinLab={(labId) => toggleCompareItem({ kind: "lab", id: labId })}
+            isLabPinned={(labId) => isComparePinned("lab", labId)}
+            onPinInstrument={(instrumentId) => toggleCompareItem({ kind: "instrument", id: instrumentId })}
+            isInstrumentPinned={(instrumentId) => isComparePinned("instrument", instrumentId)}
           />
         )}
 
         {selectedLabId && (
-          <LabSidePanel labId={selectedLabId} onClose={() => setSelectedLabId(null)} />
+          <LabSidePanel
+            labId={selectedLabId}
+            onClose={() => setSelectedLabId(null)}
+            onPinLab={() => toggleCompareItem({ kind: "lab", id: selectedLabId })}
+            isLabPinned={isComparePinned("lab", selectedLabId)}
+          />
         )}
+
+        <ComparisonTray
+          items={compareItems}
+          onRemove={removeCompareItem}
+          onClear={() => setCompareItems([])}
+          onOpenCountry={handleSelectCountry}
+          onOpenLab={handleSelectLab}
+          onOpenInstrument={handleSelectInstrument}
+          drawerOpen={Boolean(selectedIso3 || selectedLabId)}
+        />
       </main>
 
       {hover && showsMap && !hoverLab && (

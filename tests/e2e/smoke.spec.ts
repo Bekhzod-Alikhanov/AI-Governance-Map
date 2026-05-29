@@ -10,6 +10,7 @@ test.describe("governance map smoke flows", () => {
 
     await page.getByRole("button", { name: "Data", exact: true }).click();
     await expect(page.getByRole("button", { name: "Download dataset JSON" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Download filtered JSON" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Download citation" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Methodology" })).toBeVisible();
 
@@ -20,7 +21,14 @@ test.describe("governance map smoke flows", () => {
 
     await page.getByRole("button", { name: "Canada - open country details" }).press("Enter");
     await expect(page.getByLabel("Map focus")).toHaveValue("results");
-    await expect(page.getByRole("dialog", { name: "Canada AI governance details" })).toBeVisible();
+    const canadaDrawer = page.getByRole("dialog", { name: "Canada AI governance details" });
+    await expect(canadaDrawer).toBeVisible();
+    await expect(canadaDrawer.getByText("Research answer")).toBeVisible();
+    await expect(canadaDrawer.getByRole("button", { name: "Copy citation" }).first()).toBeVisible();
+    await canadaDrawer.getByRole("button", { name: "Compare", exact: true }).click();
+    await expect(canadaDrawer.getByRole("button", { name: "Pinned" }).first()).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Comparison" })).toBeVisible();
+    await expect(page.getByText(/1 pinned item/)).toBeVisible();
     await expect(page.getByRole("link", { name: "Report correction" }).first()).toBeVisible();
   });
 

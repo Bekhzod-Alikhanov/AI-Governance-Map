@@ -1,11 +1,17 @@
 import { useEffect, useRef, useState } from "react";
-import { downloadCitationText, downloadDatasetJson } from "../utils/exportDataset";
+import type { FilterState } from "../types";
+import {
+  downloadCitationText,
+  downloadDatasetJson,
+  downloadFilteredDatasetJson,
+} from "../utils/exportDataset";
 
 interface Props {
   onOpenMethodology: () => void;
+  filters: FilterState;
 }
 
-export function DataActions({ onOpenMethodology }: Props) {
+export function DataActions({ onOpenMethodology, filters }: Props) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -62,6 +68,16 @@ export function DataActions({ onOpenMethodology }: Props) {
             className="block w-full rounded-md px-2.5 py-2 text-left font-medium text-ink-800 hover:bg-canvas"
           >
             Download dataset JSON
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              downloadFilteredDatasetJson(filters);
+              setOpen(false);
+            }}
+            className="block w-full rounded-md px-2.5 py-2 text-left font-medium text-ink-800 hover:bg-canvas"
+          >
+            Download filtered JSON
           </button>
           <button
             type="button"

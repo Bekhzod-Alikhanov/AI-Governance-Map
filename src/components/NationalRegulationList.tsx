@@ -6,6 +6,8 @@ import { SourceLink } from "./SourceLink";
 import { EmptyState } from "./EmptyState";
 import { VerificationMeta } from "./VerificationMeta";
 import { CorrectionLink } from "./CorrectionLink";
+import { CopyTextButton } from "./CopyTextButton";
+import { buildRecordCitation } from "../utils/citation";
 
 interface Props {
   regulations: NationalAIRegulation[];
@@ -110,6 +112,17 @@ export function NationalRegulationList({ regulations }: Props) {
                 )}
                 <VerificationMeta item={reg} />
                 <div className="flex flex-wrap items-center gap-2">
+                  <CopyTextButton
+                    text={buildRecordCitation({
+                      ...reg,
+                      recordKind: "national AI regulation",
+                      recordId: reg.id,
+                      recordName: reg.name,
+                      sourceName: reg.sourceName,
+                      sourceUrl: reg.sourceUrl,
+                      claim: reg.summary,
+                    })}
+                  />
                   <SourceLink name={reg.sourceName} url={reg.sourceUrl} />
                   <CorrectionLink
                     recordKind="national_ai_regulation"

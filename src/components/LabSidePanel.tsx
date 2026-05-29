@@ -4,13 +4,18 @@ import { ConnectionsSection } from "./ConnectionsSection";
 import { useDialogFocus } from "../utils/useDialogFocus";
 import { VerificationMeta } from "./VerificationMeta";
 import { CorrectionLink } from "./CorrectionLink";
+import { CopyTextButton } from "./CopyTextButton";
+import { PinCompareButton } from "./PinCompareButton";
+import { buildRecordCitation } from "../utils/citation";
 
 interface Props {
   labId: string;
   onClose: () => void;
+  onPinLab: () => void;
+  isLabPinned: boolean;
 }
 
-export function LabSidePanel({ labId, onClose }: Props) {
+export function LabSidePanel({ labId, onClose, onPinLab, isLabPinned }: Props) {
   const { lab, regulatoryExposure } = getLabSummary(labId);
   const dialogRef = useDialogFocus<HTMLElement>(onClose);
 
@@ -35,6 +40,28 @@ export function LabSidePanel({ labId, onClose }: Props) {
           <p className="mt-0.5 text-xs text-ink-500">
             Power score {lab.powerScore}/5
           </p>
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <PinCompareButton pinned={isLabPinned} onToggle={onPinLab} />
+            <CopyTextButton
+              text={buildRecordCitation({
+                ...lab,
+                recordKind: "frontier lab",
+                recordId: lab.id,
+                recordName: lab.name,
+                sourceName: lab.sourceName,
+                sourceUrl: lab.sourceUrl,
+                claim: lab.summary,
+              })}
+            />
+            <CorrectionLink
+              recordKind="frontier_lab"
+              recordId={lab.id}
+              recordName={lab.name}
+              sourceUrl={lab.sourceUrl}
+              claim={lab.summary}
+              compact
+            />
+          </div>
         </div>
         <button
           type="button"
@@ -84,7 +111,18 @@ export function LabSidePanel({ labId, onClose }: Props) {
               <div className="mt-2">
                 <VerificationMeta item={lab.safetyFramework} compact />
               </div>
-              <div className="mt-2">
+              <div className="mt-2 flex flex-wrap items-center gap-2">
+                <CopyTextButton
+                  text={buildRecordCitation({
+                    ...lab.safetyFramework,
+                    recordKind: "lab safety framework",
+                    recordId: `${lab.id}.safetyFramework`,
+                    recordName: lab.safetyFramework.name,
+                    sourceName: lab.safetyFramework.sourceName,
+                    sourceUrl: lab.safetyFramework.sourceUrl,
+                    claim: `${lab.name} safety framework maturity: ${lab.safetyFramework.maturity}.`,
+                  })}
+                />
                 <SourceLink
                   name={lab.safetyFramework.sourceName}
                   url={lab.safetyFramework.sourceUrl}
@@ -144,6 +182,17 @@ export function LabSidePanel({ labId, onClose }: Props) {
             <VerificationMeta item={lab} compact />
           </div>
           <div className="flex flex-wrap items-center gap-2">
+            <CopyTextButton
+              text={buildRecordCitation({
+                ...lab,
+                recordKind: "frontier lab",
+                recordId: lab.id,
+                recordName: lab.name,
+                sourceName: lab.sourceName,
+                sourceUrl: lab.sourceUrl,
+                claim: lab.summary,
+              })}
+            />
             <SourceLink name={lab.sourceName} url={lab.sourceUrl} />
             <CorrectionLink
               recordKind="frontier_lab"

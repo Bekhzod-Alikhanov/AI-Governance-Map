@@ -7,19 +7,52 @@ import { NationalBindingBadge } from "./ParticipationBadge";
 import { useDialogFocus } from "../utils/useDialogFocus";
 import { VerificationMeta } from "./VerificationMeta";
 import { CorrectionLink } from "./CorrectionLink";
+import { CopyTextButton } from "./CopyTextButton";
+import { PinCompareButton } from "./PinCompareButton";
+import { buildCountryCitation, buildRecordCitation } from "../utils/citation";
+import { isConfirmedBindingNationalRegulation } from "../utils/governanceTaxonomy";
 
 interface Props {
   iso3: string;
   onClose: () => void;
   onSelectLab: (labId: string) => void;
+  onPinCountry: () => void;
+  isCountryPinned: boolean;
+  onPinLab: (labId: string) => void;
+  isLabPinned: (labId: string) => boolean;
+  onPinInstrument: (instrumentId: string) => void;
+  isInstrumentPinned: (instrumentId: string) => boolean;
 }
 
-export function CountrySidePanel({ iso3, onClose, onSelectLab }: Props) {
+export function CountrySidePanel({
+  iso3,
+  onClose,
+  onSelectLab,
+  onPinCountry,
+  isCountryPinned,
+  onPinLab,
+  isLabPinned,
+  onPinInstrument,
+  isInstrumentPinned,
+}: Props) {
   const summary = getCountryGovernanceSummary(iso3);
   const country = summary.country;
   const dialogRef = useDialogFocus<HTMLElement>(onClose);
 
   if (!country) return null;
+  const confirmedBinding = summary.nationalRegulations.filter(isConfirmedBindingNationalRegulation);
+  const proposed = summary.nationalRegulations.filter((reg) => reg.bindingStatus === "proposed");
+  const guidance = summary.nationalRegulations.filter(
+    (reg) => !isConfirmedBindingNationalRegulation(reg) && reg.bindingStatus !== "proposed"
+  );
+  const indirectRows = summary.participations.filter(
+    ({ participation }) => participation.participationType === "covered_by_membership" || participation.participationType === "applicable_via_eu"
+  );
+  const countryCitation = buildCountryCitation({
+    iso3: country.iso3,
+    name: country.name,
+    summary: `${confirmedBinding.length} confirmed binding AI-specific national entries; ${proposed.length} proposed entries; ${guidance.length} guidance/strategy/framework entries; ${summary.participations.length} international participation rows.`,
+  });
 
   return (
     <aside
@@ -40,13 +73,14 @@ export function CountrySidePanel({ iso3, onClose, onSelectLab }: Props) {
             {country.name}
           </h2>
           <p className="mt-0.5 text-xs text-ink-500">ISO-3166 alpha-3 · {country.iso3}</p>
-          <div className="mt-2">
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <PinCompareButton pinned={isCountryPinned} onToggle={onPinCountry} />
+            <CopyTextButton text={countryCitation} />
             <CorrectionLink
               recordKind="country"
               recordId={country.iso3}
               recordName={country.name}
               claim={country.notes ?? `Country summary and governance aggregation for ${country.name}.`}
-              compact
             />
           </div>
         </div>
@@ -101,6 +135,39 @@ export function CountrySidePanel({ iso3, onClose, onSelectLab }: Props) {
           </div>
         </section>
 
+        <section className="mt-4 rounded-xl border border-canvas-line bg-white p-3">
+          <h3 className="text-xs font-semibold uppercase tracking-wide text-ink-500">
+            Research answer
+          </h3>
+          <div className="mt-3 grid gap-2 text-xs sm:grid-cols-3">
+            <StatusBox
+              label="Binding AI-specific law"
+              value={confirmedBinding.length ? `${confirmedBinding.length} applies` : "None confirmed"}
+              tone={confirmedBinding.length ? "strong" : "muted"}
+            />
+            <StatusBox
+              label="Proposed law"
+              value={proposed.length ? `${proposed.length} tracked` : "None tracked"}
+              tone={proposed.length ? "watch" : "muted"}
+            />
+            <StatusBox
+              label="Guidance / strategy"
+              value={guidance.length ? `${guidance.length} entries` : "None tracked"}
+              tone={guidance.length ? "context" : "muted"}
+            />
+          </div>
+          <p className="mt-3 text-xs leading-relaxed text-ink-600">
+            {confirmedBinding.length
+              ? "At least one confirmed binding AI-specific national or EU-applicable rule is recorded. Check source notes for scope, dates, and caveats."
+              : "No confirmed binding AI-specific national law is recorded for this country in the current snapshot. Proposed laws, strategies, and international participation may still be relevant."}
+          </p>
+          {indirectRows.length > 0 && (
+            <p className="mt-2 rounded-md bg-canvas px-2 py-1.5 text-[11px] leading-relaxed text-ink-700">
+              {indirectRows.length} international rows are indirect coverage or EU applicability, not explicit country-by-country sign-on.
+            </p>
+          )}
+        </section>
+
         {summary.hqLabs.length > 0 && (
           <section className="mt-6">
             <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">
@@ -131,6 +198,13 @@ export function CountrySidePanel({ iso3, onClose, onSelectLab }: Props) {
                     </span>
                   </span>
                   </button>
+                  <div className="border-t border-canvas-line px-3 py-2">
+                    <PinCompareButton
+                      pinned={isLabPinned(lab.id)}
+                      onToggle={() => onPinLab(lab.id)}
+                      label={isLabPinned(lab.id) ? "Pinned" : "Compare lab"}
+                    />
+                  </div>
                 </li>
               ))}
             </ul>
@@ -161,6 +235,17 @@ export function CountrySidePanel({ iso3, onClose, onSelectLab }: Props) {
                   <p className="mt-0.5 font-semibold text-ink-900">{rule.name}</p>
                   <div className="mt-1.5 flex flex-wrap items-center gap-2">
                     <NationalBindingBadge status={rule.bindingStatus} />
+                    <CopyTextButton
+                      text={buildRecordCitation({
+                        ...rule,
+                        recordKind: "subnational AI rule",
+                        recordId: rule.id,
+                        recordName: rule.name,
+                        sourceName: rule.sourceName,
+                        sourceUrl: rule.sourceUrl,
+                        claim: rule.summary,
+                      })}
+                    />
                     <SourceLink name={rule.sourceName} url={rule.sourceUrl} />
                     <CorrectionLink
                       recordKind="subnational_ai_rule"
@@ -191,7 +276,11 @@ export function CountrySidePanel({ iso3, onClose, onSelectLab }: Props) {
           <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">
             International instruments and participation
           </h3>
-          <InstrumentList items={summary.participations} />
+          <InstrumentList
+            items={summary.participations}
+            onPinInstrument={onPinInstrument}
+            isInstrumentPinned={isInstrumentPinned}
+          />
         </section>
 
         {country.notes && (
@@ -206,5 +295,31 @@ export function CountrySidePanel({ iso3, onClose, onSelectLab }: Props) {
         )}
       </div>
     </aside>
+  );
+}
+
+function StatusBox({
+  label,
+  value,
+  tone,
+}: {
+  label: string;
+  value: string;
+  tone: "strong" | "watch" | "context" | "muted";
+}) {
+  const toneClass =
+    tone === "strong"
+      ? "border-accent/30 bg-accent/10 text-accent"
+      : tone === "watch"
+        ? "border-amber-200 bg-amber-50 text-amber-900"
+        : tone === "context"
+          ? "border-blue-200 bg-blue-50 text-blue-900"
+          : "border-canvas-line bg-canvas text-ink-600";
+
+  return (
+    <div className={`rounded-lg border px-2.5 py-2 ${toneClass}`}>
+      <p className="text-[10px] font-semibold uppercase tracking-wide opacity-75">{label}</p>
+      <p className="mt-1 text-sm font-semibold">{value}</p>
+    </div>
   );
 }
