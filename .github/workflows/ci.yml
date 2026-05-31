@@ -1,6 +1,9 @@
 name: CI
 
 on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * 1"
   pull_request:
   push:
     branches:
@@ -68,6 +71,18 @@ jobs:
           path: |
             data-review-report.md
             data-review-report.json
+
+      - name: Build official-source delta report
+        run: npm run audit:deltas -- --output=source-delta-report.md --json-output=source-delta-report.json
+
+      - name: Upload official-source delta report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-delta-report
+          path: |
+            source-delta-report.md
+            source-delta-report.json
 
       - name: Build
         run: npm run build

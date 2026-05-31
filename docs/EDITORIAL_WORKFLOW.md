@@ -32,6 +32,7 @@ npm run validate:data
 npm run validate:export
 npm run audit:sources
 npm run audit:data-review
+npm run audit:deltas
 ```
 
 6. If you changed UI behavior or exports, also run:
@@ -68,12 +69,15 @@ The automated data-review report flags:
 - Strong legal-effect claims that are not marked verified.
 - Strong legal-effect claims that rely on non-official sources.
 - Automated link-check failures when `--check-links` is used.
+- High-impact official sources whose observed status no longer matches the current snapshot claim when `npm run audit:deltas` is used.
 
 Automated link checks are editorial aids. Some official sites block scripts even when a browser works. Do not downgrade a legal/source claim solely because an automated link check timed out.
 
 If a source is manually verified but repeatedly fails scripted link checks, add a narrowly scoped entry to `src/data/sourceLinkManualChecks.json` with the record id, URL, manual status, check date, and reason. These exceptions keep CI and the source-audit report honest: they are visible in the audit output, but they do not create public warning badges or weaken the underlying source metadata.
 
 If most source URLs fail at once with network or timeout errors, treat the link audit as inconclusive for that runtime and rerun it from CI or another unrestricted network.
+
+The source-delta monitor is also audit-only. It covers a short list of high-impact official sources such as the Council of Europe Treaty Office, EUR-Lex, OECD, UN, UNESCO, and NIST. A `changed` result means a human should review the record; a `needs_manual_review` result often means the official site blocked automation or served a JavaScript shell. Neither status changes the public dataset by itself.
 
 ## Pull Request Checklist
 
@@ -83,7 +87,7 @@ If most source URLs fail at once with network or timeout errors, treat the link 
 - The record distinguishes adoption, signature, ratification, in-force status, membership, and applicability.
 - Any indirect membership or standardization caveat is visible in `notes` or `verificationNotes`.
 - The change does not make uncertain records drive strong binding-law map coloring.
-- `npm run validate:data`, `npm run validate:export`, `npm run audit:sources`, and `npm run audit:data-review` have been run.
+- `npm run validate:data`, `npm run validate:export`, `npm run audit:sources`, `npm run audit:data-review`, and `npm run audit:deltas` have been run.
 
 ## Future CMS Decision Point
 

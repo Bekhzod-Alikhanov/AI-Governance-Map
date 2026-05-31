@@ -1,0 +1,188 @@
+{
+  "snapshotDate": "2026-05-19",
+  "monitors": [
+    {
+      "id": "coe-ai-convention-treaty-office",
+      "name": "Council of Europe AI Convention Treaty Office status",
+      "sourceLabel": "Council of Europe Treaty Office, CETS No. 225",
+      "sourceUrl": "https://www.coe.int/en/web/Conventions/full-list/?module=signatures-by-treaty&treatynum=225",
+      "recordIds": [
+        "coe-ai-convention",
+        "coe-ai-convention::generated::signed",
+        "coe-ai-convention::generated::ratified"
+      ],
+      "currentAppClaim": "CETS No. 225 is represented as signed by the listed states and organizations, ratified by the EU on 15 May 2026, and not yet in force because five ratifications including at least three Council of Europe member states are required.",
+      "requiredPatterns": [
+        {
+          "label": "Treaty 225 identity",
+          "pattern": "Treaty\\s*225|CETS\\s*No\\.\\s*225|Framework Convention on Artificial Intelligence"
+        }
+      ],
+      "expectedValues": [
+        {
+          "label": "ratifications/accessions",
+          "pattern": "Total number of ratifications/accessions\\s*\\|\\s*(\\d+)",
+          "expected": "1",
+          "recommendedAction": "Review ratified participation rows and the convention in-force caveat."
+        },
+        {
+          "label": "signatures not followed by ratifications",
+          "pattern": "Total number of signatures not followed by ratifications\\s*\\|\\s*(\\d+)",
+          "expected": "19",
+          "recommendedAction": "Review signed participation rows for CETS No. 225."
+        }
+      ],
+      "manualReviewPatterns": [
+        {
+          "label": "JavaScript-only Treaty Office shell",
+          "pattern": "You need to enable JavaScript to run this app",
+          "recommendedAction": "Open the Treaty Office page manually or with a browser-rendered checker and compare signatures, ratifications, and entry-into-force status."
+        }
+      ]
+    },
+    {
+      "id": "eu-ai-act-eur-lex",
+      "name": "EU AI Act EUR-Lex status",
+      "sourceLabel": "EUR-Lex Regulation (EU) 2024/1689",
+      "sourceUrl": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng",
+      "recordIds": ["eu-ai-act", "eu-ai-act-regional"],
+      "currentAppClaim": "Regulation (EU) 2024/1689 is the EU AI Act, entered into force on 1 August 2024, with phased application across EU member states.",
+      "requiredPatterns": [
+        {
+          "label": "Regulation number",
+          "pattern": "Regulation\\s*\\(EU\\)\\s*2024/1689"
+        },
+        {
+          "label": "Artificial intelligence act text",
+          "pattern": "artificial intelligence"
+        }
+      ],
+      "changeSignals": [
+        {
+          "label": "possible repeal/end-of-validity language",
+          "pattern": "repealed|no longer in force|end of validity",
+          "recommendedAction": "Review EU AI Act status and update binding-law summaries only if EUR-Lex confirms a legal-status change."
+        }
+      ]
+    },
+    {
+      "id": "oecd-ai-principles-legal-instrument",
+      "name": "OECD AI Principles legal-instrument status",
+      "sourceLabel": "OECD Legal Instruments API, OECD/LEGAL/0449",
+      "sourceUrl": "https://legalinstruments.oecd.org/api/instruments/OECD-LEGAL-0449",
+      "recordIds": ["oecd-ai-principles"],
+      "currentAppClaim": "OECD/LEGAL/0449 is the OECD Recommendation on AI / OECD AI Principles, originally adopted in 2019 and revised for generative AI in 2024.",
+      "requiredPatterns": [
+        {
+          "label": "OECD legal identifier",
+          "pattern": "OECD/LEGAL/0449|Recommendation of the Council on Artificial Intelligence|Recommendation on Artificial Intelligence"
+        }
+      ],
+      "expectedValues": [
+        {
+          "label": "last amendment date",
+          "pattern": "\"lastAmendmentDate\"\\s*:\\s*\"([0-9-]+)\"",
+          "expected": "2024-05-03",
+          "recommendedAction": "Review the OECD AI Principles summary and timeline if the legal instrument has been amended again."
+        }
+      ],
+      "manualReviewPatterns": [
+        {
+          "label": "JavaScript-only OECD shell",
+          "pattern": "You need to enable JavaScript to run this app",
+          "recommendedAction": "Open the OECD Legal Instruments page manually and compare the title, legal identifier, adherent status, and revision history."
+        }
+      ]
+    },
+    {
+      "id": "gpai-declarations-oecd-ai",
+      "name": "GPAI declarations and ministerial statements",
+      "sourceLabel": "OECD.AI GPAI declarations",
+      "sourceUrl": "https://oecd.ai/en/gpai-declarations",
+      "recordIds": ["gpai-declarations"],
+      "currentAppClaim": "GPAI declarations and ministerial statements are voluntary policy-coordination forum outputs, not binding instruments.",
+      "requiredPatterns": [
+        {
+          "label": "GPAI identity",
+          "pattern": "Global Partnership on Artificial Intelligence|GPAI"
+        },
+        {
+          "label": "declaration language",
+          "pattern": "declaration|ministerial"
+        }
+      ]
+    },
+    {
+      "id": "unesco-ai-ethics-recommendation",
+      "name": "UNESCO Recommendation on AI ethics",
+      "sourceLabel": "UNESCO AI ethics recommendation page",
+      "sourceUrl": "https://www.unesco.org/en/articles/unesco-adopts-first-global-standard-ethics-artificial-intelligence",
+      "recordIds": ["unesco-ethics-rec-2021"],
+      "currentAppClaim": "UNESCO adopted the Recommendation on the Ethics of Artificial Intelligence on 23 November 2021; it is a non-binding standard-setting instrument.",
+      "requiredPatterns": [
+        {
+          "label": "UNESCO identity",
+          "pattern": "UNESCO"
+        },
+        {
+          "label": "AI ethics recommendation",
+          "pattern": "ethics of artificial intelligence|Recommendation on the Ethics of Artificial Intelligence"
+        }
+      ]
+    },
+    {
+      "id": "unga-78-265-digital-library",
+      "name": "UNGA Resolution 78/265 official document record",
+      "sourceLabel": "UN Docs A/RES/78/265",
+      "sourceUrl": "https://docs.un.org/en/A/RES/78/265",
+      "recordIds": ["unga-78-265"],
+      "currentAppClaim": "A/RES/78/265 is the UN General Assembly resolution on safe, secure and trustworthy AI systems for sustainable development, adopted on 21 March 2024.",
+      "requiredPatterns": [
+        {
+          "label": "UN resolution document route",
+          "pattern": "A/RES/78/265|documents\\.un\\.org/api/symbol/access\\?s=A/RES/78/265"
+        },
+        {
+          "label": "UN document viewer",
+          "pattern": "United Nations|Document Viewer"
+        }
+      ]
+    },
+    {
+      "id": "nist-ai-rmf",
+      "name": "NIST AI Risk Management Framework",
+      "sourceLabel": "NIST AI RMF page",
+      "sourceUrl": "https://www.nist.gov/itl/ai-risk-management-framework",
+      "recordIds": ["us-nist-ai-rmf"],
+      "currentAppClaim": "NIST AI RMF 1.0 is voluntary U.S. technical guidance with international influence, not binding law.",
+      "requiredPatterns": [
+        {
+          "label": "NIST identity",
+          "pattern": "NIST|National Institute of Standards and Technology"
+        },
+        {
+          "label": "AI RMF identity",
+          "pattern": "AI Risk Management Framework|AI RMF"
+        }
+      ]
+    },
+    {
+      "id": "nist-genai-profile",
+      "name": "NIST AI RMF Generative AI Profile",
+      "sourceLabel": "NIST GenAI Profile publication page",
+      "sourceUrl": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+      "recordIds": ["nist-genai-profile"],
+      "currentAppClaim": "The NIST AI RMF Generative AI Profile is voluntary U.S. technical guidance, not an international agreement or binding national rule.",
+      "requiredPatterns": [
+        {
+          "label": "NIST identity",
+          "pattern": "NIST|National Institute of Standards and Technology"
+        },
+        {
+          "label": "GenAI Profile identity",
+          "pattern": "Generative Artificial Intelligence Profile|Generative AI Profile|AI RMF"
+        }
+      ]
+    }
+  ]
+}
