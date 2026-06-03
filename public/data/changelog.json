@@ -1,0 +1,47 @@
+[
+  {
+    "id": "2026-05",
+    "snapshotDate": "2026-05-19",
+    "status": "published",
+    "title": "May 2026 research snapshot",
+    "summary": "Baseline public snapshot covering countries, frontier labs, international instruments, national and subnational AI rules, typed lab exposure, source metadata, and evidence dossiers.",
+    "recordsAdded": [
+      "Research presets, Table view, Methodology, correction links, lab exposure workbench, evidence dossiers, and source delta monitor."
+    ],
+    "recordsChanged": [
+      "High- and medium-priority legal/source records reviewed and softened where official sources did not support strong claims."
+    ],
+    "recordsDowngradedOrRemoved": [
+      "Low-confidence binding claims were excluded from strong binding-law map effects."
+    ],
+    "sourceCorrections": [
+      "Official-source host classification unified and source-audit metadata warnings cleared."
+    ],
+    "unresolvedManualReview": [
+      "Council of Europe Treaty Office blocks scripted delta-monitor fetches and requires browser/manual review for treaty participation changes."
+    ],
+    "artifacts": [
+      "docs/SOURCE_AUDIT_CURRENT.md",
+      "docs/SOURCE_DELTA_REPORT.md",
+      "docs/SOURCE_VERIFICATION_2026-05-29.md",
+      "docs/RELEASE_2026-05.md"
+    ]
+  },
+  {
+    "id": "2026-06",
+    "snapshotDate": "2026-06-30",
+    "status": "planned",
+    "title": "June 2026 planned refresh",
+    "summary": "Planned monthly refresh target for source deltas, treaty status, EU implementation milestones, national enactments, and frontier-lab model/safety-framework updates.",
+    "recordsAdded": [],
+    "recordsChanged": [],
+    "recordsDowngradedOrRemoved": [],
+    "sourceCorrections": [],
+    "unresolvedManualReview": [
+      "Populate after the June refresh is completed."
+    ],
+    "artifacts": [
+      "docs/SOURCE_DELTA_REPORT.md"
+    ]
+  }
+]

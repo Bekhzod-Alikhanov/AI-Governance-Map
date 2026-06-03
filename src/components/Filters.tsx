@@ -2,11 +2,17 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import clsx from "clsx";
 import type {
   FilterState,
+  GovernanceDomainId,
+  ImplementationStatus,
   InstrumentBindingStatus,
+  ObligationCategory,
   OrganizationType,
   ParticipationType,
   Region,
 } from "../types";
+import { GOVERNANCE_DOMAINS } from "../data/governanceDomains";
+import { OBLIGATION_CATEGORY_LABELS } from "../data/governanceObligations";
+import { IMPLEMENTATION_STATUS_LABELS } from "../data/implementationMilestones";
 import { INTERNATIONAL_INSTRUMENTS, INSTRUMENT_BY_ID } from "../data/internationalInstruments";
 import { FRONTIER_LABS, LAB_BY_ID } from "../data/frontierLabs";
 import {
@@ -72,6 +78,10 @@ const REGION_OPTIONS: Region[] = [
   "Oceania",
   "Eurasia",
 ];
+
+const OBLIGATION_OPTIONS = Object.keys(OBLIGATION_CATEGORY_LABELS) as ObligationCategory[];
+const DOMAIN_OPTIONS = GOVERNANCE_DOMAINS.map((domain) => domain.id);
+const IMPLEMENTATION_OPTIONS = Object.keys(IMPLEMENTATION_STATUS_LABELS) as ImplementationStatus[];
 
 function useOutsideClose(ref: React.RefObject<HTMLDivElement | null>, onClose: () => void) {
   useEffect(() => {
@@ -315,6 +325,39 @@ export function Filters({ filters, onChange, onReset }: Props) {
         }),
     });
   }
+  for (const category of filters.selectedObligationCategories) {
+    activeChips.push({
+      id: `obligation-${category}`,
+      label: `Obligation: ${OBLIGATION_CATEGORY_LABELS[category]}`,
+      onRemove: () =>
+        onChange({
+          ...filters,
+          selectedObligationCategories: filters.selectedObligationCategories.filter((x) => x !== category),
+        }),
+    });
+  }
+  for (const domainId of filters.selectedDomains) {
+    activeChips.push({
+      id: `domain-${domainId}`,
+      label: `Domain: ${GOVERNANCE_DOMAINS.find((domain) => domain.id === domainId)?.label ?? domainId}`,
+      onRemove: () =>
+        onChange({
+          ...filters,
+          selectedDomains: filters.selectedDomains.filter((x) => x !== domainId),
+        }),
+    });
+  }
+  for (const status of filters.selectedImplementationStatuses) {
+    activeChips.push({
+      id: `implementation-${status}`,
+      label: `Implementation: ${IMPLEMENTATION_STATUS_LABELS[status]}`,
+      onRemove: () =>
+        onChange({
+          ...filters,
+          selectedImplementationStatuses: filters.selectedImplementationStatuses.filter((x) => x !== status),
+        }),
+    });
+  }
   if (filters.hasBindingNationalLaw !== "any") {
     activeChips.push({
       id: "binding-national-law",
@@ -517,6 +560,63 @@ export function Filters({ filters, onChange, onReset }: Props) {
             checked={filters.selectedRegions.includes(r)}
             onChange={() => toggleArrayValue("selectedRegions", r)}
             label={r}
+          />
+        ))}
+      </FilterDropdown>
+
+      <FilterDropdown
+        label="Obligation"
+        count={filters.selectedObligationCategories.length}
+        width={300}
+      >
+        {OBLIGATION_OPTIONS.map((category) => (
+          <CheckboxRow
+            key={category}
+            checked={filters.selectedObligationCategories.includes(category)}
+            onChange={() => toggleArrayValue("selectedObligationCategories", category)}
+            label={OBLIGATION_CATEGORY_LABELS[category]}
+          />
+        ))}
+      </FilterDropdown>
+
+      <FilterDropdown
+        label="Domain"
+        count={filters.selectedDomains.length}
+        width={320}
+      >
+        {DOMAIN_OPTIONS.map((domainId: GovernanceDomainId) => {
+          const domain = GOVERNANCE_DOMAINS.find((item) => item.id === domainId);
+          return (
+            <CheckboxRow
+              key={domainId}
+              checked={filters.selectedDomains.includes(domainId)}
+              onChange={() => toggleArrayValue("selectedDomains", domainId)}
+              label={
+                <span>
+                  <span className="font-medium text-ink-800">{domain?.label ?? domainId}</span>
+                  {domain?.description && (
+                    <span className="mt-0.5 block text-[11px] leading-snug text-ink-500">
+                      {domain.description}
+                    </span>
+                  )}
+                </span>
+              }
+            />
+          );
+        })}
+      </FilterDropdown>
+
+      <FilterDropdown
+        label="Implementation"
+        count={filters.selectedImplementationStatuses.length}
+        width={280}
+      >
+        {IMPLEMENTATION_OPTIONS.map((status) => (
+          <CheckboxRow
+            key={status}
+            checked={filters.selectedImplementationStatuses.includes(status)}
+            onChange={() => toggleArrayValue("selectedImplementationStatuses", status)}
+            label={IMPLEMENTATION_STATUS_LABELS[status]}
           />
         ))}
       </FilterDropdown>

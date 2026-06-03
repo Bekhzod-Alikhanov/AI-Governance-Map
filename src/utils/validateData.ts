@@ -1,12 +1,16 @@
 import { COUNTRIES, COUNTRY_BY_ISO3 } from "../data/countries";
+import { DATASET_RELEASES } from "../data/datasetReleases";
 import { INTERNATIONAL_INSTRUMENTS, INSTRUMENT_BY_ID } from "../data/internationalInstruments";
 import { NATIONAL_AI_REGULATIONS, NATIONAL_REG_BY_ID } from "../data/nationalAIRegulations";
 import { INTERNATIONAL_PARTICIPATION } from "../data/participation";
 import { EU_MEMBER_ISO3 } from "../data/euMembers";
 import { FRONTIER_LABS, LAB_BY_ID } from "../data/frontierLabs";
+import { GOVERNANCE_DOMAINS, GOVERNANCE_DOMAIN_BY_ID } from "../data/governanceDomains";
+import { GOVERNANCE_OBLIGATIONS } from "../data/governanceObligations";
+import { IMPLEMENTATION_MILESTONES } from "../data/implementationMilestones";
 import { INFRASTRUCTURE_NODES, INFRA_BY_ID } from "../data/infrastructure";
 import { DEPENDENCY_EDGES } from "../data/dependencies";
-import { SUBNATIONAL_AI_RULES } from "../data/subnationalRules";
+import { SUBNATIONAL_AI_RULES, SUBNATIONAL_BY_ID } from "../data/subnationalRules";
 import { LAB_REGULATORY_EXPOSURES } from "../data/labRegulatoryExposures";
 import { hasCyrillic } from "./translateSeedDataToEnglish";
 import {
@@ -223,6 +227,72 @@ export function validateData(): ValidationReport {
     }
   }
 
+  // Workbench domains
+  const domainIds = new Set<string>();
+  for (const domain of GOVERNANCE_DOMAINS) {
+    if (domainIds.has(domain.id)) errors.push(`Duplicate governance domain id: ${domain.id}`);
+    domainIds.add(domain.id);
+    if (!domain.label) errors.push(`Governance domain ${domain.id} missing label`);
+  }
+
+  // Structured obligations
+  const obligationIds = new Set<string>();
+  for (const obligation of GOVERNANCE_OBLIGATIONS) {
+    if (!obligation.id) errors.push("Governance obligation missing id");
+    if (obligationIds.has(obligation.id)) errors.push(`Duplicate governance obligation id: ${obligation.id}`);
+    obligationIds.add(obligation.id);
+    validateSource("Governance obligation", obligation.id, obligation);
+    validateDate(`Governance obligation ${obligation.id} lastVerified`, obligation.lastVerified);
+    if (obligation.domains.length === 0) warnings.push(`Governance obligation ${obligation.id} has no domain`);
+    for (const domainId of obligation.domains) {
+      if (!GOVERNANCE_DOMAIN_BY_ID[domainId]) {
+        errors.push(`Governance obligation ${obligation.id} references unknown domain ${domainId}`);
+      }
+    }
+    if (!parentReferenceExists(obligation.parentType, obligation.parentId, labExposureIds)) {
+      errors.push(
+        `Governance obligation ${obligation.id} references unknown ${obligation.parentType} parent ${obligation.parentId}`
+      );
+    }
+    if (
+      obligation.legalEffect === "binding" &&
+      (obligation.sourceKind !== "official" || !["high", "medium"].includes(obligation.confidence ?? ""))
+    ) {
+      errors.push(`Binding governance obligation ${obligation.id} must use official medium/high-confidence source metadata`);
+    }
+    if (obligation.legalEffect !== "binding" && !obligation.caveat && obligation.directness !== "direct") {
+      warnings.push(`Indirect non-binding obligation ${obligation.id} lacks a caveat`);
+    }
+  }
+
+  // Implementation milestones
+  const milestoneIds = new Set<string>();
+  for (const milestone of IMPLEMENTATION_MILESTONES) {
+    if (!milestone.id) errors.push("Implementation milestone missing id");
+    if (milestoneIds.has(milestone.id)) errors.push(`Duplicate implementation milestone id: ${milestone.id}`);
+    milestoneIds.add(milestone.id);
+    validateSource("Implementation milestone", milestone.id, milestone);
+    validateDate(`Implementation milestone ${milestone.id} date`, milestone.date);
+    validateDate(`Implementation milestone ${milestone.id} nextDeadline`, milestone.nextDeadline);
+    validateDate(`Implementation milestone ${milestone.id} lastVerified`, milestone.lastVerified);
+    if (!parentReferenceExists(milestone.parentType, milestone.parentId, labExposureIds)) {
+      errors.push(
+        `Implementation milestone ${milestone.id} references unknown ${milestone.parentType} parent ${milestone.parentId}`
+      );
+    }
+  }
+
+  // Dataset releases
+  const releaseIds = new Set<string>();
+  for (const release of DATASET_RELEASES) {
+    if (releaseIds.has(release.id)) errors.push(`Duplicate dataset release id: ${release.id}`);
+    releaseIds.add(release.id);
+    validateDate(`Dataset release ${release.id} snapshotDate`, release.snapshotDate);
+    if (release.status === "published" && release.snapshotDate > DATA_SNAPSHOT_DATE) {
+      errors.push(`Published dataset release ${release.id} is after snapshot date ${DATA_SNAPSHOT_DATE}`);
+    }
+  }
+
   // Infrastructure
   const infraIds = new Set<string>();
   for (const node of INFRASTRUCTURE_NODES) {
@@ -284,12 +354,20 @@ export function validateData(): ValidationReport {
   return { ok: errors.length === 0, errors, warnings };
 }
 
+function parentReferenceExists(parentType: string, parentId: string, labExposureIds: Set<string>): boolean {
+  if (parentType === "national_rule") return Boolean(NATIONAL_REG_BY_ID[parentId]);
+  if (parentType === "international_instrument") return Boolean(INSTRUMENT_BY_ID[parentId]);
+  if (parentType === "subnational_rule") return Boolean(SUBNATIONAL_BY_ID[parentId]);
+  if (parentType === "lab_exposure") return labExposureIds.has(parentId);
+  return false;
+}
+
 export function runDevValidation(): void {
   if (typeof window !== "undefined" && import.meta.env.DEV) {
     const report = validateData();
     if (report.errors.length === 0 && report.warnings.length === 0) {
       console.info(
-        `%c[Data] OK · ${COUNTRIES.length} countries · ${INTERNATIONAL_INSTRUMENTS.length} instruments · ${NATIONAL_AI_REGULATIONS.length} national regs · ${SUBNATIONAL_AI_RULES.length} subnational rules · ${FRONTIER_LABS.length} frontier labs · ${LAB_REGULATORY_EXPOSURES.length} lab exposure rows · ${INFRASTRUCTURE_NODES.length} infrastructure nodes · ${DEPENDENCY_EDGES.length} edges · ${INTERNATIONAL_PARTICIPATION.length} participation rows`,
+        `%c[Data] OK · ${COUNTRIES.length} countries · ${INTERNATIONAL_INSTRUMENTS.length} instruments · ${NATIONAL_AI_REGULATIONS.length} national regs · ${SUBNATIONAL_AI_RULES.length} subnational rules · ${FRONTIER_LABS.length} frontier labs · ${LAB_REGULATORY_EXPOSURES.length} lab exposure rows · ${GOVERNANCE_OBLIGATIONS.length} obligations · ${IMPLEMENTATION_MILESTONES.length} implementation milestones · ${INFRASTRUCTURE_NODES.length} infrastructure nodes · ${DEPENDENCY_EDGES.length} edges · ${INTERNATIONAL_PARTICIPATION.length} participation rows`,
         "color:#1E40AF;font-weight:600"
       );
     } else {

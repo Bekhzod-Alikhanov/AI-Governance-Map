@@ -9,6 +9,7 @@ import { CopyTextButton } from "./CopyTextButton";
 import { PinCompareButton } from "./PinCompareButton";
 import { EvidenceDossierButton } from "./EvidenceDossierButton";
 import { buildRecordCitation } from "../utils/citation";
+import { getLabObligations, summarizeObligationCategories } from "../utils/researchWorkbench";
 import {
   getLabExposureTarget,
   LAB_EXPOSURE_DIRECTNESS_LABELS,
@@ -32,6 +33,7 @@ export function LabSidePanel({ labId, onClose, onPinLab, isLabPinned }: Props) {
 
   const visibleExposure = filterExposure(regulatoryExposure, exposureFilter);
   const groupedExposure = groupExposureByEffect(visibleExposure);
+  const obligations = getLabObligations(labId);
 
   if (!lab) return null;
 
@@ -205,6 +207,19 @@ export function LabSidePanel({ labId, onClose, onPinLab, isLabPinned }: Props) {
               )}
             </>
           )}
+        </section>
+
+        <section className="mt-5 rounded-xl border border-canvas-line bg-white p-3">
+          <h3 className="text-xs font-semibold uppercase tracking-wide text-ink-500">
+            Structured obligations
+          </h3>
+          <div className="mt-3 grid grid-cols-2 gap-2 text-center text-xs">
+            <ExposureMetric label="Rows" value={obligations.length} strong={obligations.some((row) => row.legalEffect === "binding")} />
+            <ExposureMetric label="Binding" value={obligations.filter((row) => row.legalEffect === "binding").length} />
+          </div>
+          <p className="mt-3 text-xs leading-relaxed text-ink-600">
+            {summarizeObligationCategories(obligations)}
+          </p>
         </section>
 
         <section className="mt-5">

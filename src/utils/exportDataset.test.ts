@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { COUNTRIES } from "../data/countries";
 import { FRONTIER_LABS } from "../data/frontierLabs";
+import { GOVERNANCE_OBLIGATIONS } from "../data/governanceObligations";
+import { IMPLEMENTATION_MILESTONES } from "../data/implementationMilestones";
 import { INTERNATIONAL_INSTRUMENTS } from "../data/internationalInstruments";
 import { LAB_REGULATORY_EXPOSURES } from "../data/labRegulatoryExposures";
 import { NATIONAL_AI_REGULATIONS } from "../data/nationalAIRegulations";
@@ -31,6 +33,8 @@ describe("dataset export helpers", () => {
     expect(snapshot.counts.labRegulatoryExposures).toBe(LAB_REGULATORY_EXPOSURES.length);
     expect(snapshot.counts.internationalInstruments).toBe(INTERNATIONAL_INSTRUMENTS.length);
     expect(snapshot.counts.nationalAIRegulations).toBe(NATIONAL_AI_REGULATIONS.length);
+    expect(snapshot.counts.governanceObligations).toBe(GOVERNANCE_OBLIGATIONS.length);
+    expect(snapshot.counts.implementationMilestones).toBe(IMPLEMENTATION_MILESTONES.length);
     expect(snapshot.data.countries).toBe(COUNTRIES);
     expect(snapshot.data.frontierLabs).toBe(FRONTIER_LABS);
     expect(snapshot.data.labRegulatoryExposures).toBe(LAB_REGULATORY_EXPOSURES);
@@ -80,5 +84,15 @@ describe("dataset export helpers", () => {
     expect(filtered.data.frontierLabs.map((lab) => lab.id)).toContain("openai");
     expect(filtered.data.labRegulatoryExposures.map((exposure) => exposure.labId)).toContain("openai");
     expect(filtered.data.countries.map((country) => country.iso3)).toContain("USA");
+  });
+
+  it("filters structured obligations by obligation category", () => {
+    const filtered = buildFilteredDatasetSnapshot({
+      ...DEFAULT_FILTER_STATE,
+      selectedObligationCategories: ["incident_reporting"],
+    });
+
+    expect(filtered.data.governanceObligations.length).toBeGreaterThan(0);
+    expect(filtered.data.governanceObligations.every((row) => row.category === "incident_reporting")).toBe(true);
   });
 });

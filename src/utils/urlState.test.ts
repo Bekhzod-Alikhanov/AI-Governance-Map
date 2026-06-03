@@ -12,6 +12,9 @@ describe("shareable URL state", () => {
         selectedParticipationTypes: ["signed", "ratified"],
         selectedBindingStatuses: ["binding_on_parties"],
         selectedOrganizations: ["Council of Europe"],
+        selectedObligationCategories: ["incident_reporting"],
+        selectedDomains: ["frontier-gpai"],
+        selectedImplementationStatuses: ["phased_application"],
         searchQuery: "convention",
       },
       selectedIso3: "GBR",
@@ -29,6 +32,9 @@ describe("shareable URL state", () => {
     expect(parsed.filters.selectedParticipationTypes).toEqual(["signed", "ratified"]);
     expect(parsed.filters.selectedBindingStatuses).toEqual(["binding_on_parties"]);
     expect(parsed.filters.selectedOrganizations).toEqual(["Council of Europe"]);
+    expect(parsed.filters.selectedObligationCategories).toEqual(["incident_reporting"]);
+    expect(parsed.filters.selectedDomains).toEqual(["frontier-gpai"]);
+    expect(parsed.filters.selectedImplementationStatuses).toEqual(["phased_application"]);
     expect(parsed.filters.searchQuery).toBe("convention");
     expect(parsed.selectedIso3).toBe("GBR");
     expect(parsed.networkSelection).toBe("coe-ai-convention");

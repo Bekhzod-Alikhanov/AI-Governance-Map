@@ -2,5 +2,11 @@
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "installCommand": "npm ci"
+  "installCommand": "npm ci",
+  "rewrites": [
+    { "source": "/country/:path*", "destination": "/index.html" },
+    { "source": "/lab/:path*", "destination": "/index.html" },
+    { "source": "/instrument/:path*", "destination": "/index.html" },
+    { "source": "/rule/:path*", "destination": "/index.html" }
+  ]
 }

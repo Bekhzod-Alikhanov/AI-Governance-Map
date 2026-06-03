@@ -83,6 +83,13 @@
       "status": "manual_ok",
       "lastChecked": "2026-05-29",
       "reason": "Official Ghana ministry page is browser-accessible but rejects or fails automated fetch checks."
+    },
+    {
+      "recordId": "ng-national-ai-strategy",
+      "sourceUrl": "https://ncair.nitda.gov.ng/wp-content/uploads/2024/08/National-AI-Strategy_01082024-copy.pdf",
+      "status": "manual_ok",
+      "lastChecked": "2026-06-03",
+      "reason": "Official NCAIR/NITDA strategy PDF is indexed and retained after manual review, but rejects or fails automated fetch checks."
     }
   ]
 }

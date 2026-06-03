@@ -1,7 +1,11 @@
 import { COUNTRIES } from "../data/countries";
+import { DATASET_RELEASES } from "../data/datasetReleases";
 import { DEPENDENCY_EDGES } from "../data/dependencies";
 import { EU_MEMBER_ISO3 } from "../data/euMembers";
 import { FRONTIER_LABS } from "../data/frontierLabs";
+import { GOVERNANCE_DOMAINS } from "../data/governanceDomains";
+import { GOVERNANCE_OBLIGATIONS } from "../data/governanceObligations";
+import { IMPLEMENTATION_MILESTONES } from "../data/implementationMilestones";
 import { INFRASTRUCTURE_NODES } from "../data/infrastructure";
 import { INTERNATIONAL_INSTRUMENTS } from "../data/internationalInstruments";
 import { LAB_REGULATORY_EXPOSURES } from "../data/labRegulatoryExposures";
@@ -14,6 +18,7 @@ import { DATA_SNAPSHOT_DATE } from "./governanceTaxonomy";
 import { DATASET_SCHEMA_ID, DATASET_SCHEMA_VERSION } from "./datasetSchema";
 import { DEFAULT_FILTER_STATE, type FilterState, type LabRegulatoryExposure } from "../types";
 import { countActiveFilters, filterCountries } from "./filterCountries";
+import { implementationMatchesFilters, obligationMatchesFilters } from "./researchWorkbench";
 
 export { DATASET_SCHEMA_VERSION } from "./datasetSchema";
 
@@ -38,10 +43,14 @@ export function buildDatasetSnapshot() {
       internationalParticipationRows: INTERNATIONAL_PARTICIPATION.length,
       nationalAIRegulations: NATIONAL_AI_REGULATIONS.length,
       subnationalAIRules: SUBNATIONAL_AI_RULES.length,
+      governanceDomains: GOVERNANCE_DOMAINS.length,
+      governanceObligations: GOVERNANCE_OBLIGATIONS.length,
+      implementationMilestones: IMPLEMENTATION_MILESTONES.length,
       infrastructureNodes: INFRASTRUCTURE_NODES.length,
       dependencyEdges: DEPENDENCY_EDGES.length,
       outOfScopeItems: OUT_OF_SCOPE_ITEMS.length,
       sourceNotes: SOURCE_NOTES.length,
+      datasetReleases: DATASET_RELEASES.length,
     },
     data: {
       countries: COUNTRIES,
@@ -52,10 +61,14 @@ export function buildDatasetSnapshot() {
       internationalParticipation: INTERNATIONAL_PARTICIPATION,
       nationalAIRegulations: NATIONAL_AI_REGULATIONS,
       subnationalAIRules: SUBNATIONAL_AI_RULES,
+      governanceDomains: GOVERNANCE_DOMAINS,
+      governanceObligations: GOVERNANCE_OBLIGATIONS,
+      implementationMilestones: IMPLEMENTATION_MILESTONES,
       infrastructureNodes: INFRASTRUCTURE_NODES,
       dependencyEdges: DEPENDENCY_EDGES,
       outOfScopeItems: OUT_OF_SCOPE_ITEMS,
       sourceNotes: SOURCE_NOTES,
+      datasetReleases: DATASET_RELEASES,
     },
   };
 }
@@ -63,7 +76,7 @@ export function buildDatasetSnapshot() {
 export function buildCitationText(): string {
   return [
     `Global AI Governance Map dataset, snapshot ${DATA_SNAPSHOT_DATE}.`,
-    "Coverage: frontier-AI governance actors, instruments, national AI-specific rules, participation rows, labs, infrastructure, and dependency links.",
+    "Coverage: frontier-AI governance actors, instruments, national AI-specific rules, participation rows, labs, structured obligations, implementation milestones, infrastructure, dependency links, and source metadata.",
     "Use with source verification. This dataset is a research aid and is not legal advice.",
     "Repository: https://github.com/Bekhzod-Alikhanov/global-ai-governance-map",
     "Live app: https://global-ai-governance-map.vercel.app/",
@@ -138,6 +151,12 @@ export function buildFilteredDatasetSnapshot(filters: FilterState) {
   const filteredLabRegulatoryExposures = LAB_REGULATORY_EXPOSURES.filter((exposure) =>
     exposureMatchesExportScope(exposure, filters, filteredLabIds)
   );
+  const filteredObligations = GOVERNANCE_OBLIGATIONS.filter((obligation) =>
+    obligationMatchesExportScope(obligation, filters, countryIso3s, filteredLabIds)
+  );
+  const filteredImplementationMilestones = IMPLEMENTATION_MILESTONES.filter((milestone) =>
+    implementationMatchesExportScope(milestone, filters, countryIso3s)
+  );
 
   return {
     ...buildDatasetSnapshot(),
@@ -152,10 +171,14 @@ export function buildFilteredDatasetSnapshot(filters: FilterState) {
       internationalParticipationRows: filteredParticipation.length,
       nationalAIRegulations: filteredNational.length,
       subnationalAIRules: filteredSubnational.length,
+      governanceDomains: GOVERNANCE_DOMAINS.length,
+      governanceObligations: filteredObligations.length,
+      implementationMilestones: filteredImplementationMilestones.length,
       infrastructureNodes: INFRASTRUCTURE_NODES.length,
       dependencyEdges: DEPENDENCY_EDGES.length,
       outOfScopeItems: OUT_OF_SCOPE_ITEMS.length,
       sourceNotes: SOURCE_NOTES.length,
+      datasetReleases: DATASET_RELEASES.length,
     },
     data: {
       countries: filteredCountries,
@@ -166,10 +189,14 @@ export function buildFilteredDatasetSnapshot(filters: FilterState) {
       internationalParticipation: filteredParticipation,
       nationalAIRegulations: filteredNational,
       subnationalAIRules: filteredSubnational,
+      governanceDomains: GOVERNANCE_DOMAINS,
+      governanceObligations: filteredObligations,
+      implementationMilestones: filteredImplementationMilestones,
       infrastructureNodes: INFRASTRUCTURE_NODES,
       dependencyEdges: DEPENDENCY_EDGES,
       outOfScopeItems: OUT_OF_SCOPE_ITEMS,
       sourceNotes: SOURCE_NOTES,
+      datasetReleases: DATASET_RELEASES,
     },
   };
 }
@@ -232,6 +259,45 @@ function exposureMatchesExportScope(
   if (filters.selectedBindingStatuses.length) {
     const instrument = INTERNATIONAL_INSTRUMENTS.find((item) => item.id === exposure.targetId);
     if (!instrument || !filters.selectedBindingStatuses.includes(instrument.bindingStatus)) return false;
+  }
+  return true;
+}
+
+function obligationMatchesExportScope(
+  obligation: (typeof GOVERNANCE_OBLIGATIONS)[number],
+  filters: FilterState,
+  countryIso3s: Set<string>,
+  filteredLabIds: Set<string>
+) {
+  if (!obligationMatchesFilters(obligation, filters)) return false;
+  if (obligation.parentType === "national_rule") {
+    const reg = NATIONAL_AI_REGULATIONS.find((item) => item.id === obligation.parentId);
+    if (reg?.countryIso3) return countryIso3s.has(reg.countryIso3);
+  }
+  if (obligation.parentType === "subnational_rule") {
+    const rule = SUBNATIONAL_AI_RULES.find((item) => item.id === obligation.parentId);
+    if (rule) return countryIso3s.has(rule.countryIso3);
+  }
+  if (obligation.parentType === "lab_exposure") {
+    const exposure = LAB_REGULATORY_EXPOSURES.find((item) => item.id === obligation.parentId);
+    if (exposure) return filteredLabIds.size === 0 || filteredLabIds.has(exposure.labId);
+  }
+  return true;
+}
+
+function implementationMatchesExportScope(
+  milestone: (typeof IMPLEMENTATION_MILESTONES)[number],
+  filters: FilterState,
+  countryIso3s: Set<string>
+) {
+  if (!implementationMatchesFilters(milestone, filters)) return false;
+  if (milestone.parentType === "national_rule") {
+    const reg = NATIONAL_AI_REGULATIONS.find((item) => item.id === milestone.parentId);
+    if (reg?.countryIso3) return countryIso3s.has(reg.countryIso3);
+  }
+  if (milestone.parentType === "subnational_rule") {
+    const rule = SUBNATIONAL_AI_RULES.find((item) => item.id === milestone.parentId);
+    if (rule) return countryIso3s.has(rule.countryIso3);
   }
   return true;
 }

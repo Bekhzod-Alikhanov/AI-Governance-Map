@@ -1,6 +1,7 @@
-import type { FilterState, InternationalParticipation, LensKind } from "../types";
+import type { FilterState, InternationalParticipation, LensKind, MapModeId, VerificationMetadata } from "../types";
 import { PARTICIPATION_BY_COUNTRY } from "../data/participation";
 import { getCountryGovernanceSummary } from "./getCountryGovernanceSummary";
+import { getCountryImplementationMilestones, getCountryObligations } from "./researchWorkbench";
 
 const LAYER_FILL: Record<string, string> = {
   corporate: "#B45309",       // gold-700 — has frontier lab HQ
@@ -64,8 +65,12 @@ export function getMapStyle(
   iso3: string,
   filters: FilterState,
   matchesFilter: boolean,
-  lens: LensKind = "geography"
+  lens: LensKind = "geography",
+  mapMode: MapModeId = "binding-law"
 ): MapStyle {
+  if (mapMode !== "binding-law") {
+    return getMapModeStyle(iso3, filters, matchesFilter, mapMode);
+  }
   if (lens === "layer") {
     return getLayerStyle(iso3, filters, matchesFilter);
   }
@@ -119,6 +124,78 @@ export function getMapStyle(
     }
   } else if (!matchesFilter) {
     opacity = 0.25;
+  }
+
+  return { fill, outline, strokeWidth, strokeDasharray, opacity };
+}
+
+function getMapModeStyle(
+  iso3: string,
+  filters: FilterState,
+  matchesFilter: boolean,
+  mapMode: MapModeId
+): MapStyle {
+  const summary = getCountryGovernanceSummary(iso3);
+  const participations = PARTICIPATION_BY_COUNTRY[iso3] ?? [];
+  const obligations = getCountryObligations(iso3);
+  const implementation = getCountryImplementationMilestones(iso3);
+  let fill = FILL.empty;
+  let outline = OUTLINE.base;
+  let strokeWidth = 0.5;
+  let strokeDasharray: string | undefined;
+
+  if (mapMode === "proposed-law") {
+    fill = summary.nationalRegulations.some((reg) => reg.bindingStatus === "proposed") ? "#60A5FA" : FILL.empty;
+  } else if (mapMode === "treaty-participation") {
+    const treatyRows = participations.filter((row) => row.instrumentId === "coe-ai-convention");
+    if (treatyRows.some((row) => row.participationType === "ratified" || row.participationType === "applicable_via_eu")) {
+      fill = "#7C3AED";
+    } else if (treatyRows.some((row) => row.participationType === "signed")) {
+      fill = "#C4B5FD";
+      strokeDasharray = "3 2";
+    } else if (participations.length) {
+      fill = "#EDE9FE";
+    }
+  } else if (mapMode === "lab-hq") {
+    fill = summary.hqLabs.length ? "#B45309" : FILL.empty;
+  } else if (mapMode === "obligation-type") {
+    const relevant = obligations.filter((row) => {
+      if (
+        filters.selectedObligationCategories.length &&
+        !filters.selectedObligationCategories.includes(row.category)
+      ) {
+        return false;
+      }
+      if (filters.selectedDomains.length && !row.domains.some((domain) => filters.selectedDomains.includes(domain))) {
+        return false;
+      }
+      return true;
+    });
+    if (relevant.some((row) => row.legalEffect === "binding")) fill = "#0F766E";
+    else if (relevant.length) fill = "#99F6E4";
+  } else if (mapMode === "implementation-deadline") {
+    if (implementation.some((row) => row.nextDeadline)) fill = "#EA580C";
+    else if (implementation.some((row) => row.status === "in_force")) fill = "#16A34A";
+    else if (implementation.length) fill = "#FDBA74";
+  } else if (mapMode === "source-confidence") {
+    const records: VerificationMetadata[] = [
+      ...summary.nationalRegulations,
+      ...summary.subnationalRules,
+      ...summary.participations.map((row) => row.participation),
+      ...summary.participations.map((row) => row.instrument),
+    ];
+    if (records.some((record) => record.confidence === "low")) fill = "#FCA5A5";
+    else if (records.some((record) => record.confidence === "medium")) fill = "#FCD34D";
+    else if (records.length) fill = "#86EFAC";
+  } else if (mapMode === "frontier-relevance") {
+    fill = summary.hasFrontierAIRelevant ? "#1D4ED8" : FILL.empty;
+  }
+
+  let opacity = 1;
+  if (!matchesFilter) opacity = 0.25;
+  if (matchesFilter && filters.selectedInstrumentIds.length > 0) {
+    outline = OUTLINE.match;
+    strokeWidth = 1.5;
   }
 
   return { fill, outline, strokeWidth, strokeDasharray, opacity };

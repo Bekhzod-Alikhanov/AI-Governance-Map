@@ -1,4 +1,5 @@
 import { LAB_BY_ID } from "../data/frontierLabs";
+import { OBLIGATION_CATEGORY_LABELS } from "../data/governanceObligations";
 import { INSTRUMENT_BY_ID } from "../data/internationalInstruments";
 import { PARTICIPATION_BY_INSTRUMENT } from "../data/participation";
 import type { VerificationMetadata } from "../types";
@@ -14,6 +15,15 @@ import {
   INSTRUMENT_BINDING_LABELS,
   PARTICIPATION_LABELS,
 } from "./getParticipationLabel";
+import {
+  getCountryImplementationMilestones,
+  getCountryObligations,
+  getInstrumentObligations,
+  getLabObligations,
+  obligationEffectLabel,
+  summarizeImplementationStatuses,
+  summarizeObligationCategories,
+} from "./researchWorkbench";
 import {
   getLabExposureTarget,
   getLabRegulatoryExposures,
@@ -150,6 +160,8 @@ function buildCountryDossier(iso3: string, currentUrl: string): EvidenceDossier 
       participation.participationType === "covered_by_membership" ||
       participation.participationType === "applicable_via_eu"
   );
+  const obligations = getCountryObligations(iso3);
+  const implementation = getCountryImplementationMilestones(iso3);
 
   const caveats = [
     "This country profile is a research aggregation, not legal advice.",
@@ -172,6 +184,12 @@ function buildCountryDossier(iso3: string, currentUrl: string): EvidenceDossier 
     sources.add("International instrument", instrument);
   }
   for (const lab of summary.hqLabs) sources.add("Frontier lab", lab);
+  for (const obligation of obligations) {
+    sources.add("Obligation", { ...obligation, name: `${OBLIGATION_CATEGORY_LABELS[obligation.category]} - ${country.name}` });
+  }
+  for (const milestone of implementation) {
+    sources.add("Implementation milestone", { ...milestone, name: milestone.label });
+  }
 
   return {
     kind: "country",
@@ -189,6 +207,8 @@ function buildCountryDossier(iso3: string, currentUrl: string): EvidenceDossier 
       { label: "Guidance, strategy, or framework entries", value: guidance.length },
       { label: "International participation rows", value: summary.participations.length },
       { label: "Frontier labs headquartered here", value: summary.hqLabs.length },
+      { label: "Structured obligation rows", value: obligations.length },
+      { label: "Implementation milestones", value: implementation.length },
     ],
     sections: [
       {
@@ -206,6 +226,13 @@ function buildCountryDossier(iso3: string, currentUrl: string): EvidenceDossier 
             label: "Guidance, strategy, or framework",
             detail: guidance.length ? guidance.map((reg) => reg.name).join("; ") : "None tracked.",
           },
+        ],
+      },
+      {
+        title: "Obligations and implementation",
+        claims: [
+          { label: "Obligation categories", detail: summarizeObligationCategories(obligations) },
+          { label: "Implementation status", detail: summarizeImplementationStatuses(implementation) },
         ],
       },
       {
@@ -232,6 +259,7 @@ function buildLabDossier(labId: string, currentUrl: string): EvidenceDossier | n
   if (!lab) return null;
   const exposures = getLabRegulatoryExposures(lab.id);
   const exposureSummary = summarizeLabExposures(exposures);
+  const obligations = getLabObligations(lab.id);
   const sources = createSourceCollector();
   sources.add("Frontier lab", lab);
   if (lab.safetyFramework) {
@@ -248,6 +276,9 @@ function buildLabDossier(labId: string, currentUrl: string): EvidenceDossier | n
     });
   }
   for (const exposure of exposures) sources.add("Lab exposure", exposureSourceRecord(lab.name, exposure));
+  for (const obligation of obligations) {
+    sources.add("Obligation", { ...obligation, name: `${OBLIGATION_CATEGORY_LABELS[obligation.category]} - ${lab.name}` });
+  }
 
   const caveats = [
     "Lab exposure is an analytical mapping of governance hooks, not a finding of enforcement or liability.",
@@ -280,6 +311,7 @@ function buildLabDossier(labId: string, currentUrl: string): EvidenceDossier | n
       { label: "Voluntary exposure rows", value: exposureSummary.voluntary },
       { label: "Standards exposure rows", value: exposureSummary.standards },
       { label: "Infrastructure exposure rows", value: exposureSummary.infrastructure },
+      { label: "Structured obligation rows", value: obligations.length },
     ],
     sections: [
       {
@@ -290,6 +322,15 @@ function buildLabDossier(labId: string, currentUrl: string): EvidenceDossier | n
           { label: "Safety framework", detail: lab.safetyFramework?.name ?? "None tracked." },
           { label: "Frontier Model Forum", detail: lab.isFMFMember ? "Member." : "Not tracked as a member." },
         ],
+      },
+      {
+        title: "Structured obligations",
+        claims: obligations.length
+          ? obligations.map((obligation) => ({
+              label: `${OBLIGATION_CATEGORY_LABELS[obligation.category]} (${obligationEffectLabel(obligation.legalEffect)})`,
+              detail: `${obligation.summary}${obligation.caveat ? ` Caveat: ${obligation.caveat}` : ""}`,
+            }))
+          : [{ label: "Obligations", detail: "No structured lab-exposure obligation rows tracked." }],
       },
       {
         title: "Regulatory exposure",
@@ -311,8 +352,12 @@ function buildInstrumentDossier(instrumentId: string, currentUrl: string): Evide
   const instrument = INSTRUMENT_BY_ID[instrumentId];
   if (!instrument) return null;
   const participations = PARTICIPATION_BY_INSTRUMENT[instrument.id] ?? [];
+  const obligations = getInstrumentObligations(instrument.id);
   const sources = createSourceCollector();
   sources.add("International instrument", instrument);
+  for (const obligation of obligations) {
+    sources.add("Obligation", { ...obligation, name: `${OBLIGATION_CATEGORY_LABELS[obligation.category]} - ${instrument.name}` });
+  }
   for (const participation of participations) {
     sources.add("Participation", {
       ...participation,
@@ -352,6 +397,7 @@ function buildInstrumentDossier(instrumentId: string, currentUrl: string): Evide
       { label: "Date", value: instrument.date },
       { label: "Participation rows", value: participations.length },
       { label: "Frontier-AI relevant", value: instrument.frontierAIRelevant ? "Yes" : "No" },
+      { label: "Structured obligation rows", value: obligations.length },
     ],
     sections: [
       {
@@ -361,6 +407,15 @@ function buildInstrumentDossier(instrumentId: string, currentUrl: string): Evide
           { label: "Legal effect", detail: INSTRUMENT_BINDING_DESCRIPTIONS[instrument.bindingStatus] },
           { label: "AI-specific scope", detail: instrument.aiSpecific ? "Included as AI-specific." : "Not AI-specific." },
         ],
+      },
+      {
+        title: "Structured obligations",
+        claims: obligations.length
+          ? obligations.map((obligation) => ({
+              label: `${OBLIGATION_CATEGORY_LABELS[obligation.category]} (${obligationEffectLabel(obligation.legalEffect)})`,
+              detail: `${obligation.summary}${obligation.caveat ? ` Caveat: ${obligation.caveat}` : ""}`,
+            }))
+          : [{ label: "Obligations", detail: "No structured obligation rows tracked for this instrument." }],
       },
       {
         title: "Participation pattern",

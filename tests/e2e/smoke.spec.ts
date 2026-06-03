@@ -160,6 +160,32 @@ test.describe("governance map smoke flows", () => {
     await page.getByRole("button", { name: "Export CSV" }).click();
     const exposureDownload = await exposureDownloadPromise;
     expect(exposureDownload.suggestedFilename()).toBe("global-ai-governance-map-exposure.csv");
+
+    await page.getByRole("button", { name: "Obligations" }).click();
+    await expect(page.getByText("Incident reporting").first()).toBeVisible();
+    const obligationDownloadPromise = page.waitForEvent("download");
+    await page.getByRole("button", { name: "Export CSV" }).click();
+    const obligationDownload = await obligationDownloadPromise;
+    expect(obligationDownload.suggestedFilename()).toBe("global-ai-governance-map-obligations.csv");
+  });
+
+  test("opens stable record URLs and the research workbench", async ({ page }) => {
+    await page.goto("/country/USA");
+
+    await expect(page.getByRole("tab", { name: "Workbench" })).toHaveAttribute("aria-selected", "true");
+    await expect(page.locator("h3", { hasText: "United States" })).toBeVisible();
+    await expect(page.getByText("Obligations:", { exact: false }).first()).toBeVisible();
+    await expect(page.getByText("Implementation:", { exact: false }).first()).toBeVisible();
+    await expect(page.getByRole("button", { name: "Open drawer" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Stable URL" })).toHaveAttribute("href", "/country/USA");
+
+    await page.goto("/lab/openai");
+    await expect(page.getByRole("heading", { name: "OpenAI" })).toBeVisible();
+    await expect(page.getByText("Regulatory scenario")).toBeVisible();
+
+    await page.goto("/instrument/eu-ai-act");
+    await expect(page.getByRole("heading", { name: /EU AI Act/ })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Evidence dossier" }).first()).toBeVisible();
   });
 
   test("keeps map result scope clear while filtering", async ({ page }) => {

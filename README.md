@@ -1,6 +1,6 @@
 # Global AI Governance Map
 
-> Interactive policy-research dashboard that maps how **frontier AI** is governed today — countries, frontier-AI labs, international instruments, national + subnational rules, and the dependencies between them — viewable through five switchable lenses (geography, governance layer, dependency network, chronology, and research table).
+> Interactive policy-research workbench that maps how **frontier AI** is governed today — countries, frontier-AI labs, international instruments, national + subnational rules, obligations, implementation milestones, and the dependencies between them — viewable through six switchable lenses (research workbench, geography, governance layer, dependency network, chronology, and research table).
 
 <p>
   <a href="https://global-ai-governance-map.vercel.app">
@@ -26,7 +26,7 @@
 
 - [Overview](#overview)
 - [What's on the map](#whats-on-the-map)
-- [Five lenses](#five-lenses-on-the-same-data)
+- [Six lenses](#six-lenses-on-the-same-data)
 - [Architecture](#architecture)
 - [Frontend stack](#frontend-stack)
 - [Backend / API](#backend--api)
@@ -49,7 +49,7 @@
 
 ## Overview
 
-The dashboard answers a deceptively simple question — *"how is frontier AI actually governed right now?"* — and gives a research-grade answer across five lenses on the same dataset, with research-question presets, shareable URLs, source metadata, and exportable table workflows.
+The dashboard answers a deceptively simple question — *"how is frontier AI actually governed right now?"* — and gives a research-grade answer across six lenses on the same dataset, with a task-first Research Workbench, research-question presets, stable record URLs, source metadata, evidence dossiers, public JSON endpoints, and exportable table workflows.
 
 It is **client-only**: a static Vite build, no backend, no paid APIs, no user accounts. Everything ships as JavaScript + JSON + an SVG world map. Deployment is a single `vercel deploy` from the project root, and the live site auto-rebuilds on every push to `main`.
 
@@ -67,18 +67,22 @@ A guided **"Take the tour"** walkthrough runs new visitors through a five-step n
 - **3 infrastructure choke-points** — advanced AI chips, hyperscale cloud, U.S. BIS export controls — flagged as "not AI law, but governs frontier-AI capacity".
 - **~85 dependency edges** typed as `regulates / depends_on / constrains / influences / coordinates / participates_in`.
 - A **participation matrix** that distinguishes `signed`, `ratified`, `endorsed`, `adopted`, `adherent`, `member`, `participant`, `applicable_via_eu`, and `covered_by_membership (indirect)`.
+- A structured **obligation matrix** for risk assessment, transparency/disclosure, incident reporting, model evaluation, registration/filing, conformity assessment, watermarking/content labeling, bias audit, cybersecurity, data governance, prohibited practices, compute reporting, and safety-framework publication.
+- An **implementation tracker** for proposed, adopted, in-force, phased-application, implementing-rules-pending, regulator-appointed, guidance-issued, and enforcement-observed milestones.
+- Static public data endpoints in `public/data/`, generated at build time from the same TypeScript source modules.
 
 Out-of-scope items (GDPR, DPDP, generic cybersecurity, BIS/Wassenaar/JP-NL-US export controls, generic digital strategies) are catalogued in [`src/data/outOfScope.ts`](src/data/outOfScope.ts) with explicit `reasonExcluded` text.
 
-## Five lenses on the same data
+## Six lenses on the same data
 
 | Lens | What it does | Implementation |
 |---|---|---|
+| **Workbench** | Task-first research workbench with workflow presets, answer cards, side-by-side comparison, stable record summaries, public data endpoint links, and a conservative lab/market scenario simulator. | `WorkbenchView.tsx` + `researchWorkbench.ts` |
 | **Geography** | Default world map. Country fill = binding status of national AI rule. Frontier-lab HQ pins overlaid, sized by power score. Includes maximize, zoom/pan, and regional focus controls. | `WorldMap.tsx` + `LabPin.tsx`, Equal Earth projection via `react-simple-maps` |
-| **Layers** | Recolours countries by the highest governance layer present (corporate / national binding / proposed / voluntary / international only). Shares the same maximize, zoom/pan, and focus controls. | `getMapColor.ts → pickPrimaryLayer` (cached) |
+| **Layers** | Recolours countries by the highest governance layer present (corporate / national binding / proposed / voluntary / international only). Map modes can also show proposed laws, treaty participation, lab HQs, obligations, implementation deadlines, source confidence, or frontier relevance. | `getMapColor.ts → pickPrimaryLayer` (cached) |
 | **Network** | Force-directed graph of every actor and edge. Lab exposure edges are generated from the typed exposure dataset so binding, voluntary, standards, and infrastructure relationships stay distinct. | `NetworkView.tsx`, `d3-force` 300-tick static layout |
 | **Timeline** | 115+ AI governance milestones plotted from 2017 (Finland AI Programme) → 2026 (Kazakhstan AI Law, Taiwan AI Basic Act, Vietnam AI Law). Filterable by international / national / subnational. | `TimelineView.tsx` |
-| **Table** | Sortable, filterable research table for countries, instruments, national rules, labs, lab exposure rows, participation rows, and source metadata; supports CSV export. | `TableView.tsx` |
+| **Table** | Sortable, filterable research table for countries, instruments, national rules, labs, lab exposure rows, obligation rows, implementation milestones, participation rows, release records, and source metadata; supports CSV export. | `TableView.tsx` |
 
 ## Architecture
 
@@ -140,7 +144,7 @@ Out-of-scope items (GDPR, DPDP, generic cybersecurity, BIS/Wassenaar/JP-NL-US ex
               └────────────────────────┘
 ```
 
-There is **no backend, no API, no database, no auth**. The entire dataset is shipped as static TypeScript modules in `src/data/*`, type-checked at build time and validated at dev start. This is intentional — the dataset is small (~70 kB minified), changes infrequently, and we want zero ongoing infrastructure cost.
+There is **no backend, no API, no database, no auth**. The entire dataset is shipped as static TypeScript modules in `src/data/*`, type-checked at build time and validated at dev start. Build-time scripts also emit static public JSON endpoints under `public/data/*`, so researchers can reuse the dataset without scraping the UI.
 
 ## Frontend stack
 
@@ -224,9 +228,10 @@ See [`docs/DATA_GOVERNANCE.md`](docs/DATA_GOVERNANCE.md) for the dataset taxonom
 │   │   ├── WorldMap.tsx               Equal Earth SVG + country geographies + lab pins
 │   │   ├── NetworkView.tsx            d3-force static-layout graph
 │   │   ├── TimelineView.tsx           horizontal milestone timeline
-│   │   ├── TableView.tsx              sortable/exportable research rows, including lab exposure
-│   │   ├── LensSwitch.tsx             5-way lens toolbar
-│   │   ├── Filters.tsx                Instrument / Participation / Binding force / Organization / Region / Frontier labs / National AI rules
+│   │   ├── WorkbenchView.tsx          task-first research workflows, comparisons, scenario simulator
+│   │   ├── TableView.tsx              sortable/exportable research rows, including lab exposure and obligations
+│   │   ├── LensSwitch.tsx             6-way lens toolbar
+│   │   ├── Filters.tsx                Instrument / Participation / Binding force / Organization / Region / Frontier labs / Obligations / Domains / Implementation / National AI rules
 │   │   ├── CountrySidePanel.tsx       per-country drawer
 │   │   ├── LabSidePanel.tsx           per-lab drawer
 │   │   ├── ConnectionsSection.tsx     dependency-edge list (grouped by relationship)
@@ -248,6 +253,8 @@ See [`docs/DATA_GOVERNANCE.md`](docs/DATA_GOVERNANCE.md) for the dataset taxonom
 │   │   ├── governanceTaxonomy.ts              dataset classifications
 │   │   ├── normalizeCountry.ts                ISO numeric ↔ alpha-3 static table
 │   │   ├── searchData.ts                      fuzzy ranker
+│   │   ├── researchWorkbench.ts               obligation, implementation, comparison, and scenario helpers
+│   │   ├── recordRoutes.ts                    stable /country /lab /instrument /rule route parsing
 │   │   ├── exportDataset.ts                   CSV / JSON build
 │   │   ├── datasetSchema.ts                   runtime dataset schema check
 │   │   ├── keyboardActivation.ts              a11y helper for clickable non-button elements
@@ -260,7 +267,8 @@ See [`docs/DATA_GOVERNANCE.md`](docs/DATA_GOVERNANCE.md) for the dataset taxonom
 │       ├── smoke.spec.ts              Playwright: load + lens switch + side panel
 │       └── a11y.spec.ts               Playwright: keyboard nav + dialog focus + reduced-motion
 ├── scripts/
-│   └── run-playwright.mjs             Playwright runner with sensible defaults
+│   ├── run-playwright.mjs             Playwright runner with sensible defaults
+│   └── write-public-data.mjs          generates public/data/*.json from app data
 ├── playwright.config.ts               Playwright config
 ├── eslint.config.js                   ESLint 10 flat config (react-hooks + jsx-a11y)
 ├── .github/
@@ -323,7 +331,8 @@ npm run audit:data-review # editorial report for source freshness and legal-stat
 npm run audit:deltas      # official-source delta monitor for high-impact records
 npm run test:e2e          # Playwright smoke + a11y end-to-end
 npm run test:a11y         # Playwright a11y suite only
-npm run build             # tsc -b && vite build  →  dist/
+npm run data:public       # generate public/data/*.json endpoints
+npm run build             # data:public && tsc -b && vite build  →  dist/
 npm run preview           # serves dist/
 ```
 
@@ -369,6 +378,29 @@ Outlines:
 - **Dashed purple** — signed a binding AI treaty but not yet ratified.
 
 When one or more instruments are selected, countries that don't match drop to ~25 % opacity. The **AND / OR** toggle in the Instrument popover controls whether a country must participate in *all* selected instruments (AND) or *at least one* (OR).
+
+The map mode selector can also recolor countries by proposed laws, CoE treaty participation, frontier-lab HQs, selected obligation/domain rows, implementation deadlines, source confidence, and frontier relevance. These modes are explanatory research aids; drawer/dossier source metadata remains the source of truth.
+
+## Stable record URLs and public data
+
+Stable SPA routes are supported for major records:
+
+- `/country/USA`
+- `/lab/openai`
+- `/instrument/eu-ai-act`
+- `/rule/kr-ai-basic-act`
+
+Vercel rewrites these routes to the SPA, and the Workbench renders the matching record summary, obligations, implementation milestones, source metadata, correction link, and evidence-dossier actions where available.
+
+Build-time public data endpoints:
+
+- `/data/full-dataset.json`
+- `/data/country-summaries.json`
+- `/data/obligation-matrix.json`
+- `/data/lab-exposure-matrix.json`
+- `/data/source-metadata.json`
+- `/data/changelog.json`
+- `/data/catalog.json`
 
 ## How to add data
 
@@ -506,14 +538,12 @@ legal-effect claims that deserve human attention before public citation.
 
 ## Roadmap
 
-- Editorial CMS backing `src/data/*` for non-engineer contributors.
-- Scheduled CI artifact for `npm run audit:deltas` so official-source changes are reviewed before the public snapshot goes stale.
-- Build-time fetch from OECD.AI Observatory + CoE Treaty Office for live participation deltas.
-- Wider mobile breakpoints (current focus is desktop / tablet ≥ 768 px).
-- Sectoral lens (military AI / lethal autonomous weapons, healthcare AI, financial AI).
-- Civil-society / academia layer (CAIDP, AlgorithmWatch, AI Now, Future Society).
-- Per-country share-link URLs (`?country=KAZ&lens=network`).
-- Expand Playwright coverage to full visual regression + cross-browser matrix.
+- Expand the obligation matrix beyond the first high-impact instruments and rules while preserving official-source verification.
+- Add deeper sectoral domains for employment, biometrics, healthcare, finance, education/children, defense/autonomous weapons, synthetic media, and compute/cloud/chips.
+- Add monthly dataset releases with source-delta artifacts, source-audit artifacts, and public changelog entries.
+- Add embeddable country/lab/treaty/obligation cards backed by the generated public JSON endpoints.
+- Expand Playwright coverage to visual regression, route smoke tests, workbench scenarios, and cross-browser matrix.
+- Add a retrieval-only AI assistant later, only after obligations, stable record pages, and versioned exports are mature enough to support cited answers.
 
 ## License & credits
 

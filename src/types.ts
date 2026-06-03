@@ -237,6 +237,116 @@ export interface LabRegulatoryExposure extends VerificationMetadata {
   notes?: string;
 }
 
+// ===== Research workbench taxonomy =====
+export type GovernanceDomainId =
+  | "frontier-gpai"
+  | "public-sector"
+  | "employment-hiring"
+  | "biometric-identification"
+  | "synthetic-media"
+  | "healthcare"
+  | "finance"
+  | "education-children"
+  | "defense-autonomous-weapons"
+  | "cybersecurity-critical-infrastructure"
+  | "compute-cloud-chips";
+
+export interface GovernanceDomain {
+  id: GovernanceDomainId;
+  label: string;
+  description: string;
+}
+
+export type ObligationCategory =
+  | "risk_assessment"
+  | "transparency_disclosure"
+  | "human_oversight"
+  | "incident_reporting"
+  | "model_evaluation_red_teaming"
+  | "registration_filing"
+  | "conformity_assessment"
+  | "watermarking_content_labeling"
+  | "audit_bias_audit"
+  | "cybersecurity"
+  | "data_governance"
+  | "prohibited_practices"
+  | "compute_infrastructure_reporting"
+  | "safety_framework_publication";
+
+export type ObligationParentType =
+  | "national_rule"
+  | "international_instrument"
+  | "lab_exposure"
+  | "subnational_rule";
+
+export type ObligationLegalEffect =
+  | "binding"
+  | "proposed"
+  | "voluntary"
+  | "standard"
+  | "guidance"
+  | "conditional"
+  | "indirect";
+
+export interface GovernanceObligation extends VerificationMetadata {
+  id: string;
+  parentType: ObligationParentType;
+  parentId: string;
+  category: ObligationCategory;
+  legalEffect: ObligationLegalEffect;
+  directness: LabExposureDirectness;
+  jurisdiction?: string;
+  domains: GovernanceDomainId[];
+  summary: string;
+  caveat?: string;
+  sourceName: string;
+  sourceUrl: string;
+}
+
+export type ImplementationStatus =
+  | "proposed"
+  | "adopted"
+  | "in_force"
+  | "phased_application"
+  | "implementing_rules_pending"
+  | "regulator_appointed"
+  | "guidance_issued"
+  | "enforcement_activity_observed";
+
+export interface ImplementationMilestone extends VerificationMetadata {
+  id: string;
+  parentType: ObligationParentType | "international_instrument";
+  parentId: string;
+  jurisdiction: string;
+  status: ImplementationStatus;
+  date?: string;
+  nextDeadline?: string;
+  label: string;
+  summary: string;
+  sourceName: string;
+  sourceUrl: string;
+}
+
+export type WorkbenchWorkflowId =
+  | "compare-countries"
+  | "compare-labs"
+  | "binding-duties"
+  | "treaty-participation"
+  | "lab-exposure"
+  | "citation-brief"
+  | "implementation-status"
+  | "scenario-simulator";
+
+export type MapModeId =
+  | "binding-law"
+  | "proposed-law"
+  | "treaty-participation"
+  | "lab-hq"
+  | "obligation-type"
+  | "implementation-deadline"
+  | "source-confidence"
+  | "frontier-relevance";
+
 // ===== Infrastructure layer (Tier 1.B) =====
 export type InfrastructureType = "chips" | "cloud" | "export_control";
 
@@ -299,7 +409,7 @@ export interface SubnationalAIRule extends VerificationMetadata {
 }
 
 // ===== Guided walkthrough (Tier 2.F) =====
-export type LensKind = "geography" | "layer" | "network" | "timeline" | "table";
+export type LensKind = "workbench" | "geography" | "layer" | "network" | "timeline" | "table";
 export type NetworkPresetId =
   | "all"
   | "labs-laws"
@@ -366,6 +476,9 @@ export interface FilterState {
   hasBindingNationalLaw: "any" | "yes" | "no";
   hasAnyAIRule: "any" | "yes" | "no";
   frontierAIRelevant: "any" | "yes" | "no";
+  selectedObligationCategories: ObligationCategory[];
+  selectedDomains: GovernanceDomainId[];
+  selectedImplementationStatuses: ImplementationStatus[];
   searchQuery: string;
 }
 
@@ -380,5 +493,8 @@ export const DEFAULT_FILTER_STATE: FilterState = {
   hasBindingNationalLaw: "any",
   hasAnyAIRule: "any",
   frontierAIRelevant: "any",
+  selectedObligationCategories: [],
+  selectedDomains: [],
+  selectedImplementationStatuses: [],
   searchQuery: "",
 };

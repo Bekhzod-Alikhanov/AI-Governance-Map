@@ -7,6 +7,7 @@ import {
   type FilterState,
   type FrontierLab,
   type LensKind,
+  type MapModeId,
   type MapFitTarget,
   type NetworkDensity,
   type NetworkPresetId,
@@ -34,12 +35,14 @@ import { NATIONAL_AI_REGULATIONS } from "./data/nationalAIRegulations";
 import { FRONTIER_LABS, LAB_BY_ID } from "./data/frontierLabs";
 import { DEPENDENCY_EDGES } from "./data/dependencies";
 import { getMapFitScope } from "./utils/mapFitTarget";
+import { parseRecordRoute, type RecordRoute } from "./utils/recordRoutes";
 
 // Network + Timeline lenses are non-default. Lazy-load them so d3-force
 // and the timeline list don't ship in the initial bundle.
 const NetworkView = lazy(() => import("./components/NetworkView").then((m) => ({ default: m.NetworkView })));
 const TimelineView = lazy(() => import("./components/TimelineView").then((m) => ({ default: m.TimelineView })));
 const TableView = lazy(() => import("./components/TableView").then((m) => ({ default: m.TableView })));
+const WorkbenchView = lazy(() => import("./components/WorkbenchView").then((m) => ({ default: m.WorkbenchView })));
 
 type MapFocusId = "world" | "americas" | "europe" | "africa_mena" | "asia_pacific";
 type MapViewState = {
@@ -64,6 +67,16 @@ const MAP_FOCUS_OPTIONS: Array<{
   { id: "europe", label: "Europe", center: [15, 53], zoom: 3 },
   { id: "africa_mena", label: "Africa/MENA", center: [22, 13], zoom: 2.15 },
   { id: "asia_pacific", label: "Asia-Pacific", center: [108, 18], zoom: 2.05 },
+];
+const MAP_MODE_OPTIONS: Array<{ id: MapModeId; label: string }> = [
+  { id: "binding-law", label: "Binding law" },
+  { id: "proposed-law", label: "Proposed law" },
+  { id: "treaty-participation", label: "Treaty participation" },
+  { id: "lab-hq", label: "Lab HQ" },
+  { id: "obligation-type", label: "Obligations" },
+  { id: "implementation-deadline", label: "Implementation" },
+  { id: "source-confidence", label: "Source confidence" },
+  { id: "frontier-relevance", label: "Frontier relevance" },
 ];
 
 function LensFallback() {
@@ -108,6 +121,10 @@ export default function App() {
         : parseShareableState(window.location.search),
     []
   );
+  const initialRouteRecord = useMemo(
+    () => (typeof window === "undefined" ? null : parseRecordRoute(window.location.pathname)),
+    []
+  );
   const [filters, dispatch] = useReducer(filterReducer, initialUrlState.filters);
   const [selectedIso3, setSelectedIso3] = useState<string | null>(initialUrlState.selectedIso3);
   const [selectedLabId, setSelectedLabId] = useState<string | null>(initialUrlState.selectedLabId);
@@ -119,7 +136,12 @@ export default function App() {
   } | null>(null);
   const [hoverLab, setHoverLab] = useState<{ lab: FrontierLab; x: number; y: number } | null>(null);
   const [showLabs, setShowLabs] = useState(true);
-  const [lens, setLens] = useState<LensKind>(initialUrlState.lens);
+  const [lens, setLens] = useState<LensKind>(
+    initialRouteRecord && typeof window !== "undefined" && !new URLSearchParams(window.location.search).has("lens")
+      ? "workbench"
+      : initialUrlState.lens
+  );
+  const [routeRecord, setRouteRecord] = useState<RecordRoute | null>(initialRouteRecord);
   const [walkthroughStep, setWalkthroughStep] = useState<number | null>(null);
   const [networkSelection, setNetworkSelection] = useState<string | null>(initialUrlState.networkSelection);
   const [networkPreset, setNetworkPreset] = useState<NetworkPresetId>(initialUrlState.networkPreset);
@@ -130,6 +152,7 @@ export default function App() {
   const [activePresetId, setActivePresetId] = useState<string | null>(null);
   const [showMethodology, setShowMethodology] = useState(false);
   const [isMapMaximized, setIsMapMaximized] = useState(false);
+  const [mapMode, setMapMode] = useState<MapModeId>("binding-law");
   const [mapView, setMapView] = useState<MapViewState>(DEFAULT_MAP_VIEW);
   const [compareItems, setCompareItems] = useState<CompareItem[]>([]);
 
@@ -152,6 +175,7 @@ export default function App() {
       setNetworkDensity(next.networkDensity);
       setNetworkFrontierOnly(next.networkFrontierOnly);
       setTimelineLane(next.timelineLane);
+      setRouteRecord(parseRecordRoute(window.location.pathname));
       setActivePresetId(null);
       setIsMapMaximized(false);
       setMapView(DEFAULT_MAP_VIEW);
@@ -460,7 +484,21 @@ export default function App() {
             mapCenter={mapView.center}
             mapZoom={mapView.zoom}
             mapFitTarget={mapView.fitTarget}
+            mapMode={mapMode}
           />
+        )}
+        {lens === "workbench" && (
+          <Suspense fallback={<LensFallback />}>
+            <WorkbenchView
+              filters={filters}
+              onFiltersChange={handleFilterChange}
+              onSelectCountry={handleSelectCountry}
+              onSelectLab={handleSelectLab}
+              onSelectInstrument={handleSelectInstrument}
+              onOpenMethodology={() => setShowMethodology(true)}
+              routeRecord={routeRecord}
+            />
+          </Suspense>
         )}
         {lens === "network" && (
           <Suspense fallback={<LensFallback />}>
@@ -512,6 +550,22 @@ export default function App() {
               {mapView.focusId === "custom" && <option value="custom">Custom</option>}
               {mapView.fitTarget && <option value="results">Results</option>}
               {MAP_FOCUS_OPTIONS.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <label htmlFor="map-mode-select" className="sr-only">
+              Map color mode
+            </label>
+            <select
+              id="map-mode-select"
+              aria-label="Map color mode"
+              value={mapMode}
+              onChange={(event) => setMapMode(event.target.value as MapModeId)}
+              className="h-8 max-w-32 rounded-md border border-canvas-line bg-white px-2 text-xs font-medium text-ink-800 outline-none hover:border-ink-400 focus:border-accent focus:ring-2 focus:ring-accent/20 sm:max-w-44"
+            >
+              {MAP_MODE_OPTIONS.map((option) => (
                 <option key={option.id} value={option.id}>
                   {option.label}
                 </option>

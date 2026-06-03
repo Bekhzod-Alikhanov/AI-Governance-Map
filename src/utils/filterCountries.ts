@@ -4,6 +4,7 @@ import { PARTICIPATION_BY_COUNTRY } from "../data/participation";
 import { LAB_BY_ID } from "../data/frontierLabs";
 import type { Country, FilterState } from "../types";
 import { getCountryGovernanceSummary } from "./getCountryGovernanceSummary";
+import { countryMatchesWorkbenchFilters } from "./researchWorkbench";
 
 export interface CountryMatchResult {
   iso3: string;
@@ -100,6 +101,14 @@ function filterMatchesCountry(country: Country, filters: FilterState): boolean {
   if (filters.frontierAIRelevant === "no" && summary.hasFrontierAIRelevant)
     return false;
 
+  if (
+    filters.selectedObligationCategories.length > 0 ||
+    filters.selectedDomains.length > 0 ||
+    filters.selectedImplementationStatuses.length > 0
+  ) {
+    if (!countryMatchesWorkbenchFilters(country.iso3, filters)) return false;
+  }
+
   return true;
 }
 
@@ -142,6 +151,9 @@ export function countActiveFilters(filters: FilterState): number {
   if (filters.hasBindingNationalLaw !== "any") n += 1;
   if (filters.hasAnyAIRule !== "any") n += 1;
   if (filters.frontierAIRelevant !== "any") n += 1;
+  if (filters.selectedObligationCategories.length) n += 1;
+  if (filters.selectedDomains.length) n += 1;
+  if (filters.selectedImplementationStatuses.length) n += 1;
   if (filters.searchQuery.trim()) n += 1;
   return n;
 }

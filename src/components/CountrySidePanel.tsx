@@ -12,6 +12,12 @@ import { PinCompareButton } from "./PinCompareButton";
 import { EvidenceDossierButton } from "./EvidenceDossierButton";
 import { buildCountryCitation, buildRecordCitation } from "../utils/citation";
 import { isConfirmedBindingNationalRegulation } from "../utils/governanceTaxonomy";
+import {
+  getCountryImplementationMilestones,
+  getCountryObligations,
+  summarizeImplementationStatuses,
+  summarizeObligationCategories,
+} from "../utils/researchWorkbench";
 
 interface Props {
   iso3: string;
@@ -54,6 +60,8 @@ export function CountrySidePanel({
     name: country.name,
     summary: `${confirmedBinding.length} confirmed binding AI-specific national entries; ${proposed.length} proposed entries; ${guidance.length} guidance/strategy/framework entries; ${summary.participations.length} international participation rows.`,
   });
+  const obligations = getCountryObligations(country.iso3);
+  const implementation = getCountryImplementationMilestones(country.iso3);
 
   return (
     <aside
@@ -168,6 +176,30 @@ export function CountrySidePanel({
               {indirectRows.length} international rows are indirect coverage or EU applicability, not explicit country-by-country sign-on.
             </p>
           )}
+        </section>
+
+        <section className="mt-4 rounded-xl border border-canvas-line bg-white p-3">
+          <h3 className="text-xs font-semibold uppercase tracking-wide text-ink-500">
+            Obligations and implementation
+          </h3>
+          <div className="mt-3 grid gap-2 text-xs sm:grid-cols-2">
+            <StatusBox
+              label="Obligation rows"
+              value={obligations.length ? `${obligations.length} tracked` : "None tracked"}
+              tone={obligations.length ? "context" : "muted"}
+            />
+            <StatusBox
+              label="Implementation"
+              value={implementation.length ? `${implementation.length} milestones` : "None tracked"}
+              tone={implementation.length ? "watch" : "muted"}
+            />
+          </div>
+          <p className="mt-3 text-xs leading-relaxed text-ink-600">
+            {summarizeObligationCategories(obligations)}
+          </p>
+          <p className="mt-2 text-xs leading-relaxed text-ink-600">
+            {summarizeImplementationStatuses(implementation)}
+          </p>
         </section>
 
         {summary.hqLabs.length > 0 && (

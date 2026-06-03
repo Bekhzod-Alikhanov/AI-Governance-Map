@@ -2,6 +2,9 @@ import { useMemo, useState } from "react";
 import clsx from "clsx";
 import { COUNTRY_BY_ISO3 } from "../data/countries";
 import { FRONTIER_LABS } from "../data/frontierLabs";
+import { DATASET_RELEASES } from "../data/datasetReleases";
+import { GOVERNANCE_OBLIGATIONS, OBLIGATION_CATEGORY_LABELS } from "../data/governanceObligations";
+import { IMPLEMENTATION_MILESTONES, IMPLEMENTATION_STATUS_LABELS } from "../data/implementationMilestones";
 import { INFRASTRUCTURE_NODES } from "../data/infrastructure";
 import { INTERNATIONAL_INSTRUMENTS, INSTRUMENT_BY_ID } from "../data/internationalInstruments";
 import { NATIONAL_AI_REGULATIONS } from "../data/nationalAIRegulations";
@@ -22,8 +25,25 @@ import {
   LAB_EXPOSURE_KIND_LABELS,
   summarizeLabExposures,
 } from "../utils/labExposure";
+import {
+  domainLabel,
+  getRecordDisplayName,
+  implementationMatchesFilters,
+  obligationEffectLabel,
+  obligationMatchesFilters,
+} from "../utils/researchWorkbench";
 
-type DatasetKey = "countries" | "instruments" | "national" | "labs" | "exposure" | "participation" | "sources";
+type DatasetKey =
+  | "countries"
+  | "instruments"
+  | "national"
+  | "labs"
+  | "exposure"
+  | "obligations"
+  | "implementation"
+  | "participation"
+  | "sources"
+  | "releases";
 
 interface Props {
   filters: FilterState;
@@ -53,8 +73,11 @@ const DATASETS: Array<{ key: DatasetKey; label: string }> = [
   { key: "national", label: "National rules" },
   { key: "labs", label: "Labs" },
   { key: "exposure", label: "Exposure" },
+  { key: "obligations", label: "Obligations" },
+  { key: "implementation", label: "Implementation" },
   { key: "participation", label: "Participation" },
   { key: "sources", label: "Sources" },
+  { key: "releases", label: "Releases" },
 ];
 
 const COLUMNS: Record<DatasetKey, TableColumn[]> = {
@@ -106,6 +129,27 @@ const COLUMNS: Record<DatasetKey, TableColumn[]> = {
     { key: "lastVerified", label: "Last verified" },
     { key: "source", label: "Source" },
   ],
+  obligations: [
+    { key: "category", label: "Obligation" },
+    { key: "parent", label: "Parent record" },
+    { key: "effect", label: "Legal effect" },
+    { key: "directness", label: "Directness" },
+    { key: "domains", label: "Domains" },
+    { key: "jurisdiction", label: "Jurisdiction / hook" },
+    { key: "confidence", label: "Confidence" },
+    { key: "lastVerified", label: "Last verified" },
+    { key: "source", label: "Source" },
+  ],
+  implementation: [
+    { key: "label", label: "Milestone" },
+    { key: "parent", label: "Parent record" },
+    { key: "jurisdiction", label: "Jurisdiction" },
+    { key: "status", label: "Status" },
+    { key: "date", label: "Date" },
+    { key: "nextDeadline", label: "Next deadline" },
+    { key: "confidence", label: "Confidence" },
+    { key: "source", label: "Source" },
+  ],
   participation: [
     { key: "country", label: "Country" },
     { key: "instrument", label: "Instrument" },
@@ -123,6 +167,14 @@ const COLUMNS: Record<DatasetKey, TableColumn[]> = {
     { key: "confidence", label: "Confidence" },
     { key: "lastVerified", label: "Last verified" },
     { key: "source", label: "Source" },
+  ],
+  releases: [
+    { key: "id", label: "Release" },
+    { key: "snapshotDate", label: "Snapshot" },
+    { key: "status", label: "Status" },
+    { key: "added", label: "Added" },
+    { key: "changed", label: "Changed" },
+    { key: "unresolved", label: "Manual review" },
   ],
 };
 
@@ -369,6 +421,37 @@ function buildRows(
     });
   }
 
+  if (dataset === "obligations") {
+    return GOVERNANCE_OBLIGATIONS.filter((obligation) => obligationMatchesFilters(obligation, filters)).map((obligation) =>
+      row(`obligation:${obligation.id}`, {
+        category: OBLIGATION_CATEGORY_LABELS[obligation.category],
+        parent: getRecordDisplayName(obligation.parentType, obligation.parentId),
+        effect: obligationEffectLabel(obligation.legalEffect),
+        directness: obligation.directness,
+        domains: obligation.domains.map(domainLabel).join("; "),
+        jurisdiction: obligation.jurisdiction ?? "",
+        confidence: confidenceLabel(obligation),
+        lastVerified: obligation.lastVerified ?? "",
+        source: obligation.sourceName,
+      }, actionForParent(obligation.parentType, obligation.parentId, onSelectCountry, onSelectLab, onSelectInstrument))
+    );
+  }
+
+  if (dataset === "implementation") {
+    return IMPLEMENTATION_MILESTONES.filter((milestone) => implementationMatchesFilters(milestone, filters)).map((milestone) =>
+      row(`implementation:${milestone.id}`, {
+        label: milestone.label,
+        parent: getRecordDisplayName(milestone.parentType, milestone.parentId),
+        jurisdiction: milestone.jurisdiction,
+        status: IMPLEMENTATION_STATUS_LABELS[milestone.status],
+        date: milestone.date ?? "",
+        nextDeadline: milestone.nextDeadline ?? "",
+        confidence: confidenceLabel(milestone),
+        source: milestone.sourceName,
+      }, actionForParent(milestone.parentType, milestone.parentId, onSelectCountry, onSelectLab, onSelectInstrument))
+    );
+  }
+
   if (dataset === "participation") {
     return INTERNATIONAL_PARTICIPATION.filter((participation) => {
       const instrument = INSTRUMENT_BY_ID[participation.instrumentId];
@@ -395,7 +478,18 @@ function buildRows(
     });
   }
 
-  return sourceRows();
+  if (dataset === "sources") return sourceRows();
+
+  return DATASET_RELEASES.map((release) =>
+    row(`release:${release.id}`, {
+      id: release.id,
+      snapshotDate: release.snapshotDate,
+      status: release.status,
+      added: release.recordsAdded.length,
+      changed: release.recordsChanged.length,
+      unresolved: release.unresolvedManualReview.length,
+    })
+  );
 }
 
 function sourceRows(): TableRow[] {
@@ -405,6 +499,11 @@ function sourceRows(): TableRow[] {
     ...SUBNATIONAL_AI_RULES.map((item) => toSourceEntry("Subnational rule", item)),
     ...FRONTIER_LABS.map((item) => toSourceEntry("Frontier lab", item)),
     ...LAB_REGULATORY_EXPOSURES.map((item) => toLabExposureSourceEntry(item)),
+    ...GOVERNANCE_OBLIGATIONS.map((item) => toSourceEntry("Obligation", {
+      ...item,
+      name: `${OBligationName(item.category)} - ${getRecordDisplayName(item.parentType, item.parentId)}`,
+    })),
+    ...IMPLEMENTATION_MILESTONES.map((item) => toSourceEntry("Implementation milestone", { ...item, name: item.label })),
     ...INFRASTRUCTURE_NODES.map((item) => toSourceEntry("Infrastructure", item)),
   ];
 
@@ -419,6 +518,31 @@ function sourceRows(): TableRow[] {
       source: entry.sourceName,
     })
   );
+}
+
+function actionForParent(
+  parentType: string,
+  parentId: string,
+  onSelectCountry: (iso3: string) => void,
+  onSelectLab: (labId: string) => void,
+  onSelectInstrument: (instrumentId: string) => void
+): TableRow["action"] | undefined {
+  if (parentType === "international_instrument") {
+    return { label: "Instrument", onClick: () => onSelectInstrument(parentId) };
+  }
+  if (parentType === "lab_exposure") {
+    const exposure = LAB_REGULATORY_EXPOSURES.find((row) => row.id === parentId);
+    return exposure ? { label: "Lab", onClick: () => onSelectLab(exposure.labId) } : undefined;
+  }
+  if (parentType === "national_rule") {
+    const reg = NATIONAL_AI_REGULATIONS.find((row) => row.id === parentId);
+    return reg?.countryIso3 ? { label: "Country", onClick: () => onSelectCountry(reg.countryIso3!) } : undefined;
+  }
+  if (parentType === "subnational_rule") {
+    const rule = SUBNATIONAL_AI_RULES.find((row) => row.id === parentId);
+    return rule ? { label: "Country", onClick: () => onSelectCountry(rule.countryIso3) } : undefined;
+  }
+  return undefined;
 }
 
 function toSourceEntry(
@@ -467,6 +591,10 @@ function row(id: string, values: Record<string, string | number>, action?: Table
 
 function confidenceLabel(item: VerificationMetadata): string {
   return item.confidence ? DATA_CONFIDENCE_LABELS[item.confidence] : "";
+}
+
+function OBligationName(category: string): string {
+  return OBLIGATION_CATEGORY_LABELS[category as keyof typeof OBLIGATION_CATEGORY_LABELS] ?? category;
 }
 
 function exposureMatchesFilters(exposure: LabRegulatoryExposure, filters: FilterState): boolean {

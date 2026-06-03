@@ -1,12 +1,18 @@
 import { COUNTRIES } from "../data/countries";
 import { FRONTIER_LABS } from "../data/frontierLabs";
+import { GOVERNANCE_DOMAINS } from "../data/governanceDomains";
+import { OBLIGATION_CATEGORY_LABELS } from "../data/governanceObligations";
+import { IMPLEMENTATION_STATUS_LABELS } from "../data/implementationMilestones";
 import { INTERNATIONAL_INSTRUMENTS } from "../data/internationalInstruments";
 import type {
   FilterState,
+  GovernanceDomainId,
+  ImplementationStatus,
   InstrumentBindingStatus,
   LensKind,
   NetworkDensity,
   NetworkPresetId,
+  ObligationCategory,
   OrganizationType,
   ParticipationType,
   Region,
@@ -26,7 +32,7 @@ export interface ShareableAppState {
   timelineLane: TimelineLane;
 }
 
-const LENSES = new Set<LensKind>(["geography", "layer", "network", "timeline", "table"]);
+const LENSES = new Set<LensKind>(["workbench", "geography", "layer", "network", "timeline", "table"]);
 const PARTICIPATION_TYPES = new Set<ParticipationType>([
   "signed",
   "ratified",
@@ -80,6 +86,13 @@ const REGIONS = new Set<Region>([
 const INSTRUMENT_IDS = new Set(INTERNATIONAL_INSTRUMENTS.map((instrument) => instrument.id));
 const COUNTRY_IDS = new Set(COUNTRIES.map((country) => country.iso3));
 const LAB_IDS = new Set(FRONTIER_LABS.map((lab) => lab.id));
+const OBLIGATION_CATEGORIES = new Set<ObligationCategory>(
+  Object.keys(OBLIGATION_CATEGORY_LABELS) as ObligationCategory[]
+);
+const DOMAIN_IDS = new Set<GovernanceDomainId>(GOVERNANCE_DOMAINS.map((domain) => domain.id));
+const IMPLEMENTATION_STATUSES = new Set<ImplementationStatus>(
+  Object.keys(IMPLEMENTATION_STATUS_LABELS) as ImplementationStatus[]
+);
 const NETWORK_PRESETS = new Set<NetworkPresetId>([
   "all",
   "labs-laws",
@@ -139,6 +152,9 @@ export function parseShareableState(search: string): ShareableAppState {
     hasBindingNationalLaw: enumValue(params.get("bindingLaw"), new Set(["any", "yes", "no"]), "any"),
     hasAnyAIRule: enumValue(params.get("anyRule"), new Set(["any", "yes", "no"]), "any"),
     frontierAIRelevant: enumValue(params.get("frontier"), new Set(["any", "yes", "no"]), "any"),
+    selectedObligationCategories: parseList(params.get("obl"), OBLIGATION_CATEGORIES),
+    selectedDomains: parseList(params.get("domain"), DOMAIN_IDS),
+    selectedImplementationStatuses: parseList(params.get("impl"), IMPLEMENTATION_STATUSES),
     searchQuery: params.get("q")?.slice(0, 120) ?? "",
   };
 
@@ -172,6 +188,9 @@ export function serializeShareableState(state: ShareableAppState): string {
   if (state.filters.hasBindingNationalLaw !== "any") params.set("bindingLaw", state.filters.hasBindingNationalLaw);
   if (state.filters.hasAnyAIRule !== "any") params.set("anyRule", state.filters.hasAnyAIRule);
   if (state.filters.frontierAIRelevant !== "any") params.set("frontier", state.filters.frontierAIRelevant);
+  setList(params, "obl", state.filters.selectedObligationCategories);
+  setList(params, "domain", state.filters.selectedDomains);
+  setList(params, "impl", state.filters.selectedImplementationStatuses);
   if (state.filters.searchQuery.trim()) params.set("q", state.filters.searchQuery.trim());
   if (state.selectedIso3) params.set("country", state.selectedIso3);
   if (state.selectedLabId) params.set("lab", state.selectedLabId);
