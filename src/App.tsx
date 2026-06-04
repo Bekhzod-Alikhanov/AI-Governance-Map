@@ -165,6 +165,7 @@ export default function App() {
   const [contextFillState, setContextFillState] = useState<{
     mapMode: MapModeId;
     fills: Record<string, string>;
+    reasons: Record<string, { label: string; detail: string }>;
   } | null>(null);
   const [mapView, setMapView] = useState<MapViewState>(DEFAULT_MAP_VIEW);
   const [compareItems, setCompareItems] = useState<CompareItem[]>([]);
@@ -183,8 +184,11 @@ export default function App() {
     }
 
     import("./utils/aiAtlas")
-      .then(({ buildAtlasMapFills }) => {
-        if (!cancelled) setContextFillState({ mapMode, fills: buildAtlasMapFills(mapMode) });
+      .then(({ buildAtlasMapContext }) => {
+        if (!cancelled) {
+          const context = buildAtlasMapContext(mapMode);
+          setContextFillState({ mapMode, fills: context.fills, reasons: context.reasons });
+        }
       })
       .catch((error: unknown) => {
         if (!cancelled) {
@@ -264,6 +268,7 @@ export default function App() {
   const showsMap = lens === "geography" || lens === "layer";
   const mapChromeHidden = showsMap && isMapMaximized;
   const contextFillByIso3 = contextFillState?.mapMode === mapMode ? contextFillState.fills : null;
+  const contextReasonByIso3 = contextFillState?.mapMode === mapMode ? contextFillState.reasons : null;
   const resultFitScope = useMemo(
     () => getMapFitScope(filters, selectedIso3, selectedLabId),
     [filters, selectedIso3, selectedLabId]
@@ -391,6 +396,14 @@ export default function App() {
     dispatch({ type: "set", filters: nextFilters });
     const target = getMapFitScope(nextFilters, null, null).target;
     if (target) setMapView(createFitMapView(target));
+  }
+
+  function handleOpenAtlasMapMode(nextMode: MapModeId) {
+    setMapMode(nextMode);
+    setLens("geography");
+    setRouteRecord(null);
+    setIsMapMaximized(false);
+    setMapView(DEFAULT_MAP_VIEW);
   }
 
   function isComparePinned(kind: CompareItemKind, id: string) {
@@ -534,6 +547,7 @@ export default function App() {
               onSelectLab={handleSelectLab}
               onSelectInstrument={handleSelectInstrument}
               onOpenMethodology={() => setShowMethodology(true)}
+              onOpenAtlasMapMode={handleOpenAtlasMapMode}
               routeRecord={routeRecord}
             />
           </Suspense>
@@ -793,6 +807,9 @@ export default function App() {
           x={hover.x}
           y={hover.y}
           activeFilterInstrumentIds={filters.selectedInstrumentIds}
+          lens={lens}
+          mapMode={mapMode}
+          contextReason={contextReasonByIso3?.[hover.iso3]}
         />
       )}
 

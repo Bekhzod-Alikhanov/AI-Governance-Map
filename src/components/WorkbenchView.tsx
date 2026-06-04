@@ -11,7 +11,7 @@ import { INTERNATIONAL_INSTRUMENTS, INSTRUMENT_BY_ID } from "../data/internation
 import { NATIONAL_AI_REGULATIONS, NATIONAL_REG_BY_ID } from "../data/nationalAIRegulations";
 import { PARTICIPATION_BY_INSTRUMENT } from "../data/participation";
 import { SUBNATIONAL_AI_RULES, SUBNATIONAL_BY_ID } from "../data/subnationalRules";
-import { DEFAULT_FILTER_STATE, type FilterState } from "../types";
+import { DEFAULT_FILTER_STATE, type FilterState, type MapModeId } from "../types";
 import type { RecordRoute } from "../utils/recordRoutes";
 import { recordRoute } from "../utils/recordRoutes";
 import { DATA_SNAPSHOT_DATE } from "../utils/governanceTaxonomy";
@@ -36,7 +36,13 @@ import {
   getLabRegulatoryExposures,
   LAB_EXPOSURE_EFFECT_LABELS,
 } from "../utils/labExposure";
-import { type AtlasPresetId, buildAtlasPresetRows } from "../utils/aiAtlas";
+import {
+  type AtlasPresetId,
+  buildAtlasPresetRows,
+  formatAtlasScore,
+  getCountryAtlasSummary,
+  READINESS_STATUS_LABELS,
+} from "../utils/aiAtlas";
 import { INSTRUMENT_BINDING_LABELS } from "../utils/getParticipationLabel";
 import { DATA_CONFIDENCE_LABELS } from "../utils/getVerificationLabel";
 import { SourceLink } from "./SourceLink";
@@ -58,6 +64,7 @@ interface Props {
   onSelectLab: (labId: string) => void;
   onSelectInstrument: (instrumentId: string) => void;
   onOpenMethodology: () => void;
+  onOpenAtlasMapMode: (mapMode: MapModeId) => void;
   routeRecord: RecordRoute | null;
 }
 
@@ -132,6 +139,43 @@ const ATLAS_PRESETS: Array<{ id: AtlasPresetId; title: string; detail: string }>
   },
 ];
 
+const ATLAS_COMPARISON_MAPS: Array<{
+  id: string;
+  title: string;
+  mapMode: MapModeId;
+  presetId: AtlasPresetId;
+  detail: string;
+}> = [
+  {
+    id: "readiness-law",
+    title: "Readiness vs binding law",
+    mapMode: "gov-ai-readiness",
+    presetId: "high-readiness-no-binding",
+    detail: "Spot high-capacity countries without confirmed binding AI-specific law.",
+  },
+  {
+    id: "ram-status",
+    title: "RAM status",
+    mapMode: "unesco-ram-status",
+    presetId: "ram-activity",
+    detail: "Find countries with UNESCO RAM/profile activity.",
+  },
+  {
+    id: "democratic-values",
+    title: "CAIDP vs Oxford",
+    mapMode: "democratic-values",
+    presetId: "caidp-oxford-comparison",
+    detail: "Compare democratic-values assessment with government readiness.",
+  },
+  {
+    id: "vibrancy-maturity",
+    title: "Vibrancy vs regulation",
+    mapMode: "ai-vibrancy",
+    presetId: "vibrancy-regulatory-maturity",
+    detail: "Compare AI ecosystem vibrancy with tracked binding-law coverage.",
+  },
+];
+
 export function WorkbenchView({
   filters,
   onFiltersChange,
@@ -139,6 +183,7 @@ export function WorkbenchView({
   onSelectLab,
   onSelectInstrument,
   onOpenMethodology,
+  onOpenAtlasMapMode,
   routeRecord,
 }: Props) {
   const [compareKind, setCompareKind] = useState<CompareKind>("country");
@@ -262,6 +307,16 @@ export function WorkbenchView({
                 </button>
               ))}
             </div>
+          </div>
+          <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
+            {ATLAS_COMPARISON_MAPS.map((item) => (
+              <AtlasMapCard
+                key={item.id}
+                item={item}
+                onOpenAtlasMapMode={onOpenAtlasMapMode}
+                onSelectCountry={onSelectCountry}
+              />
+            ))}
           </div>
           <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
             {atlasRows.map((row) => (
@@ -703,6 +758,54 @@ function RecordActions({ children }: { children: React.ReactNode }) {
   return <div className="mt-3 flex flex-wrap items-center gap-2">{children}</div>;
 }
 
+function AtlasMapCard({
+  item,
+  onOpenAtlasMapMode,
+  onSelectCountry,
+}: {
+  item: (typeof ATLAS_COMPARISON_MAPS)[number];
+  onOpenAtlasMapMode: (mapMode: MapModeId) => void;
+  onSelectCountry: (iso3: string) => void;
+}) {
+  const rows = buildAtlasPresetRows(item.presetId).slice(0, 3);
+  return (
+    <article className="rounded-lg border border-canvas-line bg-canvas/35 p-3 text-xs">
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-ink-500">
+            Comparison map
+          </p>
+          <h4 className="mt-0.5 text-sm font-semibold text-ink-900">{item.title}</h4>
+        </div>
+        <button
+          type="button"
+          onClick={() => onOpenAtlasMapMode(item.mapMode)}
+          className="rounded-md border border-accent/30 bg-white px-2 py-1 text-[11px] font-semibold text-accent hover:bg-accent/5"
+        >
+          Open map
+        </button>
+      </div>
+      <p className="mt-2 leading-relaxed text-ink-600">{item.detail}</p>
+      <div className="mt-3 space-y-1.5">
+        {rows.map((row, index) => (
+          <button
+            key={`${item.id}:${row.iso3}`}
+            type="button"
+            onClick={() => onSelectCountry(row.iso3)}
+            className="grid w-full grid-cols-[1.25rem_1fr] gap-2 rounded-md bg-white px-2 py-1.5 text-left hover:bg-accent/5"
+          >
+            <span className="text-[10px] font-semibold text-ink-500">{index + 1}</span>
+            <span className="min-w-0">
+              <span className="block truncate font-semibold text-ink-900">{row.countryName}</span>
+              <span className="block truncate text-[11px] text-ink-600">{row.primary}</span>
+            </span>
+          </button>
+        ))}
+      </div>
+    </article>
+  );
+}
+
 function optionsForKind(kind: CompareKind) {
   if (kind === "country") {
     return COUNTRIES.filter((country) => country.iso3 !== "ATA").map((country) => ({
@@ -722,16 +825,18 @@ function getCompareSummary(item: CompareSelection) {
   if (item.kind === "country") {
     const summary = getCountryGovernanceSummary(item.id);
     const obligations = getCountryObligations(item.id);
-    const implementation = getCountryImplementationMilestones(item.id);
+    const atlas = getCountryAtlasSummary(item.id);
     return {
       title: summary.country?.name ?? item.id,
       metrics: [
         ["Binding", summary.hasBindingNationalLaw ? "Yes" : "No"],
         ["Rules", String(summary.nationalRegulations.length)],
         ["Obligations", String(obligations.length)],
-        ["Milestones", String(implementation.length)],
+        ["Oxford", formatAtlasScore(atlas.oxford)],
+        ["CAIDP", formatAtlasScore(atlas.caidp)],
+        ["RAM", atlas.unescoRam ? READINESS_STATUS_LABELS[atlas.unescoRam.status] : "No data"],
       ],
-      detail: summarizeObligationCategories(obligations),
+      detail: `${summarizeObligationCategories(obligations)} Atlas indicators are context only and do not establish legal duties.`,
     };
   }
   if (item.kind === "lab") {

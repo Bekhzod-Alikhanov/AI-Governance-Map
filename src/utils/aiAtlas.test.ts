@@ -5,20 +5,25 @@ import { DEFAULT_FILTER_STATE } from "../types";
 import { buildEvidenceDossier, renderEvidenceDossierMarkdown } from "./evidenceDossier";
 import { getMapStyle } from "./getMapColor";
 import {
+  buildAtlasMapContext,
   CAIDP_DEMOCRATIC_VALUES_SOURCE_ID,
   getCountryAtlasSummary,
+  IMF_AI_PREPAREDNESS_SOURCE_ID,
   OXFORD_READINESS_SOURCE_ID,
   STANFORD_VIBRANCY_SOURCE_ID,
 } from "./aiAtlas";
 
 describe("AI Atlas indicators", () => {
   it("has source metadata for every first-batch source", () => {
-    expect(AI_ATLAS_SOURCES.map((source) => source.id)).toEqual([
-      OXFORD_READINESS_SOURCE_ID,
-      CAIDP_DEMOCRATIC_VALUES_SOURCE_ID,
-      "unesco-ram-global-hub-2026",
-      STANFORD_VIBRANCY_SOURCE_ID,
-    ]);
+    expect(AI_ATLAS_SOURCES.map((source) => source.id)).toEqual(
+      expect.arrayContaining([
+        OXFORD_READINESS_SOURCE_ID,
+        CAIDP_DEMOCRATIC_VALUES_SOURCE_ID,
+        "unesco-ram-global-hub-2026",
+        STANFORD_VIBRANCY_SOURCE_ID,
+        IMF_AI_PREPAREDNESS_SOURCE_ID,
+      ])
+    );
     for (const source of AI_ATLAS_SOURCES) {
       expect(source.sourceUrl).toMatch(/^https:\/\//);
       expect(source.methodologyUrl).toMatch(/^https:\/\//);
@@ -45,6 +50,13 @@ describe("AI Atlas indicators", () => {
 
     expect(readinessStyle.fill).not.toBe(legalStyle.fill);
     expect(caidpStyle.fill).not.toBe(legalStyle.fill);
+  });
+
+  it("builds Atlas map context without turning source-only families into legal effects", () => {
+    const context = buildAtlasMapContext("gov-ai-readiness");
+    expect(context.fills.USA).toMatch(/^#/);
+    expect(context.reasons.USA.label).toContain("Oxford readiness");
+    expect(COUNTRY_INDICATOR_SCORES.some((score) => score.sourceId === IMF_AI_PREPAREDNESS_SOURCE_ID)).toBe(false);
   });
 
   it("includes AI Atlas context in country dossiers", () => {

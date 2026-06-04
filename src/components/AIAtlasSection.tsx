@@ -51,6 +51,46 @@ export function AIAtlasSection({ iso3 }: Props) {
       <div className="mt-3 grid gap-2 sm:grid-cols-2">
         {cards.map((card) => card)}
       </div>
+      <div className="mt-3 overflow-hidden rounded-lg border border-canvas-line">
+        <table className="w-full text-left text-[11px]">
+          <thead className="bg-canvas/70 text-ink-500">
+            <tr>
+              <th className="px-2 py-1.5 font-semibold">Source</th>
+              <th className="px-2 py-1.5 font-semibold">Score / status</th>
+              <th className="px-2 py-1.5 font-semibold">Rank / tier</th>
+              <th className="px-2 py-1.5 font-semibold">Detail</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-canvas-line bg-white">
+            {atlas.scores.map((score) => (
+              <tr key={score.id}>
+                <td className="px-2 py-1.5 font-medium text-ink-900">
+                  {INDICATOR_SOURCE_BY_ID[score.sourceId]?.name ?? score.sourceName}
+                </td>
+                <td className="px-2 py-1.5 text-ink-700">{formatAtlasScore(score)}</td>
+                <td className="px-2 py-1.5 text-ink-700">
+                  {[formatAtlasRank(score), score.tier ? `Tier ${score.tier}` : ""].filter(Boolean).join(" | ") || "n/a"}
+                </td>
+                <td className="px-2 py-1.5 text-ink-600">
+                  {summarizeIndicatorDetail(score.pillars ?? score.dimensions)}
+                </td>
+              </tr>
+            ))}
+            {atlas.readinessReports.map((report) => (
+              <tr key={report.id}>
+                <td className="px-2 py-1.5 font-medium text-ink-900">
+                  {INDICATOR_SOURCE_BY_ID[report.sourceId]?.name ?? report.sourceName}
+                </td>
+                <td className="px-2 py-1.5 text-ink-700">{READINESS_STATUS_LABELS[report.status]}</td>
+                <td className="px-2 py-1.5 text-ink-700">n/a</td>
+                <td className="px-2 py-1.5 text-ink-600">
+                  {report.profileUrl ? "Country profile linked" : "RAM table status"}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
   );
 }
@@ -100,4 +140,12 @@ function readinessCard(report: CountryReadinessReport) {
 
 function formatRankAndSource(score: CountryIndicatorScore) {
   return [formatAtlasRank(score), formatAtlasSource(score)].filter(Boolean).join(" | ");
+}
+
+function summarizeIndicatorDetail(detail: Record<string, number | string> | undefined) {
+  if (!detail) return "No dimension detail";
+  return Object.entries(detail)
+    .slice(0, 3)
+    .map(([key, value]) => `${key}: ${value}`)
+    .join(" | ");
 }

@@ -332,7 +332,12 @@ export type IndicatorSourceCategory =
   | "government_readiness"
   | "democratic_values"
   | "readiness_assessment"
-  | "ai_vibrancy";
+  | "ai_vibrancy"
+  | "ai_preparedness"
+  | "policy_index"
+  | "responsible_ai"
+  | "public_sector_registry"
+  | "ai_safety_institute";
 
 export interface IndicatorSource extends VerificationMetadata {
   id: string;

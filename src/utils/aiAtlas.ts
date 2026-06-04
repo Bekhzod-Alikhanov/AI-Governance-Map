@@ -14,12 +14,24 @@ export const OXFORD_READINESS_SOURCE_ID = "oxford-gov-ai-readiness-2025";
 export const CAIDP_DEMOCRATIC_VALUES_SOURCE_ID = "caidp-ai-democratic-values-2026";
 export const UNESCO_RAM_SOURCE_ID = "unesco-ram-global-hub-2026";
 export const STANFORD_VIBRANCY_SOURCE_ID = "stanford-ai-vibrancy-tool-2024";
+export const IMF_AI_PREPAREDNESS_SOURCE_ID = "imf-ai-preparedness-index";
+export const OECD_AI_OBSERVATORY_INDEX_SOURCE_ID = "oecd-ai-observatory-index-2026";
+export const OECD_AI_POLICY_OBSERVATORY_SOURCE_ID = "oecd-ai-policy-observatory";
+export const GLOBAL_RESPONSIBLE_AI_SOURCE_ID = "global-index-responsible-ai-2024";
+export const NETHERLANDS_ALGORITHM_REGISTER_SOURCE_ID = "netherlands-public-algorithm-register";
+export const INTERNATIONAL_AISI_NETWORK_SOURCE_ID = "international-network-ai-safety-institutes";
 
 export const ATLAS_SOURCE_LABELS: Record<string, string> = {
   [OXFORD_READINESS_SOURCE_ID]: "Gov AI readiness",
   [CAIDP_DEMOCRATIC_VALUES_SOURCE_ID]: "Democratic values",
   [UNESCO_RAM_SOURCE_ID]: "UNESCO RAM",
   [STANFORD_VIBRANCY_SOURCE_ID]: "AI vibrancy",
+  [IMF_AI_PREPAREDNESS_SOURCE_ID]: "AI preparedness",
+  [OECD_AI_OBSERVATORY_INDEX_SOURCE_ID]: "OECD.AI index",
+  [OECD_AI_POLICY_OBSERVATORY_SOURCE_ID]: "OECD.AI policy",
+  [GLOBAL_RESPONSIBLE_AI_SOURCE_ID]: "Responsible AI index",
+  [NETHERLANDS_ALGORITHM_REGISTER_SOURCE_ID]: "Public-sector AI registry",
+  [INTERNATIONAL_AISI_NETWORK_SOURCE_ID]: "AI safety institute network",
 };
 
 export const READINESS_STATUS_LABELS: Record<ReadinessReportStatus, string> = {
@@ -45,6 +57,16 @@ export interface AtlasPresetRow {
   countryName: string;
   primary: string;
   secondary: string;
+}
+
+export interface AtlasMapReason {
+  label: string;
+  detail: string;
+}
+
+export interface AtlasMapContext {
+  fills: Record<string, string>;
+  reasons: Record<string, AtlasMapReason>;
 }
 
 export type AtlasPresetId =
@@ -145,6 +167,61 @@ export function buildAtlasMapFills(mapMode: MapModeId): Record<string, string> {
   );
 }
 
+export function buildAtlasMapContext(mapMode: MapModeId): AtlasMapContext {
+  const fills: Record<string, string> = {};
+  const reasons: Record<string, AtlasMapReason> = {};
+
+  for (const country of COUNTRIES) {
+    if (country.iso3 === "EUU") continue;
+    fills[country.iso3] = getAtlasMapFill(country.iso3, mapMode) ?? "#E5E7EB";
+    reasons[country.iso3] = getAtlasMapReason(country.iso3, mapMode);
+  }
+
+  return { fills, reasons };
+}
+
+export function getAtlasMapReason(iso3: string, mapMode: MapModeId): AtlasMapReason {
+  const countryName = COUNTRY_BY_ISO3[iso3]?.name ?? iso3;
+  if (mapMode === "gov-ai-readiness") {
+    const score = getCountryIndicatorScore(iso3, OXFORD_READINESS_SOURCE_ID);
+    if (!score) return noAtlasReason(countryName, "Oxford readiness score");
+    return {
+      label: `Oxford readiness: ${formatAtlasScore(score)}`,
+      detail: `${formatAtlasRank(score) || "No rank shown"} from ${formatAtlasSource(score)}. Context only; it does not indicate legal effect.`,
+    };
+  }
+  if (mapMode === "democratic-values") {
+    const score = getCountryIndicatorScore(iso3, CAIDP_DEMOCRATIC_VALUES_SOURCE_ID);
+    if (!score) return noAtlasReason(countryName, "CAIDP democratic-values score");
+    return {
+      label: `CAIDP score: ${formatAtlasScore(score)}`,
+      detail: `${score.tier ? `Tier ${score.tier}. ` : ""}${formatAtlasSource(score)} assessment; not official legal status.`,
+    };
+  }
+  if (mapMode === "ai-vibrancy") {
+    const score = getCountryIndicatorScore(iso3, STANFORD_VIBRANCY_SOURCE_ID);
+    if (!score) return noAtlasReason(countryName, "Stanford AI vibrancy score");
+    return {
+      label: `AI vibrancy: ${formatAtlasScore(score)}`,
+      detail: `${formatAtlasRank(score) || "No rank shown"} from ${formatAtlasSource(score)}. Ecosystem context only.`,
+    };
+  }
+  if (mapMode === "unesco-ram-status") {
+    const report = getCountryAtlasSummary(iso3).unescoRam;
+    if (!report) return noAtlasReason(countryName, "UNESCO RAM status");
+    return {
+      label: `UNESCO RAM: ${READINESS_STATUS_LABELS[report.status]}`,
+      detail: report.profileUrl
+        ? "UNESCO profile or RAM activity is linked for this country. This is not a comparable numeric score."
+        : "UNESCO RAM table activity is tracked for this country. This is not a legal obligation.",
+    };
+  }
+  return {
+    label: "Context indicator mode",
+    detail: "This Atlas mode is contextual and does not change legal-status summaries.",
+  };
+}
+
 export function buildAtlasPresetRows(presetId: AtlasPresetId): AtlasPresetRow[] {
   if (presetId === "high-readiness-no-binding") {
     return COUNTRIES
@@ -214,4 +291,11 @@ function sequentialFill(value: number | undefined, max: number, colors: [string,
 
 function formatNumber(value: number): string {
   return Number.isInteger(value) ? String(value) : value.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
+}
+
+function noAtlasReason(countryName: string, label: string): AtlasMapReason {
+  return {
+    label: `No ${label}`,
+    detail: `${countryName} has no imported row for this Atlas source in the current static dataset.`,
+  };
 }

@@ -168,6 +168,7 @@ const COLUMNS: Record<DatasetKey, TableColumn[]> = {
     { key: "detail", label: "Detail" },
     { key: "confidence", label: "Confidence" },
     { key: "lastVerified", label: "Last verified" },
+    { key: "sourceUrl", label: "Source URL" },
   ],
   participation: [
     { key: "country", label: "Country" },
@@ -489,6 +490,7 @@ function buildRows(
         detail: summarizeIndicatorDetail(score.pillars ?? score.dimensions),
         confidence: confidenceLabel(score),
         lastVerified: score.lastVerified ?? "",
+        sourceUrl: score.sourceUrl,
       }, country ? { label: "Country", onClick: () => onSelectCountry(country.iso3) } : undefined);
     });
     const reportRows = COUNTRY_READINESS_REPORTS.filter((report) => {
@@ -508,9 +510,28 @@ function buildRows(
         detail: report.profileUrl ? "UNESCO country profile linked" : "UNESCO RAM table status",
         confidence: confidenceLabel(report),
         lastVerified: report.lastVerified ?? "",
+        sourceUrl: report.sourceUrl,
       }, country ? { label: "Country", onClick: () => onSelectCountry(country.iso3) } : undefined);
     });
-    return [...scoreRows, ...reportRows];
+    const representedSourceIds = new Set([
+      ...COUNTRY_INDICATOR_SCORES.map((score) => score.sourceId),
+      ...COUNTRY_READINESS_REPORTS.map((report) => report.sourceId),
+    ]);
+    const sourceOnlyRows = AI_ATLAS_SOURCES.filter((source) => !representedSourceIds.has(source.id)).map((source) =>
+      row(`indicator-source:${source.id}`, {
+        country: "Global / source family",
+        source: source.name,
+        kind: source.category.replace(/_/g, " "),
+        year: source.year,
+        score: "Source only",
+        rank: "",
+        detail: source.coverage,
+        confidence: confidenceLabel(source),
+        lastVerified: source.lastVerified ?? "",
+        sourceUrl: source.sourceUrl,
+      })
+    );
+    return [...scoreRows, ...reportRows, ...sourceOnlyRows];
   }
 
   if (dataset === "participation") {
