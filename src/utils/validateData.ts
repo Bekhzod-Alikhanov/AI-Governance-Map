@@ -12,6 +12,7 @@ import { INFRASTRUCTURE_NODES, INFRA_BY_ID } from "../data/infrastructure";
 import { DEPENDENCY_EDGES } from "../data/dependencies";
 import { SUBNATIONAL_AI_RULES, SUBNATIONAL_BY_ID } from "../data/subnationalRules";
 import { LAB_REGULATORY_EXPOSURES } from "../data/labRegulatoryExposures";
+import { AI_ATLAS_SOURCES, COUNTRY_INDICATOR_SCORES, COUNTRY_READINESS_REPORTS, INDICATOR_SOURCE_BY_ID } from "../data/aiAtlas";
 import { hasCyrillic } from "./translateSeedDataToEnglish";
 import {
   assessSourceUrl,
@@ -280,6 +281,49 @@ export function validateData(): ValidationReport {
         `Implementation milestone ${milestone.id} references unknown ${milestone.parentType} parent ${milestone.parentId}`
       );
     }
+  }
+
+  // AI Atlas context indicators
+  const indicatorSourceIds = new Set<string>();
+  for (const source of AI_ATLAS_SOURCES) {
+    if (!source.id) errors.push("AI Atlas source missing id");
+    if (indicatorSourceIds.has(source.id)) errors.push(`Duplicate AI Atlas source id: ${source.id}`);
+    indicatorSourceIds.add(source.id);
+    validateSource("AI Atlas source", source.id, source);
+    if (!source.methodologyUrl) errors.push(`AI Atlas source ${source.id} missing methodologyUrl`);
+    if (!source.caveat) warnings.push(`AI Atlas source ${source.id} missing caveat`);
+  }
+
+  const indicatorScoreIds = new Set<string>();
+  for (const score of COUNTRY_INDICATOR_SCORES) {
+    if (!score.id) errors.push("Country indicator score missing id");
+    if (indicatorScoreIds.has(score.id)) errors.push(`Duplicate country indicator score id: ${score.id}`);
+    indicatorScoreIds.add(score.id);
+    if (!COUNTRY_BY_ISO3[score.countryIso3]) {
+      errors.push(`Country indicator score ${score.id} references unknown country ${score.countryIso3}`);
+    }
+    if (!INDICATOR_SOURCE_BY_ID[score.sourceId]) {
+      errors.push(`Country indicator score ${score.id} references unknown indicator source ${score.sourceId}`);
+    }
+    if (score.score !== undefined && (score.score < 0 || score.score > 1000)) {
+      errors.push(`Country indicator score ${score.id} has implausible score ${score.score}`);
+    }
+    validateSource("Country indicator score", score.id, score);
+  }
+
+  const readinessReportIds = new Set<string>();
+  for (const report of COUNTRY_READINESS_REPORTS) {
+    if (!report.id) errors.push("Country readiness report missing id");
+    if (readinessReportIds.has(report.id)) errors.push(`Duplicate country readiness report id: ${report.id}`);
+    readinessReportIds.add(report.id);
+    if (!COUNTRY_BY_ISO3[report.countryIso3]) {
+      errors.push(`Country readiness report ${report.id} references unknown country ${report.countryIso3}`);
+    }
+    if (!INDICATOR_SOURCE_BY_ID[report.sourceId]) {
+      errors.push(`Country readiness report ${report.id} references unknown indicator source ${report.sourceId}`);
+    }
+    if (!report.caveat) warnings.push(`Country readiness report ${report.id} missing caveat`);
+    validateSource("Country readiness report", report.id, report);
   }
 
   // Dataset releases

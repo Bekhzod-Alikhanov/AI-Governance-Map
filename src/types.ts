@@ -327,6 +327,63 @@ export interface ImplementationMilestone extends VerificationMetadata {
   sourceUrl: string;
 }
 
+// ===== AI Atlas context indicators =====
+export type IndicatorSourceCategory =
+  | "government_readiness"
+  | "democratic_values"
+  | "readiness_assessment"
+  | "ai_vibrancy";
+
+export interface IndicatorSource extends VerificationMetadata {
+  id: string;
+  name: string;
+  publisher: string;
+  year: number;
+  category: IndicatorSourceCategory;
+  coverage: string;
+  methodologyUrl: string;
+  sourceName: string;
+  sourceUrl: string;
+  caveat: string;
+}
+
+export interface CountryIndicatorScore extends VerificationMetadata {
+  id: string;
+  sourceId: string;
+  countryIso3: string;
+  year: number;
+  score?: number;
+  rank?: number;
+  tier?: string;
+  scoreLabel?: string;
+  pillars?: Record<string, number>;
+  dimensions?: Record<string, number | string>;
+  sourceName: string;
+  sourceUrl: string;
+  notes?: string;
+}
+
+export type ReadinessReportStatus =
+  | "completed"
+  | "in_process"
+  | "in_preparation"
+  | "profile_available";
+
+export interface CountryReadinessReport extends VerificationMetadata {
+  id: string;
+  sourceId: string;
+  countryIso3: string;
+  status: ReadinessReportStatus;
+  reportDate?: string;
+  profileUrl?: string;
+  reportUrl?: string;
+  dimensions: string[];
+  caveat: string;
+  sourceName: string;
+  sourceUrl: string;
+  notes?: string;
+}
+
 export type WorkbenchWorkflowId =
   | "compare-countries"
   | "compare-labs"
@@ -345,7 +402,11 @@ export type MapModeId =
   | "obligation-type"
   | "implementation-deadline"
   | "source-confidence"
-  | "frontier-relevance";
+  | "frontier-relevance"
+  | "gov-ai-readiness"
+  | "democratic-values"
+  | "unesco-ram-status"
+  | "ai-vibrancy";
 
 // ===== Infrastructure layer (Tier 1.B) =====
 export type InfrastructureType = "chips" | "cloud" | "export_control";

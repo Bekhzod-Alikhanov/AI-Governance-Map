@@ -32,6 +32,14 @@ import {
   LAB_EXPOSURE_KIND_LABELS,
   summarizeLabExposures,
 } from "./labExposure";
+import {
+  ATLAS_SOURCE_LABELS,
+  formatAtlasRank,
+  formatAtlasScore,
+  getCountryAtlasSummary,
+  READINESS_STATUS_LABELS,
+} from "./aiAtlas";
+import { INDICATOR_SOURCE_BY_ID } from "../data/aiAtlas";
 
 export type DossierKind = "country" | "lab" | "instrument";
 
@@ -162,6 +170,7 @@ function buildCountryDossier(iso3: string, currentUrl: string): EvidenceDossier 
   );
   const obligations = getCountryObligations(iso3);
   const implementation = getCountryImplementationMilestones(iso3);
+  const atlas = getCountryAtlasSummary(iso3);
 
   const caveats = [
     "This country profile is a research aggregation, not legal advice.",
@@ -173,6 +182,9 @@ function buildCountryDossier(iso3: string, currentUrl: string): EvidenceDossier 
       : []),
     ...(indirectRows.length
       ? ["Indirect membership coverage and EU applicability rows should not be read as explicit country-by-country signature, ratification, or endorsement."]
+      : []),
+    ...(atlas.hasAnyAtlasData
+      ? ["AI Atlas readiness, democratic-values, RAM, and ecosystem indicators are contextual research evidence; they do not establish binding AI duties or legal compliance."]
       : []),
   ];
 
@@ -189,6 +201,18 @@ function buildCountryDossier(iso3: string, currentUrl: string): EvidenceDossier 
   }
   for (const milestone of implementation) {
     sources.add("Implementation milestone", { ...milestone, name: milestone.label });
+  }
+  for (const score of atlas.scores) {
+    sources.add("AI Atlas indicator", {
+      ...score,
+      name: `${country.name} - ${INDICATOR_SOURCE_BY_ID[score.sourceId]?.name ?? score.sourceName}`,
+    });
+  }
+  for (const report of atlas.readinessReports) {
+    sources.add("AI Atlas readiness", {
+      ...report,
+      name: `${country.name} - ${INDICATOR_SOURCE_BY_ID[report.sourceId]?.name ?? report.sourceName}`,
+    });
   }
 
   return {
@@ -209,6 +233,10 @@ function buildCountryDossier(iso3: string, currentUrl: string): EvidenceDossier 
       { label: "Frontier labs headquartered here", value: summary.hqLabs.length },
       { label: "Structured obligation rows", value: obligations.length },
       { label: "Implementation milestones", value: implementation.length },
+      ...(atlas.oxford ? [{ label: "Government AI readiness", value: `${formatAtlasScore(atlas.oxford)} ${formatAtlasRank(atlas.oxford)}` }] : []),
+      ...(atlas.caidp ? [{ label: "CAIDP democratic-values score", value: `${formatAtlasScore(atlas.caidp)}${atlas.caidp.tier ? ` Tier ${atlas.caidp.tier}` : ""}` }] : []),
+      ...(atlas.stanford ? [{ label: "Stanford AI vibrancy", value: `${formatAtlasScore(atlas.stanford)} ${formatAtlasRank(atlas.stanford)}` }] : []),
+      ...(atlas.unescoRam ? [{ label: "UNESCO RAM status", value: READINESS_STATUS_LABELS[atlas.unescoRam.status] }] : []),
     ],
     sections: [
       {
@@ -247,6 +275,10 @@ function buildCountryDossier(iso3: string, currentUrl: string): EvidenceDossier 
             detail: summary.hqLabs.length ? summary.hqLabs.map((lab) => lab.name).join("; ") : "None tracked.",
           },
         ],
+      },
+      {
+        title: "AI Atlas context indicators",
+        claims: atlasClaims(atlas),
       },
     ],
     caveats,
@@ -445,6 +477,34 @@ function participationClaims(participations: ReturnType<typeof getCountryGoverna
       .map(({ instrument }) => instrument.name)
       .join("; ")}`,
   }));
+}
+
+function atlasClaims(atlas: ReturnType<typeof getCountryAtlasSummary>) {
+  if (!atlas.hasAnyAtlasData) {
+    return [{ label: "AI Atlas context", detail: "No contextual AI-readiness or index rows tracked for this country." }];
+  }
+  const claims: EvidenceDossierClaim[] = [];
+  for (const score of atlas.scores) {
+    const label = ATLAS_SOURCE_LABELS[score.sourceId] ?? INDICATOR_SOURCE_BY_ID[score.sourceId]?.name ?? score.sourceName;
+    claims.push({
+      label,
+      detail: [
+        score.score !== undefined ? `Score ${formatAtlasScore(score)}` : "",
+        formatAtlasRank(score),
+        score.tier ? `Tier ${score.tier}` : "",
+        INDICATOR_SOURCE_BY_ID[score.sourceId]?.caveat ?? score.notes ?? "",
+      ]
+        .filter(Boolean)
+        .join("; "),
+    });
+  }
+  for (const report of atlas.readinessReports) {
+    claims.push({
+      label: "UNESCO RAM",
+      detail: `${READINESS_STATUS_LABELS[report.status]}. ${report.caveat}${report.profileUrl ? ` Profile: ${report.profileUrl}` : ""}`,
+    });
+  }
+  return claims;
 }
 
 function exposureSourceRecord(

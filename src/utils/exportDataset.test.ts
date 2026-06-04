@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { COUNTRIES } from "../data/countries";
+import { AI_ATLAS_SOURCES, COUNTRY_INDICATOR_SCORES, COUNTRY_READINESS_REPORTS } from "../data/aiAtlas";
 import { FRONTIER_LABS } from "../data/frontierLabs";
 import { GOVERNANCE_OBLIGATIONS } from "../data/governanceObligations";
 import { IMPLEMENTATION_MILESTONES } from "../data/implementationMilestones";
@@ -35,9 +36,13 @@ describe("dataset export helpers", () => {
     expect(snapshot.counts.nationalAIRegulations).toBe(NATIONAL_AI_REGULATIONS.length);
     expect(snapshot.counts.governanceObligations).toBe(GOVERNANCE_OBLIGATIONS.length);
     expect(snapshot.counts.implementationMilestones).toBe(IMPLEMENTATION_MILESTONES.length);
+    expect(snapshot.counts.indicatorSources).toBe(AI_ATLAS_SOURCES.length);
+    expect(snapshot.counts.countryIndicatorScores).toBe(COUNTRY_INDICATOR_SCORES.length);
+    expect(snapshot.counts.countryReadinessReports).toBe(COUNTRY_READINESS_REPORTS.length);
     expect(snapshot.data.countries).toBe(COUNTRIES);
     expect(snapshot.data.frontierLabs).toBe(FRONTIER_LABS);
     expect(snapshot.data.labRegulatoryExposures).toBe(LAB_REGULATORY_EXPOSURES);
+    expect(snapshot.data.countryIndicatorScores).toBe(COUNTRY_INDICATOR_SCORES);
     expect(validateDatasetSnapshotShape(snapshot)).toEqual([]);
   });
 

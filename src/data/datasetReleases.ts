@@ -24,6 +24,7 @@ export const DATASET_RELEASES: DatasetRelease[] = [
       "Baseline public snapshot covering countries, frontier labs, international instruments, national and subnational AI rules, typed lab exposure, source metadata, and evidence dossiers.",
     recordsAdded: [
       "Research presets, Table view, Methodology, correction links, lab exposure workbench, evidence dossiers, and source delta monitor.",
+      "AI Atlas context indicators for Oxford Government AI Readiness 2025, CAIDP AI and Democratic Values 2026, UNESCO RAM Global Hub status, and Stanford Global AI Vibrancy Tool public data.",
     ],
     recordsChanged: [
       "High- and medium-priority legal/source records reviewed and softened where official sources did not support strong claims.",
@@ -41,6 +42,7 @@ export const DATASET_RELEASES: DatasetRelease[] = [
       "docs/SOURCE_AUDIT_CURRENT.md",
       "docs/SOURCE_DELTA_REPORT.md",
       "docs/SOURCE_VERIFICATION_2026-05-29.md",
+      "docs/AI_ATLAS_IMPORT_REVIEW.md",
       "docs/RELEASE_2026-05.md",
     ],
   },

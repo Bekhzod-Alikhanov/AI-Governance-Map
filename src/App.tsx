@@ -27,7 +27,6 @@ import { WalkthroughOverlay } from "./components/WalkthroughOverlay";
 import { ResearchQuestionsPanel } from "./components/ResearchQuestionsPanel";
 import { MethodologyPanel } from "./components/MethodologyPanel";
 import { ComparisonTray } from "./components/ComparisonTray";
-import { runDevValidation } from "./utils/validateData";
 import { DEFAULT_SHAREABLE_STATE, parseShareableState, serializeShareableState } from "./utils/urlState";
 import { COUNTRIES, COUNTRY_BY_ISO3 } from "./data/countries";
 import { INTERNATIONAL_INSTRUMENTS } from "./data/internationalInstruments";
@@ -77,7 +76,17 @@ const MAP_MODE_OPTIONS: Array<{ id: MapModeId; label: string }> = [
   { id: "implementation-deadline", label: "Implementation" },
   { id: "source-confidence", label: "Source confidence" },
   { id: "frontier-relevance", label: "Frontier relevance" },
+  { id: "gov-ai-readiness", label: "Gov readiness" },
+  { id: "democratic-values", label: "Democratic values" },
+  { id: "unesco-ram-status", label: "UNESCO RAM" },
+  { id: "ai-vibrancy", label: "AI vibrancy" },
 ];
+const ATLAS_MAP_MODES = new Set<MapModeId>([
+  "gov-ai-readiness",
+  "democratic-values",
+  "unesco-ram-status",
+  "ai-vibrancy",
+]);
 
 function LensFallback() {
   return (
@@ -153,13 +162,40 @@ export default function App() {
   const [showMethodology, setShowMethodology] = useState(false);
   const [isMapMaximized, setIsMapMaximized] = useState(false);
   const [mapMode, setMapMode] = useState<MapModeId>("binding-law");
+  const [contextFillState, setContextFillState] = useState<{
+    mapMode: MapModeId;
+    fills: Record<string, string>;
+  } | null>(null);
   const [mapView, setMapView] = useState<MapViewState>(DEFAULT_MAP_VIEW);
   const [compareItems, setCompareItems] = useState<CompareItem[]>([]);
 
   useEffect(() => {
-    if (import.meta.env.VITE_SKIP_DEV_VALIDATION === "1") return;
-    runDevValidation();
+    if (!import.meta.env.DEV || import.meta.env.VITE_SKIP_DEV_VALIDATION === "1") return;
+    void import("./utils/validateData").then(({ runDevValidation }) => runDevValidation());
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (!ATLAS_MAP_MODES.has(mapMode)) {
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    import("./utils/aiAtlas")
+      .then(({ buildAtlasMapFills }) => {
+        if (!cancelled) setContextFillState({ mapMode, fills: buildAtlasMapFills(mapMode) });
+      })
+      .catch((error: unknown) => {
+        if (!cancelled) {
+          console.error("Unable to load AI Atlas map data", error);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [mapMode]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -227,6 +263,7 @@ export default function App() {
 
   const showsMap = lens === "geography" || lens === "layer";
   const mapChromeHidden = showsMap && isMapMaximized;
+  const contextFillByIso3 = contextFillState?.mapMode === mapMode ? contextFillState.fills : null;
   const resultFitScope = useMemo(
     () => getMapFitScope(filters, selectedIso3, selectedLabId),
     [filters, selectedIso3, selectedLabId]
@@ -485,6 +522,7 @@ export default function App() {
             mapZoom={mapView.zoom}
             mapFitTarget={mapView.fitTarget}
             mapMode={mapMode}
+            contextFillByIso3={contextFillByIso3}
           />
         )}
         {lens === "workbench" && (
@@ -691,7 +729,7 @@ export default function App() {
         {showsMap && (
           <div className="pointer-events-none absolute bottom-4 left-4 z-10 max-w-xs space-y-2">
             <div className="pointer-events-auto">
-              <Legend key={mapChromeHidden ? "maximized" : "normal"} />
+              <Legend key={mapChromeHidden ? "maximized" : "normal"} mapMode={mapMode} />
             </div>
             <label className="pointer-events-auto inline-flex cursor-pointer items-center gap-2 rounded-md border border-canvas-line bg-white px-2.5 py-1 text-[11px] font-medium text-ink-700 shadow-panel">
               <input
@@ -709,7 +747,7 @@ export default function App() {
         {showsMap && !mapChromeHidden && (
           <div className="pointer-events-none absolute bottom-4 right-4 z-10 max-w-md text-right">
             <p className="pointer-events-auto inline-block rounded-md bg-white/85 px-2.5 py-1 text-[10px] text-ink-500 shadow-panel backdrop-blur">
-              Sources: EUR-Lex · OECD · UNESCO · CoE · ISO · GOV.UK · NIST · CAC · MSIT · IMDA · MeitY · AU · ASEAN · APEC · CAIDP Index 2026 · doc1 frontier-AI brief
+              Sources: EUR-Lex · OECD · UNESCO · CoE · ISO · GOV.UK · NIST · CAC · MSIT · IMDA · MeitY · AU · ASEAN · APEC · Oxford Insights · CAIDP · Stanford HAI
             </p>
           </div>
         )}

@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { getCountryGovernanceSummary } from "../utils/getCountryGovernanceSummary";
 import { InstrumentList } from "./InstrumentList";
 import { NationalRegulationList } from "./NationalRegulationList";
@@ -18,6 +19,8 @@ import {
   summarizeImplementationStatuses,
   summarizeObligationCategories,
 } from "../utils/researchWorkbench";
+
+const AIAtlasSection = lazy(() => import("./AIAtlasSection").then((module) => ({ default: module.AIAtlasSection })));
 
 interface Props {
   iso3: string;
@@ -202,6 +205,10 @@ export function CountrySidePanel({
           </p>
         </section>
 
+        <Suspense fallback={<AIAtlasSectionFallback />}>
+          <AIAtlasSection iso3={country.iso3} />
+        </Suspense>
+
         {summary.hqLabs.length > 0 && (
           <section className="mt-6">
             <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">
@@ -329,6 +336,17 @@ export function CountrySidePanel({
         )}
       </div>
     </aside>
+  );
+}
+
+function AIAtlasSectionFallback() {
+  return (
+    <section className="mt-4 rounded-xl border border-canvas-line bg-white p-3">
+      <h3 className="text-xs font-semibold uppercase tracking-wide text-ink-500">
+        AI Atlas context
+      </h3>
+      <p className="mt-2 text-xs text-ink-500">Loading contextual indicators...</p>
+    </section>
   );
 }
 

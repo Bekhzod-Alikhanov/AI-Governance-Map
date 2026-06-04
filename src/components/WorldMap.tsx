@@ -68,6 +68,7 @@ interface Props {
   mapZoom?: number;
   mapFitTarget?: MapFitTarget | null;
   mapMode?: MapModeId;
+  contextFillByIso3?: Record<string, string> | null;
 }
 
 export function WorldMap({
@@ -85,6 +86,7 @@ export function WorldMap({
   mapZoom = 1,
   mapFitTarget,
   mapMode = "binding-law",
+  contextFillByIso3,
 }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<{
@@ -287,7 +289,7 @@ export function WorldMap({
                 }
 
                 const matches = matchByIso[iso3] ?? true;
-                const style = getMapStyle(iso3, filters, matches, lens, mapMode);
+                const style = getMapStyle(iso3, filters, matches, lens, mapMode, contextFillByIso3?.[iso3]);
                 const isSelected = selectedIso3 === iso3;
                 const hoverFill = adjustColor(style.fill, -10);
 

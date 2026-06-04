@@ -138,29 +138,29 @@ function formatSourceAuditMarkdown(data) {
 export function extractSourceRecordsFromText(text, file = "inline.ts") {
   const constants = extractMetadataConstants(text);
   const spans = findObjectSpans(text);
-  const sourceMatches = [...text.matchAll(/sourceUrl:\s*"([^"]+)"/g)];
+  const sourceMatches = [...text.matchAll(/"?sourceUrl"?:\s*"([^"]+)"/g)];
   return sourceMatches.map((match) => {
     const sourceUrl = match[1];
     const spanChain = spans
       .filter((span) => span.start <= match.index && span.end >= match.index)
       .sort((a, b) => a.end - a.start - (b.end - b.start));
     const sourceSpan = spanChain[0] ?? { start: Math.max(0, match.index - 300), end: match.index + 600 };
-    const recordSpan = spanChain.find((span) => /id:\s*"([^"]+)"/.test(text.slice(span.start, span.end))) ?? sourceSpan;
+    const recordSpan = spanChain.find((span) => /"?id"?:\s*"([^"]+)"/.test(text.slice(span.start, span.end))) ?? sourceSpan;
     const sourceContext = text.slice(sourceSpan.start, sourceSpan.end);
     const recordContext = text.slice(recordSpan.start, recordSpan.end);
     const sourceMetadata = extractMetadata(sourceContext, constants);
     const recordMetadata = extractMetadata(recordContext, constants);
     const metadata = { ...recordMetadata, ...sourceMetadata };
-    const parentId = pick(recordContext, /id:\s*"([^"]+)"/g);
+    const parentId = pick(recordContext, /"?id"?:\s*"([^"]+)"/g);
     const generatedParticipationId = generatedParticipationIdBefore(text, sourceSpan.start);
     const propertyName = propertyNameBefore(text, sourceSpan.start);
     const id =
-      pick(sourceContext, /id:\s*"([^"]+)"/g) ??
+      pick(sourceContext, /"?id"?:\s*"([^"]+)"/g) ??
       (parentId && propertyName ? `${parentId}.${propertyName}` : parentId) ??
       generatedParticipationId ??
       "unknown";
-    const sourceName = pick(sourceContext, /name:\s*"([^"]+)"/g);
-    const recordName = pickFirst(recordContext, /name:\s*"([^"]+)"/g);
+    const sourceName = pick(sourceContext, /"?name"?:\s*"([^"]+)"/g);
+    const recordName = pickFirst(recordContext, /"?name"?:\s*"([^"]+)"/g);
 
     return {
       file,
@@ -168,7 +168,7 @@ export function extractSourceRecordsFromText(text, file = "inline.ts") {
       name:
         (propertyName ? sourceName : recordName) ??
         sourceName ??
-        pick(sourceContext, /sourceName:\s*"([^"]+)"/g) ??
+        pick(sourceContext, /"?sourceName"?:\s*"([^"]+)"/g) ??
         "Unnamed record",
       sourceUrl,
       sourceKind: metadata.sourceKind,
@@ -176,7 +176,7 @@ export function extractSourceRecordsFromText(text, file = "inline.ts") {
       confidence: metadata.confidence,
       lastVerified: metadata.lastVerified,
       verificationNotes: metadata.verificationNotes,
-      bindingStatus: metadata.bindingStatus ?? pick(recordContext, /bindingStatus:\s*"([^"]+)"/g),
+      bindingStatus: metadata.bindingStatus ?? pick(recordContext, /"?bindingStatus"?:\s*"([^"]+)"/g),
     };
   });
 }
@@ -202,12 +202,12 @@ function extractMetadata(context, constants) {
 
 function extractLiteralMetadata(context) {
   const metadata = {
-    sourceKind: pick(context, /sourceKind:\s*"([^"]+)"/g),
-    verificationStatus: pick(context, /verificationStatus:\s*"([^"]+)"/g),
-    confidence: pick(context, /confidence:\s*"([^"]+)"/g),
-    lastVerified: pick(context, /lastVerified:\s*"([^"]+)"/g),
-    verificationNotes: pick(context, /verificationNotes:\s*"([^"]+)"/g),
-    bindingStatus: pick(context, /bindingStatus:\s*"([^"]+)"/g),
+    sourceKind: pick(context, /"?sourceKind"?:\s*"([^"]+)"/g),
+    verificationStatus: pick(context, /"?verificationStatus"?:\s*"([^"]+)"/g),
+    confidence: pick(context, /"?confidence"?:\s*"([^"]+)"/g),
+    lastVerified: pick(context, /"?lastVerified"?:\s*"([^"]+)"/g),
+    verificationNotes: pick(context, /"?verificationNotes"?:\s*"([^"]+)"/g),
+    bindingStatus: pick(context, /"?bindingStatus"?:\s*"([^"]+)"/g),
   };
   return Object.fromEntries(Object.entries(metadata).filter(([, value]) => value !== null));
 }

@@ -1,6 +1,12 @@
 import { useMemo, useState } from "react";
 import clsx from "clsx";
 import { COUNTRY_BY_ISO3 } from "../data/countries";
+import {
+  AI_ATLAS_SOURCES,
+  COUNTRY_INDICATOR_SCORES,
+  COUNTRY_READINESS_REPORTS,
+  INDICATOR_SOURCE_BY_ID,
+} from "../data/aiAtlas";
 import { FRONTIER_LABS } from "../data/frontierLabs";
 import { DATASET_RELEASES } from "../data/datasetReleases";
 import { GOVERNANCE_OBLIGATIONS, OBLIGATION_CATEGORY_LABELS } from "../data/governanceObligations";
@@ -12,7 +18,7 @@ import { INTERNATIONAL_PARTICIPATION } from "../data/participation";
 import { SUBNATIONAL_AI_RULES } from "../data/subnationalRules";
 import { LAB_REGULATORY_EXPOSURES } from "../data/labRegulatoryExposures";
 import type { FilterState, LabRegulatoryExposure, VerificationMetadata } from "../types";
-import { downloadTextFile } from "../utils/exportDataset";
+import { downloadTextFile } from "../utils/downloadTextFile";
 import { filterCountries } from "../utils/filterCountries";
 import { DATA_CONFIDENCE_LABELS, SOURCE_KIND_LABELS, VERIFICATION_STATUS_LABELS } from "../utils/getVerificationLabel";
 import { getCountryGovernanceSummary } from "../utils/getCountryGovernanceSummary";
@@ -41,6 +47,7 @@ type DatasetKey =
   | "exposure"
   | "obligations"
   | "implementation"
+  | "indicators"
   | "participation"
   | "sources"
   | "releases";
@@ -75,6 +82,7 @@ const DATASETS: Array<{ key: DatasetKey; label: string }> = [
   { key: "exposure", label: "Exposure" },
   { key: "obligations", label: "Obligations" },
   { key: "implementation", label: "Implementation" },
+  { key: "indicators", label: "Indicators" },
   { key: "participation", label: "Participation" },
   { key: "sources", label: "Sources" },
   { key: "releases", label: "Releases" },
@@ -149,6 +157,17 @@ const COLUMNS: Record<DatasetKey, TableColumn[]> = {
     { key: "nextDeadline", label: "Next deadline" },
     { key: "confidence", label: "Confidence" },
     { key: "source", label: "Source" },
+  ],
+  indicators: [
+    { key: "country", label: "Country" },
+    { key: "source", label: "Indicator source" },
+    { key: "kind", label: "Kind" },
+    { key: "year", label: "Year" },
+    { key: "score", label: "Score / status" },
+    { key: "rank", label: "Rank / tier" },
+    { key: "detail", label: "Detail" },
+    { key: "confidence", label: "Confidence" },
+    { key: "lastVerified", label: "Last verified" },
   ],
   participation: [
     { key: "country", label: "Country" },
@@ -452,6 +471,48 @@ function buildRows(
     );
   }
 
+  if (dataset === "indicators") {
+    const scoreRows = COUNTRY_INDICATOR_SCORES.filter((score) => {
+      const country = COUNTRY_BY_ISO3[score.countryIso3];
+      if (filters.selectedRegions.length && country && !filters.selectedRegions.includes(country.region)) return false;
+      return true;
+    }).map((score) => {
+      const country = COUNTRY_BY_ISO3[score.countryIso3];
+      const source = INDICATOR_SOURCE_BY_ID[score.sourceId];
+      return row(`indicator:${score.id}`, {
+        country: country?.name ?? score.countryIso3,
+        source: source?.name ?? score.sourceName,
+        kind: source?.category.replace(/_/g, " ") ?? "indicator",
+        year: score.year,
+        score: score.score !== undefined ? `${score.score}${score.scoreLabel ? ` (${score.scoreLabel})` : ""}` : "",
+        rank: [score.rank ? `Rank ${score.rank}` : "", score.tier ? `Tier ${score.tier}` : ""].filter(Boolean).join("; "),
+        detail: summarizeIndicatorDetail(score.pillars ?? score.dimensions),
+        confidence: confidenceLabel(score),
+        lastVerified: score.lastVerified ?? "",
+      }, country ? { label: "Country", onClick: () => onSelectCountry(country.iso3) } : undefined);
+    });
+    const reportRows = COUNTRY_READINESS_REPORTS.filter((report) => {
+      const country = COUNTRY_BY_ISO3[report.countryIso3];
+      if (filters.selectedRegions.length && country && !filters.selectedRegions.includes(country.region)) return false;
+      return true;
+    }).map((report) => {
+      const country = COUNTRY_BY_ISO3[report.countryIso3];
+      const source = INDICATOR_SOURCE_BY_ID[report.sourceId];
+      return row(`indicator:${report.id}`, {
+        country: country?.name ?? report.countryIso3,
+        source: source?.name ?? report.sourceName,
+        kind: "readiness assessment",
+        year: source?.year ?? "",
+        score: report.status.replace(/_/g, " "),
+        rank: "",
+        detail: report.profileUrl ? "UNESCO country profile linked" : "UNESCO RAM table status",
+        confidence: confidenceLabel(report),
+        lastVerified: report.lastVerified ?? "",
+      }, country ? { label: "Country", onClick: () => onSelectCountry(country.iso3) } : undefined);
+    });
+    return [...scoreRows, ...reportRows];
+  }
+
   if (dataset === "participation") {
     return INTERNATIONAL_PARTICIPATION.filter((participation) => {
       const instrument = INSTRUMENT_BY_ID[participation.instrumentId];
@@ -505,6 +566,19 @@ function sourceRows(): TableRow[] {
     })),
     ...IMPLEMENTATION_MILESTONES.map((item) => toSourceEntry("Implementation milestone", { ...item, name: item.label })),
     ...INFRASTRUCTURE_NODES.map((item) => toSourceEntry("Infrastructure", item)),
+    ...AI_ATLAS_SOURCES.map((item) => toSourceEntry("AI Atlas source", item)),
+    ...COUNTRY_INDICATOR_SCORES.map((item) =>
+      toSourceEntry("AI Atlas indicator", {
+        ...item,
+        name: `${COUNTRY_BY_ISO3[item.countryIso3]?.name ?? item.countryIso3} - ${INDICATOR_SOURCE_BY_ID[item.sourceId]?.name ?? item.sourceName}`,
+      })
+    ),
+    ...COUNTRY_READINESS_REPORTS.map((item) =>
+      toSourceEntry("AI Atlas readiness", {
+        ...item,
+        name: `${COUNTRY_BY_ISO3[item.countryIso3]?.name ?? item.countryIso3} - ${INDICATOR_SOURCE_BY_ID[item.sourceId]?.name ?? item.sourceName}`,
+      })
+    ),
   ];
 
   return entries.map((entry) =>
@@ -608,6 +682,14 @@ function exposureMatchesFilters(exposure: LabRegulatoryExposure, filters: Filter
     if (!instrument || !filters.selectedBindingStatuses.includes(instrument.bindingStatus)) return false;
   }
   return true;
+}
+
+function summarizeIndicatorDetail(values: Record<string, string | number> | undefined) {
+  if (!values) return "";
+  return Object.entries(values)
+    .slice(0, 3)
+    .map(([key, value]) => `${key}: ${value}`)
+    .join("; ");
 }
 
 function csvCell(value: string | number): string {

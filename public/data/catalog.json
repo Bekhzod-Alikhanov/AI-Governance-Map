@@ -8,6 +8,8 @@
     "/data/country-summaries.json",
     "/data/obligation-matrix.json",
     "/data/lab-exposure-matrix.json",
+    "/data/ai-atlas-indicators.json",
+    "/data/readiness-reports.json",
     "/data/source-metadata.json",
     "/data/changelog.json"
   ]

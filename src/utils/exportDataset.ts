@@ -1,4 +1,5 @@
 import { COUNTRIES } from "../data/countries";
+import { AI_ATLAS_SOURCES, COUNTRY_INDICATOR_SCORES, COUNTRY_READINESS_REPORTS } from "../data/aiAtlas";
 import { DATASET_RELEASES } from "../data/datasetReleases";
 import { DEPENDENCY_EDGES } from "../data/dependencies";
 import { EU_MEMBER_ISO3 } from "../data/euMembers";
@@ -18,9 +19,11 @@ import { DATA_SNAPSHOT_DATE } from "./governanceTaxonomy";
 import { DATASET_SCHEMA_ID, DATASET_SCHEMA_VERSION } from "./datasetSchema";
 import { DEFAULT_FILTER_STATE, type FilterState, type LabRegulatoryExposure } from "../types";
 import { countActiveFilters, filterCountries } from "./filterCountries";
+import { downloadTextFile } from "./downloadTextFile";
 import { implementationMatchesFilters, obligationMatchesFilters } from "./researchWorkbench";
 
 export { DATASET_SCHEMA_VERSION } from "./datasetSchema";
+export { downloadTextFile } from "./downloadTextFile";
 
 export function buildDatasetSnapshot() {
   return {
@@ -46,6 +49,9 @@ export function buildDatasetSnapshot() {
       governanceDomains: GOVERNANCE_DOMAINS.length,
       governanceObligations: GOVERNANCE_OBLIGATIONS.length,
       implementationMilestones: IMPLEMENTATION_MILESTONES.length,
+      indicatorSources: AI_ATLAS_SOURCES.length,
+      countryIndicatorScores: COUNTRY_INDICATOR_SCORES.length,
+      countryReadinessReports: COUNTRY_READINESS_REPORTS.length,
       infrastructureNodes: INFRASTRUCTURE_NODES.length,
       dependencyEdges: DEPENDENCY_EDGES.length,
       outOfScopeItems: OUT_OF_SCOPE_ITEMS.length,
@@ -64,6 +70,9 @@ export function buildDatasetSnapshot() {
       governanceDomains: GOVERNANCE_DOMAINS,
       governanceObligations: GOVERNANCE_OBLIGATIONS,
       implementationMilestones: IMPLEMENTATION_MILESTONES,
+      indicatorSources: AI_ATLAS_SOURCES,
+      countryIndicatorScores: COUNTRY_INDICATOR_SCORES,
+      countryReadinessReports: COUNTRY_READINESS_REPORTS,
       infrastructureNodes: INFRASTRUCTURE_NODES,
       dependencyEdges: DEPENDENCY_EDGES,
       outOfScopeItems: OUT_OF_SCOPE_ITEMS,
@@ -76,7 +85,7 @@ export function buildDatasetSnapshot() {
 export function buildCitationText(): string {
   return [
     `Global AI Governance Map dataset, snapshot ${DATA_SNAPSHOT_DATE}.`,
-    "Coverage: frontier-AI governance actors, instruments, national AI-specific rules, participation rows, labs, structured obligations, implementation milestones, infrastructure, dependency links, and source metadata.",
+    "Coverage: frontier-AI governance actors, instruments, national AI-specific rules, participation rows, labs, structured obligations, implementation milestones, AI Atlas context indicators, infrastructure, dependency links, and source metadata.",
     "Use with source verification. This dataset is a research aid and is not legal advice.",
     "Repository: https://github.com/Bekhzod-Alikhanov/global-ai-governance-map",
     "Live app: https://global-ai-governance-map.vercel.app/",
@@ -85,19 +94,6 @@ export function buildCitationText(): string {
 
 export function toPrettyJson(value: unknown): string {
   return JSON.stringify(value, null, 2);
-}
-
-export function downloadTextFile(filename: string, contents: string, mimeType: string): void {
-  const blob = new Blob([contents], { type: mimeType });
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = filename;
-  anchor.rel = "noopener";
-  document.body.append(anchor);
-  anchor.click();
-  anchor.remove();
-  URL.revokeObjectURL(url);
 }
 
 export function downloadDatasetJson(): void {
@@ -157,6 +153,13 @@ export function buildFilteredDatasetSnapshot(filters: FilterState) {
   const filteredImplementationMilestones = IMPLEMENTATION_MILESTONES.filter((milestone) =>
     implementationMatchesExportScope(milestone, filters, countryIso3s)
   );
+  const filteredCountryIndicatorScores = COUNTRY_INDICATOR_SCORES.filter((score) => countryIso3s.has(score.countryIso3));
+  const filteredCountryReadinessReports = COUNTRY_READINESS_REPORTS.filter((report) => countryIso3s.has(report.countryIso3));
+  const filteredIndicatorSourceIds = new Set([
+    ...filteredCountryIndicatorScores.map((score) => score.sourceId),
+    ...filteredCountryReadinessReports.map((report) => report.sourceId),
+  ]);
+  const filteredIndicatorSources = AI_ATLAS_SOURCES.filter((source) => filteredIndicatorSourceIds.has(source.id));
 
   return {
     ...buildDatasetSnapshot(),
@@ -174,6 +177,9 @@ export function buildFilteredDatasetSnapshot(filters: FilterState) {
       governanceDomains: GOVERNANCE_DOMAINS.length,
       governanceObligations: filteredObligations.length,
       implementationMilestones: filteredImplementationMilestones.length,
+      indicatorSources: filteredIndicatorSources.length,
+      countryIndicatorScores: filteredCountryIndicatorScores.length,
+      countryReadinessReports: filteredCountryReadinessReports.length,
       infrastructureNodes: INFRASTRUCTURE_NODES.length,
       dependencyEdges: DEPENDENCY_EDGES.length,
       outOfScopeItems: OUT_OF_SCOPE_ITEMS.length,
@@ -192,6 +198,9 @@ export function buildFilteredDatasetSnapshot(filters: FilterState) {
       governanceDomains: GOVERNANCE_DOMAINS,
       governanceObligations: filteredObligations,
       implementationMilestones: filteredImplementationMilestones,
+      indicatorSources: filteredIndicatorSources,
+      countryIndicatorScores: filteredCountryIndicatorScores,
+      countryReadinessReports: filteredCountryReadinessReports,
       infrastructureNodes: INFRASTRUCTURE_NODES,
       dependencyEdges: DEPENDENCY_EDGES,
       outOfScopeItems: OUT_OF_SCOPE_ITEMS,

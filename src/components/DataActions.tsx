@@ -1,10 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import type { FilterState } from "../types";
-import {
-  downloadCitationText,
-  downloadDatasetJson,
-  downloadFilteredDatasetJson,
-} from "../utils/exportDataset";
 
 interface Props {
   onOpenMethodology: () => void;
@@ -13,6 +8,7 @@ interface Props {
 
 export function DataActions({ onOpenMethodology, filters }: Props) {
   const [open, setOpen] = useState(false);
+  const [downloading, setDownloading] = useState<"dataset" | "filtered" | "citation" | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -27,6 +23,19 @@ export function DataActions({ onOpenMethodology, filters }: Props) {
     document.addEventListener("pointerdown", handlePointerDown);
     return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, [open]);
+
+  async function handleDownload(action: "dataset" | "filtered" | "citation") {
+    setDownloading(action);
+    try {
+      const exports = await import("../utils/exportDataset");
+      if (action === "dataset") exports.downloadDatasetJson();
+      else if (action === "filtered") exports.downloadFilteredDatasetJson(filters);
+      else exports.downloadCitationText();
+      setOpen(false);
+    } finally {
+      setDownloading(null);
+    }
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -61,33 +70,27 @@ export function DataActions({ onOpenMethodology, filters }: Props) {
         >
           <button
             type="button"
-            onClick={() => {
-              downloadDatasetJson();
-              setOpen(false);
-            }}
+            disabled={downloading !== null}
+            onClick={() => void handleDownload("dataset")}
             className="block w-full rounded-md px-2.5 py-2 text-left font-medium text-ink-800 hover:bg-canvas"
           >
-            Download dataset JSON
+            {downloading === "dataset" ? "Preparing dataset..." : "Download dataset JSON"}
           </button>
           <button
             type="button"
-            onClick={() => {
-              downloadFilteredDatasetJson(filters);
-              setOpen(false);
-            }}
+            disabled={downloading !== null}
+            onClick={() => void handleDownload("filtered")}
             className="block w-full rounded-md px-2.5 py-2 text-left font-medium text-ink-800 hover:bg-canvas"
           >
-            Download filtered JSON
+            {downloading === "filtered" ? "Preparing filtered JSON..." : "Download filtered JSON"}
           </button>
           <button
             type="button"
-            onClick={() => {
-              downloadCitationText();
-              setOpen(false);
-            }}
+            disabled={downloading !== null}
+            onClick={() => void handleDownload("citation")}
             className="block w-full rounded-md px-2.5 py-2 text-left font-medium text-ink-800 hover:bg-canvas"
           >
-            Download citation
+            {downloading === "citation" ? "Preparing citation..." : "Download citation"}
           </button>
           <button
             type="button"

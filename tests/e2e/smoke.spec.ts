@@ -7,6 +7,10 @@ test.describe("governance map smoke flows", () => {
     await expect(page.getByRole("heading", { name: "AI Governance Map" })).toBeVisible();
     await expect(page.getByRole("note")).toHaveCount(0);
     await expect(page.getByLabel("Map scope: World overview")).toBeVisible();
+    await page.getByLabel("Map color mode").selectOption("gov-ai-readiness");
+    await page.getByRole("button", { name: "Legend" }).click();
+    await expect(page.getByText(/AI Atlas colors show contextual/)).toBeVisible();
+    await page.getByRole("button", { name: "Legend" }).click();
 
     await page.getByRole("button", { name: "Data", exact: true }).click();
     await expect(page.getByRole("button", { name: "Download dataset JSON" })).toBeVisible();
@@ -24,6 +28,7 @@ test.describe("governance map smoke flows", () => {
     const australiaDrawer = page.getByRole("dialog", { name: "Australia AI governance details" });
     await expect(australiaDrawer).toBeVisible();
     await expect(australiaDrawer.getByText("Research answer")).toBeVisible();
+    await expect(australiaDrawer.getByText("AI Atlas context")).toBeVisible();
     await expect(australiaDrawer.getByRole("button", { name: "Copy citation" }).first()).toBeVisible();
     await australiaDrawer.getByRole("button", { name: "Evidence dossier" }).click();
     const countryDossier = page.getByRole("dialog", { name: "Australia evidence dossier" });
@@ -167,6 +172,13 @@ test.describe("governance map smoke flows", () => {
     await page.getByRole("button", { name: "Export CSV" }).click();
     const obligationDownload = await obligationDownloadPromise;
     expect(obligationDownload.suggestedFilename()).toBe("global-ai-governance-map-obligations.csv");
+
+    await page.getByRole("button", { name: "Indicators" }).click();
+    await expect(page.getByText("Government AI Readiness Index 2025").first()).toBeVisible();
+    const indicatorDownloadPromise = page.waitForEvent("download");
+    await page.getByRole("button", { name: "Export CSV" }).click();
+    const indicatorDownload = await indicatorDownloadPromise;
+    expect(indicatorDownload.suggestedFilename()).toBe("global-ai-governance-map-indicators.csv");
   });
 
   test("opens stable record URLs and the research workbench", async ({ page }) => {

@@ -1,12 +1,7 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import type { DossierKind, EvidenceDossier } from "../utils/evidenceDossier";
-import {
-  buildEvidenceDossier,
-  evidenceDossierFilename,
-  renderEvidenceDossierMarkdown,
-} from "../utils/evidenceDossier";
-import { downloadTextFile } from "../utils/exportDataset";
+import { downloadTextFile } from "../utils/downloadTextFile";
 import { useDialogFocus } from "../utils/useDialogFocus";
 import { CopyTextButton } from "./CopyTextButton";
 
@@ -17,13 +12,39 @@ interface Props {
 }
 
 export function EvidenceDossierButton({ kind, id, compact = false }: Props) {
-  const [dossier, setDossier] = useState<EvidenceDossier | null>(null);
+  const [dossierState, setDossierState] = useState<{
+    dossier: EvidenceDossier;
+    markdown: string;
+    filename: string;
+  } | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  async function openDossier() {
+    setLoading(true);
+    try {
+      const {
+        buildEvidenceDossier,
+        evidenceDossierFilename,
+        renderEvidenceDossierMarkdown,
+      } = await import("../utils/evidenceDossier");
+      const dossier = buildEvidenceDossier(kind, id, currentShareUrl());
+      if (!dossier) return;
+      setDossierState({
+        dossier,
+        markdown: renderEvidenceDossierMarkdown(dossier),
+        filename: evidenceDossierFilename(dossier),
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <>
       <button
         type="button"
-        onClick={() => setDossier(buildEvidenceDossier(kind, id, currentShareUrl()))}
+        disabled={loading}
+        onClick={() => void openDossier()}
         className="inline-flex items-center gap-1 rounded-md border border-canvas-line bg-white px-2 py-1 text-[11px] font-medium text-ink-700 hover:border-accent hover:text-accent"
       >
         <svg
@@ -42,11 +63,16 @@ export function EvidenceDossierButton({ kind, id, compact = false }: Props) {
           <path d="M8 13h8" />
           <path d="M8 17h5" />
         </svg>
-        {compact ? "Dossier" : "Evidence dossier"}
+        {loading ? "Loading..." : compact ? "Dossier" : "Evidence dossier"}
       </button>
-      {dossier &&
+      {dossierState &&
         createPortal(
-          <EvidenceDossierModal dossier={dossier} onClose={() => setDossier(null)} />,
+          <EvidenceDossierModal
+            dossier={dossierState.dossier}
+            markdown={dossierState.markdown}
+            filename={dossierState.filename}
+            onClose={() => setDossierState(null)}
+          />,
           document.body
         )}
     </>
@@ -56,15 +82,18 @@ export function EvidenceDossierButton({ kind, id, compact = false }: Props) {
 function EvidenceDossierModal({
   dossier,
   onClose,
+  markdown,
+  filename,
 }: {
   dossier: EvidenceDossier;
+  markdown: string;
+  filename: string;
   onClose: () => void;
 }) {
   const dialogRef = useDialogFocus<HTMLDivElement>(onClose);
-  const markdown = renderEvidenceDossierMarkdown(dossier);
 
   function handleDownload() {
-    downloadTextFile(evidenceDossierFilename(dossier), markdown, "text/markdown;charset=utf-8");
+    downloadTextFile(filename, markdown, "text/markdown;charset=utf-8");
   }
 
   function handlePrint() {

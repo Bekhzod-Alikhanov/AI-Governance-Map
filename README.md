@@ -69,6 +69,7 @@ A guided **"Take the tour"** walkthrough runs new visitors through a five-step n
 - A **participation matrix** that distinguishes `signed`, `ratified`, `endorsed`, `adopted`, `adherent`, `member`, `participant`, `applicable_via_eu`, and `covered_by_membership (indirect)`.
 - A structured **obligation matrix** for risk assessment, transparency/disclosure, incident reporting, model evaluation, registration/filing, conformity assessment, watermarking/content labeling, bias audit, cybersecurity, data governance, prohibited practices, compute reporting, and safety-framework publication.
 - An **implementation tracker** for proposed, adopted, in-force, phased-application, implementing-rules-pending, regulator-appointed, guidance-issued, and enforcement-observed milestones.
+- **AI Atlas context indicators** for Oxford Insights Government AI Readiness 2025, CAIDP AI and Democratic Values 2026, UNESCO RAM Global Hub status/profile rows, and Stanford HAI Global AI Vibrancy public data. These indicators are contextual only and never drive binding-law summaries.
 - Static public data endpoints in `public/data/`, generated at build time from the same TypeScript source modules.
 
 Out-of-scope items (GDPR, DPDP, generic cybersecurity, BIS/Wassenaar/JP-NL-US export controls, generic digital strategies) are catalogued in [`src/data/outOfScope.ts`](src/data/outOfScope.ts) with explicit `reasonExcluded` text.
@@ -79,10 +80,10 @@ Out-of-scope items (GDPR, DPDP, generic cybersecurity, BIS/Wassenaar/JP-NL-US ex
 |---|---|---|
 | **Workbench** | Task-first research workbench with workflow presets, answer cards, side-by-side comparison, stable record summaries, public data endpoint links, and a conservative lab/market scenario simulator. | `WorkbenchView.tsx` + `researchWorkbench.ts` |
 | **Geography** | Default world map. Country fill = binding status of national AI rule. Frontier-lab HQ pins overlaid, sized by power score. Includes maximize, zoom/pan, and regional focus controls. | `WorldMap.tsx` + `LabPin.tsx`, Equal Earth projection via `react-simple-maps` |
-| **Layers** | Recolours countries by the highest governance layer present (corporate / national binding / proposed / voluntary / international only). Map modes can also show proposed laws, treaty participation, lab HQs, obligations, implementation deadlines, source confidence, or frontier relevance. | `getMapColor.ts → pickPrimaryLayer` (cached) |
+| **Layers** | Recolours countries by the highest governance layer present (corporate / national binding / proposed / voluntary / international only). Map modes can also show proposed laws, treaty participation, lab HQs, obligations, implementation deadlines, source confidence, frontier relevance, or AI Atlas context indicators. | `getMapColor.ts → pickPrimaryLayer` (cached) |
 | **Network** | Force-directed graph of every actor and edge. Lab exposure edges are generated from the typed exposure dataset so binding, voluntary, standards, and infrastructure relationships stay distinct. | `NetworkView.tsx`, `d3-force` 300-tick static layout |
 | **Timeline** | 115+ AI governance milestones plotted from 2017 (Finland AI Programme) → 2026 (Kazakhstan AI Law, Taiwan AI Basic Act, Vietnam AI Law). Filterable by international / national / subnational. | `TimelineView.tsx` |
-| **Table** | Sortable, filterable research table for countries, instruments, national rules, labs, lab exposure rows, obligation rows, implementation milestones, participation rows, release records, and source metadata; supports CSV export. | `TableView.tsx` |
+| **Table** | Sortable, filterable research table for countries, instruments, national rules, labs, lab exposure rows, obligation rows, implementation milestones, AI Atlas indicators, participation rows, release records, and source metadata; supports CSV export. | `TableView.tsx` |
 
 ## Architecture
 
@@ -198,6 +199,7 @@ src/data/
   nationalAIRegulations.ts      75+ national AI rules with binding status + dates + regulator + source URL
   subnationalRules.ts           U.S. state/city laws + draft EU-member implementations
   participation.ts              ~1,410 rows: (instrumentId, countryIso3, participationType, date, source)
+  aiAtlas.ts                    contextual readiness/index/RAM/vibrancy rows, kept separate from legal status
   dependencies.ts               ~85 typed edges across the actor graph
   outOfScope.ts                 GDPR, DPDP, BIS, Wassenaar, … with reasonExcluded
   sourceNotes.ts                Topic-level caveats surfaced in side panels
@@ -240,7 +242,7 @@ See [`docs/DATA_GOVERNANCE.md`](docs/DATA_GOVERNANCE.md) for the dataset taxonom
 │   │   ├── SearchBox.tsx              fuzzy across countries / acts / instruments
 │   │   ├── VerificationMeta.tsx       per-item source verification chip (verified / likely / uncertain)
 │   │   ├── Legend / Tooltip / DataQualityNotice / EmptyState / SourceLink / ParticipationBadge / NationalRegulationList / InstrumentList / DeploymentBadge / LabPin
-│   ├── data/                          13 static data modules (see above)
+│   ├── data/                          static data modules (see above)
 │   ├── utils/                         memoised selectors, validation, export, search
 │   │   ├── filterCountries.ts                 LRU-cached filter matcher
 │   │   ├── getCountryGovernanceSummary.ts     per-iso3 joined view
@@ -379,7 +381,7 @@ Outlines:
 
 When one or more instruments are selected, countries that don't match drop to ~25 % opacity. The **AND / OR** toggle in the Instrument popover controls whether a country must participate in *all* selected instruments (AND) or *at least one* (OR).
 
-The map mode selector can also recolor countries by proposed laws, CoE treaty participation, frontier-lab HQs, selected obligation/domain rows, implementation deadlines, source confidence, and frontier relevance. These modes are explanatory research aids; drawer/dossier source metadata remains the source of truth.
+The map mode selector can also recolor countries by proposed laws, CoE treaty participation, frontier-lab HQs, selected obligation/domain rows, implementation deadlines, source confidence, frontier relevance, and AI Atlas context indicators. These modes are explanatory research aids; drawer/dossier source metadata remains the source of truth.
 
 ## Stable record URLs and public data
 

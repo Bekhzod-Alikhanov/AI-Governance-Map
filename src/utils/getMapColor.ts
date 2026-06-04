@@ -66,10 +66,11 @@ export function getMapStyle(
   filters: FilterState,
   matchesFilter: boolean,
   lens: LensKind = "geography",
-  mapMode: MapModeId = "binding-law"
+  mapMode: MapModeId = "binding-law",
+  contextFill?: string | null
 ): MapStyle {
   if (mapMode !== "binding-law") {
-    return getMapModeStyle(iso3, filters, matchesFilter, mapMode);
+    return getMapModeStyle(iso3, filters, matchesFilter, mapMode, contextFill);
   }
   if (lens === "layer") {
     return getLayerStyle(iso3, filters, matchesFilter);
@@ -133,7 +134,8 @@ function getMapModeStyle(
   iso3: string,
   filters: FilterState,
   matchesFilter: boolean,
-  mapMode: MapModeId
+  mapMode: MapModeId,
+  contextFill?: string | null
 ): MapStyle {
   const summary = getCountryGovernanceSummary(iso3);
   const participations = PARTICIPATION_BY_COUNTRY[iso3] ?? [];
@@ -189,6 +191,8 @@ function getMapModeStyle(
     else if (records.length) fill = "#86EFAC";
   } else if (mapMode === "frontier-relevance") {
     fill = summary.hasFrontierAIRelevant ? "#1D4ED8" : FILL.empty;
+  } else {
+    fill = contextFill ?? FILL.empty;
   }
 
   let opacity = 1;

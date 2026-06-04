@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { MapModeId } from "../types";
 
 const FILLS = [
   { color: "#E5E7EB", label: "No included AI-specific entry" },
@@ -13,8 +14,21 @@ const OUTLINES = [
   { color: "#6D28D9", label: "Signed only; not ratified", dashed: true },
 ];
 
-export function Legend() {
+const ATLAS_MODES: MapModeId[] = [
+  "gov-ai-readiness",
+  "democratic-values",
+  "unesco-ram-status",
+  "ai-vibrancy",
+];
+
+interface Props {
+  mapMode?: MapModeId;
+}
+
+export function Legend({ mapMode = "binding-law" }: Props) {
   const [open, setOpen] = useState(false);
+  const isAtlasMode = ATLAS_MODES.includes(mapMode);
+  const fills = isAtlasMode ? atlasFillsForMode(mapMode) : FILLS;
   return (
     <div className="rounded-xl border border-canvas-line bg-white shadow-panel">
       <button
@@ -48,7 +62,7 @@ export function Legend() {
               Country fill
             </p>
             <ul className="space-y-1.5">
-              {FILLS.map((f) => (
+              {fills.map((f) => (
                 <li key={f.label} className="flex items-center gap-2">
                   <span
                     className="inline-block h-3.5 w-5 rounded-sm border border-ink-400/30"
@@ -89,11 +103,49 @@ export function Legend() {
             </ul>
           </div>
           <p className="md:col-span-2 rounded-md bg-canvas px-2 py-1.5 text-[11px] leading-relaxed text-ink-600">
-            Map colors are dataset classifications, not legal conclusions. EU member states can show binding
-            applicability through the EU AI Act rather than a separate national AI law.
+            {isAtlasMode
+              ? "AI Atlas colors show contextual readiness, assessment, democratic-values, or ecosystem indicators. They do not imply binding AI law, legal compliance, or treaty participation."
+              : "Map colors are dataset classifications, not legal conclusions. EU member states can show binding applicability through the EU AI Act rather than a separate national AI law."}
           </p>
         </div>
       )}
     </div>
   );
+}
+
+function atlasFillsForMode(mapMode: MapModeId) {
+  if (mapMode === "democratic-values") {
+    return [
+      { color: "#E5E7EB", label: "No CAIDP score" },
+      { color: "#FEF3C7", label: "Lower score" },
+      { color: "#FDE68A", label: "Moderate score" },
+      { color: "#059669", label: "Higher score" },
+      { color: "#065F46", label: "Highest score" },
+    ];
+  }
+  if (mapMode === "ai-vibrancy") {
+    return [
+      { color: "#E5E7EB", label: "No Stanford score" },
+      { color: "#EDE9FE", label: "Lower score" },
+      { color: "#C4B5FD", label: "Moderate score" },
+      { color: "#7C3AED", label: "Higher score" },
+      { color: "#4C1D95", label: "Highest score" },
+    ];
+  }
+  if (mapMode === "unesco-ram-status") {
+    return [
+      { color: "#E5E7EB", label: "No UNESCO RAM/profile row" },
+      { color: "#A7F3D0", label: "Profile available" },
+      { color: "#93C5FD", label: "In preparation" },
+      { color: "#F59E0B", label: "In process" },
+      { color: "#16A34A", label: "Completed" },
+    ];
+  }
+  return [
+    { color: "#E5E7EB", label: "No Oxford score" },
+    { color: "#DBEAFE", label: "Lower score" },
+    { color: "#93C5FD", label: "Moderate score" },
+    { color: "#2563EB", label: "Higher score" },
+    { color: "#1E3A8A", label: "Highest score" },
+  ];
 }

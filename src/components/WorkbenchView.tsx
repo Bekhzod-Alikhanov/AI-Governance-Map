@@ -36,6 +36,7 @@ import {
   getLabRegulatoryExposures,
   LAB_EXPOSURE_EFFECT_LABELS,
 } from "../utils/labExposure";
+import { type AtlasPresetId, buildAtlasPresetRows } from "../utils/aiAtlas";
 import { INSTRUMENT_BINDING_LABELS } from "../utils/getParticipationLabel";
 import { DATA_CONFIDENCE_LABELS } from "../utils/getVerificationLabel";
 import { SourceLink } from "./SourceLink";
@@ -108,6 +109,28 @@ const WORKFLOWS: Array<{
 ];
 
 const SCENARIO_MARKETS = ["EUU", "USA", "GBR", "KOR", "CHN", "CAN", "FRA", "ITA"];
+const ATLAS_PRESETS: Array<{ id: AtlasPresetId; title: string; detail: string }> = [
+  {
+    id: "high-readiness-no-binding",
+    title: "High readiness, no binding law",
+    detail: "Find countries with high Oxford readiness but no confirmed binding AI-specific law.",
+  },
+  {
+    id: "ram-activity",
+    title: "UNESCO RAM activity",
+    detail: "Show countries with completed or in-process UNESCO RAM/profile activity.",
+  },
+  {
+    id: "caidp-oxford-comparison",
+    title: "CAIDP vs Oxford",
+    detail: "Compare democratic-values scores with government AI readiness.",
+  },
+  {
+    id: "vibrancy-regulatory-maturity",
+    title: "AI vibrancy vs regulation",
+    detail: "Compare Stanford vibrancy signals with binding-law coverage.",
+  },
+];
 
 export function WorkbenchView({
   filters,
@@ -126,8 +149,10 @@ export function WorkbenchView({
   ]);
   const [scenarioLabId, setScenarioLabId] = useState("openai");
   const [scenarioMarkets, setScenarioMarkets] = useState(["EUU", "USA", "GBR", "KOR"]);
+  const [atlasPresetId, setAtlasPresetId] = useState<AtlasPresetId>("high-readiness-no-binding");
 
   const answerCards = useMemo(() => buildWorkbenchAnswerCards(filters), [filters]);
+  const atlasRows = useMemo(() => buildAtlasPresetRows(atlasPresetId), [atlasPresetId]);
   const scenario = useMemo(
     () => buildScenarioAssessment(scenarioLabId, scenarioMarkets),
     [scenarioLabId, scenarioMarkets]
@@ -210,6 +235,47 @@ export function WorkbenchView({
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section className="mt-4 rounded-lg border border-canvas-line bg-white p-3">
+          <div className="flex flex-wrap items-start justify-between gap-2">
+            <div>
+              <h3 className="text-sm font-semibold text-ink-900">AI Atlas presets</h3>
+              <p className="text-xs text-ink-600">
+                Context indicators only. These scores do not change legal-status summaries.
+              </p>
+            </div>
+            <div className="inline-flex max-w-full overflow-x-auto rounded-lg border border-canvas-line">
+              {ATLAS_PRESETS.map((preset) => (
+                <button
+                  key={preset.id}
+                  type="button"
+                  onClick={() => setAtlasPresetId(preset.id)}
+                  title={preset.detail}
+                  className={clsx(
+                    "whitespace-nowrap px-2.5 py-1 text-[11px] font-medium transition-colors",
+                    atlasPresetId === preset.id ? "bg-accent text-white" : "bg-white text-ink-700 hover:bg-canvas"
+                  )}
+                >
+                  {preset.title}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
+            {atlasRows.map((row) => (
+              <button
+                key={`${atlasPresetId}:${row.iso3}`}
+                type="button"
+                onClick={() => onSelectCountry(row.iso3)}
+                className="rounded-lg border border-canvas-line bg-canvas/40 px-3 py-2 text-left hover:border-accent hover:bg-accent/5"
+              >
+                <span className="block text-xs font-semibold text-ink-900">{row.countryName}</span>
+                <span className="mt-1 block text-[11px] leading-relaxed text-ink-700">{row.primary}</span>
+                <span className="mt-0.5 block text-[11px] leading-relaxed text-ink-500">{row.secondary}</span>
+              </button>
+            ))}
           </div>
         </section>
 

@@ -45,7 +45,9 @@ try {
   const releasesModule = await server.ssrLoadModule("/src/data/datasetReleases.ts");
   const obligationsModule = await server.ssrLoadModule("/src/data/governanceObligations.ts");
   const labExposureModule = await server.ssrLoadModule("/src/data/labRegulatoryExposures.ts");
+  const aiAtlasModule = await server.ssrLoadModule("/src/data/aiAtlas.ts");
   const summaryModule = await server.ssrLoadModule("/src/utils/getCountryGovernanceSummary.ts");
+  const aiAtlasUtils = await server.ssrLoadModule("/src/utils/aiAtlas.ts");
   const workbenchModule = await server.ssrLoadModule("/src/utils/researchWorkbench.ts");
 
   const snapshot = exportDataset.buildDatasetSnapshot();
@@ -66,6 +68,8 @@ try {
         frontierLabCount: summary.hqLabs.length,
         obligationCount: workbenchModule.getCountryObligations(country.iso3).length,
         implementationMilestoneCount: workbenchModule.getCountryImplementationMilestones(country.iso3).length,
+        indicatorScoreCount: aiAtlasUtils.getCountryAtlasSummary(country.iso3).scores.length,
+        readinessReportCount: aiAtlasUtils.getCountryAtlasSummary(country.iso3).readinessReports.length,
       };
     });
 
@@ -84,6 +88,8 @@ try {
           "/data/country-summaries.json",
           "/data/obligation-matrix.json",
           "/data/lab-exposure-matrix.json",
+          "/data/ai-atlas-indicators.json",
+          "/data/readiness-reports.json",
           "/data/source-metadata.json",
           "/data/changelog.json",
         ],
@@ -93,6 +99,8 @@ try {
     writeFile(path.join(outDir, "country-summaries.json"), stableJson(countrySummaries), "utf8"),
     writeFile(path.join(outDir, "obligation-matrix.json"), stableJson(obligationsModule.GOVERNANCE_OBLIGATIONS), "utf8"),
     writeFile(path.join(outDir, "lab-exposure-matrix.json"), stableJson(labExposureModule.LAB_REGULATORY_EXPOSURES), "utf8"),
+    writeFile(path.join(outDir, "ai-atlas-indicators.json"), stableJson(aiAtlasModule.COUNTRY_INDICATOR_SCORES), "utf8"),
+    writeFile(path.join(outDir, "readiness-reports.json"), stableJson(aiAtlasModule.COUNTRY_READINESS_REPORTS), "utf8"),
     writeFile(path.join(outDir, "source-metadata.json"), stableJson(sourceEntries(snapshot)), "utf8"),
     writeFile(path.join(outDir, "changelog.json"), stableJson(releasesModule.DATASET_RELEASES), "utf8"),
   ]);
