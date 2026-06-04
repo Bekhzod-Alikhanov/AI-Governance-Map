@@ -7,6 +7,9 @@
     { "source": "/country/:path*", "destination": "/index.html" },
     { "source": "/lab/:path*", "destination": "/index.html" },
     { "source": "/instrument/:path*", "destination": "/index.html" },
-    { "source": "/rule/:path*", "destination": "/index.html" }
+    { "source": "/rule/:path*", "destination": "/index.html" },
+    { "source": "/obligation/:path*", "destination": "/index.html" },
+    { "source": "/exposure/:path*", "destination": "/index.html" },
+    { "source": "/embed/:path*", "destination": "/index.html" }
   ]
 }

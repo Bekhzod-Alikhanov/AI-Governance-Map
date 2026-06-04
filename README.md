@@ -391,8 +391,12 @@ Stable SPA routes are supported for major records:
 - `/lab/openai`
 - `/instrument/eu-ai-act`
 - `/rule/kr-ai-basic-act`
+- `/obligation/ca-sb-53-incident-reporting`
+- `/exposure/openai--market_access--eu-ai-act-regional`
 
-Vercel rewrites these routes to the SPA, and the Workbench renders the matching record summary, obligations, implementation milestones, source metadata, correction link, and evidence-dossier actions where available.
+Compact embeddable routes are also supported for cards such as `/embed/country/USA`, `/embed/instrument/eu-ai-act`, `/embed/obligation/ca-sb-53-incident-reporting`, and `/embed/atlas/oxford-gov-ai-readiness-2025`.
+
+Vercel rewrites these routes to the SPA, and the Workbench or embed view renders the matching record summary, obligations, implementation milestones, source metadata, correction link, and evidence-dossier actions where available.
 
 Build-time public data endpoints:
 
@@ -400,9 +404,14 @@ Build-time public data endpoints:
 - `/data/country-summaries.json`
 - `/data/obligation-matrix.json`
 - `/data/lab-exposure-matrix.json`
+- `/data/implementation-tracker.json`
+- `/data/ai-atlas-indicators.json`
+- `/data/ai-atlas-sources.json`
 - `/data/source-metadata.json`
 - `/data/changelog.json`
 - `/data/catalog.json`
+- `/data/record-page-index.json`
+- `/data/embed-cards.json`
 
 ## How to add data
 
