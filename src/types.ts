@@ -249,7 +249,9 @@ export type GovernanceDomainId =
   | "education-children"
   | "defense-autonomous-weapons"
   | "cybersecurity-critical-infrastructure"
-  | "compute-cloud-chips";
+  | "compute-cloud-chips"
+  | "public-procurement"
+  | "enforcement-litigation";
 
 export interface GovernanceDomain {
   id: GovernanceDomainId;
@@ -337,7 +339,9 @@ export type IndicatorSourceCategory =
   | "policy_index"
   | "responsible_ai"
   | "public_sector_registry"
-  | "ai_safety_institute";
+  | "ai_safety_institute"
+  | "public_procurement"
+  | "compute_investment";
 
 export interface IndicatorSource extends VerificationMetadata {
   id: string;
@@ -512,6 +516,46 @@ export interface ResearchPreset {
   networkPreset?: NetworkPresetId;
   timelineLane?: TimelineLane;
 }
+
+export type AtlasPresetId =
+  | "high-readiness-no-binding"
+  | "ram-activity"
+  | "caidp-oxford-comparison"
+  | "vibrancy-regulatory-maturity";
+
+export type WorkbenchCompareKind = "country" | "lab" | "instrument" | "rule" | "obligation" | "exposure";
+
+export interface WorkbenchCompareItem {
+  kind: WorkbenchCompareKind;
+  id: string;
+}
+
+export interface WorkbenchState {
+  compareKind: WorkbenchCompareKind;
+  compareId: string;
+  compareItems: WorkbenchCompareItem[];
+  scenarioLabId: string;
+  scenarioMarkets: string[];
+  atlasPresetId: AtlasPresetId;
+  activeWorkflowId: string | null;
+  activeQuestionId: string | null;
+  activeAnswerCardId: string | null;
+}
+
+export const DEFAULT_WORKBENCH_STATE: WorkbenchState = {
+  compareKind: "country",
+  compareId: "USA",
+  compareItems: [
+    { kind: "country", id: "USA" },
+    { kind: "country", id: "EUU" },
+  ],
+  scenarioLabId: "openai",
+  scenarioMarkets: ["EUU", "USA", "GBR", "KOR"],
+  atlasPresetId: "high-readiness-no-binding",
+  activeWorkflowId: null,
+  activeQuestionId: null,
+  activeAnswerCardId: null,
+};
 
 export interface MapFitTarget {
   id: string;

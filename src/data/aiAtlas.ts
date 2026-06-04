@@ -170,6 +170,57 @@ export const AI_ATLAS_SOURCES: IndicatorSource[] = [
     "confidence": "medium",
     "lastVerified": "2026-06-04",
     "verificationNotes": "Tracked as source-only context for future safety-institute and technical-governance expansion."
+  },
+  {
+    "id": "eu-ai-factories",
+    "name": "European Commission AI Factories",
+    "publisher": "European Commission",
+    "year": 2026,
+    "category": "compute_investment",
+    "coverage": "Official EU source family for AI Factories, EuroHPC infrastructure, and EU compute-investment signals.",
+    "methodologyUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-factories",
+    "sourceName": "European Commission - AI Factories",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-factories",
+    "caveat": "AI Factories indicate infrastructure and compute-capacity context. They are not national AI laws, treaty participation, or binding obligations by themselves.",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-04",
+    "verificationNotes": "Official European Commission source identified for future EU compute/infrastructure normalization; country rows are not imported in this pass."
+  },
+  {
+    "id": "us-nairr-pilot",
+    "name": "U.S. National Artificial Intelligence Research Resource pilot",
+    "publisher": "U.S. National Science Foundation",
+    "year": 2026,
+    "category": "compute_investment",
+    "coverage": "Official NSF source family for U.S. shared AI research infrastructure and compute-resource access.",
+    "methodologyUrl": "https://www.nsf.gov/focus-areas/artificial-intelligence/nairr",
+    "sourceName": "NSF - National Artificial Intelligence Research Resource Pilot",
+    "sourceUrl": "https://www.nsf.gov/focus-areas/artificial-intelligence/nairr",
+    "caveat": "NAIRR is research-infrastructure context. It does not establish private-sector AI duties or binding AI-law coverage.",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-04",
+    "verificationNotes": "Official NSF source identified for future compute/infrastructure normalization; country rows are not imported in this pass."
+  },
+  {
+    "id": "uk-ai-procurement-guidelines",
+    "name": "UK Guidelines for AI procurement",
+    "publisher": "UK Government",
+    "year": 2020,
+    "category": "public_procurement",
+    "coverage": "Official GOV.UK source family for public-sector AI procurement guidance.",
+    "methodologyUrl": "https://www.gov.uk/government/publications/guidelines-for-ai-procurement/guidelines-for-ai-procurement/",
+    "sourceName": "GOV.UK - Guidelines for AI procurement",
+    "sourceUrl": "https://www.gov.uk/government/publications/guidelines-for-ai-procurement/guidelines-for-ai-procurement/",
+    "caveat": "Procurement guidance is public-sector practice context. It should not be treated as a general binding AI statute or as private-sector legal coverage.",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-04",
+    "verificationNotes": "Official GOV.UK procurement guidance source identified for future public-procurement normalization; no country score rows are imported in this pass."
   }
 ];
 
@@ -13879,6 +13930,14 @@ export const INDICATOR_SOURCE_BY_ID = AI_ATLAS_SOURCES.reduce<Record<string, Ind
 export const COUNTRY_INDICATOR_SCORES_BY_COUNTRY = COUNTRY_INDICATOR_SCORES.reduce<Record<string, CountryIndicatorScore[]>>(
   (acc, score) => {
     (acc[score.countryIso3] ??= []).push(score);
+    return acc;
+  },
+  {}
+);
+
+export const COUNTRY_INDICATOR_SCORE_BY_ID = COUNTRY_INDICATOR_SCORES.reduce<Record<string, CountryIndicatorScore>>(
+  (acc, score) => {
+    acc[score.id] = score;
     return acc;
   },
   {}

@@ -1,0 +1,2708 @@
+[
+  {
+    "kind": "country",
+    "id": "AFG",
+    "name": "Afghanistan",
+    "url": "https://global-ai-governance-map.vercel.app/country/AFG"
+  },
+  {
+    "kind": "country",
+    "id": "AGO",
+    "name": "Angola",
+    "url": "https://global-ai-governance-map.vercel.app/country/AGO"
+  },
+  {
+    "kind": "country",
+    "id": "ALB",
+    "name": "Albania",
+    "url": "https://global-ai-governance-map.vercel.app/country/ALB"
+  },
+  {
+    "kind": "country",
+    "id": "AND",
+    "name": "Andorra",
+    "url": "https://global-ai-governance-map.vercel.app/country/AND"
+  },
+  {
+    "kind": "country",
+    "id": "ARE",
+    "name": "United Arab Emirates",
+    "url": "https://global-ai-governance-map.vercel.app/country/ARE"
+  },
+  {
+    "kind": "country",
+    "id": "ARG",
+    "name": "Argentina",
+    "url": "https://global-ai-governance-map.vercel.app/country/ARG"
+  },
+  {
+    "kind": "country",
+    "id": "ARM",
+    "name": "Armenia",
+    "url": "https://global-ai-governance-map.vercel.app/country/ARM"
+  },
+  {
+    "kind": "country",
+    "id": "AUS",
+    "name": "Australia",
+    "url": "https://global-ai-governance-map.vercel.app/country/AUS"
+  },
+  {
+    "kind": "country",
+    "id": "AUT",
+    "name": "Austria",
+    "url": "https://global-ai-governance-map.vercel.app/country/AUT"
+  },
+  {
+    "kind": "country",
+    "id": "AZE",
+    "name": "Azerbaijan",
+    "url": "https://global-ai-governance-map.vercel.app/country/AZE"
+  },
+  {
+    "kind": "country",
+    "id": "BDI",
+    "name": "Burundi",
+    "url": "https://global-ai-governance-map.vercel.app/country/BDI"
+  },
+  {
+    "kind": "country",
+    "id": "BEL",
+    "name": "Belgium",
+    "url": "https://global-ai-governance-map.vercel.app/country/BEL"
+  },
+  {
+    "kind": "country",
+    "id": "BEN",
+    "name": "Benin",
+    "url": "https://global-ai-governance-map.vercel.app/country/BEN"
+  },
+  {
+    "kind": "country",
+    "id": "BFA",
+    "name": "Burkina Faso",
+    "url": "https://global-ai-governance-map.vercel.app/country/BFA"
+  },
+  {
+    "kind": "country",
+    "id": "BGD",
+    "name": "Bangladesh",
+    "url": "https://global-ai-governance-map.vercel.app/country/BGD"
+  },
+  {
+    "kind": "country",
+    "id": "BGR",
+    "name": "Bulgaria",
+    "url": "https://global-ai-governance-map.vercel.app/country/BGR"
+  },
+  {
+    "kind": "country",
+    "id": "BHR",
+    "name": "Bahrain",
+    "url": "https://global-ai-governance-map.vercel.app/country/BHR"
+  },
+  {
+    "kind": "country",
+    "id": "BHS",
+    "name": "Bahamas",
+    "url": "https://global-ai-governance-map.vercel.app/country/BHS"
+  },
+  {
+    "kind": "country",
+    "id": "BIH",
+    "name": "Bosnia and Herzegovina",
+    "url": "https://global-ai-governance-map.vercel.app/country/BIH"
+  },
+  {
+    "kind": "country",
+    "id": "BLR",
+    "name": "Belarus",
+    "url": "https://global-ai-governance-map.vercel.app/country/BLR"
+  },
+  {
+    "kind": "country",
+    "id": "BLZ",
+    "name": "Belize",
+    "url": "https://global-ai-governance-map.vercel.app/country/BLZ"
+  },
+  {
+    "kind": "country",
+    "id": "BOL",
+    "name": "Bolivia",
+    "url": "https://global-ai-governance-map.vercel.app/country/BOL"
+  },
+  {
+    "kind": "country",
+    "id": "BRA",
+    "name": "Brazil",
+    "url": "https://global-ai-governance-map.vercel.app/country/BRA"
+  },
+  {
+    "kind": "country",
+    "id": "BRB",
+    "name": "Barbados",
+    "url": "https://global-ai-governance-map.vercel.app/country/BRB"
+  },
+  {
+    "kind": "country",
+    "id": "BRN",
+    "name": "Brunei",
+    "url": "https://global-ai-governance-map.vercel.app/country/BRN"
+  },
+  {
+    "kind": "country",
+    "id": "BTN",
+    "name": "Bhutan",
+    "url": "https://global-ai-governance-map.vercel.app/country/BTN"
+  },
+  {
+    "kind": "country",
+    "id": "BWA",
+    "name": "Botswana",
+    "url": "https://global-ai-governance-map.vercel.app/country/BWA"
+  },
+  {
+    "kind": "country",
+    "id": "CAF",
+    "name": "Central African Republic",
+    "url": "https://global-ai-governance-map.vercel.app/country/CAF"
+  },
+  {
+    "kind": "country",
+    "id": "CAN",
+    "name": "Canada",
+    "url": "https://global-ai-governance-map.vercel.app/country/CAN"
+  },
+  {
+    "kind": "country",
+    "id": "CHE",
+    "name": "Switzerland",
+    "url": "https://global-ai-governance-map.vercel.app/country/CHE"
+  },
+  {
+    "kind": "country",
+    "id": "CHL",
+    "name": "Chile",
+    "url": "https://global-ai-governance-map.vercel.app/country/CHL"
+  },
+  {
+    "kind": "country",
+    "id": "CHN",
+    "name": "China",
+    "url": "https://global-ai-governance-map.vercel.app/country/CHN"
+  },
+  {
+    "kind": "country",
+    "id": "CIV",
+    "name": "Côte d'Ivoire",
+    "url": "https://global-ai-governance-map.vercel.app/country/CIV"
+  },
+  {
+    "kind": "country",
+    "id": "CMR",
+    "name": "Cameroon",
+    "url": "https://global-ai-governance-map.vercel.app/country/CMR"
+  },
+  {
+    "kind": "country",
+    "id": "COD",
+    "name": "Democratic Republic of the Congo",
+    "url": "https://global-ai-governance-map.vercel.app/country/COD"
+  },
+  {
+    "kind": "country",
+    "id": "COG",
+    "name": "Republic of the Congo",
+    "url": "https://global-ai-governance-map.vercel.app/country/COG"
+  },
+  {
+    "kind": "country",
+    "id": "COL",
+    "name": "Colombia",
+    "url": "https://global-ai-governance-map.vercel.app/country/COL"
+  },
+  {
+    "kind": "country",
+    "id": "COM",
+    "name": "Comoros",
+    "url": "https://global-ai-governance-map.vercel.app/country/COM"
+  },
+  {
+    "kind": "country",
+    "id": "CPV",
+    "name": "Cape Verde",
+    "url": "https://global-ai-governance-map.vercel.app/country/CPV"
+  },
+  {
+    "kind": "country",
+    "id": "CRI",
+    "name": "Costa Rica",
+    "url": "https://global-ai-governance-map.vercel.app/country/CRI"
+  },
+  {
+    "kind": "country",
+    "id": "CUB",
+    "name": "Cuba",
+    "url": "https://global-ai-governance-map.vercel.app/country/CUB"
+  },
+  {
+    "kind": "country",
+    "id": "CYP",
+    "name": "Cyprus",
+    "url": "https://global-ai-governance-map.vercel.app/country/CYP"
+  },
+  {
+    "kind": "country",
+    "id": "CZE",
+    "name": "Czechia",
+    "url": "https://global-ai-governance-map.vercel.app/country/CZE"
+  },
+  {
+    "kind": "country",
+    "id": "DEU",
+    "name": "Germany",
+    "url": "https://global-ai-governance-map.vercel.app/country/DEU"
+  },
+  {
+    "kind": "country",
+    "id": "DJI",
+    "name": "Djibouti",
+    "url": "https://global-ai-governance-map.vercel.app/country/DJI"
+  },
+  {
+    "kind": "country",
+    "id": "DNK",
+    "name": "Denmark",
+    "url": "https://global-ai-governance-map.vercel.app/country/DNK"
+  },
+  {
+    "kind": "country",
+    "id": "DOM",
+    "name": "Dominican Republic",
+    "url": "https://global-ai-governance-map.vercel.app/country/DOM"
+  },
+  {
+    "kind": "country",
+    "id": "DZA",
+    "name": "Algeria",
+    "url": "https://global-ai-governance-map.vercel.app/country/DZA"
+  },
+  {
+    "kind": "country",
+    "id": "ECU",
+    "name": "Ecuador",
+    "url": "https://global-ai-governance-map.vercel.app/country/ECU"
+  },
+  {
+    "kind": "country",
+    "id": "EGY",
+    "name": "Egypt",
+    "url": "https://global-ai-governance-map.vercel.app/country/EGY"
+  },
+  {
+    "kind": "country",
+    "id": "ERI",
+    "name": "Eritrea",
+    "url": "https://global-ai-governance-map.vercel.app/country/ERI"
+  },
+  {
+    "kind": "country",
+    "id": "ESP",
+    "name": "Spain",
+    "url": "https://global-ai-governance-map.vercel.app/country/ESP"
+  },
+  {
+    "kind": "country",
+    "id": "EST",
+    "name": "Estonia",
+    "url": "https://global-ai-governance-map.vercel.app/country/EST"
+  },
+  {
+    "kind": "country",
+    "id": "ETH",
+    "name": "Ethiopia",
+    "url": "https://global-ai-governance-map.vercel.app/country/ETH"
+  },
+  {
+    "kind": "country",
+    "id": "FIN",
+    "name": "Finland",
+    "url": "https://global-ai-governance-map.vercel.app/country/FIN"
+  },
+  {
+    "kind": "country",
+    "id": "FJI",
+    "name": "Fiji",
+    "url": "https://global-ai-governance-map.vercel.app/country/FJI"
+  },
+  {
+    "kind": "country",
+    "id": "FRA",
+    "name": "France",
+    "url": "https://global-ai-governance-map.vercel.app/country/FRA"
+  },
+  {
+    "kind": "country",
+    "id": "FSM",
+    "name": "Federated States of Micronesia",
+    "url": "https://global-ai-governance-map.vercel.app/country/FSM"
+  },
+  {
+    "kind": "country",
+    "id": "GAB",
+    "name": "Gabon",
+    "url": "https://global-ai-governance-map.vercel.app/country/GAB"
+  },
+  {
+    "kind": "country",
+    "id": "GBR",
+    "name": "United Kingdom",
+    "url": "https://global-ai-governance-map.vercel.app/country/GBR"
+  },
+  {
+    "kind": "country",
+    "id": "GEO",
+    "name": "Georgia",
+    "url": "https://global-ai-governance-map.vercel.app/country/GEO"
+  },
+  {
+    "kind": "country",
+    "id": "GHA",
+    "name": "Ghana",
+    "url": "https://global-ai-governance-map.vercel.app/country/GHA"
+  },
+  {
+    "kind": "country",
+    "id": "GIN",
+    "name": "Guinea",
+    "url": "https://global-ai-governance-map.vercel.app/country/GIN"
+  },
+  {
+    "kind": "country",
+    "id": "GMB",
+    "name": "Gambia",
+    "url": "https://global-ai-governance-map.vercel.app/country/GMB"
+  },
+  {
+    "kind": "country",
+    "id": "GNB",
+    "name": "Guinea-Bissau",
+    "url": "https://global-ai-governance-map.vercel.app/country/GNB"
+  },
+  {
+    "kind": "country",
+    "id": "GNQ",
+    "name": "Equatorial Guinea",
+    "url": "https://global-ai-governance-map.vercel.app/country/GNQ"
+  },
+  {
+    "kind": "country",
+    "id": "GRC",
+    "name": "Greece",
+    "url": "https://global-ai-governance-map.vercel.app/country/GRC"
+  },
+  {
+    "kind": "country",
+    "id": "GTM",
+    "name": "Guatemala",
+    "url": "https://global-ai-governance-map.vercel.app/country/GTM"
+  },
+  {
+    "kind": "country",
+    "id": "GUY",
+    "name": "Guyana",
+    "url": "https://global-ai-governance-map.vercel.app/country/GUY"
+  },
+  {
+    "kind": "country",
+    "id": "HKG",
+    "name": "Hong Kong",
+    "url": "https://global-ai-governance-map.vercel.app/country/HKG"
+  },
+  {
+    "kind": "country",
+    "id": "HND",
+    "name": "Honduras",
+    "url": "https://global-ai-governance-map.vercel.app/country/HND"
+  },
+  {
+    "kind": "country",
+    "id": "HRV",
+    "name": "Croatia",
+    "url": "https://global-ai-governance-map.vercel.app/country/HRV"
+  },
+  {
+    "kind": "country",
+    "id": "HTI",
+    "name": "Haiti",
+    "url": "https://global-ai-governance-map.vercel.app/country/HTI"
+  },
+  {
+    "kind": "country",
+    "id": "HUN",
+    "name": "Hungary",
+    "url": "https://global-ai-governance-map.vercel.app/country/HUN"
+  },
+  {
+    "kind": "country",
+    "id": "IDN",
+    "name": "Indonesia",
+    "url": "https://global-ai-governance-map.vercel.app/country/IDN"
+  },
+  {
+    "kind": "country",
+    "id": "IND",
+    "name": "India",
+    "url": "https://global-ai-governance-map.vercel.app/country/IND"
+  },
+  {
+    "kind": "country",
+    "id": "IRL",
+    "name": "Ireland",
+    "url": "https://global-ai-governance-map.vercel.app/country/IRL"
+  },
+  {
+    "kind": "country",
+    "id": "IRN",
+    "name": "Iran",
+    "url": "https://global-ai-governance-map.vercel.app/country/IRN"
+  },
+  {
+    "kind": "country",
+    "id": "IRQ",
+    "name": "Iraq",
+    "url": "https://global-ai-governance-map.vercel.app/country/IRQ"
+  },
+  {
+    "kind": "country",
+    "id": "ISL",
+    "name": "Iceland",
+    "url": "https://global-ai-governance-map.vercel.app/country/ISL"
+  },
+  {
+    "kind": "country",
+    "id": "ISR",
+    "name": "Israel",
+    "url": "https://global-ai-governance-map.vercel.app/country/ISR"
+  },
+  {
+    "kind": "country",
+    "id": "ITA",
+    "name": "Italy",
+    "url": "https://global-ai-governance-map.vercel.app/country/ITA"
+  },
+  {
+    "kind": "country",
+    "id": "JAM",
+    "name": "Jamaica",
+    "url": "https://global-ai-governance-map.vercel.app/country/JAM"
+  },
+  {
+    "kind": "country",
+    "id": "JOR",
+    "name": "Jordan",
+    "url": "https://global-ai-governance-map.vercel.app/country/JOR"
+  },
+  {
+    "kind": "country",
+    "id": "JPN",
+    "name": "Japan",
+    "url": "https://global-ai-governance-map.vercel.app/country/JPN"
+  },
+  {
+    "kind": "country",
+    "id": "KAZ",
+    "name": "Kazakhstan",
+    "url": "https://global-ai-governance-map.vercel.app/country/KAZ"
+  },
+  {
+    "kind": "country",
+    "id": "KEN",
+    "name": "Kenya",
+    "url": "https://global-ai-governance-map.vercel.app/country/KEN"
+  },
+  {
+    "kind": "country",
+    "id": "KGZ",
+    "name": "Kyrgyzstan",
+    "url": "https://global-ai-governance-map.vercel.app/country/KGZ"
+  },
+  {
+    "kind": "country",
+    "id": "KHM",
+    "name": "Cambodia",
+    "url": "https://global-ai-governance-map.vercel.app/country/KHM"
+  },
+  {
+    "kind": "country",
+    "id": "KIR",
+    "name": "Kiribati",
+    "url": "https://global-ai-governance-map.vercel.app/country/KIR"
+  },
+  {
+    "kind": "country",
+    "id": "KOR",
+    "name": "South Korea",
+    "url": "https://global-ai-governance-map.vercel.app/country/KOR"
+  },
+  {
+    "kind": "country",
+    "id": "KWT",
+    "name": "Kuwait",
+    "url": "https://global-ai-governance-map.vercel.app/country/KWT"
+  },
+  {
+    "kind": "country",
+    "id": "LAO",
+    "name": "Laos",
+    "url": "https://global-ai-governance-map.vercel.app/country/LAO"
+  },
+  {
+    "kind": "country",
+    "id": "LBN",
+    "name": "Lebanon",
+    "url": "https://global-ai-governance-map.vercel.app/country/LBN"
+  },
+  {
+    "kind": "country",
+    "id": "LBR",
+    "name": "Liberia",
+    "url": "https://global-ai-governance-map.vercel.app/country/LBR"
+  },
+  {
+    "kind": "country",
+    "id": "LBY",
+    "name": "Libya",
+    "url": "https://global-ai-governance-map.vercel.app/country/LBY"
+  },
+  {
+    "kind": "country",
+    "id": "LIE",
+    "name": "Liechtenstein",
+    "url": "https://global-ai-governance-map.vercel.app/country/LIE"
+  },
+  {
+    "kind": "country",
+    "id": "LKA",
+    "name": "Sri Lanka",
+    "url": "https://global-ai-governance-map.vercel.app/country/LKA"
+  },
+  {
+    "kind": "country",
+    "id": "LSO",
+    "name": "Lesotho",
+    "url": "https://global-ai-governance-map.vercel.app/country/LSO"
+  },
+  {
+    "kind": "country",
+    "id": "LTU",
+    "name": "Lithuania",
+    "url": "https://global-ai-governance-map.vercel.app/country/LTU"
+  },
+  {
+    "kind": "country",
+    "id": "LUX",
+    "name": "Luxembourg",
+    "url": "https://global-ai-governance-map.vercel.app/country/LUX"
+  },
+  {
+    "kind": "country",
+    "id": "LVA",
+    "name": "Latvia",
+    "url": "https://global-ai-governance-map.vercel.app/country/LVA"
+  },
+  {
+    "kind": "country",
+    "id": "MAC",
+    "name": "Macao",
+    "url": "https://global-ai-governance-map.vercel.app/country/MAC"
+  },
+  {
+    "kind": "country",
+    "id": "MAR",
+    "name": "Morocco",
+    "url": "https://global-ai-governance-map.vercel.app/country/MAR"
+  },
+  {
+    "kind": "country",
+    "id": "MCO",
+    "name": "Monaco",
+    "url": "https://global-ai-governance-map.vercel.app/country/MCO"
+  },
+  {
+    "kind": "country",
+    "id": "MDA",
+    "name": "Moldova",
+    "url": "https://global-ai-governance-map.vercel.app/country/MDA"
+  },
+  {
+    "kind": "country",
+    "id": "MDG",
+    "name": "Madagascar",
+    "url": "https://global-ai-governance-map.vercel.app/country/MDG"
+  },
+  {
+    "kind": "country",
+    "id": "MDV",
+    "name": "Maldives",
+    "url": "https://global-ai-governance-map.vercel.app/country/MDV"
+  },
+  {
+    "kind": "country",
+    "id": "MEX",
+    "name": "Mexico",
+    "url": "https://global-ai-governance-map.vercel.app/country/MEX"
+  },
+  {
+    "kind": "country",
+    "id": "MHL",
+    "name": "Marshall Islands",
+    "url": "https://global-ai-governance-map.vercel.app/country/MHL"
+  },
+  {
+    "kind": "country",
+    "id": "MKD",
+    "name": "North Macedonia",
+    "url": "https://global-ai-governance-map.vercel.app/country/MKD"
+  },
+  {
+    "kind": "country",
+    "id": "MLI",
+    "name": "Mali",
+    "url": "https://global-ai-governance-map.vercel.app/country/MLI"
+  },
+  {
+    "kind": "country",
+    "id": "MLT",
+    "name": "Malta",
+    "url": "https://global-ai-governance-map.vercel.app/country/MLT"
+  },
+  {
+    "kind": "country",
+    "id": "MMR",
+    "name": "Myanmar",
+    "url": "https://global-ai-governance-map.vercel.app/country/MMR"
+  },
+  {
+    "kind": "country",
+    "id": "MNE",
+    "name": "Montenegro",
+    "url": "https://global-ai-governance-map.vercel.app/country/MNE"
+  },
+  {
+    "kind": "country",
+    "id": "MNG",
+    "name": "Mongolia",
+    "url": "https://global-ai-governance-map.vercel.app/country/MNG"
+  },
+  {
+    "kind": "country",
+    "id": "MOZ",
+    "name": "Mozambique",
+    "url": "https://global-ai-governance-map.vercel.app/country/MOZ"
+  },
+  {
+    "kind": "country",
+    "id": "MRT",
+    "name": "Mauritania",
+    "url": "https://global-ai-governance-map.vercel.app/country/MRT"
+  },
+  {
+    "kind": "country",
+    "id": "MUS",
+    "name": "Mauritius",
+    "url": "https://global-ai-governance-map.vercel.app/country/MUS"
+  },
+  {
+    "kind": "country",
+    "id": "MWI",
+    "name": "Malawi",
+    "url": "https://global-ai-governance-map.vercel.app/country/MWI"
+  },
+  {
+    "kind": "country",
+    "id": "MYS",
+    "name": "Malaysia",
+    "url": "https://global-ai-governance-map.vercel.app/country/MYS"
+  },
+  {
+    "kind": "country",
+    "id": "NAM",
+    "name": "Namibia",
+    "url": "https://global-ai-governance-map.vercel.app/country/NAM"
+  },
+  {
+    "kind": "country",
+    "id": "NER",
+    "name": "Niger",
+    "url": "https://global-ai-governance-map.vercel.app/country/NER"
+  },
+  {
+    "kind": "country",
+    "id": "NGA",
+    "name": "Nigeria",
+    "url": "https://global-ai-governance-map.vercel.app/country/NGA"
+  },
+  {
+    "kind": "country",
+    "id": "NIC",
+    "name": "Nicaragua",
+    "url": "https://global-ai-governance-map.vercel.app/country/NIC"
+  },
+  {
+    "kind": "country",
+    "id": "NLD",
+    "name": "Netherlands",
+    "url": "https://global-ai-governance-map.vercel.app/country/NLD"
+  },
+  {
+    "kind": "country",
+    "id": "NOR",
+    "name": "Norway",
+    "url": "https://global-ai-governance-map.vercel.app/country/NOR"
+  },
+  {
+    "kind": "country",
+    "id": "NPL",
+    "name": "Nepal",
+    "url": "https://global-ai-governance-map.vercel.app/country/NPL"
+  },
+  {
+    "kind": "country",
+    "id": "NRU",
+    "name": "Nauru",
+    "url": "https://global-ai-governance-map.vercel.app/country/NRU"
+  },
+  {
+    "kind": "country",
+    "id": "NZL",
+    "name": "New Zealand",
+    "url": "https://global-ai-governance-map.vercel.app/country/NZL"
+  },
+  {
+    "kind": "country",
+    "id": "OMN",
+    "name": "Oman",
+    "url": "https://global-ai-governance-map.vercel.app/country/OMN"
+  },
+  {
+    "kind": "country",
+    "id": "PAK",
+    "name": "Pakistan",
+    "url": "https://global-ai-governance-map.vercel.app/country/PAK"
+  },
+  {
+    "kind": "country",
+    "id": "PAN",
+    "name": "Panama",
+    "url": "https://global-ai-governance-map.vercel.app/country/PAN"
+  },
+  {
+    "kind": "country",
+    "id": "PER",
+    "name": "Peru",
+    "url": "https://global-ai-governance-map.vercel.app/country/PER"
+  },
+  {
+    "kind": "country",
+    "id": "PHL",
+    "name": "Philippines",
+    "url": "https://global-ai-governance-map.vercel.app/country/PHL"
+  },
+  {
+    "kind": "country",
+    "id": "PLW",
+    "name": "Palau",
+    "url": "https://global-ai-governance-map.vercel.app/country/PLW"
+  },
+  {
+    "kind": "country",
+    "id": "PNG",
+    "name": "Papua New Guinea",
+    "url": "https://global-ai-governance-map.vercel.app/country/PNG"
+  },
+  {
+    "kind": "country",
+    "id": "POL",
+    "name": "Poland",
+    "url": "https://global-ai-governance-map.vercel.app/country/POL"
+  },
+  {
+    "kind": "country",
+    "id": "PRK",
+    "name": "North Korea",
+    "url": "https://global-ai-governance-map.vercel.app/country/PRK"
+  },
+  {
+    "kind": "country",
+    "id": "PRT",
+    "name": "Portugal",
+    "url": "https://global-ai-governance-map.vercel.app/country/PRT"
+  },
+  {
+    "kind": "country",
+    "id": "PRY",
+    "name": "Paraguay",
+    "url": "https://global-ai-governance-map.vercel.app/country/PRY"
+  },
+  {
+    "kind": "country",
+    "id": "PSE",
+    "name": "Palestine",
+    "url": "https://global-ai-governance-map.vercel.app/country/PSE"
+  },
+  {
+    "kind": "country",
+    "id": "QAT",
+    "name": "Qatar",
+    "url": "https://global-ai-governance-map.vercel.app/country/QAT"
+  },
+  {
+    "kind": "country",
+    "id": "ROU",
+    "name": "Romania",
+    "url": "https://global-ai-governance-map.vercel.app/country/ROU"
+  },
+  {
+    "kind": "country",
+    "id": "RUS",
+    "name": "Russia",
+    "url": "https://global-ai-governance-map.vercel.app/country/RUS"
+  },
+  {
+    "kind": "country",
+    "id": "RWA",
+    "name": "Rwanda",
+    "url": "https://global-ai-governance-map.vercel.app/country/RWA"
+  },
+  {
+    "kind": "country",
+    "id": "SAU",
+    "name": "Saudi Arabia",
+    "url": "https://global-ai-governance-map.vercel.app/country/SAU"
+  },
+  {
+    "kind": "country",
+    "id": "SDN",
+    "name": "Sudan",
+    "url": "https://global-ai-governance-map.vercel.app/country/SDN"
+  },
+  {
+    "kind": "country",
+    "id": "SEN",
+    "name": "Senegal",
+    "url": "https://global-ai-governance-map.vercel.app/country/SEN"
+  },
+  {
+    "kind": "country",
+    "id": "SGP",
+    "name": "Singapore",
+    "url": "https://global-ai-governance-map.vercel.app/country/SGP"
+  },
+  {
+    "kind": "country",
+    "id": "SLB",
+    "name": "Solomon Islands",
+    "url": "https://global-ai-governance-map.vercel.app/country/SLB"
+  },
+  {
+    "kind": "country",
+    "id": "SLE",
+    "name": "Sierra Leone",
+    "url": "https://global-ai-governance-map.vercel.app/country/SLE"
+  },
+  {
+    "kind": "country",
+    "id": "SLV",
+    "name": "El Salvador",
+    "url": "https://global-ai-governance-map.vercel.app/country/SLV"
+  },
+  {
+    "kind": "country",
+    "id": "SMR",
+    "name": "San Marino",
+    "url": "https://global-ai-governance-map.vercel.app/country/SMR"
+  },
+  {
+    "kind": "country",
+    "id": "SOM",
+    "name": "Somalia",
+    "url": "https://global-ai-governance-map.vercel.app/country/SOM"
+  },
+  {
+    "kind": "country",
+    "id": "SRB",
+    "name": "Serbia",
+    "url": "https://global-ai-governance-map.vercel.app/country/SRB"
+  },
+  {
+    "kind": "country",
+    "id": "SSD",
+    "name": "South Sudan",
+    "url": "https://global-ai-governance-map.vercel.app/country/SSD"
+  },
+  {
+    "kind": "country",
+    "id": "STP",
+    "name": "São Tomé and Príncipe",
+    "url": "https://global-ai-governance-map.vercel.app/country/STP"
+  },
+  {
+    "kind": "country",
+    "id": "SUR",
+    "name": "Suriname",
+    "url": "https://global-ai-governance-map.vercel.app/country/SUR"
+  },
+  {
+    "kind": "country",
+    "id": "SVK",
+    "name": "Slovakia",
+    "url": "https://global-ai-governance-map.vercel.app/country/SVK"
+  },
+  {
+    "kind": "country",
+    "id": "SVN",
+    "name": "Slovenia",
+    "url": "https://global-ai-governance-map.vercel.app/country/SVN"
+  },
+  {
+    "kind": "country",
+    "id": "SWE",
+    "name": "Sweden",
+    "url": "https://global-ai-governance-map.vercel.app/country/SWE"
+  },
+  {
+    "kind": "country",
+    "id": "SWZ",
+    "name": "Eswatini",
+    "url": "https://global-ai-governance-map.vercel.app/country/SWZ"
+  },
+  {
+    "kind": "country",
+    "id": "SYC",
+    "name": "Seychelles",
+    "url": "https://global-ai-governance-map.vercel.app/country/SYC"
+  },
+  {
+    "kind": "country",
+    "id": "SYR",
+    "name": "Syria",
+    "url": "https://global-ai-governance-map.vercel.app/country/SYR"
+  },
+  {
+    "kind": "country",
+    "id": "TCD",
+    "name": "Chad",
+    "url": "https://global-ai-governance-map.vercel.app/country/TCD"
+  },
+  {
+    "kind": "country",
+    "id": "TGO",
+    "name": "Togo",
+    "url": "https://global-ai-governance-map.vercel.app/country/TGO"
+  },
+  {
+    "kind": "country",
+    "id": "THA",
+    "name": "Thailand",
+    "url": "https://global-ai-governance-map.vercel.app/country/THA"
+  },
+  {
+    "kind": "country",
+    "id": "TJK",
+    "name": "Tajikistan",
+    "url": "https://global-ai-governance-map.vercel.app/country/TJK"
+  },
+  {
+    "kind": "country",
+    "id": "TKM",
+    "name": "Turkmenistan",
+    "url": "https://global-ai-governance-map.vercel.app/country/TKM"
+  },
+  {
+    "kind": "country",
+    "id": "TLS",
+    "name": "Timor-Leste",
+    "url": "https://global-ai-governance-map.vercel.app/country/TLS"
+  },
+  {
+    "kind": "country",
+    "id": "TON",
+    "name": "Tonga",
+    "url": "https://global-ai-governance-map.vercel.app/country/TON"
+  },
+  {
+    "kind": "country",
+    "id": "TTO",
+    "name": "Trinidad and Tobago",
+    "url": "https://global-ai-governance-map.vercel.app/country/TTO"
+  },
+  {
+    "kind": "country",
+    "id": "TUN",
+    "name": "Tunisia",
+    "url": "https://global-ai-governance-map.vercel.app/country/TUN"
+  },
+  {
+    "kind": "country",
+    "id": "TUR",
+    "name": "Türkiye",
+    "url": "https://global-ai-governance-map.vercel.app/country/TUR"
+  },
+  {
+    "kind": "country",
+    "id": "TUV",
+    "name": "Tuvalu",
+    "url": "https://global-ai-governance-map.vercel.app/country/TUV"
+  },
+  {
+    "kind": "country",
+    "id": "TWN",
+    "name": "Taiwan",
+    "url": "https://global-ai-governance-map.vercel.app/country/TWN"
+  },
+  {
+    "kind": "country",
+    "id": "TZA",
+    "name": "Tanzania",
+    "url": "https://global-ai-governance-map.vercel.app/country/TZA"
+  },
+  {
+    "kind": "country",
+    "id": "UGA",
+    "name": "Uganda",
+    "url": "https://global-ai-governance-map.vercel.app/country/UGA"
+  },
+  {
+    "kind": "country",
+    "id": "UKR",
+    "name": "Ukraine",
+    "url": "https://global-ai-governance-map.vercel.app/country/UKR"
+  },
+  {
+    "kind": "country",
+    "id": "URY",
+    "name": "Uruguay",
+    "url": "https://global-ai-governance-map.vercel.app/country/URY"
+  },
+  {
+    "kind": "country",
+    "id": "USA",
+    "name": "United States",
+    "url": "https://global-ai-governance-map.vercel.app/country/USA"
+  },
+  {
+    "kind": "country",
+    "id": "UZB",
+    "name": "Uzbekistan",
+    "url": "https://global-ai-governance-map.vercel.app/country/UZB"
+  },
+  {
+    "kind": "country",
+    "id": "VAT",
+    "name": "Vatican City",
+    "url": "https://global-ai-governance-map.vercel.app/country/VAT"
+  },
+  {
+    "kind": "country",
+    "id": "VEN",
+    "name": "Venezuela",
+    "url": "https://global-ai-governance-map.vercel.app/country/VEN"
+  },
+  {
+    "kind": "country",
+    "id": "VNM",
+    "name": "Vietnam",
+    "url": "https://global-ai-governance-map.vercel.app/country/VNM"
+  },
+  {
+    "kind": "country",
+    "id": "VUT",
+    "name": "Vanuatu",
+    "url": "https://global-ai-governance-map.vercel.app/country/VUT"
+  },
+  {
+    "kind": "country",
+    "id": "WSM",
+    "name": "Samoa",
+    "url": "https://global-ai-governance-map.vercel.app/country/WSM"
+  },
+  {
+    "kind": "country",
+    "id": "YEM",
+    "name": "Yemen",
+    "url": "https://global-ai-governance-map.vercel.app/country/YEM"
+  },
+  {
+    "kind": "country",
+    "id": "ZAF",
+    "name": "South Africa",
+    "url": "https://global-ai-governance-map.vercel.app/country/ZAF"
+  },
+  {
+    "kind": "country",
+    "id": "ZMB",
+    "name": "Zambia",
+    "url": "https://global-ai-governance-map.vercel.app/country/ZMB"
+  },
+  {
+    "kind": "country",
+    "id": "ZWE",
+    "name": "Zimbabwe",
+    "url": "https://global-ai-governance-map.vercel.app/country/ZWE"
+  },
+  {
+    "kind": "exposure",
+    "id": "alibaba--compute_dependency--advanced-ai-chips",
+    "name": "alibaba -> advanced-ai-chips",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/alibaba--compute_dependency--advanced-ai-chips"
+  },
+  {
+    "kind": "exposure",
+    "id": "alibaba--export_control_dependency--us-bis-export-controls",
+    "name": "alibaba -> us-bis-export-controls",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/alibaba--export_control_dependency--us-bis-export-controls"
+  },
+  {
+    "kind": "exposure",
+    "id": "alibaba--hq_jurisdiction--cn-algorithm-recommendation",
+    "name": "alibaba -> cn-algorithm-recommendation",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/alibaba--hq_jurisdiction--cn-algorithm-recommendation"
+  },
+  {
+    "kind": "exposure",
+    "id": "alibaba--hq_jurisdiction--cn-genai-interim-measures",
+    "name": "alibaba -> cn-genai-interim-measures",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/alibaba--hq_jurisdiction--cn-genai-interim-measures"
+  },
+  {
+    "kind": "exposure",
+    "id": "alibaba--standards_influence--iso-iec-42001-2023",
+    "name": "alibaba -> iso-iec-42001-2023",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/alibaba--standards_influence--iso-iec-42001-2023"
+  },
+  {
+    "kind": "exposure",
+    "id": "amazon--company_commitment--frontier-model-forum",
+    "name": "amazon -> frontier-model-forum",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/amazon--company_commitment--frontier-model-forum"
+  },
+  {
+    "kind": "exposure",
+    "id": "amazon--company_commitment--seoul-frontier-ai-safety-commitments",
+    "name": "amazon -> seoul-frontier-ai-safety-commitments",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/amazon--company_commitment--seoul-frontier-ai-safety-commitments"
+  },
+  {
+    "kind": "exposure",
+    "id": "amazon--compute_dependency--advanced-ai-chips",
+    "name": "amazon -> advanced-ai-chips",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/amazon--compute_dependency--advanced-ai-chips"
+  },
+  {
+    "kind": "exposure",
+    "id": "amazon--market_access--eu-ai-act-regional",
+    "name": "amazon -> eu-ai-act-regional",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/amazon--market_access--eu-ai-act-regional"
+  },
+  {
+    "kind": "exposure",
+    "id": "amazon--safety_institute_coordination--uk-ai-security-institute",
+    "name": "amazon -> uk-ai-security-institute",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/amazon--safety_institute_coordination--uk-ai-security-institute"
+  },
+  {
+    "kind": "exposure",
+    "id": "amazon--safety_institute_coordination--us-caisi",
+    "name": "amazon -> us-caisi",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/amazon--safety_institute_coordination--us-caisi"
+  },
+  {
+    "kind": "exposure",
+    "id": "amazon--standards_influence--cen-cenelec-ai-act-standards",
+    "name": "amazon -> cen-cenelec-ai-act-standards",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/amazon--standards_influence--cen-cenelec-ai-act-standards"
+  },
+  {
+    "kind": "exposure",
+    "id": "amazon--standards_influence--iso-iec-42001-2023",
+    "name": "amazon -> iso-iec-42001-2023",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/amazon--standards_influence--iso-iec-42001-2023"
+  },
+  {
+    "kind": "exposure",
+    "id": "amazon--standards_influence--us-nist-ai-rmf",
+    "name": "amazon -> us-nist-ai-rmf",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/amazon--standards_influence--us-nist-ai-rmf"
+  },
+  {
+    "kind": "exposure",
+    "id": "anthropic--company_commitment--frontier-model-forum",
+    "name": "anthropic -> frontier-model-forum",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/anthropic--company_commitment--frontier-model-forum"
+  },
+  {
+    "kind": "exposure",
+    "id": "anthropic--company_commitment--seoul-frontier-ai-safety-commitments",
+    "name": "anthropic -> seoul-frontier-ai-safety-commitments",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/anthropic--company_commitment--seoul-frontier-ai-safety-commitments"
+  },
+  {
+    "kind": "exposure",
+    "id": "anthropic--compute_dependency--advanced-ai-chips",
+    "name": "anthropic -> advanced-ai-chips",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/anthropic--compute_dependency--advanced-ai-chips"
+  },
+  {
+    "kind": "exposure",
+    "id": "anthropic--compute_dependency--hyperscale-cloud",
+    "name": "anthropic -> hyperscale-cloud",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/anthropic--compute_dependency--hyperscale-cloud"
+  },
+  {
+    "kind": "exposure",
+    "id": "anthropic--market_access--eu-ai-act-regional",
+    "name": "anthropic -> eu-ai-act-regional",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/anthropic--market_access--eu-ai-act-regional"
+  },
+  {
+    "kind": "exposure",
+    "id": "anthropic--safety_institute_coordination--uk-ai-security-institute",
+    "name": "anthropic -> uk-ai-security-institute",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/anthropic--safety_institute_coordination--uk-ai-security-institute"
+  },
+  {
+    "kind": "exposure",
+    "id": "anthropic--safety_institute_coordination--us-caisi",
+    "name": "anthropic -> us-caisi",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/anthropic--safety_institute_coordination--us-caisi"
+  },
+  {
+    "kind": "exposure",
+    "id": "anthropic--standards_influence--cen-cenelec-ai-act-standards",
+    "name": "anthropic -> cen-cenelec-ai-act-standards",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/anthropic--standards_influence--cen-cenelec-ai-act-standards"
+  },
+  {
+    "kind": "exposure",
+    "id": "anthropic--standards_influence--iso-iec-42001-2023",
+    "name": "anthropic -> iso-iec-42001-2023",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/anthropic--standards_influence--iso-iec-42001-2023"
+  },
+  {
+    "kind": "exposure",
+    "id": "anthropic--standards_influence--us-nist-ai-rmf",
+    "name": "anthropic -> us-nist-ai-rmf",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/anthropic--standards_influence--us-nist-ai-rmf"
+  },
+  {
+    "kind": "exposure",
+    "id": "baidu--compute_dependency--advanced-ai-chips",
+    "name": "baidu -> advanced-ai-chips",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/baidu--compute_dependency--advanced-ai-chips"
+  },
+  {
+    "kind": "exposure",
+    "id": "baidu--compute_dependency--hyperscale-cloud",
+    "name": "baidu -> hyperscale-cloud",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/baidu--compute_dependency--hyperscale-cloud"
+  },
+  {
+    "kind": "exposure",
+    "id": "baidu--export_control_dependency--us-bis-export-controls",
+    "name": "baidu -> us-bis-export-controls",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/baidu--export_control_dependency--us-bis-export-controls"
+  },
+  {
+    "kind": "exposure",
+    "id": "baidu--hq_jurisdiction--cn-algorithm-recommendation",
+    "name": "baidu -> cn-algorithm-recommendation",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/baidu--hq_jurisdiction--cn-algorithm-recommendation"
+  },
+  {
+    "kind": "exposure",
+    "id": "baidu--hq_jurisdiction--cn-deep-synthesis",
+    "name": "baidu -> cn-deep-synthesis",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/baidu--hq_jurisdiction--cn-deep-synthesis"
+  },
+  {
+    "kind": "exposure",
+    "id": "baidu--hq_jurisdiction--cn-genai-interim-measures",
+    "name": "baidu -> cn-genai-interim-measures",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/baidu--hq_jurisdiction--cn-genai-interim-measures"
+  },
+  {
+    "kind": "exposure",
+    "id": "baidu--standards_influence--iso-iec-42001-2023",
+    "name": "baidu -> iso-iec-42001-2023",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/baidu--standards_influence--iso-iec-42001-2023"
+  },
+  {
+    "kind": "exposure",
+    "id": "cohere--company_commitment--seoul-frontier-ai-safety-commitments",
+    "name": "cohere -> seoul-frontier-ai-safety-commitments",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/cohere--company_commitment--seoul-frontier-ai-safety-commitments"
+  },
+  {
+    "kind": "exposure",
+    "id": "cohere--compute_dependency--advanced-ai-chips",
+    "name": "cohere -> advanced-ai-chips",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/cohere--compute_dependency--advanced-ai-chips"
+  },
+  {
+    "kind": "exposure",
+    "id": "cohere--compute_dependency--hyperscale-cloud",
+    "name": "cohere -> hyperscale-cloud",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/cohere--compute_dependency--hyperscale-cloud"
+  },
+  {
+    "kind": "exposure",
+    "id": "cohere--hq_jurisdiction--ca-voluntary-code-genai",
+    "name": "cohere -> ca-voluntary-code-genai",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/cohere--hq_jurisdiction--ca-voluntary-code-genai"
+  },
+  {
+    "kind": "exposure",
+    "id": "cohere--market_access--eu-ai-act-regional",
+    "name": "cohere -> eu-ai-act-regional",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/cohere--market_access--eu-ai-act-regional"
+  },
+  {
+    "kind": "exposure",
+    "id": "cohere--safety_institute_coordination--ca-aisi",
+    "name": "cohere -> ca-aisi",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/cohere--safety_institute_coordination--ca-aisi"
+  },
+  {
+    "kind": "exposure",
+    "id": "cohere--standards_influence--cen-cenelec-ai-act-standards",
+    "name": "cohere -> cen-cenelec-ai-act-standards",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/cohere--standards_influence--cen-cenelec-ai-act-standards"
+  },
+  {
+    "kind": "exposure",
+    "id": "cohere--standards_influence--iso-iec-42001-2023",
+    "name": "cohere -> iso-iec-42001-2023",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/cohere--standards_influence--iso-iec-42001-2023"
+  },
+  {
+    "kind": "exposure",
+    "id": "deepseek--compute_dependency--advanced-ai-chips",
+    "name": "deepseek -> advanced-ai-chips",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/deepseek--compute_dependency--advanced-ai-chips"
+  },
+  {
+    "kind": "exposure",
+    "id": "deepseek--compute_dependency--hyperscale-cloud",
+    "name": "deepseek -> hyperscale-cloud",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/deepseek--compute_dependency--hyperscale-cloud"
+  },
+  {
+    "kind": "exposure",
+    "id": "deepseek--export_control_dependency--us-bis-export-controls",
+    "name": "deepseek -> us-bis-export-controls",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/deepseek--export_control_dependency--us-bis-export-controls"
+  },
+  {
+    "kind": "exposure",
+    "id": "deepseek--hq_jurisdiction--cn-ai-content-labeling",
+    "name": "deepseek -> cn-ai-content-labeling",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/deepseek--hq_jurisdiction--cn-ai-content-labeling"
+  },
+  {
+    "kind": "exposure",
+    "id": "deepseek--hq_jurisdiction--cn-genai-interim-measures",
+    "name": "deepseek -> cn-genai-interim-measures",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/deepseek--hq_jurisdiction--cn-genai-interim-measures"
+  },
+  {
+    "kind": "exposure",
+    "id": "deepseek--standards_influence--iso-iec-42001-2023",
+    "name": "deepseek -> iso-iec-42001-2023",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/deepseek--standards_influence--iso-iec-42001-2023"
+  },
+  {
+    "kind": "exposure",
+    "id": "google-deepmind--company_commitment--frontier-model-forum",
+    "name": "google-deepmind -> frontier-model-forum",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/google-deepmind--company_commitment--frontier-model-forum"
+  },
+  {
+    "kind": "exposure",
+    "id": "google-deepmind--company_commitment--seoul-frontier-ai-safety-commitments",
+    "name": "google-deepmind -> seoul-frontier-ai-safety-commitments",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/google-deepmind--company_commitment--seoul-frontier-ai-safety-commitments"
+  },
+  {
+    "kind": "exposure",
+    "id": "google-deepmind--compute_dependency--advanced-ai-chips",
+    "name": "google-deepmind -> advanced-ai-chips",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/google-deepmind--compute_dependency--advanced-ai-chips"
+  },
+  {
+    "kind": "exposure",
+    "id": "google-deepmind--market_access--eu-ai-act-regional",
+    "name": "google-deepmind -> eu-ai-act-regional",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/google-deepmind--market_access--eu-ai-act-regional"
+  },
+  {
+    "kind": "exposure",
+    "id": "google-deepmind--safety_institute_coordination--uk-ai-security-institute",
+    "name": "google-deepmind -> uk-ai-security-institute",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/google-deepmind--safety_institute_coordination--uk-ai-security-institute"
+  },
+  {
+    "kind": "exposure",
+    "id": "google-deepmind--safety_institute_coordination--us-caisi",
+    "name": "google-deepmind -> us-caisi",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/google-deepmind--safety_institute_coordination--us-caisi"
+  },
+  {
+    "kind": "exposure",
+    "id": "google-deepmind--standards_influence--cen-cenelec-ai-act-standards",
+    "name": "google-deepmind -> cen-cenelec-ai-act-standards",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/google-deepmind--standards_influence--cen-cenelec-ai-act-standards"
+  },
+  {
+    "kind": "exposure",
+    "id": "google-deepmind--standards_influence--iso-iec-42001-2023",
+    "name": "google-deepmind -> iso-iec-42001-2023",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/google-deepmind--standards_influence--iso-iec-42001-2023"
+  },
+  {
+    "kind": "exposure",
+    "id": "google-deepmind--standards_influence--us-nist-ai-rmf",
+    "name": "google-deepmind -> us-nist-ai-rmf",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/google-deepmind--standards_influence--us-nist-ai-rmf"
+  },
+  {
+    "kind": "exposure",
+    "id": "meta--company_commitment--frontier-model-forum",
+    "name": "meta -> frontier-model-forum",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/meta--company_commitment--frontier-model-forum"
+  },
+  {
+    "kind": "exposure",
+    "id": "meta--company_commitment--seoul-frontier-ai-safety-commitments",
+    "name": "meta -> seoul-frontier-ai-safety-commitments",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/meta--company_commitment--seoul-frontier-ai-safety-commitments"
+  },
+  {
+    "kind": "exposure",
+    "id": "meta--compute_dependency--advanced-ai-chips",
+    "name": "meta -> advanced-ai-chips",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/meta--compute_dependency--advanced-ai-chips"
+  },
+  {
+    "kind": "exposure",
+    "id": "meta--compute_dependency--hyperscale-cloud",
+    "name": "meta -> hyperscale-cloud",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/meta--compute_dependency--hyperscale-cloud"
+  },
+  {
+    "kind": "exposure",
+    "id": "meta--market_access--eu-ai-act-regional",
+    "name": "meta -> eu-ai-act-regional",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/meta--market_access--eu-ai-act-regional"
+  },
+  {
+    "kind": "exposure",
+    "id": "meta--safety_institute_coordination--uk-ai-security-institute",
+    "name": "meta -> uk-ai-security-institute",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/meta--safety_institute_coordination--uk-ai-security-institute"
+  },
+  {
+    "kind": "exposure",
+    "id": "meta--safety_institute_coordination--us-caisi",
+    "name": "meta -> us-caisi",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/meta--safety_institute_coordination--us-caisi"
+  },
+  {
+    "kind": "exposure",
+    "id": "meta--standards_influence--cen-cenelec-ai-act-standards",
+    "name": "meta -> cen-cenelec-ai-act-standards",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/meta--standards_influence--cen-cenelec-ai-act-standards"
+  },
+  {
+    "kind": "exposure",
+    "id": "meta--standards_influence--iso-iec-42001-2023",
+    "name": "meta -> iso-iec-42001-2023",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/meta--standards_influence--iso-iec-42001-2023"
+  },
+  {
+    "kind": "exposure",
+    "id": "meta--standards_influence--us-nist-ai-rmf",
+    "name": "meta -> us-nist-ai-rmf",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/meta--standards_influence--us-nist-ai-rmf"
+  },
+  {
+    "kind": "exposure",
+    "id": "microsoft--company_commitment--frontier-model-forum",
+    "name": "microsoft -> frontier-model-forum",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/microsoft--company_commitment--frontier-model-forum"
+  },
+  {
+    "kind": "exposure",
+    "id": "microsoft--company_commitment--seoul-frontier-ai-safety-commitments",
+    "name": "microsoft -> seoul-frontier-ai-safety-commitments",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/microsoft--company_commitment--seoul-frontier-ai-safety-commitments"
+  },
+  {
+    "kind": "exposure",
+    "id": "microsoft--compute_dependency--advanced-ai-chips",
+    "name": "microsoft -> advanced-ai-chips",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/microsoft--compute_dependency--advanced-ai-chips"
+  },
+  {
+    "kind": "exposure",
+    "id": "microsoft--market_access--eu-ai-act-regional",
+    "name": "microsoft -> eu-ai-act-regional",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/microsoft--market_access--eu-ai-act-regional"
+  },
+  {
+    "kind": "exposure",
+    "id": "microsoft--safety_institute_coordination--uk-ai-security-institute",
+    "name": "microsoft -> uk-ai-security-institute",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/microsoft--safety_institute_coordination--uk-ai-security-institute"
+  },
+  {
+    "kind": "exposure",
+    "id": "microsoft--safety_institute_coordination--us-caisi",
+    "name": "microsoft -> us-caisi",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/microsoft--safety_institute_coordination--us-caisi"
+  },
+  {
+    "kind": "exposure",
+    "id": "microsoft--standards_influence--cen-cenelec-ai-act-standards",
+    "name": "microsoft -> cen-cenelec-ai-act-standards",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/microsoft--standards_influence--cen-cenelec-ai-act-standards"
+  },
+  {
+    "kind": "exposure",
+    "id": "microsoft--standards_influence--iso-iec-42001-2023",
+    "name": "microsoft -> iso-iec-42001-2023",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/microsoft--standards_influence--iso-iec-42001-2023"
+  },
+  {
+    "kind": "exposure",
+    "id": "microsoft--standards_influence--us-nist-ai-rmf",
+    "name": "microsoft -> us-nist-ai-rmf",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/microsoft--standards_influence--us-nist-ai-rmf"
+  },
+  {
+    "kind": "exposure",
+    "id": "mistral--company_commitment--seoul-frontier-ai-safety-commitments",
+    "name": "mistral -> seoul-frontier-ai-safety-commitments",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/mistral--company_commitment--seoul-frontier-ai-safety-commitments"
+  },
+  {
+    "kind": "exposure",
+    "id": "mistral--compute_dependency--advanced-ai-chips",
+    "name": "mistral -> advanced-ai-chips",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/mistral--compute_dependency--advanced-ai-chips"
+  },
+  {
+    "kind": "exposure",
+    "id": "mistral--compute_dependency--hyperscale-cloud",
+    "name": "mistral -> hyperscale-cloud",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/mistral--compute_dependency--hyperscale-cloud"
+  },
+  {
+    "kind": "exposure",
+    "id": "mistral--eu_applicability--eu-ai-act-regional",
+    "name": "mistral -> eu-ai-act-regional",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/mistral--eu_applicability--eu-ai-act-regional"
+  },
+  {
+    "kind": "exposure",
+    "id": "mistral--market_access--it-law-132-2025",
+    "name": "mistral -> it-law-132-2025",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/mistral--market_access--it-law-132-2025"
+  },
+  {
+    "kind": "exposure",
+    "id": "mistral--policy_influence--fr-ai-for-humanity",
+    "name": "mistral -> fr-ai-for-humanity",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/mistral--policy_influence--fr-ai-for-humanity"
+  },
+  {
+    "kind": "exposure",
+    "id": "mistral--standards_influence--cen-cenelec-ai-act-standards",
+    "name": "mistral -> cen-cenelec-ai-act-standards",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/mistral--standards_influence--cen-cenelec-ai-act-standards"
+  },
+  {
+    "kind": "exposure",
+    "id": "mistral--standards_influence--iso-iec-42001-2023",
+    "name": "mistral -> iso-iec-42001-2023",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/mistral--standards_influence--iso-iec-42001-2023"
+  },
+  {
+    "kind": "exposure",
+    "id": "openai--company_commitment--frontier-model-forum",
+    "name": "openai -> frontier-model-forum",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/openai--company_commitment--frontier-model-forum"
+  },
+  {
+    "kind": "exposure",
+    "id": "openai--company_commitment--seoul-frontier-ai-safety-commitments",
+    "name": "openai -> seoul-frontier-ai-safety-commitments",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/openai--company_commitment--seoul-frontier-ai-safety-commitments"
+  },
+  {
+    "kind": "exposure",
+    "id": "openai--compute_dependency--advanced-ai-chips",
+    "name": "openai -> advanced-ai-chips",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/openai--compute_dependency--advanced-ai-chips"
+  },
+  {
+    "kind": "exposure",
+    "id": "openai--compute_dependency--hyperscale-cloud",
+    "name": "openai -> hyperscale-cloud",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/openai--compute_dependency--hyperscale-cloud"
+  },
+  {
+    "kind": "exposure",
+    "id": "openai--market_access--eu-ai-act-regional",
+    "name": "openai -> eu-ai-act-regional",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/openai--market_access--eu-ai-act-regional"
+  },
+  {
+    "kind": "exposure",
+    "id": "openai--safety_institute_coordination--uk-ai-security-institute",
+    "name": "openai -> uk-ai-security-institute",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/openai--safety_institute_coordination--uk-ai-security-institute"
+  },
+  {
+    "kind": "exposure",
+    "id": "openai--safety_institute_coordination--us-caisi",
+    "name": "openai -> us-caisi",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/openai--safety_institute_coordination--us-caisi"
+  },
+  {
+    "kind": "exposure",
+    "id": "openai--standards_influence--cen-cenelec-ai-act-standards",
+    "name": "openai -> cen-cenelec-ai-act-standards",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/openai--standards_influence--cen-cenelec-ai-act-standards"
+  },
+  {
+    "kind": "exposure",
+    "id": "openai--standards_influence--iso-iec-42001-2023",
+    "name": "openai -> iso-iec-42001-2023",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/openai--standards_influence--iso-iec-42001-2023"
+  },
+  {
+    "kind": "exposure",
+    "id": "openai--standards_influence--us-nist-ai-rmf",
+    "name": "openai -> us-nist-ai-rmf",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/openai--standards_influence--us-nist-ai-rmf"
+  },
+  {
+    "kind": "exposure",
+    "id": "tencent--compute_dependency--advanced-ai-chips",
+    "name": "tencent -> advanced-ai-chips",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/tencent--compute_dependency--advanced-ai-chips"
+  },
+  {
+    "kind": "exposure",
+    "id": "tencent--export_control_dependency--us-bis-export-controls",
+    "name": "tencent -> us-bis-export-controls",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/tencent--export_control_dependency--us-bis-export-controls"
+  },
+  {
+    "kind": "exposure",
+    "id": "tencent--hq_jurisdiction--cn-algorithm-recommendation",
+    "name": "tencent -> cn-algorithm-recommendation",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/tencent--hq_jurisdiction--cn-algorithm-recommendation"
+  },
+  {
+    "kind": "exposure",
+    "id": "tencent--hq_jurisdiction--cn-deep-synthesis",
+    "name": "tencent -> cn-deep-synthesis",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/tencent--hq_jurisdiction--cn-deep-synthesis"
+  },
+  {
+    "kind": "exposure",
+    "id": "tencent--hq_jurisdiction--cn-genai-interim-measures",
+    "name": "tencent -> cn-genai-interim-measures",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/tencent--hq_jurisdiction--cn-genai-interim-measures"
+  },
+  {
+    "kind": "exposure",
+    "id": "tencent--standards_influence--iso-iec-42001-2023",
+    "name": "tencent -> iso-iec-42001-2023",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/tencent--standards_influence--iso-iec-42001-2023"
+  },
+  {
+    "kind": "exposure",
+    "id": "xai--company_commitment--seoul-frontier-ai-safety-commitments",
+    "name": "xai -> seoul-frontier-ai-safety-commitments",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/xai--company_commitment--seoul-frontier-ai-safety-commitments"
+  },
+  {
+    "kind": "exposure",
+    "id": "xai--compute_dependency--advanced-ai-chips",
+    "name": "xai -> advanced-ai-chips",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/xai--compute_dependency--advanced-ai-chips"
+  },
+  {
+    "kind": "exposure",
+    "id": "xai--compute_dependency--hyperscale-cloud",
+    "name": "xai -> hyperscale-cloud",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/xai--compute_dependency--hyperscale-cloud"
+  },
+  {
+    "kind": "exposure",
+    "id": "xai--market_access--eu-ai-act-regional",
+    "name": "xai -> eu-ai-act-regional",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/xai--market_access--eu-ai-act-regional"
+  },
+  {
+    "kind": "exposure",
+    "id": "xai--safety_institute_coordination--uk-ai-security-institute",
+    "name": "xai -> uk-ai-security-institute",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/xai--safety_institute_coordination--uk-ai-security-institute"
+  },
+  {
+    "kind": "exposure",
+    "id": "xai--safety_institute_coordination--us-caisi",
+    "name": "xai -> us-caisi",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/xai--safety_institute_coordination--us-caisi"
+  },
+  {
+    "kind": "exposure",
+    "id": "xai--standards_influence--cen-cenelec-ai-act-standards",
+    "name": "xai -> cen-cenelec-ai-act-standards",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/xai--standards_influence--cen-cenelec-ai-act-standards"
+  },
+  {
+    "kind": "exposure",
+    "id": "xai--standards_influence--iso-iec-42001-2023",
+    "name": "xai -> iso-iec-42001-2023",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/xai--standards_influence--iso-iec-42001-2023"
+  },
+  {
+    "kind": "exposure",
+    "id": "xai--standards_influence--us-nist-ai-rmf",
+    "name": "xai -> us-nist-ai-rmf",
+    "url": "https://global-ai-governance-map.vercel.app/exposure/xai--standards_influence--us-nist-ai-rmf"
+  },
+  {
+    "kind": "instrument",
+    "id": "apec-ai-initiative-2026-2030",
+    "name": "APEC AI Initiative 2026–2030",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/apec-ai-initiative-2026-2030"
+  },
+  {
+    "kind": "instrument",
+    "id": "apec-digital-ai-ministerial-2025",
+    "name": "APEC Digital and AI Ministerial Statement",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/apec-digital-ai-ministerial-2025"
+  },
+  {
+    "kind": "instrument",
+    "id": "asean-ai-guide-2024",
+    "name": "ASEAN Guide on AI Governance and Ethics",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/asean-ai-guide-2024"
+  },
+  {
+    "kind": "instrument",
+    "id": "asean-genai-guide-2025",
+    "name": "Expanded ASEAN Guide on AI Governance and Ethics — Generative AI",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/asean-genai-guide-2025"
+  },
+  {
+    "kind": "instrument",
+    "id": "au-ai-strategy-2024",
+    "name": "African Union Continental AI Strategy",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/au-ai-strategy-2024"
+  },
+  {
+    "kind": "instrument",
+    "id": "bletchley-declaration",
+    "name": "Bletchley Declaration",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/bletchley-declaration"
+  },
+  {
+    "kind": "instrument",
+    "id": "cen-cenelec-ai-act-standards",
+    "name": "CEN-CENELEC AI Act harmonized-standardization work",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/cen-cenelec-ai-act-standards"
+  },
+  {
+    "kind": "instrument",
+    "id": "coe-ai-convention",
+    "name": "Council of Europe Framework Convention on AI and Human Rights, Democracy and the Rule of Law",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/coe-ai-convention"
+  },
+  {
+    "kind": "instrument",
+    "id": "council-eu-ai-conclusions-2024",
+    "name": "Council of the EU conclusions on strengthening the EU's ambitions in AI",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/council-eu-ai-conclusions-2024"
+  },
+  {
+    "kind": "instrument",
+    "id": "eu-ai-act",
+    "name": "EU AI Act (Regulation (EU) 2024/1689)",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/eu-ai-act"
+  },
+  {
+    "kind": "instrument",
+    "id": "eu-us-trustworthy-ai-roadmap",
+    "name": "EU–U.S. Joint Roadmap on Evaluation and Measurement Tools for Trustworthy AI and Risk Management",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/eu-us-trustworthy-ai-roadmap"
+  },
+  {
+    "kind": "instrument",
+    "id": "frontier-model-forum",
+    "name": "Frontier Model Forum",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/frontier-model-forum"
+  },
+  {
+    "kind": "instrument",
+    "id": "g20-ai-principles-2019",
+    "name": "G20 AI Principles",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/g20-ai-principles-2019"
+  },
+  {
+    "kind": "instrument",
+    "id": "g7-hiroshima-statement",
+    "name": "G7 Leaders' Statement on the Hiroshima AI Process",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/g7-hiroshima-statement"
+  },
+  {
+    "kind": "instrument",
+    "id": "global-digital-compact",
+    "name": "Global Digital Compact (Pact for the Future)",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/global-digital-compact"
+  },
+  {
+    "kind": "instrument",
+    "id": "gpai-declarations",
+    "name": "Global Partnership on Artificial Intelligence declarations and ministerial statements",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/gpai-declarations"
+  },
+  {
+    "kind": "instrument",
+    "id": "hiroshima-code-of-conduct",
+    "name": "Hiroshima Process International Code of Conduct for Organizations Developing Advanced AI Systems",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/hiroshima-code-of-conduct"
+  },
+  {
+    "kind": "instrument",
+    "id": "hiroshima-guiding-principles",
+    "name": "Hiroshima Process International Guiding Principles for Organizations Developing Advanced AI Systems",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/hiroshima-guiding-principles"
+  },
+  {
+    "kind": "instrument",
+    "id": "hiroshima-reporting-framework",
+    "name": "Hiroshima AI Process Reporting Framework",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/hiroshima-reporting-framework"
+  },
+  {
+    "kind": "instrument",
+    "id": "intl-network-aisi",
+    "name": "International Network of AI Safety Institutes (now International Network for Advanced AI Measurement, Evaluation and Science)",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/intl-network-aisi"
+  },
+  {
+    "kind": "instrument",
+    "id": "iso-iec-22989-2022",
+    "name": "ISO/IEC 22989:2022 — AI concepts and terminology",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/iso-iec-22989-2022"
+  },
+  {
+    "kind": "instrument",
+    "id": "iso-iec-23894-2023",
+    "name": "ISO/IEC 23894:2023 — AI — Guidance on risk management",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/iso-iec-23894-2023"
+  },
+  {
+    "kind": "instrument",
+    "id": "iso-iec-38507-2022",
+    "name": "ISO/IEC 38507:2022 — Governance implications of the use of AI by organizations",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/iso-iec-38507-2022"
+  },
+  {
+    "kind": "instrument",
+    "id": "iso-iec-42001-2023",
+    "name": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/iso-iec-42001-2023"
+  },
+  {
+    "kind": "instrument",
+    "id": "iso-iec-42005-2025",
+    "name": "ISO/IEC 42005:2025 — AI system impact assessment",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/iso-iec-42005-2025"
+  },
+  {
+    "kind": "instrument",
+    "id": "nist-genai-profile",
+    "name": "NIST AI RMF Generative AI Profile",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/nist-genai-profile"
+  },
+  {
+    "kind": "instrument",
+    "id": "oecd-ai-principles",
+    "name": "OECD Recommendation on AI / OECD AI Principles",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/oecd-ai-principles"
+  },
+  {
+    "kind": "instrument",
+    "id": "paris-statement-2025",
+    "name": "Statement on Inclusive and Sustainable AI for People and the Planet",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/paris-statement-2025"
+  },
+  {
+    "kind": "instrument",
+    "id": "seoul-declaration",
+    "name": "Seoul Declaration for safe, innovative and inclusive AI",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/seoul-declaration"
+  },
+  {
+    "kind": "instrument",
+    "id": "seoul-frontier-ai-safety-commitments",
+    "name": "Frontier AI Safety Commitments (AI Seoul Summit 2024)",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/seoul-frontier-ai-safety-commitments"
+  },
+  {
+    "kind": "instrument",
+    "id": "seoul-ministerial-statement",
+    "name": "Seoul Ministerial Statement for advancing AI safety, innovation and inclusivity",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/seoul-ministerial-statement"
+  },
+  {
+    "kind": "instrument",
+    "id": "seoul-statement-of-intent",
+    "name": "Seoul Statement of Intent toward International Cooperation on AI Safety Science",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/seoul-statement-of-intent"
+  },
+  {
+    "kind": "instrument",
+    "id": "uk-us-aisi-mou",
+    "name": "UK–U.S. Memorandum of Understanding on AI safety",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/uk-us-aisi-mou"
+  },
+  {
+    "kind": "instrument",
+    "id": "unesco-ethics-rec-2021",
+    "name": "UNESCO Recommendation on the Ethics of Artificial Intelligence",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/unesco-ethics-rec-2021"
+  },
+  {
+    "kind": "instrument",
+    "id": "unga-78-265",
+    "name": "UN General Assembly Resolution 78/265 \"Safe, secure and trustworthy AI systems for sustainable development\"",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/unga-78-265"
+  },
+  {
+    "kind": "instrument",
+    "id": "unga-78-311",
+    "name": "UN General Assembly Resolution 78/311 \"Enhancing international cooperation on capacity-building of AI\"",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/unga-78-311"
+  },
+  {
+    "kind": "instrument",
+    "id": "unga-79-325",
+    "name": "UN General Assembly Resolution 79/325 — Independent International Scientific Panel on AI and Global Dialogue on AI Governance",
+    "url": "https://global-ai-governance-map.vercel.app/instrument/unga-79-325"
+  },
+  {
+    "kind": "lab",
+    "id": "alibaba",
+    "name": "Alibaba",
+    "url": "https://global-ai-governance-map.vercel.app/lab/alibaba"
+  },
+  {
+    "kind": "lab",
+    "id": "amazon",
+    "name": "Amazon",
+    "url": "https://global-ai-governance-map.vercel.app/lab/amazon"
+  },
+  {
+    "kind": "lab",
+    "id": "anthropic",
+    "name": "Anthropic",
+    "url": "https://global-ai-governance-map.vercel.app/lab/anthropic"
+  },
+  {
+    "kind": "lab",
+    "id": "baidu",
+    "name": "Baidu",
+    "url": "https://global-ai-governance-map.vercel.app/lab/baidu"
+  },
+  {
+    "kind": "lab",
+    "id": "cohere",
+    "name": "Cohere",
+    "url": "https://global-ai-governance-map.vercel.app/lab/cohere"
+  },
+  {
+    "kind": "lab",
+    "id": "deepseek",
+    "name": "DeepSeek",
+    "url": "https://global-ai-governance-map.vercel.app/lab/deepseek"
+  },
+  {
+    "kind": "lab",
+    "id": "google-deepmind",
+    "name": "Google DeepMind",
+    "url": "https://global-ai-governance-map.vercel.app/lab/google-deepmind"
+  },
+  {
+    "kind": "lab",
+    "id": "meta",
+    "name": "Meta",
+    "url": "https://global-ai-governance-map.vercel.app/lab/meta"
+  },
+  {
+    "kind": "lab",
+    "id": "microsoft",
+    "name": "Microsoft",
+    "url": "https://global-ai-governance-map.vercel.app/lab/microsoft"
+  },
+  {
+    "kind": "lab",
+    "id": "mistral",
+    "name": "Mistral",
+    "url": "https://global-ai-governance-map.vercel.app/lab/mistral"
+  },
+  {
+    "kind": "lab",
+    "id": "openai",
+    "name": "OpenAI",
+    "url": "https://global-ai-governance-map.vercel.app/lab/openai"
+  },
+  {
+    "kind": "lab",
+    "id": "tencent",
+    "name": "Tencent",
+    "url": "https://global-ai-governance-map.vercel.app/lab/tencent"
+  },
+  {
+    "kind": "lab",
+    "id": "xai",
+    "name": "xAI",
+    "url": "https://global-ai-governance-map.vercel.app/lab/xai"
+  },
+  {
+    "kind": "obligation",
+    "id": "au-mandatory-guardrails-proposed-risk",
+    "name": "risk_assessment",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/au-mandatory-guardrails-proposed-risk"
+  },
+  {
+    "kind": "obligation",
+    "id": "br-ai-bill-risk-assessment-proposed",
+    "name": "risk_assessment",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/br-ai-bill-risk-assessment-proposed"
+  },
+  {
+    "kind": "obligation",
+    "id": "ca-sb-53-incident-reporting",
+    "name": "incident_reporting",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/ca-sb-53-incident-reporting"
+  },
+  {
+    "kind": "obligation",
+    "id": "ca-sb-53-safety-framework-publication",
+    "name": "safety_framework_publication",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/ca-sb-53-safety-framework-publication"
+  },
+  {
+    "kind": "obligation",
+    "id": "cn-genai-registration-filing",
+    "name": "registration_filing",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/cn-genai-registration-filing"
+  },
+  {
+    "kind": "obligation",
+    "id": "cn-genai-watermarking-content",
+    "name": "watermarking_content_labeling",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/cn-genai-watermarking-content"
+  },
+  {
+    "kind": "obligation",
+    "id": "coe-ai-convention-risk-impact",
+    "name": "risk_assessment",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/coe-ai-convention-risk-impact"
+  },
+  {
+    "kind": "obligation",
+    "id": "deepseek-export-control-compute",
+    "name": "compute_infrastructure_reporting",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/deepseek-export-control-compute"
+  },
+  {
+    "kind": "obligation",
+    "id": "eu-ai-act-conformity-assessment",
+    "name": "conformity_assessment",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/eu-ai-act-conformity-assessment"
+  },
+  {
+    "kind": "obligation",
+    "id": "eu-ai-act-prohibited-practices",
+    "name": "prohibited_practices",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/eu-ai-act-prohibited-practices"
+  },
+  {
+    "kind": "obligation",
+    "id": "eu-ai-act-risk-assessment",
+    "name": "risk_assessment",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/eu-ai-act-risk-assessment"
+  },
+  {
+    "kind": "obligation",
+    "id": "eu-ai-act-transparency-disclosure",
+    "name": "transparency_disclosure",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/eu-ai-act-transparency-disclosure"
+  },
+  {
+    "kind": "obligation",
+    "id": "iso-42001-management-system",
+    "name": "data_governance",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/iso-42001-management-system"
+  },
+  {
+    "kind": "obligation",
+    "id": "kr-ai-basic-act-risk-management",
+    "name": "risk_assessment",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/kr-ai-basic-act-risk-management"
+  },
+  {
+    "kind": "obligation",
+    "id": "mx-ai-law-proposed-transparency",
+    "name": "transparency_disclosure",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/mx-ai-law-proposed-transparency"
+  },
+  {
+    "kind": "obligation",
+    "id": "nist-genai-profile-risk-management",
+    "name": "risk_assessment",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/nist-genai-profile-risk-management"
+  },
+  {
+    "kind": "obligation",
+    "id": "nyc-aedt-bias-audit",
+    "name": "audit_bias_audit",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/nyc-aedt-bias-audit"
+  },
+  {
+    "kind": "obligation",
+    "id": "openai-eu-market-access-gpai",
+    "name": "risk_assessment",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/openai-eu-market-access-gpai"
+  },
+  {
+    "kind": "obligation",
+    "id": "seoul-commitments-safety-framework",
+    "name": "safety_framework_publication",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/seoul-commitments-safety-framework"
+  },
+  {
+    "kind": "obligation",
+    "id": "tr-ai-draft-risk-assessment-proposed",
+    "name": "risk_assessment",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/tr-ai-draft-risk-assessment-proposed"
+  },
+  {
+    "kind": "obligation",
+    "id": "us-take-it-down-deepfake-removal",
+    "name": "watermarking_content_labeling",
+    "url": "https://global-ai-governance-map.vercel.app/obligation/us-take-it-down-deepfake-removal"
+  },
+  {
+    "kind": "rule",
+    "id": "ae-national-ai-strategy-2031",
+    "name": "UAE National Strategy for AI 2031",
+    "url": "https://global-ai-governance-map.vercel.app/rule/ae-national-ai-strategy-2031"
+  },
+  {
+    "kind": "rule",
+    "id": "ar-national-ai-plan",
+    "name": "Argentina National AI Strategy / Plan Nacional de Inteligencia Artificial",
+    "url": "https://global-ai-governance-map.vercel.app/rule/ar-national-ai-plan"
+  },
+  {
+    "kind": "rule",
+    "id": "at-aim-at-2030",
+    "name": "AIM AT 2030 — Artificial Intelligence Mission Austria 2030",
+    "url": "https://global-ai-governance-map.vercel.app/rule/at-aim-at-2030"
+  },
+  {
+    "kind": "rule",
+    "id": "au-proposed-mandatory-guardrails",
+    "name": "Proposed mandatory guardrails for AI in high-risk settings",
+    "url": "https://global-ai-governance-map.vercel.app/rule/au-proposed-mandatory-guardrails"
+  },
+  {
+    "kind": "rule",
+    "id": "au-voluntary-standard",
+    "name": "Voluntary AI Safety Standard",
+    "url": "https://global-ai-governance-map.vercel.app/rule/au-voluntary-standard"
+  },
+  {
+    "kind": "rule",
+    "id": "az-ai-strategy-2025-2028",
+    "name": "Azerbaijan Artificial Intelligence Strategy 2025–2028",
+    "url": "https://global-ai-governance-map.vercel.app/rule/az-ai-strategy-2025-2028"
+  },
+  {
+    "kind": "rule",
+    "id": "bd-national-ai-strategy",
+    "name": "Bangladesh National AI Strategy / National AI Policy",
+    "url": "https://global-ai-governance-map.vercel.app/rule/bd-national-ai-strategy"
+  },
+  {
+    "kind": "rule",
+    "id": "bh-ai-regulation-law-proposed",
+    "name": "Proposed Law Regulating Artificial Intelligence Technologies and Their Uses",
+    "url": "https://global-ai-governance-map.vercel.app/rule/bh-ai-regulation-law-proposed"
+  },
+  {
+    "kind": "rule",
+    "id": "br-ai-bill-2338",
+    "name": "Bill 2338/2023 — Legal Framework for AI",
+    "url": "https://global-ai-governance-map.vercel.app/rule/br-ai-bill-2338"
+  },
+  {
+    "kind": "rule",
+    "id": "ca-aida-proposed",
+    "name": "Artificial Intelligence and Data Act (AIDA) — proposed in Bill C-27",
+    "url": "https://global-ai-governance-map.vercel.app/rule/ca-aida-proposed"
+  },
+  {
+    "kind": "rule",
+    "id": "ca-aisi",
+    "name": "Canadian AI Safety Institute (CAISI)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/ca-aisi"
+  },
+  {
+    "kind": "rule",
+    "id": "ca-voluntary-code-genai",
+    "name": "Voluntary Code of Conduct on the Responsible Development and Management of Advanced Generative AI Systems",
+    "url": "https://global-ai-governance-map.vercel.app/rule/ca-voluntary-code-genai"
+  },
+  {
+    "kind": "rule",
+    "id": "ch-ai-strategy",
+    "name": "Switzerland — AI Strategy / Federal Council guidelines on AI",
+    "url": "https://global-ai-governance-map.vercel.app/rule/ch-ai-strategy"
+  },
+  {
+    "kind": "rule",
+    "id": "cn-ai-content-labeling",
+    "name": "Measures for the Labeling of AI-Generated Synthetic Content",
+    "url": "https://global-ai-governance-map.vercel.app/rule/cn-ai-content-labeling"
+  },
+  {
+    "kind": "rule",
+    "id": "cn-algorithm-recommendation",
+    "name": "Provisions on the Administration of Algorithmic Recommendation Services for Internet Information Services",
+    "url": "https://global-ai-governance-map.vercel.app/rule/cn-algorithm-recommendation"
+  },
+  {
+    "kind": "rule",
+    "id": "cn-deep-synthesis",
+    "name": "Provisions on the Administration of Deep Synthesis Internet Information Services",
+    "url": "https://global-ai-governance-map.vercel.app/rule/cn-deep-synthesis"
+  },
+  {
+    "kind": "rule",
+    "id": "cn-genai-interim-measures",
+    "name": "Interim Measures for the Management of Generative Artificial Intelligence Services",
+    "url": "https://global-ai-governance-map.vercel.app/rule/cn-genai-interim-measures"
+  },
+  {
+    "kind": "rule",
+    "id": "cr-bill-23919-responsible-ai",
+    "name": "Law for the Responsible Promotion of Artificial Intelligence in Costa Rica (Bill 23919)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/cr-bill-23919-responsible-ai"
+  },
+  {
+    "kind": "rule",
+    "id": "de-ai-act-implementation-draft",
+    "name": "Germany - draft EU AI Act implementation",
+    "url": "https://global-ai-governance-map.vercel.app/rule/de-ai-act-implementation-draft"
+  },
+  {
+    "kind": "rule",
+    "id": "de-national-ai-strategy",
+    "name": "Germany National AI Strategy (Strategie Künstliche Intelligenz)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/de-national-ai-strategy"
+  },
+  {
+    "kind": "rule",
+    "id": "do-ai-bill-2025",
+    "name": "Bill regulating AI Systems and their Applications in the Dominican Republic",
+    "url": "https://global-ai-governance-map.vercel.app/rule/do-ai-bill-2025"
+  },
+  {
+    "kind": "rule",
+    "id": "eg-national-ai-strategy",
+    "name": "Egypt National AI Strategy",
+    "url": "https://global-ai-governance-map.vercel.app/rule/eg-national-ai-strategy"
+  },
+  {
+    "kind": "rule",
+    "id": "es-ai-law-draft-2025",
+    "name": "Draft Spanish AI Law (EU AI Act implementation)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/es-ai-law-draft-2025"
+  },
+  {
+    "kind": "rule",
+    "id": "es-enia",
+    "name": "Spanish National AI Strategy (ENIA)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/es-enia"
+  },
+  {
+    "kind": "rule",
+    "id": "eu-ai-act-regional",
+    "name": "EU AI Act",
+    "url": "https://global-ai-governance-map.vercel.app/rule/eu-ai-act-regional"
+  },
+  {
+    "kind": "rule",
+    "id": "eu-ai-office",
+    "name": "European AI Office",
+    "url": "https://global-ai-governance-map.vercel.app/rule/eu-ai-office"
+  },
+  {
+    "kind": "rule",
+    "id": "fi-ai-programme",
+    "name": "Finland's Artificial Intelligence Programme",
+    "url": "https://global-ai-governance-map.vercel.app/rule/fi-ai-programme"
+  },
+  {
+    "kind": "rule",
+    "id": "fr-ai-act-implementation-draft",
+    "name": "France - EU AI Act implementation activity",
+    "url": "https://global-ai-governance-map.vercel.app/rule/fr-ai-act-implementation-draft"
+  },
+  {
+    "kind": "rule",
+    "id": "fr-ai-for-humanity",
+    "name": "France — AI for Humanity Strategy",
+    "url": "https://global-ai-governance-map.vercel.app/rule/fr-ai-for-humanity"
+  },
+  {
+    "kind": "rule",
+    "id": "gh-national-ai-strategy-2025",
+    "name": "Ghana National Artificial Intelligence Strategy 2025–2033",
+    "url": "https://global-ai-governance-map.vercel.app/rule/gh-national-ai-strategy-2025"
+  },
+  {
+    "kind": "rule",
+    "id": "id-strategi-nasional-ai",
+    "name": "Indonesia National Strategy for Artificial Intelligence (Stranas KA)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/id-strategi-nasional-ai"
+  },
+  {
+    "kind": "rule",
+    "id": "il-national-ai-program-2024",
+    "name": "Israel National AI Program",
+    "url": "https://global-ai-governance-map.vercel.app/rule/il-national-ai-program-2024"
+  },
+  {
+    "kind": "rule",
+    "id": "in-indiaai-mission",
+    "name": "IndiaAI Mission",
+    "url": "https://global-ai-governance-map.vercel.app/rule/in-indiaai-mission"
+  },
+  {
+    "kind": "rule",
+    "id": "ir-seventh-five-year-plan-ai-2024",
+    "name": "Seventh Five-Year Development Plan Law — Article 65(c) (AI provisions)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/ir-seventh-five-year-plan-ai-2024"
+  },
+  {
+    "kind": "rule",
+    "id": "it-law-132-2025",
+    "name": "Law No. 132/2025 — Provisions and delegations to the Government on artificial intelligence",
+    "url": "https://global-ai-governance-map.vercel.app/rule/it-law-132-2025"
+  },
+  {
+    "kind": "rule",
+    "id": "it-strategic-programme-ai",
+    "name": "Italian Strategy for Artificial Intelligence 2024–2026",
+    "url": "https://global-ai-governance-map.vercel.app/rule/it-strategic-programme-ai"
+  },
+  {
+    "kind": "rule",
+    "id": "jm-ai-policy-recommendations-2025",
+    "name": "Jamaica National AI Policy Recommendations",
+    "url": "https://global-ai-governance-map.vercel.app/rule/jm-ai-policy-recommendations-2025"
+  },
+  {
+    "kind": "rule",
+    "id": "jp-ai-guidelines-business",
+    "name": "AI Guidelines for Business",
+    "url": "https://global-ai-governance-map.vercel.app/rule/jp-ai-guidelines-business"
+  },
+  {
+    "kind": "rule",
+    "id": "jp-ai-promotion-act",
+    "name": "Act on the Promotion of Research, Development and Utilisation of AI-Related Technologies",
+    "url": "https://global-ai-governance-map.vercel.app/rule/jp-ai-promotion-act"
+  },
+  {
+    "kind": "rule",
+    "id": "jp-aisi",
+    "name": "Japan AI Safety Institute",
+    "url": "https://global-ai-governance-map.vercel.app/rule/jp-aisi"
+  },
+  {
+    "kind": "rule",
+    "id": "ke-national-ai-strategy-2025",
+    "name": "Kenya National AI Strategy 2025–2030",
+    "url": "https://global-ai-governance-map.vercel.app/rule/ke-national-ai-strategy-2025"
+  },
+  {
+    "kind": "rule",
+    "id": "kr-ai-basic-act",
+    "name": "AI Basic Act (Framework Act on the Development of AI and Foundational Trust)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/kr-ai-basic-act"
+  },
+  {
+    "kind": "rule",
+    "id": "kz-ai-law-2025",
+    "name": "Law of the Republic of Kazakhstan On Artificial Intelligence",
+    "url": "https://global-ai-governance-map.vercel.app/rule/kz-ai-law-2025"
+  },
+  {
+    "kind": "rule",
+    "id": "ma-maroc-ia-2030",
+    "name": "Maroc IA 2030 (Morocco National AI Strategy)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/ma-maroc-ia-2030"
+  },
+  {
+    "kind": "rule",
+    "id": "mu-national-ai-strategy",
+    "name": "Mauritius National AI Strategy",
+    "url": "https://global-ai-governance-map.vercel.app/rule/mu-national-ai-strategy"
+  },
+  {
+    "kind": "rule",
+    "id": "mx-federal-ai-law-proposed",
+    "name": "Federal Law Regulating Artificial Intelligence (Mexico)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/mx-federal-ai-law-proposed"
+  },
+  {
+    "kind": "rule",
+    "id": "my-ai-rmap",
+    "name": "Malaysia National AI Roadmap (AI-Rmap) 2021–2025",
+    "url": "https://global-ai-governance-map.vercel.app/rule/my-ai-rmap"
+  },
+  {
+    "kind": "rule",
+    "id": "ng-national-ai-strategy",
+    "name": "Nigeria National AI Strategy",
+    "url": "https://global-ai-governance-map.vercel.app/rule/ng-national-ai-strategy"
+  },
+  {
+    "kind": "rule",
+    "id": "nl-strategic-action-plan-ai",
+    "name": "Netherlands Strategic Action Plan for AI",
+    "url": "https://global-ai-governance-map.vercel.app/rule/nl-strategic-action-plan-ai"
+  },
+  {
+    "kind": "rule",
+    "id": "no-ai-act-draft-2025",
+    "name": "Draft Norwegian AI Act (EU AI Act implementation)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/no-ai-act-draft-2025"
+  },
+  {
+    "kind": "rule",
+    "id": "no-national-ai-strategy-2020",
+    "name": "Norway National Strategy for Artificial Intelligence",
+    "url": "https://global-ai-governance-map.vercel.app/rule/no-national-ai-strategy-2020"
+  },
+  {
+    "kind": "rule",
+    "id": "nz-algorithm-charter",
+    "name": "New Zealand Algorithm Charter for Aotearoa",
+    "url": "https://global-ai-governance-map.vercel.app/rule/nz-algorithm-charter"
+  },
+  {
+    "kind": "rule",
+    "id": "om-national-ai-policy-2025",
+    "name": "Oman National AI Policy",
+    "url": "https://global-ai-governance-map.vercel.app/rule/om-national-ai-policy-2025"
+  },
+  {
+    "kind": "rule",
+    "id": "pl-ai-development-policy",
+    "name": "Poland — Policy for AI Development from 2020",
+    "url": "https://global-ai-governance-map.vercel.app/rule/pl-ai-development-policy"
+  },
+  {
+    "kind": "rule",
+    "id": "pl-ai-systems-act-draft",
+    "name": "Draft Act on AI Systems (Poland)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/pl-ai-systems-act-draft"
+  },
+  {
+    "kind": "rule",
+    "id": "ru-ai-development-strategy",
+    "name": "National Strategy for the Development of AI in Russia through 2030",
+    "url": "https://global-ai-governance-map.vercel.app/rule/ru-ai-development-strategy"
+  },
+  {
+    "kind": "rule",
+    "id": "ru-experimental-ai-regime-2020",
+    "name": "Federal Law No. 123-FZ on the Experimental Legal Regime for AI in Moscow",
+    "url": "https://global-ai-governance-map.vercel.app/rule/ru-experimental-ai-regime-2020"
+  },
+  {
+    "kind": "rule",
+    "id": "rw-national-ai-policy",
+    "name": "Rwanda National AI Policy",
+    "url": "https://global-ai-governance-map.vercel.app/rule/rw-national-ai-policy"
+  },
+  {
+    "kind": "rule",
+    "id": "sa-sdaia-ai-strategy",
+    "name": "Saudi Arabia — National Strategy for Data & AI (NSDAI)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/sa-sdaia-ai-strategy"
+  },
+  {
+    "kind": "rule",
+    "id": "se-ai-strategy",
+    "name": "Sweden's AI Strategy",
+    "url": "https://global-ai-governance-map.vercel.app/rule/se-ai-strategy"
+  },
+  {
+    "kind": "rule",
+    "id": "sg-ai-verify",
+    "name": "AI Verify",
+    "url": "https://global-ai-governance-map.vercel.app/rule/sg-ai-verify"
+  },
+  {
+    "kind": "rule",
+    "id": "sg-model-genai-framework",
+    "name": "Model AI Governance Framework for Generative AI",
+    "url": "https://global-ai-governance-map.vercel.app/rule/sg-model-genai-framework"
+  },
+  {
+    "kind": "rule",
+    "id": "si-eu-ai-act-implementation-2025",
+    "name": "Law on the Implementation of the EU AI Act (Slovenia)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/si-eu-ai-act-implementation-2025"
+  },
+  {
+    "kind": "rule",
+    "id": "sk-national-ai-strategy",
+    "name": "Slovakia National AI Strategy / Action Plan",
+    "url": "https://global-ai-governance-map.vercel.app/rule/sk-national-ai-strategy"
+  },
+  {
+    "kind": "rule",
+    "id": "sn-national-ai-strategy",
+    "name": "Senegal National AI Strategy",
+    "url": "https://global-ai-governance-map.vercel.app/rule/sn-national-ai-strategy"
+  },
+  {
+    "kind": "rule",
+    "id": "th-national-ai-strategy",
+    "name": "Thailand National AI Strategy and Action Plan 2022–2027",
+    "url": "https://global-ai-governance-map.vercel.app/rule/th-national-ai-strategy"
+  },
+  {
+    "kind": "rule",
+    "id": "tr-ai-law-draft",
+    "name": "Draft Law on Artificial Intelligence (Türkiye)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/tr-ai-law-draft"
+  },
+  {
+    "kind": "rule",
+    "id": "tw-ai-basic-act-2025",
+    "name": "Artificial Intelligence Basic Act (Taiwan)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/tw-ai-basic-act-2025"
+  },
+  {
+    "kind": "rule",
+    "id": "uk-ai-regulation-bill-2025",
+    "name": "Artificial Intelligence (Regulation) Bill — relaunched by Lord Holmes",
+    "url": "https://global-ai-governance-map.vercel.app/rule/uk-ai-regulation-bill-2025"
+  },
+  {
+    "kind": "rule",
+    "id": "uk-ai-security-institute",
+    "name": "UK AI Security Institute (AISI)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/uk-ai-security-institute"
+  },
+  {
+    "kind": "rule",
+    "id": "uk-pro-innovation-approach",
+    "name": "AI regulation: a pro-innovation approach (white paper response)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/uk-pro-innovation-approach"
+  },
+  {
+    "kind": "rule",
+    "id": "us-ca-2025-ai-package",
+    "name": "California 2025 AI legislative activity package",
+    "url": "https://global-ai-governance-map.vercel.app/rule/us-ca-2025-ai-package"
+  },
+  {
+    "kind": "rule",
+    "id": "us-ca-sb-53-frontier",
+    "name": "California SB 53 — Transparency in Frontier Artificial Intelligence Act",
+    "url": "https://global-ai-governance-map.vercel.app/rule/us-ca-sb-53-frontier"
+  },
+  {
+    "kind": "rule",
+    "id": "us-caisi",
+    "name": "U.S. Center for AI Standards and Innovation (CAISI / U.S. AI Safety Institute)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/us-caisi"
+  },
+  {
+    "kind": "rule",
+    "id": "us-il-aivia",
+    "name": "Illinois Artificial Intelligence Video Interview Act (820 ILCS 42)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/us-il-aivia"
+  },
+  {
+    "kind": "rule",
+    "id": "us-nist-ai-rmf",
+    "name": "NIST AI Risk Management Framework (AI RMF 1.0)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/us-nist-ai-rmf"
+  },
+  {
+    "kind": "rule",
+    "id": "us-ny-gbs-349a",
+    "name": "New York General Business Law §349-A — Surveillance Pricing disclosure",
+    "url": "https://global-ai-governance-map.vercel.app/rule/us-ny-gbs-349a"
+  },
+  {
+    "kind": "rule",
+    "id": "us-nyc-local-law-144",
+    "name": "New York City Local Law 144 — Automated Employment Decision Tools",
+    "url": "https://global-ai-governance-map.vercel.app/rule/us-nyc-local-law-144"
+  },
+  {
+    "kind": "rule",
+    "id": "us-take-it-down-act-2025",
+    "name": "TAKE IT DOWN Act",
+    "url": "https://global-ai-governance-map.vercel.app/rule/us-take-it-down-act-2025"
+  },
+  {
+    "kind": "rule",
+    "id": "vn-ai-law-2025",
+    "name": "Law on Artificial Intelligence (Vietnam)",
+    "url": "https://global-ai-governance-map.vercel.app/rule/vn-ai-law-2025"
+  },
+  {
+    "kind": "rule",
+    "id": "vn-digital-tech-industry-2025",
+    "name": "Law on Digital Technology Industry",
+    "url": "https://global-ai-governance-map.vercel.app/rule/vn-digital-tech-industry-2025"
+  },
+  {
+    "kind": "rule",
+    "id": "za-national-ai-policy-framework-2024",
+    "name": "South Africa National AI Policy Framework",
+    "url": "https://global-ai-governance-map.vercel.app/rule/za-national-ai-policy-framework-2024"
+  }
+]

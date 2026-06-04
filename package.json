@@ -21,6 +21,7 @@
     "audit:data-review": "node scripts/audit-data-review.mjs",
     "audit:deltas": "node scripts/audit-source-deltas.mjs",
     "audit:deltas:write": "node scripts/audit-source-deltas.mjs --output=docs/SOURCE_DELTA_REPORT.md",
+    "check:performance": "node scripts/check-performance-budget.mjs",
     "test:e2e": "node ./scripts/run-playwright.mjs",
     "test:a11y": "node ./scripts/run-playwright.mjs tests/e2e/a11y.spec.ts",
     "test": "vitest run",

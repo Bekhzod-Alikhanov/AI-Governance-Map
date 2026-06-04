@@ -8,9 +8,13 @@
     "/data/country-summaries.json",
     "/data/obligation-matrix.json",
     "/data/lab-exposure-matrix.json",
+    "/data/implementation-tracker.json",
     "/data/ai-atlas-indicators.json",
+    "/data/ai-atlas-sources.json",
     "/data/readiness-reports.json",
     "/data/source-metadata.json",
-    "/data/changelog.json"
+    "/data/changelog.json",
+    "/data/record-page-index.json",
+    "/data/embed-cards.json"
   ]
 }

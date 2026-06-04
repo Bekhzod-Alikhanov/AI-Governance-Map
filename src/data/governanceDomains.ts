@@ -56,6 +56,16 @@ export const GOVERNANCE_DOMAINS: GovernanceDomain[] = [
     label: "Compute / cloud / chips",
     description: "AI compute, hyperscale cloud, export controls, chips, and infrastructure bottlenecks.",
   },
+  {
+    id: "public-procurement",
+    label: "Public procurement",
+    description: "AI procurement, public purchasing rules, vendor assurance, and government acquisition controls.",
+  },
+  {
+    id: "enforcement-litigation",
+    label: "Enforcement / litigation",
+    description: "Observed enforcement, litigation, complaints, regulator decisions, and implementation actions.",
+  },
 ];
 
 export const GOVERNANCE_DOMAIN_BY_ID: Record<GovernanceDomainId, GovernanceDomain> =
@@ -66,4 +76,3 @@ export const GOVERNANCE_DOMAIN_BY_ID: Record<GovernanceDomainId, GovernanceDomai
     },
     {} as Record<GovernanceDomainId, GovernanceDomain>
   );
-

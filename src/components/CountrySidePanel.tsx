@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import type { LensKind, MapModeId } from "../types";
 import { getCountryGovernanceSummary } from "../utils/getCountryGovernanceSummary";
 import { InstrumentList } from "./InstrumentList";
 import { NationalRegulationList } from "./NationalRegulationList";
@@ -19,6 +20,7 @@ import {
   summarizeImplementationStatuses,
   summarizeObligationCategories,
 } from "../utils/researchWorkbench";
+import { buildGovernanceColorReason, type MapColorReason } from "../utils/mapColorReason";
 
 const AIAtlasSection = lazy(() => import("./AIAtlasSection").then((module) => ({ default: module.AIAtlasSection })));
 
@@ -32,6 +34,9 @@ interface Props {
   isLabPinned: (labId: string) => boolean;
   onPinInstrument: (instrumentId: string) => void;
   isInstrumentPinned: (instrumentId: string) => boolean;
+  lens: LensKind;
+  mapMode: MapModeId;
+  contextReason?: MapColorReason;
 }
 
 export function CountrySidePanel({
@@ -44,6 +49,9 @@ export function CountrySidePanel({
   isLabPinned,
   onPinInstrument,
   isInstrumentPinned,
+  lens,
+  mapMode,
+  contextReason,
 }: Props) {
   const summary = getCountryGovernanceSummary(iso3);
   const country = summary.country;
@@ -65,6 +73,7 @@ export function CountrySidePanel({
   });
   const obligations = getCountryObligations(country.iso3);
   const implementation = getCountryImplementationMilestones(country.iso3);
+  const colorReason = contextReason ?? buildGovernanceColorReason(summary, lens, mapMode);
 
   return (
     <aside
@@ -179,6 +188,17 @@ export function CountrySidePanel({
               {indirectRows.length} international rows are indirect coverage or EU applicability, not explicit country-by-country sign-on.
             </p>
           )}
+        </section>
+
+        <section className="mt-4 rounded-xl border border-canvas-line bg-white p-3">
+          <h3 className="text-xs font-semibold uppercase tracking-wide text-ink-500">
+            Why this country is colored this way
+          </h3>
+          <p className="mt-2 text-sm font-semibold text-ink-900">{colorReason.label}</p>
+          <p className="mt-1 text-xs leading-relaxed text-ink-600">{colorReason.detail}</p>
+          <p className="mt-2 rounded-md bg-canvas px-2 py-1.5 text-[11px] leading-relaxed text-ink-600">
+            Current map mode: {mapMode.replace(/-/g, " ")}. Atlas/context modes do not alter legal-status rollups.
+          </p>
         </section>
 
         <section className="mt-4 rounded-xl border border-canvas-line bg-white p-3">

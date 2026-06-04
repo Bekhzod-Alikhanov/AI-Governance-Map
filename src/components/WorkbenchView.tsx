@@ -1,20 +1,31 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import clsx from "clsx";
 import { COUNTRIES, COUNTRY_BY_ISO3 } from "../data/countries";
 import { FRONTIER_LABS, LAB_BY_ID } from "../data/frontierLabs";
 import {
   GOVERNANCE_OBLIGATIONS,
+  OBLIGATION_BY_ID,
   OBLIGATION_CATEGORY_LABELS,
 } from "../data/governanceObligations";
 import { IMPLEMENTATION_MILESTONES, IMPLEMENTATION_STATUS_LABELS } from "../data/implementationMilestones";
 import { INTERNATIONAL_INSTRUMENTS, INSTRUMENT_BY_ID } from "../data/internationalInstruments";
+import { LAB_REGULATORY_EXPOSURES } from "../data/labRegulatoryExposures";
 import { NATIONAL_AI_REGULATIONS, NATIONAL_REG_BY_ID } from "../data/nationalAIRegulations";
 import { PARTICIPATION_BY_INSTRUMENT } from "../data/participation";
 import { SUBNATIONAL_AI_RULES, SUBNATIONAL_BY_ID } from "../data/subnationalRules";
-import { DEFAULT_FILTER_STATE, type FilterState, type MapModeId } from "../types";
-import type { RecordRoute } from "../utils/recordRoutes";
+import {
+  DEFAULT_FILTER_STATE,
+  type AtlasPresetId,
+  type FilterState,
+  type MapModeId,
+  type WorkbenchCompareItem,
+  type WorkbenchCompareKind,
+  type WorkbenchState,
+} from "../types";
+import type { RecordRoute, RecordRouteKind } from "../utils/recordRoutes";
 import { recordRoute } from "../utils/recordRoutes";
 import { DATA_SNAPSHOT_DATE } from "../utils/governanceTaxonomy";
+import { downloadTextFile } from "../utils/downloadTextFile";
 import { getCountryGovernanceSummary } from "../utils/getCountryGovernanceSummary";
 import {
   buildScenarioAssessment,
@@ -37,7 +48,7 @@ import {
   LAB_EXPOSURE_EFFECT_LABELS,
 } from "../utils/labExposure";
 import {
-  type AtlasPresetId,
+  buildAtlasMapContext,
   buildAtlasPresetRows,
   formatAtlasScore,
   getCountryAtlasSummary,
@@ -50,13 +61,6 @@ import { VerificationMeta } from "./VerificationMeta";
 import { EvidenceDossierButton } from "./EvidenceDossierButton";
 import { CorrectionLink } from "./CorrectionLink";
 
-type CompareKind = "country" | "lab" | "instrument" | "rule";
-
-interface CompareSelection {
-  kind: CompareKind;
-  id: string;
-}
-
 interface Props {
   filters: FilterState;
   onFiltersChange: (filters: FilterState) => void;
@@ -65,6 +69,8 @@ interface Props {
   onSelectInstrument: (instrumentId: string) => void;
   onOpenMethodology: () => void;
   onOpenAtlasMapMode: (mapMode: MapModeId) => void;
+  workbenchState: WorkbenchState;
+  onWorkbenchStateChange: (state: WorkbenchState) => void;
   routeRecord: RecordRoute | null;
 }
 
@@ -116,6 +122,213 @@ const WORKFLOWS: Array<{
 ];
 
 const SCENARIO_MARKETS = ["EUU", "USA", "GBR", "KOR", "CHN", "CAN", "FRA", "ITA"];
+const TOP_RESEARCH_QUESTIONS: Array<{
+  id: string;
+  title: string;
+  detail: string;
+  patch: Partial<FilterState>;
+  compareItems?: WorkbenchCompareItem[];
+  scenario?: { labId: string; markets: string[] };
+  atlasPresetId?: AtlasPresetId;
+  answerCardId?: string;
+}> = [
+  {
+    id: "binding-duties-by-jurisdiction",
+    title: "Which countries have binding AI duties?",
+    detail: "Show confirmed binding-law countries and source-backed binding obligations.",
+    patch: { hasBindingNationalLaw: "yes" },
+    compareItems: [
+      { kind: "country", id: "EUU" },
+      { kind: "country", id: "CHN" },
+      { kind: "country", id: "KOR" },
+    ],
+    answerCardId: "binding-obligations",
+  },
+  {
+    id: "incident-reporting",
+    title: "Who requires incident reporting?",
+    detail: "Filter the obligation matrix to incident-reporting duties.",
+    patch: { selectedObligationCategories: ["incident_reporting"] },
+    compareItems: [
+      { kind: "obligation", id: "ca-sb-53-incident-reporting" },
+      { kind: "rule", id: "us-ca-sb-53-frontier" },
+    ],
+    answerCardId: "binding-obligations",
+  },
+  {
+    id: "model-evaluation",
+    title: "Who mentions model evaluation?",
+    detail: "Focus on evaluation, testing, and red-team style obligations.",
+    patch: { selectedObligationCategories: ["model_evaluation_red_teaming"] },
+    answerCardId: "binding-obligations",
+  },
+  {
+    id: "coe-signed-ratified",
+    title: "CoE signed vs ratified?",
+    detail: "Separate signature, ratification, and EU applicability.",
+    patch: { selectedInstrumentIds: ["coe-ai-convention"], selectedParticipationTypes: ["signed", "ratified", "applicable_via_eu"] },
+    compareItems: [{ kind: "instrument", id: "coe-ai-convention" }],
+    answerCardId: "coe-participation",
+  },
+  {
+    id: "eu-act-vs-national-law",
+    title: "EU AI Act vs national enactment?",
+    detail: "Compare regional applicability with country implementation activity.",
+    patch: { selectedDomains: ["frontier-gpai"], selectedImplementationStatuses: ["phased_application", "regulator_appointed", "implementing_rules_pending"] },
+    compareItems: [
+      { kind: "rule", id: "eu-ai-act-regional" },
+      { kind: "rule", id: "it-law-132-2025" },
+      { kind: "rule", id: "si-eu-ai-act-implementation-2025" },
+    ],
+    answerCardId: "implementation",
+  },
+  {
+    id: "frontier-lab-binding-exposure",
+    title: "Which labs face binding exposure?",
+    detail: "Compare binding and conditional lab exposure rows.",
+    patch: { frontierAIRelevant: "yes", selectedDomains: ["frontier-gpai"] },
+    compareItems: [
+      { kind: "lab", id: "openai" },
+      { kind: "lab", id: "google-deepmind" },
+      { kind: "exposure", id: "openai--market_access--eu-ai-act-regional" },
+    ],
+    scenario: { labId: "openai", markets: ["EUU", "USA", "GBR", "KOR"] },
+    answerCardId: "lab-exposure",
+  },
+  {
+    id: "china-synthetic-media",
+    title: "China synthetic-media stack?",
+    detail: "Compare GenAI, deep synthesis, algorithmic recommendation, and labeling hooks.",
+    patch: { selectedRegions: ["East Asia"], selectedDomains: ["synthetic-media", "frontier-gpai"] },
+    compareItems: [
+      { kind: "rule", id: "cn-genai-interim-measures" },
+      { kind: "rule", id: "cn-deep-synthesis" },
+      { kind: "rule", id: "cn-ai-content-labeling" },
+    ],
+    answerCardId: "binding-obligations",
+  },
+  {
+    id: "high-readiness-weak-law",
+    title: "High readiness, weak confirmed law?",
+    detail: "Use Oxford readiness context while keeping legal status separate.",
+    patch: {},
+    atlasPresetId: "high-readiness-no-binding",
+    compareItems: [
+      { kind: "country", id: "USA" },
+      { kind: "country", id: "GBR" },
+      { kind: "country", id: "CAN" },
+    ],
+    answerCardId: "current-scope",
+  },
+  {
+    id: "unesco-ram-available",
+    title: "Where is UNESCO RAM activity visible?",
+    detail: "Show completed or in-process RAM/profile activity.",
+    patch: {},
+    atlasPresetId: "ram-activity",
+    answerCardId: "current-scope",
+  },
+  {
+    id: "standards-soft-law",
+    title: "Which standards and soft-law instruments matter?",
+    detail: "Separate standards, guidance, and voluntary commitments from binding law.",
+    patch: { selectedBindingStatuses: ["standard", "voluntary", "political_guidance"] },
+    compareItems: [
+      { kind: "instrument", id: "iso-iec-42001-2023" },
+      { kind: "instrument", id: "nist-genai-profile" },
+      { kind: "instrument", id: "seoul-frontier-ai-safety-commitments" },
+    ],
+    answerCardId: "lab-exposure",
+  },
+  {
+    id: "implementation-deadlines",
+    title: "What deadlines are next?",
+    detail: "Focus on phased application and next implementation milestones.",
+    patch: { selectedImplementationStatuses: ["phased_application", "implementing_rules_pending"] },
+    answerCardId: "implementation",
+  },
+  {
+    id: "employment-ai",
+    title: "What employment AI rules exist?",
+    detail: "Filter employment/hiring obligations and subnational rows.",
+    patch: { selectedDomains: ["employment-hiring"] },
+    compareItems: [
+      { kind: "rule", id: "us-nyc-local-law-144" },
+      { kind: "rule", id: "us-il-aivia" },
+    ],
+    answerCardId: "current-scope",
+  },
+  {
+    id: "biometrics",
+    title: "Where are biometric restrictions tracked?",
+    detail: "Focus on biometric-identification obligations and restrictions.",
+    patch: { selectedDomains: ["biometric-identification"] },
+    answerCardId: "binding-obligations",
+  },
+  {
+    id: "healthcare-ai",
+    title: "Which healthcare AI hooks are tracked?",
+    detail: "Filter healthcare-domain obligations and rules.",
+    patch: { selectedDomains: ["healthcare"] },
+    answerCardId: "current-scope",
+  },
+  {
+    id: "compute-dependencies",
+    title: "Where do compute constraints matter?",
+    detail: "Show compute, chip, cloud, and export-control dependency context.",
+    patch: { selectedDomains: ["compute-cloud-chips"] },
+    compareItems: [
+      { kind: "exposure", id: "deepseek--export_control_dependency--us-bis-export-controls" },
+      { kind: "lab", id: "deepseek" },
+    ],
+    answerCardId: "lab-exposure",
+  },
+  {
+    id: "source-confidence",
+    title: "Which claims are highest confidence?",
+    detail: "Use source metadata rather than legal-effect labels alone.",
+    patch: { frontierAIRelevant: "yes" },
+    answerCardId: "current-scope",
+  },
+  {
+    id: "proposed-laws",
+    title: "Which proposed laws should I watch?",
+    detail: "Show proposed national AI law rows and implementation planning.",
+    patch: { hasBindingNationalLaw: "no", selectedImplementationStatuses: ["proposed", "implementing_rules_pending"] },
+    answerCardId: "proposed-laws",
+  },
+  {
+    id: "gpai-market-access",
+    title: "How does GPAI market access work?",
+    detail: "Compare conditional exposure for EU-facing GPAI providers.",
+    patch: { selectedDomains: ["frontier-gpai"] },
+    compareItems: [
+      { kind: "exposure", id: "openai--market_access--eu-ai-act-regional" },
+      { kind: "exposure", id: "anthropic--market_access--eu-ai-act-regional" },
+      { kind: "exposure", id: "google-deepmind--market_access--eu-ai-act-regional" },
+    ],
+    answerCardId: "lab-exposure",
+  },
+  {
+    id: "public-sector-ai",
+    title: "Where is public-sector AI governance visible?",
+    detail: "Filter public-sector obligations and registry-context records.",
+    patch: { selectedDomains: ["public-sector"] },
+    answerCardId: "current-scope",
+  },
+  {
+    id: "citation-brief",
+    title: "What can I cite quickly?",
+    detail: "Compare source-backed records and open evidence dossiers.",
+    patch: {},
+    compareItems: [
+      { kind: "country", id: "EUU" },
+      { kind: "instrument", id: "eu-ai-act" },
+      { kind: "obligation", id: "eu-ai-act-transparency-disclosure" },
+    ],
+    answerCardId: "binding-obligations",
+  },
+];
 const ATLAS_PRESETS: Array<{ id: AtlasPresetId; title: string; detail: string }> = [
   {
     id: "high-readiness-no-binding",
@@ -184,17 +397,16 @@ export function WorkbenchView({
   onSelectInstrument,
   onOpenMethodology,
   onOpenAtlasMapMode,
+  workbenchState,
+  onWorkbenchStateChange,
   routeRecord,
 }: Props) {
-  const [compareKind, setCompareKind] = useState<CompareKind>("country");
-  const [compareId, setCompareId] = useState("USA");
-  const [compareItems, setCompareItems] = useState<CompareSelection[]>([
-    { kind: "country", id: "USA" },
-    { kind: "country", id: "EUU" },
-  ]);
-  const [scenarioLabId, setScenarioLabId] = useState("openai");
-  const [scenarioMarkets, setScenarioMarkets] = useState(["EUU", "USA", "GBR", "KOR"]);
-  const [atlasPresetId, setAtlasPresetId] = useState<AtlasPresetId>("high-readiness-no-binding");
+  const compareKind = workbenchState.compareKind;
+  const compareId = workbenchState.compareId;
+  const compareItems = workbenchState.compareItems;
+  const scenarioLabId = workbenchState.scenarioLabId;
+  const scenarioMarkets = workbenchState.scenarioMarkets;
+  const atlasPresetId = workbenchState.atlasPresetId;
 
   const answerCards = useMemo(() => buildWorkbenchAnswerCards(filters), [filters]);
   const atlasRows = useMemo(() => buildAtlasPresetRows(atlasPresetId), [atlasPresetId]);
@@ -203,17 +415,74 @@ export function WorkbenchView({
     [scenarioLabId, scenarioMarkets]
   );
   const compareOptions = optionsForKind(compareKind);
+  const activeQuestion = TOP_RESEARCH_QUESTIONS.find((question) => question.id === workbenchState.activeQuestionId);
+  const activeAnswerCard =
+    answerCards.find((card) => card.id === workbenchState.activeAnswerCardId) ??
+    answerCards.find((card) => card.id === activeQuestion?.answerCardId) ??
+    null;
 
-  function applyWorkflow(patch: Partial<FilterState>) {
-    onFiltersChange({ ...DEFAULT_FILTER_STATE, ...patch });
+  function updateWorkbenchState(patch: Partial<WorkbenchState>) {
+    onWorkbenchStateChange({ ...workbenchState, ...patch });
+  }
+
+  function applyWorkflow(workflow: (typeof WORKFLOWS)[number]) {
+    onFiltersChange({ ...DEFAULT_FILTER_STATE, ...workflow.patch });
+    updateWorkbenchState({
+      activeWorkflowId: workflow.id,
+      activeQuestionId: null,
+      activeAnswerCardId: null,
+    });
+  }
+
+  function applyQuestion(question: (typeof TOP_RESEARCH_QUESTIONS)[number]) {
+    const nextCompareItems = question.compareItems ?? compareItems;
+    const firstCompareItem = nextCompareItems[0];
+    onFiltersChange({ ...DEFAULT_FILTER_STATE, ...question.patch });
+    updateWorkbenchState({
+      compareKind: firstCompareItem?.kind ?? compareKind,
+      compareId: firstCompareItem?.id ?? compareId,
+      compareItems: nextCompareItems,
+      scenarioLabId: question.scenario?.labId ?? scenarioLabId,
+      scenarioMarkets: question.scenario?.markets ?? scenarioMarkets,
+      atlasPresetId: question.atlasPresetId ?? atlasPresetId,
+      activeWorkflowId: null,
+      activeQuestionId: question.id,
+      activeAnswerCardId: question.answerCardId ?? null,
+    });
   }
 
   function addCompareItem() {
     if (!compareId) return;
-    setCompareItems((current) => {
-      if (current.some((item) => item.kind === compareKind && item.id === compareId)) return current;
-      return [...current, { kind: compareKind, id: compareId }].slice(-4);
+    if (compareItems.some((item) => item.kind === compareKind && item.id === compareId)) return;
+    updateWorkbenchState({
+      compareItems: [...compareItems, { kind: compareKind, id: compareId }].slice(-6),
     });
+  }
+
+  function removeCompareItem(item: WorkbenchCompareItem) {
+    updateWorkbenchState({
+      compareItems: compareItems.filter((candidate) => candidate.kind !== item.kind || candidate.id !== item.id),
+    });
+  }
+
+  function setScenarioMarket(iso3: string) {
+    updateWorkbenchState({
+      scenarioMarkets: scenarioMarkets.includes(iso3)
+        ? scenarioMarkets.filter((item) => item !== iso3)
+        : [...scenarioMarkets, iso3],
+    });
+  }
+
+  function exportComparisonCsv() {
+    downloadTextFile("ai-governance-workbench-comparison.csv", renderComparisonCsv(compareItems), "text/csv;charset=utf-8");
+  }
+
+  function exportScenarioCsv() {
+    downloadTextFile(
+      "ai-governance-scenario.csv",
+      renderScenarioCsv(scenarioLabId, scenarioMarkets, scenario),
+      "text/csv;charset=utf-8"
+    );
   }
 
   return (
@@ -259,8 +528,13 @@ export function WorkbenchView({
                 <button
                   key={workflow.id}
                   type="button"
-                  onClick={() => applyWorkflow(workflow.patch)}
-                  className="rounded-lg border border-canvas-line bg-canvas/40 px-3 py-2 text-left hover:border-accent hover:bg-accent/5"
+                  onClick={() => applyWorkflow(workflow)}
+                  className={clsx(
+                    "rounded-lg border px-3 py-2 text-left hover:border-accent hover:bg-accent/5",
+                    workbenchState.activeWorkflowId === workflow.id
+                      ? "border-accent bg-accent/10"
+                      : "border-canvas-line bg-canvas/40"
+                  )}
                 >
                   <span className="block text-xs font-semibold text-ink-900">{workflow.title}</span>
                   <span className="mt-1 block text-[11px] leading-relaxed text-ink-600">{workflow.detail}</span>
@@ -286,6 +560,44 @@ export function WorkbenchView({
         <section className="mt-4 rounded-lg border border-canvas-line bg-white p-3">
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div>
+              <h3 className="text-sm font-semibold text-ink-900">Top research questions</h3>
+              <p className="text-xs text-ink-600">
+                One click applies the relevant filters, comparison records, scenario inputs, and answer card.
+              </p>
+            </div>
+            {activeAnswerCard && (
+              <div className="rounded-lg border border-accent/25 bg-accent/5 px-3 py-2 text-xs text-ink-700">
+                <p className="font-semibold text-ink-900">
+                  {activeAnswerCard.label}: {activeAnswerCard.value}
+                </p>
+                <p className="mt-1 max-w-xl leading-relaxed">{activeAnswerCard.detail}</p>
+              </div>
+            )}
+          </div>
+          <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+            {TOP_RESEARCH_QUESTIONS.map((question) => (
+              <button
+                key={question.id}
+                type="button"
+                onClick={() => applyQuestion(question)}
+                title={question.detail}
+                className={clsx(
+                  "rounded-lg border px-3 py-2 text-left transition-colors",
+                  workbenchState.activeQuestionId === question.id
+                    ? "border-accent bg-accent/10"
+                    : "border-canvas-line bg-canvas/40 hover:border-accent hover:bg-accent/5"
+                )}
+              >
+                <span className="block text-xs font-semibold leading-snug text-ink-900">{question.title}</span>
+                <span className="mt-1 block text-[11px] leading-relaxed text-ink-600">{question.detail}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-4 rounded-lg border border-canvas-line bg-white p-3">
+          <div className="flex flex-wrap items-start justify-between gap-2">
+            <div>
               <h3 className="text-sm font-semibold text-ink-900">AI Atlas presets</h3>
               <p className="text-xs text-ink-600">
                 Context indicators only. These scores do not change legal-status summaries.
@@ -296,7 +608,7 @@ export function WorkbenchView({
                 <button
                   key={preset.id}
                   type="button"
-                  onClick={() => setAtlasPresetId(preset.id)}
+                  onClick={() => updateWorkbenchState({ atlasPresetId: preset.id })}
                   title={preset.detail}
                   className={clsx(
                     "whitespace-nowrap px-2.5 py-1 text-[11px] font-medium transition-colors",
@@ -339,15 +651,24 @@ export function WorkbenchView({
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
                 <h3 className="text-sm font-semibold text-ink-900">Comparison builder</h3>
-                <p className="text-xs text-ink-600">Compare up to four records side by side.</p>
+                <p className="text-xs text-ink-600">Compare up to six records side by side.</p>
               </div>
               <div className="flex flex-wrap items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={exportComparisonCsv}
+                  className="h-8 rounded-md border border-canvas-line bg-white px-2.5 text-xs font-semibold text-ink-700 hover:border-accent hover:text-accent"
+                >
+                  Export CSV
+                </button>
                 <select
                   value={compareKind}
                   onChange={(event) => {
-                    const nextKind = event.target.value as CompareKind;
-                    setCompareKind(nextKind);
-                    setCompareId(optionsForKind(nextKind)[0]?.id ?? "");
+                    const nextKind = event.target.value as WorkbenchCompareKind;
+                    updateWorkbenchState({
+                      compareKind: nextKind,
+                      compareId: optionsForKind(nextKind)[0]?.id ?? "",
+                    });
                   }}
                   className="h-8 rounded-md border border-canvas-line bg-white px-2 text-xs text-ink-800"
                 >
@@ -355,10 +676,12 @@ export function WorkbenchView({
                   <option value="lab">Labs</option>
                   <option value="instrument">Instruments</option>
                   <option value="rule">Rules</option>
+                  <option value="obligation">Obligations</option>
+                  <option value="exposure">Exposures</option>
                 </select>
                 <select
                   value={compareId}
-                  onChange={(event) => setCompareId(event.target.value)}
+                  onChange={(event) => updateWorkbenchState({ compareId: event.target.value })}
                   className="h-8 max-w-72 rounded-md border border-canvas-line bg-white px-2 text-xs text-ink-800"
                 >
                   {compareOptions.map((option) => (
@@ -382,11 +705,7 @@ export function WorkbenchView({
                 <CompareCard
                   key={`${item.kind}:${item.id}`}
                   item={item}
-                  onRemove={() =>
-                    setCompareItems((current) =>
-                      current.filter((candidate) => candidate.kind !== item.kind || candidate.id !== item.id)
-                    )
-                  }
+                  onRemove={() => removeCompareItem(item)}
                   onSelectCountry={onSelectCountry}
                   onSelectLab={onSelectLab}
                   onSelectInstrument={onSelectInstrument}
@@ -396,15 +715,26 @@ export function WorkbenchView({
           </div>
 
           <div className="rounded-lg border border-canvas-line bg-white p-3">
-            <h3 className="text-sm font-semibold text-ink-900">Regulatory scenario</h3>
-            <p className="mt-1 text-xs leading-relaxed text-ink-600">
-              Select a lab and likely deployment markets. Results come from structured exposure and obligation rows only.
-            </p>
+            <div className="flex items-start justify-between gap-2">
+              <div>
+                <h3 className="text-sm font-semibold text-ink-900">Regulatory scenario</h3>
+                <p className="mt-1 text-xs leading-relaxed text-ink-600">
+                  Select a lab and likely deployment markets. Results come from structured exposure and obligation rows only.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={exportScenarioCsv}
+                className="rounded-md border border-canvas-line bg-white px-2.5 py-1 text-xs font-semibold text-ink-700 hover:border-accent hover:text-accent"
+              >
+                Export CSV
+              </button>
+            </div>
             <label className="mt-3 block text-xs font-medium text-ink-700">
               Lab
               <select
                 value={scenarioLabId}
-                onChange={(event) => setScenarioLabId(event.target.value)}
+                onChange={(event) => updateWorkbenchState({ scenarioLabId: event.target.value })}
                 className="mt-1 h-8 w-full rounded-md border border-canvas-line bg-white px-2 text-xs text-ink-800"
               >
                 {FRONTIER_LABS.map((lab) => (
@@ -421,11 +751,7 @@ export function WorkbenchView({
                   <button
                     key={iso3}
                     type="button"
-                    onClick={() =>
-                      setScenarioMarkets((current) =>
-                        current.includes(iso3) ? current.filter((item) => item !== iso3) : [...current, iso3]
-                      )
-                    }
+                    onClick={() => setScenarioMarket(iso3)}
                     className={clsx(
                       "rounded-md border px-2 py-1 text-[11px] font-medium",
                       scenarioMarkets.includes(iso3)
@@ -600,6 +926,92 @@ function RecordRoutePanel({
     );
   }
 
+  if (routeRecord.kind === "obligation") {
+    const obligation = OBLIGATION_BY_ID[routeRecord.id];
+    if (!obligation) return null;
+    return (
+      <RecordPanelShell
+        title={OBLIGATION_CATEGORY_LABELS[obligation.category]}
+        subtitle={`Obligation record - ${getRecordDisplayName(obligation.parentType, obligation.parentId)}`}
+      >
+        <RecordMetrics
+          items={[
+            ["Legal effect", obligationEffectLabel(obligation.legalEffect)],
+            ["Directness", obligation.directness],
+            ["Jurisdiction", obligation.jurisdiction ?? "Contextual"],
+            ["Confidence", obligation.confidence ? DATA_CONFIDENCE_LABELS[obligation.confidence] : ""],
+          ]}
+        />
+        <RecordText label="Research summary" value={obligation.summary} />
+        {obligation.caveat && <RecordText label="Caveat" value={obligation.caveat} />}
+        <div className="mt-3">
+          <VerificationMeta item={obligation} compact />
+        </div>
+        <RecordActions>
+          <a className={smallButtonClass} href={recordRoute("obligation", obligation.id)}>
+            Stable URL
+          </a>
+          <a className={smallButtonClass} href={recordRoute(parentRouteKind(obligation.parentType), obligation.parentId)}>
+            Parent record
+          </a>
+          <SourceLink name={obligation.sourceName} url={obligation.sourceUrl} />
+          <CorrectionLink
+            recordKind="obligation"
+            recordId={obligation.id}
+            recordName={OBLIGATION_CATEGORY_LABELS[obligation.category]}
+            sourceUrl={obligation.sourceUrl}
+            claim={obligation.summary}
+            compact
+          />
+        </RecordActions>
+      </RecordPanelShell>
+    );
+  }
+
+  if (routeRecord.kind === "exposure") {
+    const exposure = LAB_REGULATORY_EXPOSURES.find((row) => row.id === routeRecord.id);
+    if (!exposure) return null;
+    const lab = LAB_BY_ID[exposure.labId];
+    const target = getLabExposureTarget(exposure);
+    return (
+      <RecordPanelShell
+        title={`${lab?.name ?? exposure.labId} - ${target.name}`}
+        subtitle={`Exposure record - ${exposure.exposureKind.replace(/_/g, " ")}`}
+      >
+        <RecordMetrics
+          items={[
+            ["Legal effect", LAB_EXPOSURE_EFFECT_LABELS[exposure.legalEffect]],
+            ["Directness", exposure.directness],
+            ["Strength", `${exposure.strength}/5`],
+            ["Confidence", exposure.confidence ? DATA_CONFIDENCE_LABELS[exposure.confidence] : ""],
+          ]}
+        />
+        <RecordText label="Rationale" value={exposure.rationale} />
+        {exposure.notes && <RecordText label="Caveat" value={exposure.notes} />}
+        <div className="mt-3">
+          <VerificationMeta item={exposure} compact />
+        </div>
+        <RecordActions>
+          <button type="button" onClick={() => onSelectLab(exposure.labId)} className={smallButtonClass}>
+            Open lab drawer
+          </button>
+          <a className={smallButtonClass} href={recordRoute("exposure", exposure.id)}>
+            Stable URL
+          </a>
+          <SourceLink name={exposure.sourceName} url={exposure.sourceUrl} />
+          <CorrectionLink
+            recordKind="exposure"
+            recordId={exposure.id}
+            recordName={`${lab?.name ?? exposure.labId} - ${target.name}`}
+            sourceUrl={exposure.sourceUrl}
+            claim={exposure.rationale}
+            compact
+          />
+        </RecordActions>
+      </RecordPanelShell>
+    );
+  }
+
   const rule = NATIONAL_REG_BY_ID[routeRecord.id] ?? SUBNATIONAL_BY_ID[routeRecord.id];
   if (!rule) return null;
   const jurisdictionLabel = "jurisdictionName" in rule ? rule.jurisdictionName : rule.jurisdiction;
@@ -646,7 +1058,7 @@ function CompareCard({
   onSelectLab,
   onSelectInstrument,
 }: {
-  item: CompareSelection;
+  item: WorkbenchCompareItem;
   onRemove: () => void;
   onSelectCountry: (iso3: string) => void;
   onSelectLab: (labId: string) => void;
@@ -698,7 +1110,7 @@ function CompareCard({
             <EvidenceDossierButton kind="instrument" id={item.id} />
           </>
         )}
-        <a className={smallButtonClass} href={recordRoute(item.kind === "rule" ? "rule" : item.kind, item.id)}>
+        <a className={smallButtonClass} href={recordRoute(item.kind, item.id)}>
           URL
         </a>
       </div>
@@ -758,6 +1170,12 @@ function RecordActions({ children }: { children: React.ReactNode }) {
   return <div className="mt-3 flex flex-wrap items-center gap-2">{children}</div>;
 }
 
+function parentRouteKind(parentType: string): RecordRouteKind {
+  if (parentType === "international_instrument") return "instrument";
+  if (parentType === "lab_exposure") return "exposure";
+  return "rule";
+}
+
 function AtlasMapCard({
   item,
   onOpenAtlasMapMode,
@@ -768,6 +1186,7 @@ function AtlasMapCard({
   onSelectCountry: (iso3: string) => void;
 }) {
   const rows = buildAtlasPresetRows(item.presetId).slice(0, 3);
+  const fills = useMemo(() => buildAtlasMapContext(item.mapMode).fills, [item.mapMode]);
   return (
     <article className="rounded-lg border border-canvas-line bg-canvas/35 p-3 text-xs">
       <div className="flex items-start justify-between gap-2">
@@ -786,6 +1205,7 @@ function AtlasMapCard({
         </button>
       </div>
       <p className="mt-2 leading-relaxed text-ink-600">{item.detail}</p>
+      <MiniChoroplethPreview fills={fills} label={`${item.title} mini map`} />
       <div className="mt-3 space-y-1.5">
         {rows.map((row, index) => (
           <button
@@ -806,7 +1226,71 @@ function AtlasMapCard({
   );
 }
 
-function optionsForKind(kind: CompareKind) {
+function MiniChoroplethPreview({ fills, label }: { fills: Record<string, string>; label: string }) {
+  const points = useMemo(
+    () =>
+      COUNTRIES.filter((country) => country.iso3 !== "EUU" && country.iso3 !== "ATA").map((country, index) => ({
+        iso3: country.iso3,
+        name: country.name,
+        fill: fills[country.iso3] ?? "#E5E7EB",
+        point: miniMapPoint(country.region, country.iso3, index),
+      })),
+    [fills]
+  );
+
+  return (
+    <svg
+      role="img"
+      aria-label={label}
+      viewBox="0 0 220 92"
+      className="mt-3 h-24 w-full rounded-md border border-canvas-line bg-white"
+    >
+      <rect x="0" y="0" width="220" height="92" fill="#F8FAFC" />
+      <path d="M4 74 C46 66 65 78 98 70 C133 62 159 75 216 66" fill="none" stroke="#E2E8F0" strokeWidth="1" />
+      {points.map((point) => (
+        <circle
+          key={point.iso3}
+          cx={point.point[0]}
+          cy={point.point[1]}
+          r={point.fill === "#E5E7EB" ? 1.8 : 2.4}
+          fill={point.fill}
+          stroke="#FFFFFF"
+          strokeWidth="0.4"
+        >
+          <title>{point.name}</title>
+        </circle>
+      ))}
+    </svg>
+  );
+}
+
+const MINI_REGION_ANCHORS: Record<string, [number, number]> = {
+  "North America": [45, 29],
+  "Latin America & Caribbean": [68, 62],
+  Europe: [111, 27],
+  "Sub-Saharan Africa": [118, 62],
+  "Middle East & North Africa": [134, 44],
+  Eurasia: [144, 28],
+  "Central Asia": [156, 39],
+  "East Asia": [180, 42],
+  "Southeast Asia": [174, 61],
+  "South Asia": [156, 57],
+  Oceania: [194, 72],
+  Supranational: [110, 12],
+};
+
+function miniMapPoint(region: string, iso3: string, index: number): [number, number] {
+  const anchor = MINI_REGION_ANCHORS[region] ?? [110, 46];
+  const hash = iso3.split("").reduce((sum, char) => sum + char.charCodeAt(0), index);
+  const radius = 4 + (hash % 8);
+  const angle = ((hash * 47) % 360) * (Math.PI / 180);
+  return [
+    Math.max(8, Math.min(212, anchor[0] + Math.cos(angle) * radius)),
+    Math.max(8, Math.min(84, anchor[1] + Math.sin(angle) * radius)),
+  ];
+}
+
+function optionsForKind(kind: WorkbenchCompareKind) {
   if (kind === "country") {
     return COUNTRIES.filter((country) => country.iso3 !== "ATA").map((country) => ({
       id: country.iso3,
@@ -815,13 +1299,29 @@ function optionsForKind(kind: CompareKind) {
   }
   if (kind === "lab") return FRONTIER_LABS.map((lab) => ({ id: lab.id, label: lab.name }));
   if (kind === "instrument") return INTERNATIONAL_INSTRUMENTS.map((instrument) => ({ id: instrument.id, label: instrument.name }));
-  return [
+  if (kind === "rule") {
+    return [
     ...NATIONAL_AI_REGULATIONS.map((rule) => ({ id: rule.id, label: rule.name })),
     ...SUBNATIONAL_AI_RULES.map((rule) => ({ id: rule.id, label: rule.name })),
-  ];
+    ];
+  }
+  if (kind === "obligation") {
+    return GOVERNANCE_OBLIGATIONS.map((obligation) => ({
+      id: obligation.id,
+      label: `${OBLIGATION_CATEGORY_LABELS[obligation.category]} - ${getRecordDisplayName(obligation.parentType, obligation.parentId)}`,
+    }));
+  }
+  return LAB_REGULATORY_EXPOSURES.map((exposure) => {
+    const lab = LAB_BY_ID[exposure.labId];
+    const target = getLabExposureTarget(exposure);
+    return {
+      id: exposure.id,
+      label: `${lab?.name ?? exposure.labId} - ${target.name}`,
+    };
+  });
 }
 
-function getCompareSummary(item: CompareSelection) {
+function getCompareSummary(item: WorkbenchCompareItem) {
   if (item.kind === "country") {
     const summary = getCountryGovernanceSummary(item.id);
     const obligations = getCountryObligations(item.id);
@@ -869,6 +1369,38 @@ function getCompareSummary(item: CompareSelection) {
       detail: instrument?.summary ?? "",
     };
   }
+  if (item.kind === "obligation") {
+    const obligation = OBLIGATION_BY_ID[item.id];
+    return {
+      title: obligation ? OBLIGATION_CATEGORY_LABELS[obligation.category] : item.id,
+      metrics: [
+        ["Effect", obligation ? obligationEffectLabel(obligation.legalEffect) : ""],
+        ["Directness", obligation?.directness ?? ""],
+        ["Jurisdiction", obligation?.jurisdiction ?? ""],
+        ["Source", obligation?.confidence ? DATA_CONFIDENCE_LABELS[obligation.confidence] : ""],
+      ],
+      detail: obligation
+        ? `${obligation.summary} ${obligation.caveat ?? ""}`.trim()
+        : "Obligation record not found.",
+    };
+  }
+  if (item.kind === "exposure") {
+    const exposure = LAB_REGULATORY_EXPOSURES.find((row) => row.id === item.id);
+    const lab = exposure ? LAB_BY_ID[exposure.labId] : null;
+    const target = exposure ? getLabExposureTarget(exposure) : null;
+    return {
+      title: exposure && target ? `${lab?.name ?? exposure.labId} - ${target.name}` : item.id,
+      metrics: [
+        ["Effect", exposure ? LAB_EXPOSURE_EFFECT_LABELS[exposure.legalEffect] : ""],
+        ["Directness", exposure?.directness ?? ""],
+        ["Strength", exposure ? String(exposure.strength) : ""],
+        ["Source", exposure?.confidence ? DATA_CONFIDENCE_LABELS[exposure.confidence] : ""],
+      ],
+      detail: exposure
+        ? `${exposure.rationale} ${exposure.notes ?? ""}`.trim()
+        : "Exposure row not found.",
+    };
+  }
   const rule = NATIONAL_REG_BY_ID[item.id] ?? SUBNATIONAL_BY_ID[item.id];
   const obligations = getRuleObligations(item.id);
   const implementation = getRuleImplementationMilestones(item.id);
@@ -882,6 +1414,50 @@ function getCompareSummary(item: CompareSelection) {
     ],
     detail: rule?.summary ?? "",
   };
+}
+
+function renderComparisonCsv(items: WorkbenchCompareItem[]): string {
+  const rows = [["kind", "id", "title", "metric", "value", "detail"]];
+  items.forEach((item) => {
+    const summary = getCompareSummary(item);
+    if (!summary.metrics.length) {
+      rows.push([item.kind, item.id, summary.title, "", "", summary.detail]);
+      return;
+    }
+    summary.metrics.forEach(([metric, value]) => {
+      rows.push([item.kind, item.id, summary.title, metric, value, summary.detail]);
+    });
+  });
+  return rows.map(csvRow).join("\n");
+}
+
+function renderScenarioCsv(
+  labId: string,
+  marketIso3s: string[],
+  scenario: ReturnType<typeof buildScenarioAssessment>
+): string {
+  const rows = [["lab", "markets", "target", "legal_effect", "directness", "strength", "rationale", "source_url"]];
+  if (!scenario) return rows.map(csvRow).join("\n");
+  const lab = LAB_BY_ID[labId];
+  const markets = marketIso3s.map((iso3) => COUNTRY_BY_ISO3[iso3]?.name ?? iso3).join("; ");
+  scenario.exposureRows.forEach((row) => {
+    const target = getLabExposureTarget(row);
+    rows.push([
+      lab?.name ?? labId,
+      markets,
+      target.name,
+      LAB_EXPOSURE_EFFECT_LABELS[row.legalEffect],
+      row.directness,
+      String(row.strength),
+      row.rationale,
+      row.sourceUrl,
+    ]);
+  });
+  return rows.map(csvRow).join("\n");
+}
+
+function csvRow(values: string[]): string {
+  return values.map((value) => `"${value.replace(/"/g, '""')}"`).join(",");
 }
 
 const smallButtonClass =

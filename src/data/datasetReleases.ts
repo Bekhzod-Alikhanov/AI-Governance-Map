@@ -52,12 +52,24 @@ export const DATASET_RELEASES: DatasetRelease[] = [
     status: "planned",
     title: "June 2026 planned refresh",
     summary:
-      "Planned monthly refresh target for source deltas, treaty status, EU implementation milestones, national enactments, and frontier-lab model/safety-framework updates.",
-    recordsAdded: [],
-    recordsChanged: [],
+      "Planned monthly refresh target for source deltas, treaty status, EU implementation milestones, national enactments, Atlas source families, and frontier-lab model/safety-framework updates.",
+    recordsAdded: [
+      "Planned: Workbench comparison coverage for obligations and exposure rows, plus stable obligation/exposure routes.",
+      "Planned: AI Atlas source-family tracking for EU AI Factories, U.S. NAIRR, and UK public-sector AI procurement guidance.",
+    ],
+    recordsChanged: [
+      "Planned: Implementation tracker expanded for UK, Italy, Slovenia, Germany, France, and Spain using existing source-backed records.",
+    ],
     recordsDowngradedOrRemoved: [],
-    sourceCorrections: [],
+    sourceCorrections: [
+      "Source-only Atlas families remain context rows until country-level normalization is reviewed.",
+    ],
     unresolvedManualReview: ["Populate after the June refresh is completed."],
-    artifacts: ["docs/SOURCE_DELTA_REPORT.md"],
+    artifacts: [
+      "docs/RELEASE_2026-06.md",
+      "docs/SOURCE_DELTA_REPORT.md",
+      "docs/SOURCE_AUDIT_CURRENT.md",
+      "docs/ROADMAP_BACKLOG_LEDGER.md",
+    ],
   },
 ];

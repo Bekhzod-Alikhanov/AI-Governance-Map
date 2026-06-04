@@ -5413,6 +5413,30 @@
   },
   {
     "collection": "implementationMilestones",
+    "id": "de-ai-act-implementation-draft",
+    "name": "Germany draft EU AI Act implementation bill",
+    "sourceName": "German Bundestag - EU AI Act implementation bill",
+    "sourceUrl": "https://www.bundestag.de/presse/hib/kurzmeldungen-1155112",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-05-30",
+    "verificationNotes": ""
+  },
+  {
+    "collection": "implementationMilestones",
+    "id": "es-ai-law-draft-proposed",
+    "name": "Spain draft AI law approved as preliminary draft",
+    "sourceName": "La Moncloa - Council of Ministers reference",
+    "sourceUrl": "https://www.lamoncloa.gob.es/consejodeministros/referencias/paginas/2025/20250311-referencia-rueda-de-prensa-ministros.aspx",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-05-30",
+    "verificationNotes": ""
+  },
+  {
+    "collection": "implementationMilestones",
     "id": "eu-ai-act-entered-force",
     "name": "EU AI Act entered into force",
     "sourceName": "EUR-Lex - Regulation (EU) 2024/1689",
@@ -5434,6 +5458,42 @@
     "confidence": "high",
     "lastVerified": "2026-05-30",
     "verificationNotes": "This milestone intentionally uses a broad next-deadline cue. Detailed article-by-article deadlines should be added as separate rows before legal reliance."
+  },
+  {
+    "collection": "implementationMilestones",
+    "id": "fr-ai-act-implementation-activity",
+    "name": "France EU AI Act implementation activity tracked",
+    "sourceName": "CNIL - Annual Report 2025",
+    "sourceUrl": "https://www.cnil.fr/sites/default/files/2026-05/rapport_annuel_2025.pdf",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-05-30",
+    "verificationNotes": ""
+  },
+  {
+    "collection": "implementationMilestones",
+    "id": "it-law-132-in-force",
+    "name": "Italy Law No. 132/2025 in force",
+    "sourceName": "Gazzetta Ufficiale - Law 132/2025",
+    "sourceUrl": "https://www.gazzettaufficiale.it/eli/id/2025/09/25/25G00143/sg",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-05-30",
+    "verificationNotes": ""
+  },
+  {
+    "collection": "implementationMilestones",
+    "id": "it-law-132-regulators-appointed",
+    "name": "Italy designates ACN and AGID roles",
+    "sourceName": "Gazzetta Ufficiale - Law 132/2025",
+    "sourceUrl": "https://www.gazzettaufficiale.it/eli/id/2025/09/25/25G00143/sg",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-05-30",
+    "verificationNotes": ""
   },
   {
     "collection": "implementationMilestones",
@@ -5473,10 +5533,46 @@
   },
   {
     "collection": "implementationMilestones",
+    "id": "si-ai-act-implementation-in-force",
+    "name": "Slovenia EU AI Act implementation law in force",
+    "sourceName": "PISRS - ZIUDHPUI",
+    "sourceUrl": "https://pisrs.si/pregledPredpisa?id=ZAKO9225",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-05-30",
+    "verificationNotes": ""
+  },
+  {
+    "collection": "implementationMilestones",
     "id": "tr-ai-draft-proposed",
     "name": "Türkiye draft AI law under consideration",
     "sourceName": "Grand National Assembly of Türkiye - Draft AI Law",
     "sourceUrl": "https://www.tbmm.gov.tr/Yasama/KanunTeklifi/e21539a0-888a-4500-81be-01904a918c53",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-05-30",
+    "verificationNotes": ""
+  },
+  {
+    "collection": "implementationMilestones",
+    "id": "uk-ai-regulation-bill-proposed",
+    "name": "UK Artificial Intelligence (Regulation) Bill in House of Lords",
+    "sourceName": "UK Parliament - Artificial Intelligence (Regulation) Bill",
+    "sourceUrl": "https://bills.parliament.uk/bills/4126",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-05-30",
+    "verificationNotes": ""
+  },
+  {
+    "collection": "implementationMilestones",
+    "id": "uk-pro-innovation-guidance-issued",
+    "name": "UK pro-innovation AI regulation response issued",
+    "sourceName": "GOV.UK - pro-innovation approach response",
+    "sourceUrl": "https://www.gov.uk/government/consultations/ai-regulation-a-pro-innovation-approach-policy-proposals/outcome/a-pro-innovation-approach-to-ai-regulation-government-response",
     "sourceKind": "official",
     "verificationStatus": "likely_correct",
     "confidence": "medium",
@@ -5494,6 +5590,18 @@
     "confidence": "high",
     "lastVerified": "2026-06-04",
     "verificationNotes": "Imported from the attached CAIDP 2026 CSV export; source URL points to the issuer report page."
+  },
+  {
+    "collection": "indicatorSources",
+    "id": "eu-ai-factories",
+    "name": "European Commission AI Factories",
+    "sourceName": "European Commission - AI Factories",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-factories",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-04",
+    "verificationNotes": "Official European Commission source identified for future EU compute/infrastructure normalization; country rows are not imported in this pass."
   },
   {
     "collection": "indicatorSources",
@@ -5593,6 +5701,18 @@
   },
   {
     "collection": "indicatorSources",
+    "id": "uk-ai-procurement-guidelines",
+    "name": "UK Guidelines for AI procurement",
+    "sourceName": "GOV.UK - Guidelines for AI procurement",
+    "sourceUrl": "https://www.gov.uk/government/publications/guidelines-for-ai-procurement/guidelines-for-ai-procurement/",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-04",
+    "verificationNotes": "Official GOV.UK procurement guidance source identified for future public-procurement normalization; no country score rows are imported in this pass."
+  },
+  {
+    "collection": "indicatorSources",
     "id": "unesco-ram-global-hub-2026",
     "name": "UNESCO AI Ethics Readiness Assessment Methodology country hub",
     "sourceName": "UNESCO - Global AI Ethics and Governance Observatory Global Hub",
@@ -5602,6 +5722,18 @@
     "confidence": "high",
     "lastVerified": "2026-06-04",
     "verificationNotes": "Parsed from the official UNESCO Global Hub country table and profile cards; subnational entries are listed in the review note rather than mapped as country-level records."
+  },
+  {
+    "collection": "indicatorSources",
+    "id": "us-nairr-pilot",
+    "name": "U.S. National Artificial Intelligence Research Resource pilot",
+    "sourceName": "NSF - National Artificial Intelligence Research Resource Pilot",
+    "sourceUrl": "https://www.nsf.gov/focus-areas/artificial-intelligence/nairr",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-04",
+    "verificationNotes": "Official NSF source identified for future compute/infrastructure normalization; country rows are not imported in this pass."
   },
   {
     "collection": "infrastructureNodes",

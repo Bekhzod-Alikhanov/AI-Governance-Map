@@ -17,10 +17,10 @@
     "internationalParticipationRows": 1439,
     "nationalAIRegulations": 75,
     "subnationalAIRules": 7,
-    "governanceDomains": 11,
+    "governanceDomains": 13,
     "governanceObligations": 21,
-    "implementationMilestones": 10,
-    "indicatorSources": 10,
+    "implementationMilestones": 18,
+    "indicatorSources": 13,
     "countryIndicatorScores": 339,
     "countryReadinessReports": 74,
     "infrastructureNodes": 3,
@@ -27907,6 +27907,16 @@
         "id": "compute-cloud-chips",
         "label": "Compute / cloud / chips",
         "description": "AI compute, hyperscale cloud, export controls, chips, and infrastructure bottlenecks."
+      },
+      {
+        "id": "public-procurement",
+        "label": "Public procurement",
+        "description": "AI procurement, public purchasing rules, vendor assurance, and government acquisition controls."
+      },
+      {
+        "id": "enforcement-litigation",
+        "label": "Enforcement / litigation",
+        "description": "Observed enforcement, litigation, complaints, regulator decisions, and implementation actions."
       }
     ],
     "governanceObligations": [
@@ -28526,6 +28536,134 @@
         "verificationStatus": "likely_correct",
         "confidence": "medium",
         "lastVerified": "2026-05-30"
+      },
+      {
+        "id": "uk-pro-innovation-guidance-issued",
+        "parentType": "national_rule",
+        "parentId": "uk-pro-innovation-approach",
+        "jurisdiction": "United Kingdom",
+        "status": "guidance_issued",
+        "date": "2024-02-06",
+        "label": "UK pro-innovation AI regulation response issued",
+        "summary": "The UK cross-regulator principles approach is tracked as guidance and institutional implementation context, not as an omnibus AI statute.",
+        "sourceName": "GOV.UK - pro-innovation approach response",
+        "sourceUrl": "https://www.gov.uk/government/consultations/ai-regulation-a-pro-innovation-approach-policy-proposals/outcome/a-pro-innovation-approach-to-ai-regulation-government-response",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-30"
+      },
+      {
+        "id": "uk-ai-regulation-bill-proposed",
+        "parentType": "national_rule",
+        "parentId": "uk-ai-regulation-bill-2025",
+        "jurisdiction": "United Kingdom",
+        "status": "proposed",
+        "date": "2025-03-04",
+        "label": "UK Artificial Intelligence (Regulation) Bill in House of Lords",
+        "summary": "Private member's bill tracked as proposed; it is not counted as enacted UK AI law.",
+        "sourceName": "UK Parliament - Artificial Intelligence (Regulation) Bill",
+        "sourceUrl": "https://bills.parliament.uk/bills/4126",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-30"
+      },
+      {
+        "id": "it-law-132-in-force",
+        "parentType": "national_rule",
+        "parentId": "it-law-132-2025",
+        "jurisdiction": "Italy",
+        "status": "in_force",
+        "date": "2025-10-10",
+        "label": "Italy Law No. 132/2025 in force",
+        "summary": "Italy's national artificial-intelligence law is tracked as in force and includes competent-authority designations for EU AI Act implementation.",
+        "sourceName": "Gazzetta Ufficiale - Law 132/2025",
+        "sourceUrl": "https://www.gazzettaufficiale.it/eli/id/2025/09/25/25G00143/sg",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-05-30"
+      },
+      {
+        "id": "it-law-132-regulators-appointed",
+        "parentType": "national_rule",
+        "parentId": "it-law-132-2025",
+        "jurisdiction": "Italy",
+        "status": "regulator_appointed",
+        "date": "2025-10-10",
+        "label": "Italy designates ACN and AGID roles",
+        "summary": "The Italian law record tracks ACN and AGID as competent national authorities for AI-system monitoring and inspection.",
+        "sourceName": "Gazzetta Ufficiale - Law 132/2025",
+        "sourceUrl": "https://www.gazzettaufficiale.it/eli/id/2025/09/25/25G00143/sg",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-05-30"
+      },
+      {
+        "id": "si-ai-act-implementation-in-force",
+        "parentType": "national_rule",
+        "parentId": "si-eu-ai-act-implementation-2025",
+        "jurisdiction": "Slovenia",
+        "status": "in_force",
+        "date": "2025-11-21",
+        "label": "Slovenia EU AI Act implementation law in force",
+        "summary": "Slovenia's EU AI Act implementation law is tracked as in force from the official PISRS record.",
+        "sourceName": "PISRS - ZIUDHPUI",
+        "sourceUrl": "https://pisrs.si/pregledPredpisa?id=ZAKO9225",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-05-30"
+      },
+      {
+        "id": "de-ai-act-implementation-draft",
+        "parentType": "subnational_rule",
+        "parentId": "de-ai-act-implementation-draft",
+        "jurisdiction": "Germany",
+        "status": "proposed",
+        "date": "2025-04-01",
+        "label": "Germany draft EU AI Act implementation bill",
+        "summary": "German implementation activity is tracked as draft/proposed pending promulgation.",
+        "sourceName": "German Bundestag - EU AI Act implementation bill",
+        "sourceUrl": "https://www.bundestag.de/presse/hib/kurzmeldungen-1155112",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-30"
+      },
+      {
+        "id": "fr-ai-act-implementation-activity",
+        "parentType": "subnational_rule",
+        "parentId": "fr-ai-act-implementation-draft",
+        "jurisdiction": "France",
+        "status": "implementing_rules_pending",
+        "date": "2025-06-01",
+        "label": "France EU AI Act implementation activity tracked",
+        "summary": "French activity is tracked as implementation context and supervisory work; no comprehensive national implementation act is counted here.",
+        "sourceName": "CNIL - Annual Report 2025",
+        "sourceUrl": "https://www.cnil.fr/sites/default/files/2026-05/rapport_annuel_2025.pdf",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-30"
+      },
+      {
+        "id": "es-ai-law-draft-proposed",
+        "parentType": "national_rule",
+        "parentId": "es-ai-law-draft-2025",
+        "jurisdiction": "Spain",
+        "status": "proposed",
+        "date": "2025-03-11",
+        "label": "Spain draft AI law approved as preliminary draft",
+        "summary": "Spain's EU AI Act implementation draft is tracked as proposed and not as an enacted national AI law.",
+        "sourceName": "La Moncloa - Council of Ministers reference",
+        "sourceUrl": "https://www.lamoncloa.gob.es/consejodeministros/referencias/paginas/2025/20250311-referencia-rueda-de-prensa-ministros.aspx",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-30"
       }
     ],
     "indicatorSources": [
@@ -28698,6 +28836,57 @@
         "confidence": "medium",
         "lastVerified": "2026-06-04",
         "verificationNotes": "Tracked as source-only context for future safety-institute and technical-governance expansion."
+      },
+      {
+        "id": "eu-ai-factories",
+        "name": "European Commission AI Factories",
+        "publisher": "European Commission",
+        "year": 2026,
+        "category": "compute_investment",
+        "coverage": "Official EU source family for AI Factories, EuroHPC infrastructure, and EU compute-investment signals.",
+        "methodologyUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-factories",
+        "sourceName": "European Commission - AI Factories",
+        "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-factories",
+        "caveat": "AI Factories indicate infrastructure and compute-capacity context. They are not national AI laws, treaty participation, or binding obligations by themselves.",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-06-04",
+        "verificationNotes": "Official European Commission source identified for future EU compute/infrastructure normalization; country rows are not imported in this pass."
+      },
+      {
+        "id": "us-nairr-pilot",
+        "name": "U.S. National Artificial Intelligence Research Resource pilot",
+        "publisher": "U.S. National Science Foundation",
+        "year": 2026,
+        "category": "compute_investment",
+        "coverage": "Official NSF source family for U.S. shared AI research infrastructure and compute-resource access.",
+        "methodologyUrl": "https://www.nsf.gov/focus-areas/artificial-intelligence/nairr",
+        "sourceName": "NSF - National Artificial Intelligence Research Resource Pilot",
+        "sourceUrl": "https://www.nsf.gov/focus-areas/artificial-intelligence/nairr",
+        "caveat": "NAIRR is research-infrastructure context. It does not establish private-sector AI duties or binding AI-law coverage.",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-06-04",
+        "verificationNotes": "Official NSF source identified for future compute/infrastructure normalization; country rows are not imported in this pass."
+      },
+      {
+        "id": "uk-ai-procurement-guidelines",
+        "name": "UK Guidelines for AI procurement",
+        "publisher": "UK Government",
+        "year": 2020,
+        "category": "public_procurement",
+        "coverage": "Official GOV.UK source family for public-sector AI procurement guidance.",
+        "methodologyUrl": "https://www.gov.uk/government/publications/guidelines-for-ai-procurement/guidelines-for-ai-procurement/",
+        "sourceName": "GOV.UK - Guidelines for AI procurement",
+        "sourceUrl": "https://www.gov.uk/government/publications/guidelines-for-ai-procurement/guidelines-for-ai-procurement/",
+        "caveat": "Procurement guidance is public-sector practice context. It should not be treated as a general binding AI statute or as private-sector legal coverage.",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-06-04",
+        "verificationNotes": "Official GOV.UK procurement guidance source identified for future public-procurement normalization; no country score rows are imported in this pass."
       }
     ],
     "countryIndicatorScores": [
@@ -43554,16 +43743,26 @@
         "snapshotDate": "2026-06-30",
         "status": "planned",
         "title": "June 2026 planned refresh",
-        "summary": "Planned monthly refresh target for source deltas, treaty status, EU implementation milestones, national enactments, and frontier-lab model/safety-framework updates.",
-        "recordsAdded": [],
-        "recordsChanged": [],
+        "summary": "Planned monthly refresh target for source deltas, treaty status, EU implementation milestones, national enactments, Atlas source families, and frontier-lab model/safety-framework updates.",
+        "recordsAdded": [
+          "Planned: Workbench comparison coverage for obligations and exposure rows, plus stable obligation/exposure routes.",
+          "Planned: AI Atlas source-family tracking for EU AI Factories, U.S. NAIRR, and UK public-sector AI procurement guidance."
+        ],
+        "recordsChanged": [
+          "Planned: Implementation tracker expanded for UK, Italy, Slovenia, Germany, France, and Spain using existing source-backed records."
+        ],
         "recordsDowngradedOrRemoved": [],
-        "sourceCorrections": [],
+        "sourceCorrections": [
+          "Source-only Atlas families remain context rows until country-level normalization is reviewed."
+        ],
         "unresolvedManualReview": [
           "Populate after the June refresh is completed."
         ],
         "artifacts": [
-          "docs/SOURCE_DELTA_REPORT.md"
+          "docs/RELEASE_2026-06.md",
+          "docs/SOURCE_DELTA_REPORT.md",
+          "docs/SOURCE_AUDIT_CURRENT.md",
+          "docs/ROADMAP_BACKLOG_LEDGER.md"
         ]
       }
     ]

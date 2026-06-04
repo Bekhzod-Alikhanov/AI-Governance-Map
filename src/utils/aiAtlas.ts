@@ -7,7 +7,7 @@ import {
   COUNTRY_READINESS_REPORTS_BY_COUNTRY,
   INDICATOR_SOURCE_BY_ID,
 } from "../data/aiAtlas";
-import type { CountryIndicatorScore, CountryReadinessReport, MapModeId, ReadinessReportStatus } from "../types";
+import type { AtlasPresetId, CountryIndicatorScore, CountryReadinessReport, MapModeId, ReadinessReportStatus } from "../types";
 import { getCountryGovernanceSummary } from "./getCountryGovernanceSummary";
 
 export const OXFORD_READINESS_SOURCE_ID = "oxford-gov-ai-readiness-2025";
@@ -20,6 +20,9 @@ export const OECD_AI_POLICY_OBSERVATORY_SOURCE_ID = "oecd-ai-policy-observatory"
 export const GLOBAL_RESPONSIBLE_AI_SOURCE_ID = "global-index-responsible-ai-2024";
 export const NETHERLANDS_ALGORITHM_REGISTER_SOURCE_ID = "netherlands-public-algorithm-register";
 export const INTERNATIONAL_AISI_NETWORK_SOURCE_ID = "international-network-ai-safety-institutes";
+export const EU_AI_FACTORIES_SOURCE_ID = "eu-ai-factories";
+export const US_NAIRR_PILOT_SOURCE_ID = "us-nairr-pilot";
+export const UK_AI_PROCUREMENT_GUIDELINES_SOURCE_ID = "uk-ai-procurement-guidelines";
 
 export const ATLAS_SOURCE_LABELS: Record<string, string> = {
   [OXFORD_READINESS_SOURCE_ID]: "Gov AI readiness",
@@ -32,6 +35,9 @@ export const ATLAS_SOURCE_LABELS: Record<string, string> = {
   [GLOBAL_RESPONSIBLE_AI_SOURCE_ID]: "Responsible AI index",
   [NETHERLANDS_ALGORITHM_REGISTER_SOURCE_ID]: "Public-sector AI registry",
   [INTERNATIONAL_AISI_NETWORK_SOURCE_ID]: "AI safety institute network",
+  [EU_AI_FACTORIES_SOURCE_ID]: "EU AI Factories",
+  [US_NAIRR_PILOT_SOURCE_ID]: "U.S. NAIRR pilot",
+  [UK_AI_PROCUREMENT_GUIDELINES_SOURCE_ID]: "AI procurement",
 };
 
 export const READINESS_STATUS_LABELS: Record<ReadinessReportStatus, string> = {
@@ -68,12 +74,6 @@ export interface AtlasMapContext {
   fills: Record<string, string>;
   reasons: Record<string, AtlasMapReason>;
 }
-
-export type AtlasPresetId =
-  | "high-readiness-no-binding"
-  | "ram-activity"
-  | "caidp-oxford-comparison"
-  | "vibrancy-regulatory-maturity";
 
 export function getCountryIndicatorScore(iso3: string, sourceId: string): CountryIndicatorScore | undefined {
   return COUNTRY_INDICATOR_SCORE_BY_SOURCE_AND_COUNTRY[`${sourceId}:${iso3}`];

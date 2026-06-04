@@ -13,6 +13,7 @@ import {
   type NetworkPresetId,
   type ResearchPreset,
   type TimelineLane,
+  type WorkbenchState,
 } from "./types";
 import { WorldMap } from "./components/WorldMap";
 import { Filters } from "./components/Filters";
@@ -20,9 +21,11 @@ import { CountrySidePanel } from "./components/CountrySidePanel";
 import { LabSidePanel } from "./components/LabSidePanel";
 import { CountryTooltip } from "./components/CountryTooltip";
 import { DataActions } from "./components/DataActions";
+import { EmbedView } from "./components/EmbedView";
 import { SearchBox } from "./components/SearchBox";
 import { Legend } from "./components/Legend";
 import { LensSwitch } from "./components/LensSwitch";
+import { MapCountryList } from "./components/MapCountryList";
 import { WalkthroughOverlay } from "./components/WalkthroughOverlay";
 import { ResearchQuestionsPanel } from "./components/ResearchQuestionsPanel";
 import { MethodologyPanel } from "./components/MethodologyPanel";
@@ -35,6 +38,7 @@ import { FRONTIER_LABS, LAB_BY_ID } from "./data/frontierLabs";
 import { DEPENDENCY_EDGES } from "./data/dependencies";
 import { getMapFitScope } from "./utils/mapFitTarget";
 import { parseRecordRoute, type RecordRoute } from "./utils/recordRoutes";
+import { parseEmbedRoute } from "./utils/embedRoutes";
 
 // Network + Timeline lenses are non-default. Lazy-load them so d3-force
 // and the timeline list don't ship in the initial bundle.
@@ -134,6 +138,10 @@ export default function App() {
     () => (typeof window === "undefined" ? null : parseRecordRoute(window.location.pathname)),
     []
   );
+  const embedRouteRecord = useMemo(
+    () => (typeof window === "undefined" ? null : parseEmbedRoute(window.location.pathname)),
+    []
+  );
   const [filters, dispatch] = useReducer(filterReducer, initialUrlState.filters);
   const [selectedIso3, setSelectedIso3] = useState<string | null>(initialUrlState.selectedIso3);
   const [selectedLabId, setSelectedLabId] = useState<string | null>(initialUrlState.selectedLabId);
@@ -158,9 +166,11 @@ export default function App() {
   const [networkFrontierOnly, setNetworkFrontierOnly] = useState(initialUrlState.networkFrontierOnly);
   const [timelineLane, setTimelineLane] = useState<TimelineLane>(initialUrlState.timelineLane);
   const [timelineFrontierOnly, setTimelineFrontierOnly] = useState(false);
+  const [workbenchState, setWorkbenchState] = useState<WorkbenchState>(initialUrlState.workbench);
   const [activePresetId, setActivePresetId] = useState<string | null>(null);
   const [showMethodology, setShowMethodology] = useState(false);
   const [isMapMaximized, setIsMapMaximized] = useState(false);
+  const [showCountryList, setShowCountryList] = useState(false);
   const [mapMode, setMapMode] = useState<MapModeId>("binding-law");
   const [contextFillState, setContextFillState] = useState<{
     mapMode: MapModeId;
@@ -215,6 +225,7 @@ export default function App() {
       setNetworkDensity(next.networkDensity);
       setNetworkFrontierOnly(next.networkFrontierOnly);
       setTimelineLane(next.timelineLane);
+      setWorkbenchState(next.workbench);
       setRouteRecord(parseRecordRoute(window.location.pathname));
       setActivePresetId(null);
       setIsMapMaximized(false);
@@ -237,6 +248,7 @@ export default function App() {
       networkDensity,
       networkFrontierOnly,
       timelineLane,
+      workbench: workbenchState,
     });
     const nextUrl = `${window.location.pathname}${query}${window.location.hash}`;
     if (nextUrl !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
@@ -252,6 +264,7 @@ export default function App() {
     selectedIso3,
     selectedLabId,
     timelineLane,
+    workbenchState,
   ]);
 
   const stats = useMemo(
@@ -453,6 +466,10 @@ export default function App() {
     setMapView(DEFAULT_MAP_VIEW);
   }
 
+  if (embedRouteRecord) {
+    return <EmbedView route={embedRouteRecord} />;
+  }
+
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-canvas">
       <a
@@ -548,6 +565,8 @@ export default function App() {
               onSelectInstrument={handleSelectInstrument}
               onOpenMethodology={() => setShowMethodology(true)}
               onOpenAtlasMapMode={handleOpenAtlasMapMode}
+              workbenchState={workbenchState}
+              onWorkbenchStateChange={setWorkbenchState}
               routeRecord={routeRecord}
             />
           </Suspense>
@@ -623,6 +642,16 @@ export default function App() {
                 </option>
               ))}
             </select>
+            <button
+              type="button"
+              onClick={() => setShowCountryList((next) => !next)}
+              aria-label="Country list"
+              aria-expanded={showCountryList}
+              className="inline-flex h-7 items-center justify-center rounded-md border border-canvas-line bg-white px-1.5 text-[10px] font-semibold text-ink-700 hover:border-accent hover:text-accent sm:px-2"
+            >
+              <span className="sm:hidden">List</span>
+              <span className="hidden sm:inline">Country list</span>
+            </button>
             {resultFitTarget && (
               <button
                 type="button"
@@ -697,6 +726,17 @@ export default function App() {
               <span className="hidden sm:inline">Reset</span>
             </button>
           </div>
+        )}
+
+        {showsMap && showCountryList && (
+          <MapCountryList
+            filters={filters}
+            lens={lens}
+            mapMode={mapMode}
+            contextReasonByIso3={contextReasonByIso3}
+            onSelectCountry={handleSelectCountry}
+            onClose={() => setShowCountryList(false)}
+          />
         )}
 
         {showsMap && (
@@ -777,6 +817,9 @@ export default function App() {
             isLabPinned={(labId) => isComparePinned("lab", labId)}
             onPinInstrument={(instrumentId) => toggleCompareItem({ kind: "instrument", id: instrumentId })}
             isInstrumentPinned={(instrumentId) => isComparePinned("instrument", instrumentId)}
+            lens={lens}
+            mapMode={mapMode}
+            contextReason={contextReasonByIso3?.[selectedIso3]}
           />
         )}
 

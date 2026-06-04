@@ -198,12 +198,49 @@ test.describe("governance map smoke flows", () => {
     await page.goto("/instrument/eu-ai-act");
     await expect(page.getByRole("heading", { name: /EU AI Act/ })).toBeVisible();
     await expect(page.getByRole("button", { name: "Evidence dossier" }).first()).toBeVisible();
+
+    await page.goto("/obligation/ca-sb-53-incident-reporting");
+    await expect(page.getByRole("heading", { name: "Incident reporting" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Parent record" })).toBeVisible();
+
+    await page.goto("/exposure/openai--market_access--eu-ai-act-regional");
+    await expect(page.getByRole("heading", { name: /OpenAI - EU AI Act/ })).toBeVisible();
+    await expect(page.getByText("Exposure record")).toBeVisible();
+  });
+
+  test("supports Workbench research questions and standalone embed cards", async ({ page }) => {
+    await page.goto("/?lens=workbench");
+
+    await expect(page.getByRole("heading", { name: "Answer concrete AI-governance questions" })).toBeVisible();
+    await page.getByRole("button", { name: /Who requires incident reporting/ }).click();
+    await expect(page).toHaveURL(/wbQuestion=incident-reporting/);
+    await expect(page.getByRole("heading", { name: "Incident reporting" }).first()).toBeVisible();
+    const comparisonDownloadPromise = page.waitForEvent("download");
+    await page.getByRole("button", { name: "Export CSV" }).first().click();
+    const comparisonDownload = await comparisonDownloadPromise;
+    expect(comparisonDownload.suggestedFilename()).toBe("ai-governance-workbench-comparison.csv");
+
+    await page.goto("/embed/country/USA");
+    await expect(page.getByRole("heading", { name: "United States" })).toBeVisible();
+    await expect(page.getByText("AI Governance Map embed")).toBeVisible();
+
+    await page.goto("/embed/exposure/openai--market_access--eu-ai-act-regional");
+    await expect(page.getByRole("heading", { name: /OpenAI - EU AI Act/ })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Open full record" })).toBeVisible();
   });
 
   test("keeps map result scope clear while filtering", async ({ page }) => {
     await page.goto("/");
 
     await expect(page.getByLabel("Map scope: World overview")).toBeVisible();
+    await page.getByRole("button", { name: "Country list" }).click();
+    const countryList = page.getByRole("dialog", { name: "Keyboard-accessible country list" });
+    await expect(countryList).toBeVisible();
+    await countryList.getByRole("button", { name: /Australia/ }).click();
+    await expect(page.getByRole("dialog", { name: "Australia AI governance details" })).toBeVisible();
+    await expect(page.getByText("Why this country is colored this way")).toBeVisible();
+    await page.keyboard.press("Escape");
+    await page.getByRole("button", { name: "Reset map view" }).click();
 
     await page.getByRole("button", { name: /^Instrument/ }).click();
     await page.getByLabel(/Bletchley Declaration/).check();
