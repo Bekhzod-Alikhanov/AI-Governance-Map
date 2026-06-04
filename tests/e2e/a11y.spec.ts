@@ -12,7 +12,7 @@ async function expectNoA11yViolations(page: Page) {
 test.describe("accessibility smoke checks", () => {
   test("geography view has no automated WCAG A/AA violations", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByRole("heading", { name: "Global AI Governance Map" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "AI Governance Map" })).toBeVisible();
 
     await expectNoA11yViolations(page);
   });

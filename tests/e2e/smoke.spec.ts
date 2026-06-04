@@ -4,7 +4,7 @@ test.describe("governance map smoke flows", () => {
   test("opens data exports and map details", async ({ page }) => {
     await page.goto("/");
 
-    await expect(page.getByRole("heading", { name: "Global AI Governance Map" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "AI Governance Map" })).toBeVisible();
     await expect(page.getByRole("note")).toHaveCount(0);
     await expect(page.getByLabel("Map scope: World overview")).toBeVisible();
 
@@ -101,10 +101,10 @@ test.describe("governance map smoke flows", () => {
 
     await page.getByRole("button", { name: "Maximize map" }).click();
     await expect(page.getByRole("button", { name: "Exit maximize" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Global AI Governance Map" })).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "AI Governance Map" })).toHaveCount(0);
     await expect(page.getByText(/^Sources:/)).toHaveCount(0);
     await page.getByRole("button", { name: "Exit maximize" }).click();
-    await expect(page.getByRole("heading", { name: "Global AI Governance Map" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "AI Governance Map" })).toBeVisible();
 
     await page.getByRole("tab", { name: "Layers" }).click();
     await page.getByRole("button", { name: "Maximize map" }).click();

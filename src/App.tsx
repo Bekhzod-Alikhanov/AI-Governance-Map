@@ -415,13 +415,13 @@ export default function App() {
         <header className="relative z-40 flex shrink-0 flex-wrap items-center gap-2 border-b border-canvas-line bg-canvas-surface px-4 py-1.5">
           <div className="min-w-0 shrink-0">
             <h1 className="text-base font-semibold leading-tight tracking-tight text-ink-900">
-              Global AI Governance Map
+              AI Governance Map
             </h1>
           </div>
 
           <LensSwitch value={lens} onChange={handleLensChange} />
 
-          <div className="min-w-44 w-56 shrink-0 md:w-64 xl:w-72">
+          <div className="min-w-40 w-48 shrink-0 md:w-56 xl:w-60">
             <SearchBox
               query={filters.searchQuery}
               onQueryChange={(query) => handleFilterChange({ ...filters, searchQuery: query })}
@@ -536,7 +536,7 @@ export default function App() {
         )}
 
         {showsMap && (
-          <div className="absolute left-2 top-2 z-20 flex max-w-[calc(100%-8.5rem)] flex-wrap items-center gap-1 rounded-lg border border-canvas-line bg-white/90 p-1 shadow-panel backdrop-blur sm:left-4 sm:top-3 sm:max-w-none">
+          <div className="absolute left-2 top-2 z-20 flex max-w-[calc(100%-8.5rem)] flex-wrap items-center gap-0.5 rounded-lg border border-canvas-line bg-white/90 p-0.5 shadow-panel backdrop-blur sm:left-4 sm:top-3 sm:max-w-none">
             <label htmlFor="map-focus-select" className="sr-only">
               Map focus
             </label>
@@ -545,7 +545,7 @@ export default function App() {
               aria-label="Map focus"
               value={mapView.fitTarget ? "results" : mapView.focusId}
               onChange={(event) => handleMapFocusChange(event.target.value)}
-              className="h-8 max-w-24 rounded-md border border-canvas-line bg-white px-2 text-xs font-medium text-ink-800 outline-none hover:border-ink-400 focus:border-accent focus:ring-2 focus:ring-accent/20 sm:max-w-40"
+              className="h-7 max-w-20 rounded-md border border-canvas-line bg-white px-1.5 text-[11px] font-medium text-ink-800 outline-none hover:border-ink-400 focus:border-accent focus:ring-2 focus:ring-accent/20 sm:max-w-32"
             >
               {mapView.focusId === "custom" && <option value="custom">Custom</option>}
               {mapView.fitTarget && <option value="results">Results</option>}
@@ -563,7 +563,7 @@ export default function App() {
               aria-label="Map color mode"
               value={mapMode}
               onChange={(event) => setMapMode(event.target.value as MapModeId)}
-              className="h-8 max-w-32 rounded-md border border-canvas-line bg-white px-2 text-xs font-medium text-ink-800 outline-none hover:border-ink-400 focus:border-accent focus:ring-2 focus:ring-accent/20 sm:max-w-44"
+              className="h-7 max-w-28 rounded-md border border-canvas-line bg-white px-1.5 text-[11px] font-medium text-ink-800 outline-none hover:border-ink-400 focus:border-accent focus:ring-2 focus:ring-accent/20 sm:max-w-36"
             >
               {MAP_MODE_OPTIONS.map((option) => (
                 <option key={option.id} value={option.id}>
@@ -576,7 +576,7 @@ export default function App() {
                 type="button"
                 onClick={handleZoomToResults}
                 aria-label={`Zoom to results: ${resultFitTarget.label}`}
-                className="inline-flex h-8 items-center justify-center rounded-md border border-accent/30 bg-accent/10 px-1.5 text-[11px] font-semibold text-accent hover:bg-accent/15 sm:px-2"
+                className="inline-flex h-7 items-center justify-center rounded-md border border-accent/30 bg-accent/10 px-1.5 text-[10px] font-semibold text-accent hover:bg-accent/15 sm:px-2"
               >
                 <span className="sm:hidden">Fit</span>
                 <span className="hidden sm:inline">Zoom to results</span>
@@ -589,12 +589,12 @@ export default function App() {
               title={mapScopeTitle}
               className={
                 resultFitScope.isNoMatch
-                  ? "order-last w-full truncate rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-[10px] font-semibold text-amber-900 sm:order-none sm:w-auto sm:max-w-48"
+                  ? "order-last w-full truncate rounded-md border border-amber-200 bg-amber-50 px-1.5 py-0.5 text-[10px] font-semibold text-amber-900 sm:order-none sm:w-auto sm:max-w-40"
                   : mapView.fitTarget
-                    ? "order-last w-full truncate rounded-md border border-accent/20 bg-accent/10 px-2 py-1 text-[10px] font-semibold text-accent sm:order-none sm:w-auto sm:max-w-48"
+                    ? "order-last w-full truncate rounded-md border border-accent/20 bg-accent/10 px-1.5 py-0.5 text-[10px] font-semibold text-accent sm:order-none sm:w-auto sm:max-w-40"
                     : resultFitTarget
-                      ? "order-last w-full truncate rounded-md border border-canvas-line bg-canvas px-2 py-1 text-[10px] font-semibold text-ink-600 sm:order-none sm:w-auto sm:max-w-48"
-                      : "order-last w-full truncate rounded-md border border-canvas-line bg-white px-2 py-1 text-[10px] font-semibold text-ink-500 sm:order-none sm:w-auto sm:max-w-40"
+                      ? "order-last w-full truncate rounded-md border border-canvas-line bg-canvas px-1.5 py-0.5 text-[10px] font-semibold text-ink-600 sm:order-none sm:w-auto sm:max-w-40"
+                      : "order-last w-full truncate rounded-md border border-canvas-line bg-white px-1.5 py-0.5 text-[10px] font-semibold text-ink-500 sm:order-none sm:w-auto sm:max-w-32"
               }
             >
               <span className="hidden sm:inline">{mapScopeReadout}</span>
@@ -605,11 +605,11 @@ export default function App() {
               onClick={() => handleMapZoom(-MAP_ZOOM_STEP)}
               disabled={mapView.zoom <= MAP_ZOOM_MIN}
               aria-label="Zoom map out"
-              className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-canvas-line bg-white text-sm font-semibold text-ink-800 hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-40"
+              className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-canvas-line bg-white text-xs font-semibold text-ink-800 hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-40"
             >
               -
             </button>
-            <span className="hidden min-w-10 text-center text-[11px] font-semibold text-ink-500 sm:inline">
+            <span className="hidden min-w-8 text-center text-[11px] font-semibold text-ink-500 sm:inline">
               {mapView.fitTarget ? "Fit" : `${mapView.zoom.toFixed(1)}x`}
             </span>
             <button
@@ -617,7 +617,7 @@ export default function App() {
               onClick={() => handleMapZoom(MAP_ZOOM_STEP)}
               disabled={mapView.zoom >= MAP_ZOOM_MAX}
               aria-label="Zoom map in"
-              className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-canvas-line bg-white text-sm font-semibold text-ink-800 hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-40"
+              className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-canvas-line bg-white text-xs font-semibold text-ink-800 hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-40"
             >
               +
             </button>
@@ -625,7 +625,7 @@ export default function App() {
               type="button"
               onClick={handleMapReset}
               aria-label="Reset map view"
-              className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-canvas-line bg-white text-[11px] font-semibold text-ink-700 hover:border-accent hover:text-accent sm:w-auto sm:px-2"
+              className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-canvas-line bg-white text-[11px] font-semibold text-ink-700 hover:border-accent hover:text-accent sm:w-auto sm:px-1.5"
             >
               <svg
                 aria-hidden="true"
