@@ -1,12 +1,8 @@
 import { COUNTRIES } from "../data/countries";
 import { FRONTIER_LABS } from "../data/frontierLabs";
 import { GOVERNANCE_DOMAINS } from "../data/governanceDomains";
-import { GOVERNANCE_OBLIGATIONS, OBLIGATION_CATEGORY_LABELS } from "../data/governanceObligations";
-import { IMPLEMENTATION_STATUS_LABELS } from "../data/implementationMilestones";
 import { INTERNATIONAL_INSTRUMENTS } from "../data/internationalInstruments";
-import { LAB_REGULATORY_EXPOSURES } from "../data/labRegulatoryExposures";
 import { NATIONAL_AI_REGULATIONS } from "../data/nationalAIRegulations";
-import { SUBNATIONAL_AI_RULES } from "../data/subnationalRules";
 import type {
   AtlasPresetId,
   FilterState,
@@ -94,16 +90,34 @@ const REGIONS = new Set<Region>([
 const INSTRUMENT_IDS = new Set(INTERNATIONAL_INSTRUMENTS.map((instrument) => instrument.id));
 const COUNTRY_IDS = new Set(COUNTRIES.map((country) => country.iso3));
 const LAB_IDS = new Set(FRONTIER_LABS.map((lab) => lab.id));
-const RULE_IDS = new Set([...NATIONAL_AI_REGULATIONS, ...SUBNATIONAL_AI_RULES].map((rule) => rule.id));
-const OBLIGATION_IDS = new Set(GOVERNANCE_OBLIGATIONS.map((obligation) => obligation.id));
-const EXPOSURE_IDS = new Set(LAB_REGULATORY_EXPOSURES.map((exposure) => exposure.id));
-const OBLIGATION_CATEGORIES = new Set<ObligationCategory>(
-  Object.keys(OBLIGATION_CATEGORY_LABELS) as ObligationCategory[]
-);
+const RULE_IDS = new Set(NATIONAL_AI_REGULATIONS.map((rule) => rule.id));
+const OBLIGATION_CATEGORIES = new Set<ObligationCategory>([
+  "risk_assessment",
+  "transparency_disclosure",
+  "human_oversight",
+  "incident_reporting",
+  "model_evaluation_red_teaming",
+  "registration_filing",
+  "conformity_assessment",
+  "watermarking_content_labeling",
+  "audit_bias_audit",
+  "cybersecurity",
+  "data_governance",
+  "prohibited_practices",
+  "compute_infrastructure_reporting",
+  "safety_framework_publication",
+]);
 const DOMAIN_IDS = new Set<GovernanceDomainId>(GOVERNANCE_DOMAINS.map((domain) => domain.id));
-const IMPLEMENTATION_STATUSES = new Set<ImplementationStatus>(
-  Object.keys(IMPLEMENTATION_STATUS_LABELS) as ImplementationStatus[]
-);
+const IMPLEMENTATION_STATUSES = new Set<ImplementationStatus>([
+  "proposed",
+  "adopted",
+  "in_force",
+  "phased_application",
+  "implementing_rules_pending",
+  "regulator_appointed",
+  "guidance_issued",
+  "enforcement_activity_observed",
+]);
 const NETWORK_PRESETS = new Set<NetworkPresetId>([
   "all",
   "labs-laws",
@@ -279,9 +293,13 @@ function validWorkbenchId(kind: WorkbenchCompareKind, id: string | null | undefi
   if (kind === "country") return COUNTRY_IDS.has(id) ? id : null;
   if (kind === "lab") return LAB_IDS.has(id) ? id : null;
   if (kind === "instrument") return INSTRUMENT_IDS.has(id) ? id : null;
-  if (kind === "rule") return RULE_IDS.has(id) ? id : null;
-  if (kind === "obligation") return OBLIGATION_IDS.has(id) ? id : null;
-  return EXPOSURE_IDS.has(id) ? id : null;
+  if (kind === "rule") return RULE_IDS.has(id) ? id : sanitizeWorkbenchId(id);
+  return sanitizeWorkbenchId(id);
+}
+
+function sanitizeWorkbenchId(id: string): string | null {
+  const sanitized = id.trim().slice(0, 180);
+  return /^[a-z0-9][a-z0-9._:-]{0,179}$/i.test(sanitized) ? sanitized : null;
 }
 
 function sameStrings(a: string[], b: string[]): boolean {

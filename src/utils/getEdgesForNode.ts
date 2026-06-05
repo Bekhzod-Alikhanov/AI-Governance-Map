@@ -1,5 +1,9 @@
 import { EDGES_BY_NODE } from "../data/dependencies";
-import { resolveNode } from "./getCountryGovernanceSummary";
+import { COUNTRY_BY_ISO3 } from "../data/countries";
+import { LAB_BY_ID } from "../data/frontierLabs";
+import { INFRA_BY_ID } from "../data/infrastructure";
+import { INSTRUMENT_BY_ID } from "../data/internationalInstruments";
+import { NATIONAL_AI_REGULATIONS } from "../data/nationalAIRegulations";
 import type { GraphEdge, RelationshipKind } from "../types";
 
 export interface GroupedEdges {
@@ -25,6 +29,15 @@ export function getEdgesForNode(nodeId: string): GroupedEdges {
   }
 
   return { outgoing, incoming, totalCount: bucket.outgoing.length + bucket.incoming.length };
+}
+
+function resolveNode(id: string) {
+  if (COUNTRY_BY_ISO3[id]) return { id, name: COUNTRY_BY_ISO3[id].name };
+  if (LAB_BY_ID[id]) return { id, name: LAB_BY_ID[id].name };
+  if (INSTRUMENT_BY_ID[id]) return { id, name: INSTRUMENT_BY_ID[id].name };
+  if (INFRA_BY_ID[id]) return { id, name: INFRA_BY_ID[id].name };
+  const reg = NATIONAL_AI_REGULATIONS.find((item) => item.id === id);
+  return reg ? { id, name: reg.name } : null;
 }
 
 export const RELATIONSHIP_LABELS: Record<RelationshipKind, string> = {

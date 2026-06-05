@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import type { LensKind, MapModeId } from "../types";
 import { getCountryGovernanceSummary } from "../utils/getCountryGovernanceSummary";
+import { getSubnationalRulesByCountry } from "../data/subnationalRules";
 import { InstrumentList } from "./InstrumentList";
 import { NationalRegulationList } from "./NationalRegulationList";
 import { ConnectionsSection } from "./ConnectionsSection";
@@ -73,6 +74,7 @@ export function CountrySidePanel({
   });
   const obligations = getCountryObligations(country.iso3);
   const implementation = getCountryImplementationMilestones(country.iso3);
+  const subnationalRules = getSubnationalRulesByCountry(country.iso3);
   const colorReason = contextReason ?? buildGovernanceColorReason(summary, lens, mapMode);
 
   return (
@@ -279,13 +281,13 @@ export function CountrySidePanel({
           <NationalRegulationList regulations={summary.nationalRegulations} />
         </section>
 
-        {summary.subnationalRules.length > 0 && (
+        {subnationalRules.length > 0 && (
           <section className="mt-6">
             <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">
-              Subnational AI rules ({summary.subnationalRules.length})
+              Subnational AI rules ({subnationalRules.length})
             </h3>
             <ul className="space-y-1.5">
-              {summary.subnationalRules.map((rule) => (
+              {subnationalRules.map((rule) => (
                 <li
                   key={rule.id}
                   className="rounded-md border border-canvas-line bg-white px-3 py-2 text-xs"

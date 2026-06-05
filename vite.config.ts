@@ -10,11 +10,19 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id: string) {
-          if (id.includes("node_modules")) {
-            if (id.includes("/react/") || id.includes("/react-dom/") || id.includes("/scheduler/"))
+          const normalizedId = id.replace(/\\/g, "/");
+          if (normalizedId.includes("node_modules")) {
+            if (normalizedId.includes("/react/") || normalizedId.includes("/react-dom/") || normalizedId.includes("/scheduler/"))
               return "react";
-            if (id.includes("/d3-") || id.includes("/topojson-")) return "d3";
-            if (id.includes("/world-atlas/") || id.includes("/react-simple-maps/")) return "map";
+            if (
+              normalizedId.includes("/d3-force/") ||
+              normalizedId.includes("/d3-quadtree/") ||
+              normalizedId.includes("/d3-dispatch/") ||
+              normalizedId.includes("/d3-timer/")
+            )
+              return "d3-force";
+            if (normalizedId.includes("/d3-") || normalizedId.includes("/topojson-")) return "d3";
+            if (normalizedId.includes("/world-atlas/") || normalizedId.includes("/react-simple-maps/")) return "map";
           }
         },
       },

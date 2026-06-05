@@ -17,25 +17,18 @@ import {
 } from "./types";
 import { WorldMap } from "./components/WorldMap";
 import { Filters } from "./components/Filters";
-import { CountrySidePanel } from "./components/CountrySidePanel";
-import { LabSidePanel } from "./components/LabSidePanel";
-import { CountryTooltip } from "./components/CountryTooltip";
 import { DataActions } from "./components/DataActions";
-import { EmbedView } from "./components/EmbedView";
 import { SearchBox } from "./components/SearchBox";
 import { Legend } from "./components/Legend";
 import { LensSwitch } from "./components/LensSwitch";
 import { MapCountryList } from "./components/MapCountryList";
-import { WalkthroughOverlay } from "./components/WalkthroughOverlay";
 import { ResearchQuestionsPanel } from "./components/ResearchQuestionsPanel";
-import { MethodologyPanel } from "./components/MethodologyPanel";
-import { ComparisonTray } from "./components/ComparisonTray";
 import { DEFAULT_SHAREABLE_STATE, parseShareableState, serializeShareableState } from "./utils/urlState";
 import { COUNTRIES, COUNTRY_BY_ISO3 } from "./data/countries";
 import { INTERNATIONAL_INSTRUMENTS } from "./data/internationalInstruments";
 import { NATIONAL_AI_REGULATIONS } from "./data/nationalAIRegulations";
 import { FRONTIER_LABS, LAB_BY_ID } from "./data/frontierLabs";
-import { DEPENDENCY_EDGES } from "./data/dependencies";
+import { DATASET_STATS } from "./data/datasetStats";
 import { getMapFitScope } from "./utils/mapFitTarget";
 import { parseRecordRoute, type RecordRoute } from "./utils/recordRoutes";
 import { parseEmbedRoute } from "./utils/embedRoutes";
@@ -46,6 +39,13 @@ const NetworkView = lazy(() => import("./components/NetworkView").then((m) => ({
 const TimelineView = lazy(() => import("./components/TimelineView").then((m) => ({ default: m.TimelineView })));
 const TableView = lazy(() => import("./components/TableView").then((m) => ({ default: m.TableView })));
 const WorkbenchView = lazy(() => import("./components/WorkbenchView").then((m) => ({ default: m.WorkbenchView })));
+const CountrySidePanel = lazy(() => import("./components/CountrySidePanel").then((m) => ({ default: m.CountrySidePanel })));
+const LabSidePanel = lazy(() => import("./components/LabSidePanel").then((m) => ({ default: m.LabSidePanel })));
+const CountryTooltip = lazy(() => import("./components/CountryTooltip").then((m) => ({ default: m.CountryTooltip })));
+const WalkthroughOverlay = lazy(() => import("./components/WalkthroughOverlay").then((m) => ({ default: m.WalkthroughOverlay })));
+const MethodologyPanel = lazy(() => import("./components/MethodologyPanel").then((m) => ({ default: m.MethodologyPanel })));
+const ComparisonTray = lazy(() => import("./components/ComparisonTray").then((m) => ({ default: m.ComparisonTray })));
+const EmbedView = lazy(() => import("./components/EmbedView").then((m) => ({ default: m.EmbedView })));
 
 type MapFocusId = "world" | "americas" | "europe" | "africa_mena" | "asia_pacific";
 type MapViewState = {
@@ -273,7 +273,7 @@ export default function App() {
       instruments: INTERNATIONAL_INSTRUMENTS.length,
       nationalRegs: NATIONAL_AI_REGULATIONS.length,
       labs: FRONTIER_LABS.length,
-      edges: DEPENDENCY_EDGES.length,
+      edges: DATASET_STATS.dependencyEdges,
     }),
     []
   );
@@ -467,7 +467,11 @@ export default function App() {
   }
 
   if (embedRouteRecord) {
-    return <EmbedView route={embedRouteRecord} />;
+    return (
+      <Suspense fallback={<LensFallback />}>
+        <EmbedView route={embedRouteRecord} />
+      </Suspense>
+    );
   }
 
   return (
@@ -807,53 +811,63 @@ export default function App() {
         )}
 
         {selectedIso3 && (
-          <CountrySidePanel
-            iso3={selectedIso3}
-            onClose={() => setSelectedIso3(null)}
-            onSelectLab={handleSelectLab}
-            onPinCountry={() => toggleCompareItem({ kind: "country", id: selectedIso3 })}
-            isCountryPinned={isComparePinned("country", selectedIso3)}
-            onPinLab={(labId) => toggleCompareItem({ kind: "lab", id: labId })}
-            isLabPinned={(labId) => isComparePinned("lab", labId)}
-            onPinInstrument={(instrumentId) => toggleCompareItem({ kind: "instrument", id: instrumentId })}
-            isInstrumentPinned={(instrumentId) => isComparePinned("instrument", instrumentId)}
-            lens={lens}
-            mapMode={mapMode}
-            contextReason={contextReasonByIso3?.[selectedIso3]}
-          />
+          <Suspense fallback={null}>
+            <CountrySidePanel
+              iso3={selectedIso3}
+              onClose={() => setSelectedIso3(null)}
+              onSelectLab={handleSelectLab}
+              onPinCountry={() => toggleCompareItem({ kind: "country", id: selectedIso3 })}
+              isCountryPinned={isComparePinned("country", selectedIso3)}
+              onPinLab={(labId) => toggleCompareItem({ kind: "lab", id: labId })}
+              isLabPinned={(labId) => isComparePinned("lab", labId)}
+              onPinInstrument={(instrumentId) => toggleCompareItem({ kind: "instrument", id: instrumentId })}
+              isInstrumentPinned={(instrumentId) => isComparePinned("instrument", instrumentId)}
+              lens={lens}
+              mapMode={mapMode}
+              contextReason={contextReasonByIso3?.[selectedIso3]}
+            />
+          </Suspense>
         )}
 
         {selectedLabId && (
-          <LabSidePanel
-            labId={selectedLabId}
-            onClose={() => setSelectedLabId(null)}
-            onPinLab={() => toggleCompareItem({ kind: "lab", id: selectedLabId })}
-            isLabPinned={isComparePinned("lab", selectedLabId)}
-          />
+          <Suspense fallback={null}>
+            <LabSidePanel
+              labId={selectedLabId}
+              onClose={() => setSelectedLabId(null)}
+              onPinLab={() => toggleCompareItem({ kind: "lab", id: selectedLabId })}
+              isLabPinned={isComparePinned("lab", selectedLabId)}
+            />
+          </Suspense>
         )}
 
-        <ComparisonTray
-          items={compareItems}
-          onRemove={removeCompareItem}
-          onClear={() => setCompareItems([])}
-          onOpenCountry={handleSelectCountry}
-          onOpenLab={handleSelectLab}
-          onOpenInstrument={handleSelectInstrument}
-          drawerOpen={Boolean(selectedIso3 || selectedLabId)}
-        />
+        {compareItems.length > 0 && (
+          <Suspense fallback={null}>
+            <ComparisonTray
+              items={compareItems}
+              onRemove={removeCompareItem}
+              onClear={() => setCompareItems([])}
+              onOpenCountry={handleSelectCountry}
+              onOpenLab={handleSelectLab}
+              onOpenInstrument={handleSelectInstrument}
+              drawerOpen={Boolean(selectedIso3 || selectedLabId)}
+            />
+          </Suspense>
+        )}
       </main>
 
       {hover && showsMap && !hoverLab && (
-        <CountryTooltip
-          iso3={hover.iso3}
-          countryName={hover.name}
-          x={hover.x}
-          y={hover.y}
-          activeFilterInstrumentIds={filters.selectedInstrumentIds}
-          lens={lens}
-          mapMode={mapMode}
-          contextReason={contextReasonByIso3?.[hover.iso3]}
-        />
+        <Suspense fallback={null}>
+          <CountryTooltip
+            iso3={hover.iso3}
+            countryName={hover.name}
+            x={hover.x}
+            y={hover.y}
+            activeFilterInstrumentIds={filters.selectedInstrumentIds}
+            lens={lens}
+            mapMode={mapMode}
+            contextReason={contextReasonByIso3?.[hover.iso3]}
+          />
+        </Suspense>
       )}
 
       {hoverLab && showsMap && (
@@ -879,15 +893,21 @@ export default function App() {
       )}
 
       {walkthroughStep !== null && (
-        <WalkthroughOverlay
-          stepIndex={walkthroughStep}
-          onStepChange={setWalkthroughStep}
-          onApplyStep={handleWalkthroughApply}
-          onClose={() => setWalkthroughStep(null)}
-        />
+        <Suspense fallback={null}>
+          <WalkthroughOverlay
+            stepIndex={walkthroughStep}
+            onStepChange={setWalkthroughStep}
+            onApplyStep={handleWalkthroughApply}
+            onClose={() => setWalkthroughStep(null)}
+          />
+        </Suspense>
       )}
 
-      {showMethodology && <MethodologyPanel onClose={() => setShowMethodology(false)} />}
+      {showMethodology && (
+        <Suspense fallback={null}>
+          <MethodologyPanel onClose={() => setShowMethodology(false)} />
+        </Suspense>
+      )}
 
       <SpeedInsights />
     </div>

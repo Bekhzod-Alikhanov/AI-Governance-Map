@@ -1,9 +1,12 @@
-import { readdir, stat } from "node:fs/promises";
+import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
+import { gzipSync } from "node:zlib";
 
+const distRoot = path.join(process.cwd(), "dist");
 const distAssets = path.join(process.cwd(), "dist", "assets");
 const budgets = {
-  maxInitialJsBytes: 850_000,
+  maxInitialJsBytes: 725_000,
+  maxInitialGzipBytes: 220_000,
   maxAtlasChunkBytes: 430_000,
   maxTotalJsBytes: 1_400_000,
 };
@@ -15,18 +18,27 @@ const rows = [];
 for (const file of jsFiles) {
   const fullPath = path.join(distAssets, file);
   const info = await stat(fullPath);
-  rows.push({ file, bytes: info.size });
+  const content = await readFile(fullPath);
+  rows.push({ file, bytes: info.size, gzipBytes: gzipSync(content).length });
 }
 
+const indexHtml = await readFile(path.join(distRoot, "index.html"), "utf8");
+const initialFileNames = new Set(
+  [...indexHtml.matchAll(/(?:src|href)="(?:\.\/|\/)?assets\/([^"]+\.js)"/g)].map((match) => match[1])
+);
 const totalJsBytes = rows.reduce((sum, row) => sum + row.bytes, 0);
-const initialRows = rows.filter((row) => !/NetworkView|TimelineView|TableView|WorkbenchView|aiAtlas/i.test(row.file));
+const initialRows = rows.filter((row) => initialFileNames.has(row.file));
 const initialJsBytes = initialRows.reduce((sum, row) => sum + row.bytes, 0);
+const initialGzipBytes = initialRows.reduce((sum, row) => sum + row.gzipBytes, 0);
 const atlasRows = rows.filter((row) => /aiAtlas/i.test(row.file));
 const atlasChunkBytes = atlasRows.reduce((sum, row) => sum + row.bytes, 0);
 
 const issues = [];
 if (initialJsBytes > budgets.maxInitialJsBytes) {
   issues.push(`Initial JS ${initialJsBytes} exceeds budget ${budgets.maxInitialJsBytes}`);
+}
+if (initialGzipBytes > budgets.maxInitialGzipBytes) {
+  issues.push(`Initial JS gzip ${initialGzipBytes} exceeds budget ${budgets.maxInitialGzipBytes}`);
 }
 if (atlasChunkBytes > budgets.maxAtlasChunkBytes) {
   issues.push(`Atlas lazy chunk ${atlasChunkBytes} exceeds budget ${budgets.maxAtlasChunkBytes}`);
@@ -40,7 +52,9 @@ console.log(
     {
       ok: issues.length === 0,
       budgets,
+      initialFiles: [...initialFileNames].sort(),
       initialJsBytes,
+      initialGzipBytes,
       atlasChunkBytes,
       totalJsBytes,
       chunks: rows.sort((a, b) => b.bytes - a.bytes).slice(0, 12),

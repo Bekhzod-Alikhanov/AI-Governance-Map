@@ -16,6 +16,7 @@ import { LAB_REGULATORY_EXPOSURES } from "../data/labRegulatoryExposures";
 import { NATIONAL_AI_REGULATIONS, NATIONAL_REG_BY_ID } from "../data/nationalAIRegulations";
 import { INTERNATIONAL_PARTICIPATION } from "../data/participation";
 import { SUBNATIONAL_BY_ID } from "../data/subnationalRules";
+import { SUBNATIONAL_RULE_IDS_BY_COUNTRY } from "../data/subnationalRuleSummary";
 import type {
   FilterState,
   GovernanceObligation,
@@ -272,7 +273,7 @@ function getCountryParentKeys(iso3: string): ParentKey[] {
   const summary = getCountryGovernanceSummary(iso3);
   return [
     ...summary.nationalRegulations.map((reg) => parentKey("national_rule", reg.id)),
-    ...summary.subnationalRules.map((rule) => parentKey("subnational_rule", rule.id)),
+    ...(SUBNATIONAL_RULE_IDS_BY_COUNTRY[iso3] ?? []).map((ruleId) => parentKey("subnational_rule", ruleId)),
     ...summary.participations.map(({ instrument }) => parentKey("international_instrument", instrument.id)),
     ...summary.hqLabs.flatMap((lab) => getLabRegulatoryExposures(lab.id).map((row) => parentKey("lab_exposure", row.id))),
   ];
