@@ -11,6 +11,8 @@ import {
   IMF_AI_PREPAREDNESS_SOURCE_ID,
   OXFORD_READINESS_SOURCE_ID,
   STANFORD_VIBRANCY_SOURCE_ID,
+  EU_AI_OFFICE_GOVERNANCE_SOURCE_ID,
+  FTC_OPERATION_AI_COMPLY_SOURCE_ID,
 } from "./aiAtlas";
 
 describe("AI Atlas indicators", () => {
@@ -22,13 +24,15 @@ describe("AI Atlas indicators", () => {
         "unesco-ram-global-hub-2026",
         STANFORD_VIBRANCY_SOURCE_ID,
         IMF_AI_PREPAREDNESS_SOURCE_ID,
+        EU_AI_OFFICE_GOVERNANCE_SOURCE_ID,
+        FTC_OPERATION_AI_COMPLY_SOURCE_ID,
       ])
     );
     for (const source of AI_ATLAS_SOURCES) {
       expect(source.sourceUrl).toMatch(/^https:\/\//);
       expect(source.methodologyUrl).toMatch(/^https:\/\//);
       expect(source.caveat).toMatch(/not|does not/i);
-      expect(source.lastVerified).toBe("2026-06-04");
+      expect(source.lastVerified).toMatch(/^2026-06-0[45]$/);
     }
   });
 

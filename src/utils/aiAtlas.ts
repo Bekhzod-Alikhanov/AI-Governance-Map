@@ -23,6 +23,13 @@ export const INTERNATIONAL_AISI_NETWORK_SOURCE_ID = "international-network-ai-sa
 export const EU_AI_FACTORIES_SOURCE_ID = "eu-ai-factories";
 export const US_NAIRR_PILOT_SOURCE_ID = "us-nairr-pilot";
 export const UK_AI_PROCUREMENT_GUIDELINES_SOURCE_ID = "uk-ai-procurement-guidelines";
+export const EU_AI_OFFICE_GOVERNANCE_SOURCE_ID = "eu-ai-office-governance-enforcement";
+export const EU_GPAI_CODE_SOURCE_ID = "eu-gpai-code-practice-2025";
+export const FTC_OPERATION_AI_COMPLY_SOURCE_ID = "ftc-operation-ai-comply";
+export const US_AI_ACQUISITION_MEMO_SOURCE_ID = "us-ai-acquisition-memo-m-24-18";
+export const EU_HIGH_RISK_AI_DATABASE_SOURCE_ID = "eu-high-risk-ai-database";
+export const UK_AI_SECURITY_INSTITUTE_SOURCE_ID = "uk-ai-security-institute";
+export const JAPAN_AI_SAFETY_INSTITUTE_SOURCE_ID = "japan-ai-safety-institute";
 
 export const ATLAS_SOURCE_LABELS: Record<string, string> = {
   [OXFORD_READINESS_SOURCE_ID]: "Gov AI readiness",
@@ -38,6 +45,13 @@ export const ATLAS_SOURCE_LABELS: Record<string, string> = {
   [EU_AI_FACTORIES_SOURCE_ID]: "EU AI Factories",
   [US_NAIRR_PILOT_SOURCE_ID]: "U.S. NAIRR pilot",
   [UK_AI_PROCUREMENT_GUIDELINES_SOURCE_ID]: "AI procurement",
+  [EU_AI_OFFICE_GOVERNANCE_SOURCE_ID]: "EU AI Office",
+  [EU_GPAI_CODE_SOURCE_ID]: "GPAI Code of Practice",
+  [FTC_OPERATION_AI_COMPLY_SOURCE_ID]: "AI enforcement activity",
+  [US_AI_ACQUISITION_MEMO_SOURCE_ID]: "AI acquisition",
+  [EU_HIGH_RISK_AI_DATABASE_SOURCE_ID]: "EU AI database",
+  [UK_AI_SECURITY_INSTITUTE_SOURCE_ID]: "UK AI Security Institute",
+  [JAPAN_AI_SAFETY_INSTITUTE_SOURCE_ID]: "Japan AI Safety Institute",
 };
 
 export const READINESS_STATUS_LABELS: Record<ReadinessReportStatus, string> = {

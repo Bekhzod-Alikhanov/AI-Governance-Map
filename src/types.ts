@@ -339,6 +339,8 @@ export type IndicatorSourceCategory =
   | "policy_index"
   | "responsible_ai"
   | "public_sector_registry"
+  | "ai_regulator"
+  | "enforcement_activity"
   | "ai_safety_institute"
   | "public_procurement"
   | "compute_investment";

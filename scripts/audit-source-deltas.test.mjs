@@ -57,6 +57,52 @@ describe("source delta audit", () => {
     expect(result.evidence.join(" ")).toContain("does not prove the public claim is wrong");
   });
 
+  it("uses current manual verification to resolve known automation blocks", async () => {
+    const result = await runSourceDeltaMonitor(
+      {
+        ...baseMonitor,
+        manualVerification: {
+          status: "unchanged",
+          reviewedAt: "2026-06-05",
+          validUntil: "2026-07-05",
+          reviewer: "Manual Treaty Office check",
+          observedStatus: "Manual Treaty Office check confirms the current app claim.",
+          evidence: ["Treaty Office status counts match the app claim."],
+        },
+      },
+      {
+        generatedAt: new Date("2026-06-05T12:00:00Z"),
+        knownRecordIds: new Set(["coe-ai-convention"]),
+        fetcher: async () => ({ status: 403, text: async () => "Forbidden" }),
+      }
+    );
+
+    expect(result.status).toBe("unchanged");
+    expect(result.manualVerification.reviewedAt).toBe("2026-06-05");
+    expect(result.evidence.join(" ")).toContain("Treaty Office status counts match the app claim");
+  });
+
+  it("expires manual verification records", async () => {
+    const result = await runSourceDeltaMonitor(
+      {
+        ...baseMonitor,
+        manualVerification: {
+          status: "unchanged",
+          reviewedAt: "2026-06-05",
+          validUntil: "2026-06-06",
+          evidence: ["Treaty Office status counts match the app claim."],
+        },
+      },
+      {
+        generatedAt: new Date("2026-06-07T00:00:00Z"),
+        knownRecordIds: new Set(["coe-ai-convention"]),
+        fetcher: async () => ({ status: 403, text: async () => "Forbidden" }),
+      }
+    );
+
+    expect(result.status).toBe("needs_manual_review");
+  });
+
   it("flags monitor config references that do not exist in source-audit records", async () => {
     const result = await runSourceDeltaMonitor(baseMonitor, {
       knownRecordIds: new Set(["different-record"]),

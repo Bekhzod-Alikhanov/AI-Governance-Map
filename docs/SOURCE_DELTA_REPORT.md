@@ -1,6 +1,6 @@
 # Source Delta Report
 
-Generated: 2026-05-31T01:57:28.689Z
+Generated: 2026-06-05T00:55:13.877Z
 Snapshot date: 2026-05-19
 Monitors: 8
 
@@ -8,13 +8,13 @@ This report is an editorial aid, not legal advice. It does not auto-update publi
 
 ## Summary
 
-- Unchanged: 7
+- Unchanged: 8
 - Changed: 0
-- Needs manual review: 1
+- Needs manual review: 0
 
 | Source checked | Status | Official source | Current app claim | Observed status | Recommended action |
 | --- | --- | --- | --- | --- | --- |
-| Council of Europe AI Convention Treaty Office status | needs_manual_review | Council of Europe Treaty Office, CETS No. 225 | CETS No. 225 is represented as signed by the listed states and organizations, ratified by the EU on 15 May 2026, and not yet in force because five ratifications including at least three Council of Europe member states are required. | Automated fetch failed: Error: HTTP 403. | Manually open the official source and compare it with the current app claim. |
+| Council of Europe AI Convention Treaty Office status | unchanged | Council of Europe Treaty Office, CETS No. 225 | CETS No. 225 is represented as signed by the listed states and organizations, ratified by the EU on 15 May 2026, and not yet in force because five ratifications including at least three Council of Europe member states are required. | Manual review of official Council of Europe Treaty Office and AI news pages confirms the current app claim: Treaty 225 has 19 signatures not followed by ratification, 1 ratification/accession, the EU ratified on 15 May 2026, and the treaty is not yet in force. | No repo action needed until 2026-07-05 unless the Treaty Office page shows a newer signature, ratification, or entry-into-force status. |
 | EU AI Act EUR-Lex status | unchanged | EUR-Lex Regulation (EU) 2024/1689 | Regulation (EU) 2024/1689 is the EU AI Act, entered into force on 1 August 2024, with phased application across EU member states. | Automated checks matched the current app claim. | No repo action needed unless a human reviewer sees a newer official status. |
 | OECD AI Principles legal-instrument status | unchanged | OECD Legal Instruments API, OECD/LEGAL/0449 | OECD/LEGAL/0449 is the OECD Recommendation on AI / OECD AI Principles, originally adopted in 2019 and revised for generative AI in 2024. | Automated checks matched the current app claim. | No repo action needed unless a human reviewer sees a newer official status. |
 | GPAI declarations and ministerial statements | unchanged | OECD.AI GPAI declarations | GPAI declarations and ministerial statements are voluntary policy-coordination forum outputs, not binding instruments. | Automated checks matched the current app claim. | No repo action needed unless a human reviewer sees a newer official status. |
@@ -27,15 +27,24 @@ This report is an editorial aid, not legal advice. It does not auto-update publi
 
 ### Council of Europe AI Convention Treaty Office status
 
-- **Status:** needs_manual_review
+- **Status:** unchanged
 - **Source:** Council of Europe Treaty Office, CETS No. 225 — https://www.coe.int/en/web/Conventions/full-list/?module=signatures-by-treaty&treatynum=225
 - **Record IDs:** coe-ai-convention, coe-ai-convention::generated::signed, coe-ai-convention::generated::ratified
 - **Current app claim:** CETS No. 225 is represented as signed by the listed states and organizations, ratified by the EU on 15 May 2026, and not yet in force because five ratifications including at least three Council of Europe member states are required.
-- **Observed status:** Automated fetch failed: Error: HTTP 403.
-- **Recommended action:** Manually open the official source and compare it with the current app claim.
+- **Observed status:** Manual review of official Council of Europe Treaty Office and AI news pages confirms the current app claim: Treaty 225 has 19 signatures not followed by ratification, 1 ratification/accession, the EU ratified on 15 May 2026, and the treaty is not yet in force.
+- **Recommended action:** No repo action needed until 2026-07-05 unless the Treaty Office page shows a newer signature, ratification, or entry-into-force status.
+- **Manual verification:** 2026-06-05 (valid until 2026-07-05)
 
 **Evidence**
-- Official source could not be fetched by the static monitor. This is audit-only and does not prove the public claim is wrong.
+- Automated fetch failed: Error: HTTP 403.
+- Manual verification is active, so this known automation block is not treated as unresolved drift.
+- Manual verification date: 2026-06-05.
+- Manual reviewer: Codex manual source check.
+- Manual verification valid until: 2026-07-05.
+- Council of Europe Treaty Office CETS No. 225 status excerpt reports status as of 22/05/2026, 19 signatures not followed by ratifications, 1 ratification/accession, and entry into force requiring 5 ratifications including at least 3 Council of Europe member states.
+- Council of Europe AI news page states that the European Union ratified CETS No. 225 on 15 May 2026.
+- Council of Europe AI news page states that North Macedonia signed CETS No. 225 on 8 May 2026, bringing the total number of signatories up to 20.
+- The app's 20 signed participation rows include the European Union; the separate EU ratified row records the 15 May 2026 ratification.
 
 ### EU AI Act EUR-Lex status
 

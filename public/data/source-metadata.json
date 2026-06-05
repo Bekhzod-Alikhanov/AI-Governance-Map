@@ -5449,6 +5449,18 @@
   },
   {
     "collection": "implementationMilestones",
+    "id": "eu-ai-act-national-authorities-deadline",
+    "name": "EU member-state competent-authority deadline",
+    "sourceName": "European Commission - Governance and enforcement of the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-act-governance-and-enforcement",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official Commission page states that each Member State should have designated and empowered national competent authorities until 2 August 2025. This milestone tracks the EU-level deadline, not verified country-by-country designations."
+  },
+  {
+    "collection": "implementationMilestones",
     "id": "eu-ai-act-phased-application",
     "name": "EU AI Act phased application",
     "sourceName": "EUR-Lex - Regulation (EU) 2024/1689",
@@ -5458,6 +5470,18 @@
     "confidence": "high",
     "lastVerified": "2026-05-30",
     "verificationNotes": "This milestone intentionally uses a broad next-deadline cue. Detailed article-by-article deadlines should be added as separate rows before legal reliance."
+  },
+  {
+    "collection": "implementationMilestones",
+    "id": "eu-gpai-code-practice-published",
+    "name": "GPAI Code of Practice published",
+    "sourceName": "European Commission - General-Purpose AI Code of Practice",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/contents-code-gpai",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official Commission page states that the Code was published on 10 July 2025, is voluntary, and helps providers demonstrate compliance with AI Act GPAI obligations."
   },
   {
     "collection": "implementationMilestones",
@@ -5605,6 +5629,54 @@
   },
   {
     "collection": "indicatorSources",
+    "id": "eu-ai-office-governance-enforcement",
+    "name": "European AI Office governance and enforcement role",
+    "sourceName": "European Commission - Governance and enforcement of the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-act-governance-and-enforcement",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official European Commission page states that the European AI Office and national market surveillance authorities implement, supervise, and enforce the AI Act, and that the AI Office supervises GPAI model obligations."
+  },
+  {
+    "collection": "indicatorSources",
+    "id": "eu-gpai-code-practice-2025",
+    "name": "EU General-Purpose AI Code of Practice",
+    "sourceName": "European Commission - General-Purpose AI Code of Practice",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/contents-code-gpai",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official European Commission page states that the GPAI Code of Practice was published on 2025-07-10, is voluntary, and helps providers demonstrate compliance with AI Act GPAI obligations."
+  },
+  {
+    "collection": "indicatorSources",
+    "id": "eu-high-risk-ai-database",
+    "name": "EU database for high-risk AI systems",
+    "sourceName": "EUR-Lex - Regulation (EU) 2024/1689, Article 71",
+    "sourceUrl": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "EUR-Lex AI Act Article 71 provides for an EU database containing registered high-risk AI system information. No database rows are imported in this pass."
+  },
+  {
+    "collection": "indicatorSources",
+    "id": "ftc-operation-ai-comply",
+    "name": "FTC Operation AI Comply enforcement sweep",
+    "sourceName": "FTC - Operation AI Comply",
+    "sourceUrl": "https://www.ftc.gov/news-events/news/press-releases/2024/09/ftc-announces-crackdown-deceptive-ai-claims-schemes",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official FTC release describes five law-enforcement actions involving AI hype, deceptive AI claims, or AI-enabled unfair/deceptive conduct."
+  },
+  {
+    "collection": "indicatorSources",
     "id": "global-index-responsible-ai-2024",
     "name": "Global Index on Responsible AI",
     "sourceName": "Global Index on Responsible AI",
@@ -5638,6 +5710,18 @@
     "confidence": "medium",
     "lastVerified": "2026-06-04",
     "verificationNotes": "Tracked as source-only context for future safety-institute and technical-governance expansion."
+  },
+  {
+    "collection": "indicatorSources",
+    "id": "japan-ai-safety-institute",
+    "name": "Japan AI Safety Institute",
+    "sourceName": "Japan AI Safety Institute",
+    "sourceUrl": "https://aisi.go.jp/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official Japan AISI page describes work on AI safety evaluation methods, standards, guidance support, private-sector coordination, and international cooperation."
   },
   {
     "collection": "indicatorSources",
@@ -5713,6 +5797,18 @@
   },
   {
     "collection": "indicatorSources",
+    "id": "uk-ai-security-institute",
+    "name": "UK AI Security Institute",
+    "sourceName": "UK AI Security Institute",
+    "sourceUrl": "https://www.aisi.gov.uk/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official AISI page describes the institute as a state-backed organisation conducting research, infrastructure building, model testing, and risk-mitigation work for advanced AI."
+  },
+  {
+    "collection": "indicatorSources",
     "id": "unesco-ram-global-hub-2026",
     "name": "UNESCO AI Ethics Readiness Assessment Methodology country hub",
     "sourceName": "UNESCO - Global AI Ethics and Governance Observatory Global Hub",
@@ -5722,6 +5818,18 @@
     "confidence": "high",
     "lastVerified": "2026-06-04",
     "verificationNotes": "Parsed from the official UNESCO Global Hub country table and profile cards; subnational entries are listed in the review note rather than mapped as country-level records."
+  },
+  {
+    "collection": "indicatorSources",
+    "id": "us-ai-acquisition-memo-m-24-18",
+    "name": "OMB M-24-18 AI acquisition memorandum",
+    "sourceName": "OMB - M-24-18 AI Acquisition Memorandum",
+    "sourceUrl": "https://www.whitehouse.gov/wp-content/uploads/2024/10/M-24-18-AI-Acquisition-Memorandum.pdf",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official OMB memorandum source identified for future public-procurement normalization and agency AI acquisition workflows."
   },
   {
     "collection": "indicatorSources",
@@ -5864,8 +5972,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalInstruments",
@@ -8312,8 +8420,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8324,8 +8432,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8336,8 +8444,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8348,8 +8456,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8360,8 +8468,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8372,8 +8480,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8384,8 +8492,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8396,8 +8504,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8408,8 +8516,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8420,8 +8528,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8432,8 +8540,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8444,8 +8552,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8456,8 +8564,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8468,8 +8576,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8480,8 +8588,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8492,8 +8600,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8504,8 +8612,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8516,8 +8624,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8528,8 +8636,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8540,8 +8648,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",
@@ -8552,8 +8660,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-20",
-    "verificationNotes": "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states."
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08."
   },
   {
     "collection": "internationalParticipation",

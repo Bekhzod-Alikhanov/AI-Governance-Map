@@ -278,14 +278,15 @@ export const INTERNATIONAL_INSTRUMENTS: InternationalInstrument[] = [
     bindingStatus: "binding_on_parties",
     aiSpecific: true,
     frontierAIRelevant: true,
-    summary:
-      "First international legally binding treaty on AI. Requires that the AI lifecycle be compatible with human rights, democracy and the rule of law; mandates risk and impact assessments, remedies, transparency, and a follow-up mechanism. Adopted 17 May 2024; opened for signature 5 September 2024. As of 19 May 2026, not yet in force (needs five ratifications including at least three Council of Europe member states). The EU ratified on 15 May 2026.",
+      summary:
+        "First international legally binding treaty on AI. Requires that the AI lifecycle be compatible with human rights, democracy and the rule of law; mandates risk and impact assessments, remedies, transparency, and a follow-up mechanism. Adopted 17 May 2024; opened for signature 5 September 2024. Treaty Office status checked 5 June 2026: not yet in force (needs five ratifications including at least three Council of Europe member states); EU ratification is recorded on 15 May 2026.",
     sourceName: "Council of Europe — Framework Convention / Treaty Office",
-    sourceUrl:
-      "https://www.coe.int/en/web/artificial-intelligence/the-framework-convention-on-artificial-intelligence",
-    ...OFFICIAL_VERIFIED,
-    verificationNotes:
-      "Council of Europe Treaty Office/news confirms EU ratification on 2026-05-15. Treaty Office summaries confirm entry into force requires five ratifications including at least three Council of Europe member states.",
+      sourceUrl:
+        "https://www.coe.int/en/web/artificial-intelligence/the-framework-convention-on-artificial-intelligence",
+      ...OFFICIAL_VERIFIED,
+      lastVerified: "2026-06-05",
+      verificationNotes:
+        "Manual Treaty Office check on 2026-06-05 confirmed status as of 2026-05-22: 19 signatures not followed by ratification, 1 ratification/accession, and entry into force requiring five ratifications including at least three Council of Europe member states. Council of Europe news confirms EU ratification on 2026-05-15 and North Macedonia signature on 2026-05-08.",
     powerScore: 5,
   },
   {

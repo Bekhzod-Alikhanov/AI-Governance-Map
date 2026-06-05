@@ -58,6 +58,40 @@ export const IMPLEMENTATION_MILESTONES: ImplementationMilestone[] = [
       "This milestone intentionally uses a broad next-deadline cue. Detailed article-by-article deadlines should be added as separate rows before legal reliance.",
   },
   {
+    id: "eu-ai-act-national-authorities-deadline",
+    parentType: "international_instrument",
+    parentId: "eu-ai-act",
+    jurisdiction: "European Union",
+    status: "regulator_appointed",
+    date: "2025-08-02",
+    label: "EU member-state competent-authority deadline",
+    summary:
+      "The Commission describes 2 August 2025 as the deadline for Member States to designate and empower national competent authorities under the AI Act.",
+    sourceName: "European Commission - Governance and enforcement of the AI Act",
+    sourceUrl: "https://digital-strategy.ec.europa.eu/en/policies/ai-act-governance-and-enforcement",
+    ...VERIFIED,
+    lastVerified: "2026-06-05",
+    verificationNotes:
+      "Official Commission page states that each Member State should have designated and empowered national competent authorities until 2 August 2025. This milestone tracks the EU-level deadline, not verified country-by-country designations.",
+  },
+  {
+    id: "eu-gpai-code-practice-published",
+    parentType: "international_instrument",
+    parentId: "eu-ai-act",
+    jurisdiction: "European Union",
+    status: "guidance_issued",
+    date: "2025-07-10",
+    label: "GPAI Code of Practice published",
+    summary:
+      "The General-Purpose AI Code of Practice is tracked as voluntary EU implementation guidance for providers of GPAI models under the AI Act.",
+    sourceName: "European Commission - General-Purpose AI Code of Practice",
+    sourceUrl: "https://digital-strategy.ec.europa.eu/en/policies/contents-code-gpai",
+    ...VERIFIED,
+    lastVerified: "2026-06-05",
+    verificationNotes:
+      "Official Commission page states that the Code was published on 10 July 2025, is voluntary, and helps providers demonstrate compliance with AI Act GPAI obligations.",
+  },
+  {
     id: "coe-ai-convention-not-in-force",
     parentType: "international_instrument",
     parentId: "coe-ai-convention",

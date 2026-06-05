@@ -38,7 +38,21 @@
           "pattern": "You need to enable JavaScript to run this app",
           "recommendedAction": "Open the Treaty Office page manually or with a browser-rendered checker and compare signatures, ratifications, and entry-into-force status."
         }
-      ]
+      ],
+      "manualVerification": {
+        "status": "unchanged",
+        "reviewedAt": "2026-06-05",
+        "validUntil": "2026-07-05",
+        "reviewer": "Codex manual source check",
+        "observedStatus": "Manual review of official Council of Europe Treaty Office and AI news pages confirms the current app claim: Treaty 225 has 19 signatures not followed by ratification, 1 ratification/accession, the EU ratified on 15 May 2026, and the treaty is not yet in force.",
+        "evidence": [
+          "Council of Europe Treaty Office CETS No. 225 status excerpt reports status as of 22/05/2026, 19 signatures not followed by ratifications, 1 ratification/accession, and entry into force requiring 5 ratifications including at least 3 Council of Europe member states.",
+          "Council of Europe AI news page states that the European Union ratified CETS No. 225 on 15 May 2026.",
+          "Council of Europe AI news page states that North Macedonia signed CETS No. 225 on 8 May 2026, bringing the total number of signatories up to 20.",
+          "The app's 20 signed participation rows include the European Union; the separate EU ratified row records the 15 May 2026 ratification."
+        ],
+        "recommendedAction": "No repo action needed until 2026-07-05 unless the Treaty Office page shows a newer signature, ratification, or entry-into-force status."
+      }
     },
     {
       "id": "eu-ai-act-eur-lex",

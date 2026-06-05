@@ -52,6 +52,7 @@ export async function buildSourceDeltaAuditData({
         fetcher,
         knownRecordIds,
         snapshotDate: monitorConfig.snapshotDate,
+        generatedAt,
       })
     );
   }
@@ -68,11 +69,12 @@ export async function buildSourceDeltaAuditData({
 
 export async function runSourceDeltaMonitor(
   monitor,
-  { checkLinks = false, fetcher = globalThis.fetch, knownRecordIds = new Set(), snapshotDate } = {}
+  { checkLinks = false, fetcher = globalThis.fetch, knownRecordIds = new Set(), snapshotDate, generatedAt = new Date() } = {}
 ) {
   const missingRecordIds = (monitor.recordIds ?? []).filter((id) => !knownRecordIds.has(id));
   const evidence = [];
   const recommendedActions = new Set();
+  const activeManualVerification = getActiveManualVerification(monitor, generatedAt);
 
   if (missingRecordIds.length) {
     evidence.push(`Configured record id(s) not found in source audit data: ${missingRecordIds.join(", ")}.`);
@@ -83,6 +85,22 @@ export async function runSourceDeltaMonitor(
   try {
     response = await fetchSourceText(monitor.sourceUrl, { fetcher });
   } catch (error) {
+    if (activeManualVerification && !missingRecordIds.length) {
+      return finalizeManualVerificationResult({
+        monitor,
+        manualVerification: activeManualVerification,
+        evidence: [
+          ...evidence,
+          `Automated fetch failed: ${describeFetchError(error)}.`,
+          "Manual verification is active, so this known automation block is not treated as unresolved drift.",
+        ],
+        recommendedActions,
+        missingRecordIds,
+        checkLinks,
+        snapshotDate,
+        fetchError: describeFetchError(error),
+      });
+    }
     return finalizeResult({
       monitor,
       status: "needs_manual_review",
@@ -167,6 +185,24 @@ export async function runSourceDeltaMonitor(
     recommendedActions.add("No repo action needed unless a human reviewer sees a newer official status.");
   }
 
+  if (status === "needs_manual_review" && activeManualVerification && !missingRecordIds.length) {
+    return finalizeManualVerificationResult({
+      monitor,
+      manualVerification: activeManualVerification,
+      evidence: [
+        ...evidence,
+        "Automated checks were inconclusive, but a current manual verification record is active.",
+      ],
+      recommendedActions,
+      missingRecordIds,
+      checkLinks,
+      snapshotDate,
+      httpStatus: response.status,
+      contentType: response.contentType,
+      finalUrl: response.finalUrl,
+    });
+  }
+
   return finalizeResult({
     monitor,
     status,
@@ -205,6 +241,9 @@ export function formatSourceDeltaReportMarkdown(data) {
     `- **Current app claim:** ${result.currentAppClaim}`,
     `- **Observed status:** ${result.observedStatus}`,
     `- **Recommended action:** ${result.recommendedAction}`,
+    result.manualVerification
+      ? `- **Manual verification:** ${result.manualVerification.reviewedAt} (${result.manualVerification.validUntil ? `valid until ${result.manualVerification.validUntil}` : "no expiry recorded"})`
+      : null,
     result.httpStatus ? `- **HTTP status:** ${result.httpStatus}` : null,
     result.contentType ? `- **Content type:** ${result.contentType}` : null,
     result.finalUrl && result.finalUrl !== result.sourceUrl
@@ -261,6 +300,58 @@ function checkPatternGroup(patterns, text) {
   }));
 }
 
+function getActiveManualVerification(monitor, generatedAt) {
+  const manualVerification = monitor.manualVerification;
+  if (!manualVerification || manualVerification.status !== "unchanged") return null;
+  if (manualVerification.validUntil) {
+    const validUntil = Date.parse(`${manualVerification.validUntil}T23:59:59Z`);
+    if (!Number.isNaN(validUntil) && generatedAt.getTime() > validUntil) return null;
+  }
+  return manualVerification;
+}
+
+function finalizeManualVerificationResult({
+  monitor,
+  manualVerification,
+  evidence,
+  recommendedActions,
+  missingRecordIds,
+  checkLinks,
+  snapshotDate,
+  httpStatus,
+  contentType,
+  finalUrl,
+  fetchError,
+}) {
+  const action =
+    manualVerification.recommendedAction ??
+    "No repo action needed until the manual verification expires or a human reviewer sees a newer official status.";
+  recommendedActions.add(action);
+  return finalizeResult({
+    monitor,
+    status: "unchanged",
+    observedStatus:
+      manualVerification.observedStatus ??
+      `Manual verification recorded on ${manualVerification.reviewedAt} confirms the current app claim.`,
+    evidence: [
+      ...evidence,
+      `Manual verification date: ${manualVerification.reviewedAt}.`,
+      manualVerification.reviewer ? `Manual reviewer: ${manualVerification.reviewer}.` : null,
+      manualVerification.validUntil ? `Manual verification valid until: ${manualVerification.validUntil}.` : null,
+      ...(manualVerification.evidence ?? []),
+    ].filter((item) => item !== null),
+    recommendedActions,
+    missingRecordIds,
+    checkLinks,
+    snapshotDate,
+    httpStatus,
+    contentType,
+    finalUrl,
+    fetchError,
+    manualVerification,
+  });
+}
+
 async function fetchSourceText(sourceUrl, { fetcher }) {
   if (typeof fetcher !== "function") {
     throw new TypeError("No fetch implementation is available.");
@@ -308,6 +399,7 @@ function finalizeResult({
   contentType,
   finalUrl,
   fetchError,
+  manualVerification,
 }) {
   return {
     id: monitor.id,
@@ -327,6 +419,7 @@ function finalizeResult({
     contentType,
     finalUrl,
     fetchError,
+    manualVerification,
   };
 }
 

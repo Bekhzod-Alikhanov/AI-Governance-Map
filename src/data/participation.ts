@@ -113,26 +113,27 @@ rows.push(
 
 // Council of Europe Framework Convention on AI — signed (20), and EU ratified.
 rows.push(
-  ...makeRows("coe-ai-convention", COE_CONVENTION_SIGNATORIES, "signed", {
-    sourceName: "Council of Europe — Treaty Office, CETS No. 225",
-    sourceUrl: "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=225",
-    notes: "Signed 5 Sep 2024 or later; treaty not yet in force as of 19 May 2026.",
-    sourceKind: "official",
-    verificationStatus: "verified",
-    confidence: "high",
-    lastVerified: "2026-05-20",
-  }),
+    ...makeRows("coe-ai-convention", COE_CONVENTION_SIGNATORIES, "signed", {
+      sourceName: "Council of Europe — Treaty Office, CETS No. 225",
+      sourceUrl: "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=225",
+      notes:
+        "Signed 5 Sep 2024 or later. Manual Treaty Office check on 5 Jun 2026 confirmed status as of 22 May 2026: 19 signatures not followed by ratification and 1 EU ratification/accession; treaty not yet in force.",
+      sourceKind: "official",
+      verificationStatus: "verified",
+      confidence: "high",
+      lastVerified: "2026-06-05",
+    }),
   ...makeRows("coe-ai-convention", [EU], "ratified", {
     date: "2026-05-15",
     sourceName: "Council of Europe — Treaty Office, CETS No. 225",
     sourceUrl: "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=225",
-    notes: "EU deposited its instrument of ratification on 15 May 2026.",
-    sourceKind: "official",
-    verificationStatus: "verified",
-    confidence: "high",
-    lastVerified: "2026-05-20",
-  }),
-);
+      notes: "EU deposited its instrument of ratification on 15 May 2026.",
+      sourceKind: "official",
+      verificationStatus: "verified",
+      confidence: "high",
+      lastVerified: "2026-06-05",
+    }),
+  );
 
 // Bletchley Declaration
 rows.push(

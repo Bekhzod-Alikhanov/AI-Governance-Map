@@ -303,11 +303,13 @@ Production build: ~0.6 s with SWC + Rolldown. Dev HMR: instant.
 
 - **Unit / selector tests** — **Vitest 4** with `jsdom`. 30+ tests across `filterCountries`, `getCountryGovernanceSummary`, `governanceTaxonomy`, `exportDataset`, `keyboardActivation`, `datasetSchema`, `validateData`. Run with `npm test` or `npm run test:watch`.
 - **End-to-end + accessibility** — **Playwright 1.60** (`tests/e2e/smoke.spec.ts`, `tests/e2e/a11y.spec.ts`). Run with `npm run test:e2e` (full suite) or `npm run test:a11y` (a11y only). The a11y suite covers keyboard navigation, dialog focus traps, and `prefers-reduced-motion` honouring.
+- **Visual regression** — Playwright pixel baselines cover the main map SVG and a compact country embed card. Update intentionally changed baselines with `npm run test:e2e -- tests/e2e/visual-regression.spec.ts --update-snapshots`.
 - **Linting** — **ESLint 10** with `eslint-plugin-react-hooks` and `eslint-plugin-jsx-a11y`. Run with `npm run lint`.
 - **Type checking** — `npm run typecheck` runs `tsc -b --noEmit` against strict TypeScript.
 - **Dataset checks** — `npm run validate:data` and `npm run validate:export` run the relevant vitest files in isolation, for quick pre-commit dataset sanity checks.
 - **Editorial data review** — `npm run audit:data-review` produces Markdown/JSON review artifacts for stale, uncertain, low-confidence, or strong legal-effect records needing human review.
 - **Official-source delta monitor** — `npm run audit:deltas` checks a small set of legally consequential official sources for changes; `npm run audit:deltas:write` refreshes `docs/SOURCE_DELTA_REPORT.md`.
+- **Manual-source overrides** — Some official treaty/legal sites block static fetches. The CoE Treaty Office monitor has a time-limited manual verification record documented in `docs/SOURCE_VERIFICATION_2026-06-05.md`; it expires on 5 July 2026.
 - **GitHub Actions** (`.github/workflows/ci.yml`) runs ESLint, `tsc -b`, `vitest run`, and `vite build` on every push and PR.
 - **Dependabot** (`.github/dependabot.yml`) opens a PR each week for npm minor/patch updates.
 - A dev-mode runtime validator (`validateData.ts`) prints a green-bold summary line if the dataset is clean: `✅ Data OK · 192 countries · 33 instruments · 75 national regs · 13 labs · 85 edges · 1410 participation rows`.
