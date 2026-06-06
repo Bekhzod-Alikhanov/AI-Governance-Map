@@ -14,6 +14,7 @@ import { CopyTextButton } from "./CopyTextButton";
 import { PinCompareButton } from "./PinCompareButton";
 import { EvidenceDossierButton } from "./EvidenceDossierButton";
 import { buildCountryCitation, buildRecordCitation } from "../utils/citation";
+import { getCountryMapSummary } from "../utils/getCountryMapSummary";
 import { isConfirmedBindingNationalRegulation } from "../utils/governanceTaxonomy";
 import {
   getCountryImplementationMilestones,
@@ -75,7 +76,7 @@ export function CountrySidePanel({
   const obligations = getCountryObligations(country.iso3);
   const implementation = getCountryImplementationMilestones(country.iso3);
   const subnationalRules = getSubnationalRulesByCountry(country.iso3);
-  const colorReason = contextReason ?? buildGovernanceColorReason(summary, lens, mapMode);
+  const colorReason = contextReason ?? buildGovernanceColorReason(getCountryMapSummary(iso3), lens, mapMode);
 
   return (
     <aside

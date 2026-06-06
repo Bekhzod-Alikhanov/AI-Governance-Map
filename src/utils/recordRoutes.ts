@@ -1,7 +1,6 @@
 import { COUNTRY_BY_ISO3 } from "../data/countries";
 import { LAB_BY_ID } from "../data/frontierLabs";
 import { INSTRUMENT_BY_ID } from "../data/internationalInstruments";
-import { NATIONAL_REG_BY_ID } from "../data/nationalAIRegulations";
 
 export type RecordRouteKind = "country" | "lab" | "instrument" | "rule" | "obligation" | "exposure";
 
@@ -38,7 +37,6 @@ export function recordExists(kind: RecordRouteKind, id: string): boolean {
   if (kind === "country") return Boolean(COUNTRY_BY_ISO3[id]);
   if (kind === "lab") return Boolean(LAB_BY_ID[id]);
   if (kind === "instrument") return Boolean(INSTRUMENT_BY_ID[id]);
-  if (kind === "rule") return Boolean(NATIONAL_REG_BY_ID[id]) || isSafeRecordId(id);
   return isSafeRecordId(id);
 }
 

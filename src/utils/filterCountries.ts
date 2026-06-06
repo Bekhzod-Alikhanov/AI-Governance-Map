@@ -3,8 +3,7 @@ import { INSTRUMENT_BY_ID } from "../data/internationalInstruments";
 import { PARTICIPATION_BY_COUNTRY } from "../data/participation";
 import { LAB_BY_ID } from "../data/frontierLabs";
 import type { Country, FilterState } from "../types";
-import { getCountryGovernanceSummary } from "./getCountryGovernanceSummary";
-import { countryMatchesWorkbenchFilters } from "./researchWorkbench";
+import { getCountryMapSummary } from "./getCountryMapSummary";
 
 export interface CountryMatchResult {
   iso3: string;
@@ -14,7 +13,7 @@ export interface CountryMatchResult {
 
 function filterMatchesCountry(country: Country, filters: FilterState): boolean {
   const participations = PARTICIPATION_BY_COUNTRY[country.iso3] ?? [];
-  const summary = getCountryGovernanceSummary(country.iso3);
+  const summary = getCountryMapSummary(country.iso3);
 
   // International instrument filter
   if (filters.selectedInstrumentIds.length > 0) {
@@ -106,7 +105,32 @@ function filterMatchesCountry(country: Country, filters: FilterState): boolean {
     filters.selectedDomains.length > 0 ||
     filters.selectedImplementationStatuses.length > 0
   ) {
-    if (!countryMatchesWorkbenchFilters(country.iso3, filters)) return false;
+    if (!countryMatchesCompactWorkbenchFilters(summary, filters)) return false;
+  }
+
+  return true;
+}
+
+function countryMatchesCompactWorkbenchFilters(
+  summary: ReturnType<typeof getCountryMapSummary>,
+  filters: FilterState
+): boolean {
+  if (filters.selectedObligationCategories.length) {
+    if (!summary.obligationSignals.some((row) => filters.selectedObligationCategories.includes(row.category))) {
+      return false;
+    }
+  }
+
+  if (filters.selectedDomains.length) {
+    if (!summary.obligationSignals.some((row) => row.domains.some((domain) => filters.selectedDomains.includes(domain)))) {
+      return false;
+    }
+  }
+
+  if (filters.selectedImplementationStatuses.length) {
+    if (!summary.implementationStatuses.some((status) => filters.selectedImplementationStatuses.includes(status))) {
+      return false;
+    }
   }
 
   return true;

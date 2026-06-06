@@ -143,16 +143,16 @@ export const AI_ATLAS_SOURCES: IndicatorSource[] = [
     "publisher": "Government of the Netherlands",
     "year": 2026,
     "category": "public_sector_registry",
-    "coverage": "Issuer-controlled example source for public-sector algorithm and AI transparency registry practice.",
+    "coverage": "Issuer-controlled source for public-sector algorithm and AI transparency registry practice; a Netherlands context row is included.",
     "methodologyUrl": "https://algoritmes.overheid.nl/",
     "sourceName": "Government of the Netherlands - Algorithm Register",
     "sourceUrl": "https://algoritmes.overheid.nl/",
     "caveat": "Public-sector register evidence shows transparency infrastructure, not a general national AI-law score or proof of private-sector obligations.",
     "sourceKind": "official",
-    "verificationStatus": "likely_correct",
-    "confidence": "medium",
-    "lastVerified": "2026-06-04",
-    "verificationNotes": "Tracked as source-only context for future public-sector AI registry expansion."
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official register page states that Dutch government organizations publish information about algorithms they use, focusing on impactful algorithms including high-risk AI systems."
   },
   {
     "id": "international-network-ai-safety-institutes",
@@ -177,16 +177,16 @@ export const AI_ATLAS_SOURCES: IndicatorSource[] = [
     "publisher": "European Commission",
     "year": 2026,
     "category": "compute_investment",
-    "coverage": "Official EU source family for AI Factories, EuroHPC infrastructure, and EU compute-investment signals.",
+    "coverage": "Official EU source family for AI Factories, EuroHPC infrastructure, and EU compute-investment signals; an EU context row is included.",
     "methodologyUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-factories",
     "sourceName": "European Commission - AI Factories",
     "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-factories",
     "caveat": "AI Factories indicate infrastructure and compute-capacity context. They are not national AI laws, treaty participation, or binding obligations by themselves.",
     "sourceKind": "official",
-    "verificationStatus": "likely_correct",
-    "confidence": "medium",
-    "lastVerified": "2026-06-04",
-    "verificationNotes": "Official European Commission source identified for future EU compute/infrastructure normalization; country rows are not imported in this pass."
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official European Commission AI Factories page describes EuroHPC-backed AI Factories, operational factories/antennas, and AI-optimised supercomputing investment context."
   },
   {
     "id": "us-nairr-pilot",
@@ -194,16 +194,16 @@ export const AI_ATLAS_SOURCES: IndicatorSource[] = [
     "publisher": "U.S. National Science Foundation",
     "year": 2026,
     "category": "compute_investment",
-    "coverage": "Official NSF source family for U.S. shared AI research infrastructure and compute-resource access.",
-    "methodologyUrl": "https://www.nsf.gov/focus-areas/artificial-intelligence/nairr",
+    "coverage": "Official NSF source family for U.S. shared AI research infrastructure and compute-resource access; a U.S. context row is included.",
+    "methodologyUrl": "https://www.nsf.gov/focus-areas/ai/nairr",
     "sourceName": "NSF - National Artificial Intelligence Research Resource Pilot",
-    "sourceUrl": "https://www.nsf.gov/focus-areas/artificial-intelligence/nairr",
+    "sourceUrl": "https://www.nsf.gov/focus-areas/ai/nairr",
     "caveat": "NAIRR is research-infrastructure context. It does not establish private-sector AI duties or binding AI-law coverage.",
     "sourceKind": "official",
-    "verificationStatus": "likely_correct",
-    "confidence": "medium",
-    "lastVerified": "2026-06-04",
-    "verificationNotes": "Official NSF source identified for future compute/infrastructure normalization; country rows are not imported in this pass."
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official NSF page describes NAIRR as national infrastructure providing the research and education communities access to AI compute, software, data, models, educational resources, and expertise."
   },
   {
     "id": "uk-ai-procurement-guidelines",
@@ -211,16 +211,16 @@ export const AI_ATLAS_SOURCES: IndicatorSource[] = [
     "publisher": "UK Government",
     "year": 2020,
     "category": "public_procurement",
-    "coverage": "Official GOV.UK source family for public-sector AI procurement guidance.",
+    "coverage": "Official GOV.UK source family for public-sector AI procurement guidance; a UK context row is included.",
     "methodologyUrl": "https://www.gov.uk/government/publications/guidelines-for-ai-procurement/guidelines-for-ai-procurement/",
     "sourceName": "GOV.UK - Guidelines for AI procurement",
     "sourceUrl": "https://www.gov.uk/government/publications/guidelines-for-ai-procurement/guidelines-for-ai-procurement/",
     "caveat": "Procurement guidance is public-sector practice context. It should not be treated as a general binding AI statute or as private-sector legal coverage.",
     "sourceKind": "official",
-    "verificationStatus": "likely_correct",
-    "confidence": "medium",
-    "lastVerified": "2026-06-04",
-    "verificationNotes": "Official GOV.UK procurement guidance source identified for future public-procurement normalization; no country score rows are imported in this pass."
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official GOV.UK guidance states it is aimed at central government departments considering AI technology and provides AI-specific procurement considerations."
   },
   {
     "id": "eu-ai-office-governance-enforcement",
@@ -12362,6 +12362,210 @@ export const COUNTRY_INDICATOR_SCORES: CountryIndicatorScore[] = [
     "lastVerified": "2026-06-04",
     "verificationNotes": "Computed from the official 2024 public country rows using the Global AI Vibrancy Tool ranking metrics, metric weights, and group weights.",
     "notes": "Context indicator only; does not represent legal compliance or binding obligations."
+  },
+  {
+    "id": "ftc-operation-ai-comply-usa-2024",
+    "sourceId": "ftc-operation-ai-comply",
+    "countryIso3": "USA",
+    "year": 2024,
+    "score": 5,
+    "scoreLabel": "FTC AI-related enforcement actions announced",
+    "tier": "Enforcement activity observed",
+    "dimensions": {
+      "Actions announced": 5,
+      "Legal basis": "FTC consumer-protection enforcement",
+      "Scope": "AI hype, deceptive AI claims, and AI-enabled unfair or deceptive conduct",
+      "Legal-status caveat": "AI-relevant enforcement context under general consumer-protection law, not a standalone AI statute"
+    },
+    "sourceName": "FTC - Operation AI Comply",
+    "sourceUrl": "https://www.ftc.gov/news-events/news/press-releases/2024/09/ftc-announces-crackdown-deceptive-ai-claims-schemes",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official FTC release states that Operation AI Comply announced five law-enforcement actions involving AI hype, deceptive AI claims, or AI-enabled unfair/deceptive conduct.",
+    "notes": "Context indicator only; does not affect binding-law map coloring or legal summaries."
+  },
+  {
+    "id": "us-ai-acquisition-memo-m-24-18-usa-2024",
+    "sourceId": "us-ai-acquisition-memo-m-24-18",
+    "countryIso3": "USA",
+    "year": 2024,
+    "tier": "Federal AI acquisition guidance",
+    "dimensions": {
+      "Coverage": "Federal agency acquisition of AI systems and services",
+      "Instrument": "OMB memorandum M-24-18",
+      "Hook": "Agency procurement, risk-management, collaboration, and market-competition practices",
+      "Legal-status caveat": "Federal public-procurement context; not a general private-sector AI law"
+    },
+    "sourceName": "OMB - M-24-18 AI Acquisition Memorandum",
+    "sourceUrl": "https://www.whitehouse.gov/wp-content/uploads/2024/10/M-24-18-AI-Acquisition-Memorandum.pdf",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official OMB memorandum states requirements and guidance for covered agencies acquiring AI systems and services, and states it does not create rights or obligations for contractors or the public.",
+    "notes": "Context indicator only; does not affect binding-law map coloring or legal summaries."
+  },
+  {
+    "id": "eu-ai-office-governance-enforcement-euu-2026",
+    "sourceId": "eu-ai-office-governance-enforcement",
+    "countryIso3": "EUU",
+    "year": 2026,
+    "tier": "Regulator / enforcement architecture",
+    "dimensions": {
+      "Function": "AI Act implementation, GPAI supervision, and national competent-authority coordination",
+      "Institutional hook": "European AI Office and national market-surveillance authorities",
+      "Legal-status caveat": "Institutional governance context; not a country-by-country enforcement outcome"
+    },
+    "sourceName": "European Commission - Governance and enforcement of the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-act-governance-and-enforcement",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official Commission page states that the European AI Office and national market surveillance authorities implement, supervise, and enforce the AI Act.",
+    "notes": "Context indicator only; does not affect binding-law map coloring or legal summaries."
+  },
+  {
+    "id": "eu-high-risk-ai-database-euu-2024",
+    "sourceId": "eu-high-risk-ai-database",
+    "countryIso3": "EUU",
+    "year": 2024,
+    "tier": "Registry infrastructure",
+    "dimensions": {
+      "AI Act hook": "Article 71 database for high-risk AI systems",
+      "Coverage": "EU-level registry infrastructure",
+      "Legal-status caveat": "Registry infrastructure context; not a list of registered systems in this dataset"
+    },
+    "sourceName": "EUR-Lex - Regulation (EU) 2024/1689, Article 71",
+    "sourceUrl": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "EUR-Lex AI Act Article 71 provides for an EU database containing registered high-risk AI system information.",
+    "notes": "Context indicator only; does not affect binding-law map coloring or legal summaries."
+  },
+  {
+    "id": "eu-ai-factories-euu-2026",
+    "sourceId": "eu-ai-factories",
+    "countryIso3": "EUU",
+    "year": 2026,
+    "tier": "Compute infrastructure programme",
+    "dimensions": {
+      "Infrastructure": "AI Factories and EuroHPC AI-optimised supercomputing support",
+      "Reported status": "Commission page describes 19 AI Factories and 13 Antennas as operational",
+      "Legal-status caveat": "Compute-investment context only; not national AI law or treaty participation"
+    },
+    "sourceName": "European Commission - AI Factories",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-factories",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official Commission AI Factories page describes EuroHPC-backed AI Factories, operational factories/antennas, and AI-optimised supercomputing investment context.",
+    "notes": "Context indicator only; does not affect binding-law map coloring or legal summaries."
+  },
+  {
+    "id": "us-nairr-pilot-usa-2026",
+    "sourceId": "us-nairr-pilot",
+    "countryIso3": "USA",
+    "year": 2026,
+    "tier": "Shared AI research infrastructure",
+    "dimensions": {
+      "Infrastructure": "National Artificial Intelligence Research Resource",
+      "Access model": "Research and education community access to compute, data, models, tools, and expertise",
+      "Legal-status caveat": "Research-infrastructure context; not private-sector AI duties or binding AI-law coverage"
+    },
+    "sourceName": "NSF - National Artificial Intelligence Research Resource",
+    "sourceUrl": "https://www.nsf.gov/focus-areas/ai/nairr",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official NSF page describes NAIRR as national infrastructure providing the research and education communities access to AI compute, software, data, models, educational resources, and expertise.",
+    "notes": "Context indicator only; does not affect binding-law map coloring or legal summaries."
+  },
+  {
+    "id": "uk-ai-security-institute-gbr-2026",
+    "sourceId": "uk-ai-security-institute",
+    "countryIso3": "GBR",
+    "year": 2026,
+    "tier": "AI safety institute",
+    "dimensions": {
+      "Function": "Advanced-AI risk research, model testing, infrastructure building, and mitigation work",
+      "Institutional home": "UK Department for Science, Innovation and Technology",
+      "Legal-status caveat": "Technical-governance context; not treaty participation or binding company obligation"
+    },
+    "sourceName": "UK AI Security Institute",
+    "sourceUrl": "https://www.aisi.gov.uk/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official AISI page describes a state-backed organisation conducting research, building infrastructure, testing risk mitigations, and working with AI developers and governments.",
+    "notes": "Context indicator only; does not affect binding-law map coloring or legal summaries."
+  },
+  {
+    "id": "japan-ai-safety-institute-jpn-2026",
+    "sourceId": "japan-ai-safety-institute",
+    "countryIso3": "JPN",
+    "year": 2026,
+    "tier": "AI safety institute",
+    "dimensions": {
+      "Function": "AI safety evaluation methods, standards, guideline support, private-sector coordination, and international cooperation",
+      "Institutional home": "Information-technology Promotion Agency, Japan",
+      "Legal-status caveat": "Technical-governance context; not binding legal duties by itself"
+    },
+    "sourceName": "Japan AI Safety Institute",
+    "sourceUrl": "https://aisi.go.jp/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official Japan AISI page describes work on AI safety evaluation methods, standards, guideline support, private-sector support, and international coordination.",
+    "notes": "Context indicator only; does not affect binding-law map coloring or legal summaries."
+  },
+  {
+    "id": "netherlands-public-algorithm-register-nld-2026",
+    "sourceId": "netherlands-public-algorithm-register",
+    "countryIso3": "NLD",
+    "year": 2026,
+    "tier": "Public-sector algorithm register",
+    "dimensions": {
+      "Registry type": "Public-sector algorithm and AI transparency register",
+      "Reported status": "Public register lists government-published algorithm descriptions",
+      "Legal-status caveat": "Transparency infrastructure context; not a general national AI-law score"
+    },
+    "sourceName": "Government of the Netherlands - Algorithm Register",
+    "sourceUrl": "https://algoritmes.overheid.nl/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official register page states that Dutch government organizations publish information about algorithms they use, focusing on impactful algorithms including high-risk AI systems.",
+    "notes": "Context indicator only; does not affect binding-law map coloring or legal summaries."
+  },
+  {
+    "id": "uk-ai-procurement-guidelines-gbr-2020",
+    "sourceId": "uk-ai-procurement-guidelines",
+    "countryIso3": "GBR",
+    "year": 2020,
+    "tier": "Public-sector AI procurement guidance",
+    "dimensions": {
+      "Coverage": "Central government departments and public-sector AI procurement practice",
+      "Instrument": "GOV.UK Guidelines for AI procurement",
+      "Legal-status caveat": "Guidance/procurement context; not a general private-sector AI statute"
+    },
+    "sourceName": "GOV.UK - Guidelines for AI procurement",
+    "sourceUrl": "https://www.gov.uk/government/publications/guidelines-for-ai-procurement/guidelines-for-ai-procurement/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official GOV.UK guidance states it is aimed at central government departments considering AI technology and provides AI-specific procurement considerations.",
+    "notes": "Context indicator only; does not affect binding-law map coloring or legal summaries."
   }
 ];
 

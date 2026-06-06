@@ -2,7 +2,6 @@ import { COUNTRIES } from "../data/countries";
 import { FRONTIER_LABS } from "../data/frontierLabs";
 import { GOVERNANCE_DOMAINS } from "../data/governanceDomains";
 import { INTERNATIONAL_INSTRUMENTS } from "../data/internationalInstruments";
-import { NATIONAL_AI_REGULATIONS } from "../data/nationalAIRegulations";
 import type {
   AtlasPresetId,
   FilterState,
@@ -90,7 +89,6 @@ const REGIONS = new Set<Region>([
 const INSTRUMENT_IDS = new Set(INTERNATIONAL_INSTRUMENTS.map((instrument) => instrument.id));
 const COUNTRY_IDS = new Set(COUNTRIES.map((country) => country.iso3));
 const LAB_IDS = new Set(FRONTIER_LABS.map((lab) => lab.id));
-const RULE_IDS = new Set(NATIONAL_AI_REGULATIONS.map((rule) => rule.id));
 const OBLIGATION_CATEGORIES = new Set<ObligationCategory>([
   "risk_assessment",
   "transparency_disclosure",
@@ -293,7 +291,6 @@ function validWorkbenchId(kind: WorkbenchCompareKind, id: string | null | undefi
   if (kind === "country") return COUNTRY_IDS.has(id) ? id : null;
   if (kind === "lab") return LAB_IDS.has(id) ? id : null;
   if (kind === "instrument") return INSTRUMENT_IDS.has(id) ? id : null;
-  if (kind === "rule") return RULE_IDS.has(id) ? id : sanitizeWorkbenchId(id);
   return sanitizeWorkbenchId(id);
 }
 

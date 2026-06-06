@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import type { FilterState, LensKind, MapModeId } from "../types";
 import { countActiveFilters, filterCountries } from "../utils/filterCountries";
-import { getCountryGovernanceSummary } from "../utils/getCountryGovernanceSummary";
+import { getCountryMapSummary } from "../utils/getCountryMapSummary";
 import { buildGovernanceColorReason, type MapColorReason } from "../utils/mapColorReason";
 
 interface Props {
@@ -26,7 +26,7 @@ export function MapCountryList({
     const allRows = filterCountries(filters)
       .filter((row) => row.country.iso3 !== "ATA")
       .map((row) => {
-        const summary = getCountryGovernanceSummary(row.iso3);
+        const summary = getCountryMapSummary(row.iso3);
         const reason = contextReasonByIso3?.[row.iso3] ?? buildGovernanceColorReason(summary, lens, mapMode);
         return { ...row, summary, reason };
       });

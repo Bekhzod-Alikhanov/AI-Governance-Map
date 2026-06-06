@@ -1,7 +1,6 @@
-import type { FilterState, InternationalParticipation, LensKind, MapModeId, VerificationMetadata } from "../types";
+import type { FilterState, InternationalParticipation, LensKind, MapModeId } from "../types";
 import { PARTICIPATION_BY_COUNTRY } from "../data/participation";
-import { getCountryGovernanceSummary } from "./getCountryGovernanceSummary";
-import { getCountryImplementationMilestones, getCountryObligations } from "./researchWorkbench";
+import { getCountryMapSummary } from "./getCountryMapSummary";
 
 const LAYER_FILL: Record<string, string> = {
   corporate: "#B45309",       // gold-700 — has frontier lab HQ
@@ -26,14 +25,13 @@ const LAYER_CACHE = new Map<string, keyof typeof LAYER_FILL>();
 function pickPrimaryLayer(iso3: string): keyof typeof LAYER_FILL {
   const cached = LAYER_CACHE.get(iso3);
   if (cached) return cached;
-  const s = getCountryGovernanceSummary(iso3);
+  const s = getCountryMapSummary(iso3);
   let layer: keyof typeof LAYER_FILL;
-  if (s.hqLabs.length > 0) layer = "corporate";
+  if (s.hqLabCount > 0) layer = "corporate";
   else if (s.hasBindingNationalLaw) layer = "national_binding";
-  else if (s.nationalRegulations.some((r) => r.bindingStatus === "proposed" || r.bindingStatus === "mixed"))
-    layer = "national_proposed";
+  else if (s.proposedNationalRuleCount > 0) layer = "national_proposed";
   else if (s.hasAnyAIRule) layer = "voluntary";
-  else if (s.participations.length > 0) layer = "international";
+  else if (s.internationalParticipationCount > 0) layer = "international";
   else layer = "empty";
   LAYER_CACHE.set(iso3, layer);
   return layer;
@@ -75,17 +73,12 @@ export function getMapStyle(
   if (lens === "layer") {
     return getLayerStyle(iso3, filters, matchesFilter);
   }
-  const summary = getCountryGovernanceSummary(iso3);
+  const summary = getCountryMapSummary(iso3);
 
   let fill: string;
   if (!summary.hasAnyAIRule) fill = FILL.empty;
   else if (summary.hasBindingNationalLaw) fill = FILL.binding;
-  else {
-    const hasProposed = summary.nationalRegulations.some(
-      (r) => r.bindingStatus === "proposed" || r.bindingStatus === "mixed"
-    );
-    fill = hasProposed ? FILL.mixed : FILL.guidance;
-  }
+  else fill = summary.proposedNationalRuleCount > 0 ? FILL.mixed : FILL.guidance;
 
   let outline = OUTLINE.base;
   let strokeWidth = 0.5;
@@ -137,17 +130,15 @@ function getMapModeStyle(
   mapMode: MapModeId,
   contextFill?: string | null
 ): MapStyle {
-  const summary = getCountryGovernanceSummary(iso3);
+  const summary = getCountryMapSummary(iso3);
   const participations = PARTICIPATION_BY_COUNTRY[iso3] ?? [];
-  const obligations = getCountryObligations(iso3);
-  const implementation = getCountryImplementationMilestones(iso3);
   let fill = FILL.empty;
   let outline = OUTLINE.base;
   let strokeWidth = 0.5;
   let strokeDasharray: string | undefined;
 
   if (mapMode === "proposed-law") {
-    fill = summary.nationalRegulations.some((reg) => reg.bindingStatus === "proposed") ? "#60A5FA" : FILL.empty;
+    fill = summary.proposedNationalRuleCount > 0 ? "#60A5FA" : FILL.empty;
   } else if (mapMode === "treaty-participation") {
     const treatyRows = participations.filter((row) => row.instrumentId === "coe-ai-convention");
     if (treatyRows.some((row) => row.participationType === "ratified" || row.participationType === "applicable_via_eu")) {
@@ -159,9 +150,9 @@ function getMapModeStyle(
       fill = "#EDE9FE";
     }
   } else if (mapMode === "lab-hq") {
-    fill = summary.hqLabs.length ? "#B45309" : FILL.empty;
+    fill = summary.hqLabCount > 0 ? "#B45309" : FILL.empty;
   } else if (mapMode === "obligation-type") {
-    const relevant = obligations.filter((row) => {
+    const relevant = summary.obligationSignals.filter((row) => {
       if (
         filters.selectedObligationCategories.length &&
         !filters.selectedObligationCategories.includes(row.category)
@@ -176,19 +167,13 @@ function getMapModeStyle(
     if (relevant.some((row) => row.legalEffect === "binding")) fill = "#0F766E";
     else if (relevant.length) fill = "#99F6E4";
   } else if (mapMode === "implementation-deadline") {
-    if (implementation.some((row) => row.nextDeadline)) fill = "#EA580C";
-    else if (implementation.some((row) => row.status === "in_force")) fill = "#16A34A";
-    else if (implementation.length) fill = "#FDBA74";
+    if (summary.hasNextImplementationDeadline) fill = "#EA580C";
+    else if (summary.hasInForceImplementation) fill = "#16A34A";
+    else if (summary.implementationStatuses.length) fill = "#FDBA74";
   } else if (mapMode === "source-confidence") {
-    const records: VerificationMetadata[] = [
-      ...summary.nationalRegulations,
-      ...summary.subnationalRules,
-      ...summary.participations.map((row) => row.participation),
-      ...summary.participations.map((row) => row.instrument),
-    ];
-    if (records.some((record) => record.confidence === "low")) fill = "#FCA5A5";
-    else if (records.some((record) => record.confidence === "medium")) fill = "#FCD34D";
-    else if (records.length) fill = "#86EFAC";
+    if (summary.sourceConfidence === "low") fill = "#FCA5A5";
+    else if (summary.sourceConfidence === "medium") fill = "#FCD34D";
+    else if (summary.sourceConfidence === "high") fill = "#86EFAC";
   } else if (mapMode === "frontier-relevance") {
     fill = summary.hasFrontierAIRelevant ? "#1D4ED8" : FILL.empty;
   } else {

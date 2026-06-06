@@ -492,7 +492,7 @@
     "frontierLabCount": 0,
     "obligationCount": 4,
     "implementationMilestoneCount": 4,
-    "indicatorScoreCount": 3,
+    "indicatorScoreCount": 4,
     "readinessReportCount": 1
   },
   {
@@ -748,7 +748,7 @@
     "frontierLabCount": 0,
     "obligationCount": 1,
     "implementationMilestoneCount": 3,
-    "indicatorScoreCount": 3,
+    "indicatorScoreCount": 5,
     "readinessReportCount": 0
   },
   {
@@ -812,7 +812,7 @@
     "frontierLabCount": 7,
     "obligationCount": 6,
     "implementationMilestoneCount": 2,
-    "indicatorScoreCount": 3,
+    "indicatorScoreCount": 6,
     "readinessReportCount": 0
   },
   {
@@ -2364,7 +2364,7 @@
     "frontierLabCount": 0,
     "obligationCount": 1,
     "implementationMilestoneCount": 1,
-    "indicatorScoreCount": 3,
+    "indicatorScoreCount": 4,
     "readinessReportCount": 0
   },
   {

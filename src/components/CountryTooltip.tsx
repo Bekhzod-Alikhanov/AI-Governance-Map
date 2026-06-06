@@ -1,5 +1,7 @@
 import type { LensKind, MapModeId } from "../types";
-import { getCountryGovernanceSummary } from "../utils/getCountryGovernanceSummary";
+import { INSTRUMENT_BY_ID } from "../data/internationalInstruments";
+import { PARTICIPATION_BY_COUNTRY } from "../data/participation";
+import { getCountryMapSummary } from "../utils/getCountryMapSummary";
 import { PARTICIPATION_LABELS } from "../utils/getParticipationLabel";
 import { buildGovernanceColorReason } from "../utils/mapColorReason";
 
@@ -27,9 +29,10 @@ export function CountryTooltip({
   mapMode,
   contextReason,
 }: Props) {
-  const summary = getCountryGovernanceSummary(iso3);
-  const nationalCount = summary.nationalRegulations.length;
-  const intlCount = summary.participations.length;
+  const summary = getCountryMapSummary(iso3);
+  const participations = PARTICIPATION_BY_COUNTRY[iso3] ?? [];
+  const nationalCount = summary.nationalRuleCount;
+  const intlCount = summary.internationalParticipationCount;
   const colorReason = contextReason ?? buildGovernanceColorReason(summary, lens, mapMode);
 
   const style: React.CSSProperties = {
@@ -39,7 +42,11 @@ export function CountryTooltip({
   };
 
   const filterMatches = activeFilterInstrumentIds
-    .map((id) => summary.participations.find(({ instrument }) => instrument.id === id))
+    .map((id) => {
+      const participation = participations.find((row) => row.instrumentId === id);
+      const instrument = participation ? INSTRUMENT_BY_ID[participation.instrumentId] : undefined;
+      return participation && instrument ? { participation, instrument } : null;
+    })
     .filter(Boolean);
 
   return (
@@ -62,43 +69,46 @@ export function CountryTooltip({
         <p className="mt-0.5 text-[11px] leading-relaxed text-ink-600">{colorReason.detail}</p>
       </div>
 
-      {summary.nationalRegulations.length > 0 && (
+      {summary.nationalRuleCount > 0 && (
         <div className="mt-2.5">
           <p className="text-[10px] font-semibold uppercase tracking-wide text-ink-500">
             National AI rules
           </p>
           <ul className="mt-1 space-y-0.5 text-xs text-ink-700">
-            {summary.nationalRegulations.slice(0, 5).map((rule) => (
-              <li key={rule.id} className="leading-snug">
-                {rule.name}
+            {summary.nationalRuleNames.slice(0, 5).map((ruleName) => (
+              <li key={ruleName} className="leading-snug">
+                {ruleName}
               </li>
             ))}
-            {summary.nationalRegulations.length > 5 && (
+            {summary.nationalRuleCount > 5 && (
               <li className="text-ink-500">
-                +{summary.nationalRegulations.length - 5} more
+                +{summary.nationalRuleCount - 5} more
               </li>
             )}
           </ul>
         </div>
       )}
 
-      {summary.participations.length > 0 && (
+      {participations.length > 0 && (
         <div className="mt-2.5">
           <p className="text-[10px] font-semibold uppercase tracking-wide text-ink-500">
             International AI instruments
           </p>
           <ul className="mt-1 space-y-0.5 text-xs text-ink-700">
-            {summary.participations.slice(0, 6).map(({ participation, instrument }) => (
+            {participations.slice(0, 6).map((participation) => {
+              const instrument = INSTRUMENT_BY_ID[participation.instrumentId];
+              return (
               <li key={participation.id} className="leading-snug">
-                <span className="font-medium">{instrument.name}</span>
+                <span className="font-medium">{instrument?.name ?? participation.instrumentId}</span>
                 <span className="ml-1 text-ink-500">
                   - {PARTICIPATION_LABELS[participation.participationType]}
                 </span>
               </li>
-            ))}
-            {summary.participations.length > 6 && (
+              );
+            })}
+            {participations.length > 6 && (
               <li className="text-ink-500">
-                +{summary.participations.length - 6} more
+                +{participations.length - 6} more
               </li>
             )}
           </ul>

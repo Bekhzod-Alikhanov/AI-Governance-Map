@@ -10,7 +10,8 @@
   "scripts": {
     "dev": "vite",
     "data:public": "node scripts/write-public-data.mjs",
-    "build": "npm run data:public && tsc -b && vite build",
+    "data:map-summary": "node scripts/generate-country-map-summaries.mjs",
+    "build": "npm run data:map-summary && npm run data:public && tsc -b && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
     "typecheck": "tsc -b --noEmit",

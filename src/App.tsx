@@ -21,13 +21,10 @@ import { DataActions } from "./components/DataActions";
 import { SearchBox } from "./components/SearchBox";
 import { Legend } from "./components/Legend";
 import { LensSwitch } from "./components/LensSwitch";
-import { MapCountryList } from "./components/MapCountryList";
 import { ResearchQuestionsPanel } from "./components/ResearchQuestionsPanel";
 import { DEFAULT_SHAREABLE_STATE, parseShareableState, serializeShareableState } from "./utils/urlState";
-import { COUNTRIES, COUNTRY_BY_ISO3 } from "./data/countries";
-import { INTERNATIONAL_INSTRUMENTS } from "./data/internationalInstruments";
-import { NATIONAL_AI_REGULATIONS } from "./data/nationalAIRegulations";
-import { FRONTIER_LABS, LAB_BY_ID } from "./data/frontierLabs";
+import { COUNTRY_BY_ISO3 } from "./data/countries";
+import { LAB_BY_ID } from "./data/frontierLabs";
 import { DATASET_STATS } from "./data/datasetStats";
 import { getMapFitScope } from "./utils/mapFitTarget";
 import { parseRecordRoute, type RecordRoute } from "./utils/recordRoutes";
@@ -46,6 +43,7 @@ const WalkthroughOverlay = lazy(() => import("./components/WalkthroughOverlay").
 const MethodologyPanel = lazy(() => import("./components/MethodologyPanel").then((m) => ({ default: m.MethodologyPanel })));
 const ComparisonTray = lazy(() => import("./components/ComparisonTray").then((m) => ({ default: m.ComparisonTray })));
 const EmbedView = lazy(() => import("./components/EmbedView").then((m) => ({ default: m.EmbedView })));
+const MapCountryList = lazy(() => import("./components/MapCountryList").then((m) => ({ default: m.MapCountryList })));
 
 type MapFocusId = "world" | "americas" | "europe" | "africa_mena" | "asia_pacific";
 type MapViewState = {
@@ -269,10 +267,10 @@ export default function App() {
 
   const stats = useMemo(
     () => ({
-      countries: COUNTRIES.filter((c) => c.iso3 !== "EUU").length,
-      instruments: INTERNATIONAL_INSTRUMENTS.length,
-      nationalRegs: NATIONAL_AI_REGULATIONS.length,
-      labs: FRONTIER_LABS.length,
+      countries: DATASET_STATS.countries,
+      instruments: DATASET_STATS.internationalInstruments,
+      nationalRegs: DATASET_STATS.nationalRegulations,
+      labs: DATASET_STATS.frontierLabs,
       edges: DATASET_STATS.dependencyEdges,
     }),
     []
@@ -733,14 +731,16 @@ export default function App() {
         )}
 
         {showsMap && showCountryList && (
-          <MapCountryList
-            filters={filters}
-            lens={lens}
-            mapMode={mapMode}
-            contextReasonByIso3={contextReasonByIso3}
-            onSelectCountry={handleSelectCountry}
-            onClose={() => setShowCountryList(false)}
-          />
+          <Suspense fallback={null}>
+            <MapCountryList
+              filters={filters}
+              lens={lens}
+              mapMode={mapMode}
+              contextReasonByIso3={contextReasonByIso3}
+              onSelectCountry={handleSelectCountry}
+              onClose={() => setShowCountryList(false)}
+            />
+          </Suspense>
         )}
 
         {showsMap && (

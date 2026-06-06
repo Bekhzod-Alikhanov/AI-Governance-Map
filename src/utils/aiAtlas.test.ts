@@ -79,4 +79,32 @@ describe("AI Atlas indicators", () => {
     expect(us.stanford?.sourceId).toBe(STANFORD_VIBRANCY_SOURCE_ID);
     expect(us.hasAnyAtlasData).toBe(true);
   });
+
+  it("includes official contextual rows for enforcement, procurement, registries, infrastructure, and safety institutes", () => {
+    expect(COUNTRY_INDICATOR_SCORES.map((row) => row.id)).toEqual(
+      expect.arrayContaining([
+        "ftc-operation-ai-comply-usa-2024",
+        "us-ai-acquisition-memo-m-24-18-usa-2024",
+        "us-nairr-pilot-usa-2026",
+        "eu-ai-office-governance-enforcement-euu-2026",
+        "eu-high-risk-ai-database-euu-2024",
+        "eu-ai-factories-euu-2026",
+        "uk-ai-security-institute-gbr-2026",
+        "japan-ai-safety-institute-jpn-2026",
+        "netherlands-public-algorithm-register-nld-2026",
+        "uk-ai-procurement-guidelines-gbr-2020",
+      ])
+    );
+
+    const contextRows = COUNTRY_INDICATOR_SCORES.filter((row) =>
+      [
+        "ftc-operation-ai-comply-usa-2024",
+        "us-ai-acquisition-memo-m-24-18-usa-2024",
+        "eu-ai-factories-euu-2026",
+        "uk-ai-security-institute-gbr-2026",
+      ].includes(row.id)
+    );
+    expect(contextRows.every((row) => row.sourceKind === "official")).toBe(true);
+    expect(contextRows.every((row) => row.notes?.includes("does not affect binding-law"))).toBe(true);
+  });
 });

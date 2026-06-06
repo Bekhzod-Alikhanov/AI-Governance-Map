@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { searchData } from "../utils/searchData";
 import type { SearchResult } from "../utils/searchData";
 
 interface Props {
@@ -12,9 +11,10 @@ interface Props {
 export function SearchBox({ query, onQueryChange, onSelectCountry, onSelectInstrument }: Props) {
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [searchFn, setSearchFn] = useState<((query: string, limit?: number) => SearchResult[]) | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
 
-  const results = useMemo<SearchResult[]>(() => searchData(query, 12), [query]);
+  const results = useMemo<SearchResult[]>(() => (searchFn ? searchFn(query, 12) : []), [query, searchFn]);
   const listboxId = "global-search-results";
   const activeOptionId = results[activeIndex]
     ? `global-search-option-${results[activeIndex].kind}-${results[activeIndex].id}`
@@ -29,6 +29,17 @@ export function SearchBox({ query, onQueryChange, onSelectCountry, onSelectInstr
     document.addEventListener("mousedown", onClickOutside);
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (searchFn || (!open && !query.trim())) return;
+    let cancelled = false;
+    import("../utils/searchData").then(({ searchData }) => {
+      if (!cancelled) setSearchFn(() => searchData);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [open, query, searchFn]);
 
   function handleSelect(r: SearchResult) {
     if (r.kind === "country") onSelectCountry(r.id);

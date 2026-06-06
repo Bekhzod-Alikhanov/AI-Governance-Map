@@ -1,8 +1,5 @@
 import type { LensKind, MapModeId } from "../types";
-import type { getCountryGovernanceSummary } from "./getCountryGovernanceSummary";
-import { isConfirmedBindingNationalRegulation } from "./governanceTaxonomy";
-
-type GovernanceSummary = ReturnType<typeof getCountryGovernanceSummary>;
+import type { CountryMapSummaryResult } from "./getCountryMapSummary";
 
 export interface MapColorReason {
   label: string;
@@ -10,7 +7,7 @@ export interface MapColorReason {
 }
 
 export function buildGovernanceColorReason(
-  summary: GovernanceSummary,
+  summary: CountryMapSummaryResult,
   lens: LensKind,
   mapMode: MapModeId
 ): MapColorReason {
@@ -22,11 +19,10 @@ export function buildGovernanceColorReason(
   }
 
   if (mapMode === "binding-law") {
-    const bindingRules = summary.nationalRegulations.filter(isConfirmedBindingNationalRegulation);
-    if (bindingRules.length > 0) {
+    if (summary.confirmedBindingNationalRuleCount > 0) {
       return {
         label: "Confirmed binding AI-specific law applies",
-        detail: bindingRules.slice(0, 2).map((rule) => rule.name).join("; "),
+        detail: summary.bindingRuleNames.slice(0, 2).join("; "),
       };
     }
     if (summary.hasAnyAIRule) {
@@ -42,11 +38,10 @@ export function buildGovernanceColorReason(
   }
 
   if (mapMode === "proposed-law") {
-    const proposed = summary.nationalRegulations.filter((rule) => rule.status === "proposed");
-    return proposed.length > 0
+    return summary.proposedNationalRuleCount > 0
       ? {
-          label: `${proposed.length} proposed AI rule${proposed.length === 1 ? "" : "s"}`,
-          detail: proposed.slice(0, 2).map((rule) => rule.name).join("; "),
+          label: `${summary.proposedNationalRuleCount} proposed AI rule${summary.proposedNationalRuleCount === 1 ? "" : "s"}`,
+          detail: summary.proposedRuleNames.slice(0, 2).join("; "),
         }
       : {
           label: "No proposed AI law tracked",
@@ -55,9 +50,9 @@ export function buildGovernanceColorReason(
   }
 
   if (mapMode === "treaty-participation") {
-    return summary.participations.length > 0
+    return summary.internationalParticipationCount > 0
       ? {
-          label: `${summary.participations.length} international participation row${summary.participations.length === 1 ? "" : "s"}`,
+          label: `${summary.internationalParticipationCount} international participation row${summary.internationalParticipationCount === 1 ? "" : "s"}`,
           detail: "Participation rows distinguish signature, ratification, endorsement, applicability, and membership coverage in details.",
         }
       : {
@@ -67,10 +62,10 @@ export function buildGovernanceColorReason(
   }
 
   if (mapMode === "lab-hq") {
-    return summary.hqLabs.length > 0
+    return summary.hqLabCount > 0
       ? {
-          label: `${summary.hqLabs.length} frontier-lab HQ${summary.hqLabs.length === 1 ? "" : "s"}`,
-          detail: summary.hqLabs.map((lab) => lab.name).join("; "),
+          label: `${summary.hqLabCount} frontier-lab HQ${summary.hqLabCount === 1 ? "" : "s"}`,
+          detail: summary.hqLabNames.join("; "),
         }
       : {
           label: "No frontier-lab HQ tracked",
@@ -79,11 +74,12 @@ export function buildGovernanceColorReason(
   }
 
   if (mapMode === "source-confidence") {
-    const confidence = summary.nationalRegulations.some((rule) => rule.confidence === "low")
-      ? "Contains lower-confidence legal/source records"
-      : summary.nationalRegulations.length > 0 || summary.participations.length > 0
-        ? "Tracked records are medium/high confidence"
-        : "No source-confidence signal";
+    const confidence =
+      summary.sourceConfidence === "low"
+        ? "Contains lower-confidence legal/source records"
+        : summary.sourceConfidence === "medium" || summary.sourceConfidence === "high"
+          ? "Tracked records are medium/high confidence"
+          : "No source-confidence signal";
     return {
       label: confidence,
       detail: "Source-confidence mode is about verification metadata, not the legal strength of an instrument.",

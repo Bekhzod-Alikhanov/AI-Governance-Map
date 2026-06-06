@@ -1069,6 +1069,78 @@
   },
   {
     "collection": "countryIndicatorScores",
+    "id": "eu-ai-factories-euu-2026",
+    "name": "eu-ai-factories-euu-2026",
+    "sourceName": "European Commission - AI Factories",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-factories",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official Commission AI Factories page describes EuroHPC-backed AI Factories, operational factories/antennas, and AI-optimised supercomputing investment context."
+  },
+  {
+    "collection": "countryIndicatorScores",
+    "id": "eu-ai-office-governance-enforcement-euu-2026",
+    "name": "eu-ai-office-governance-enforcement-euu-2026",
+    "sourceName": "European Commission - Governance and enforcement of the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-act-governance-and-enforcement",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official Commission page states that the European AI Office and national market surveillance authorities implement, supervise, and enforce the AI Act."
+  },
+  {
+    "collection": "countryIndicatorScores",
+    "id": "eu-high-risk-ai-database-euu-2024",
+    "name": "eu-high-risk-ai-database-euu-2024",
+    "sourceName": "EUR-Lex - Regulation (EU) 2024/1689, Article 71",
+    "sourceUrl": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "EUR-Lex AI Act Article 71 provides for an EU database containing registered high-risk AI system information."
+  },
+  {
+    "collection": "countryIndicatorScores",
+    "id": "ftc-operation-ai-comply-usa-2024",
+    "name": "ftc-operation-ai-comply-usa-2024",
+    "sourceName": "FTC - Operation AI Comply",
+    "sourceUrl": "https://www.ftc.gov/news-events/news/press-releases/2024/09/ftc-announces-crackdown-deceptive-ai-claims-schemes",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official FTC release states that Operation AI Comply announced five law-enforcement actions involving AI hype, deceptive AI claims, or AI-enabled unfair/deceptive conduct."
+  },
+  {
+    "collection": "countryIndicatorScores",
+    "id": "japan-ai-safety-institute-jpn-2026",
+    "name": "japan-ai-safety-institute-jpn-2026",
+    "sourceName": "Japan AI Safety Institute",
+    "sourceUrl": "https://aisi.go.jp/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official Japan AISI page describes work on AI safety evaluation methods, standards, guideline support, private-sector support, and international coordination."
+  },
+  {
+    "collection": "countryIndicatorScores",
+    "id": "netherlands-public-algorithm-register-nld-2026",
+    "name": "netherlands-public-algorithm-register-nld-2026",
+    "sourceName": "Government of the Netherlands - Algorithm Register",
+    "sourceUrl": "https://algoritmes.overheid.nl/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official register page states that Dutch government organizations publish information about algorithms they use, focusing on impactful algorithms including high-risk AI systems."
+  },
+  {
+    "collection": "countryIndicatorScores",
     "id": "oxford-2025-afg",
     "name": "oxford-2025-afg",
     "sourceName": "Oxford Insights - Government AI Readiness Index 2025",
@@ -4068,6 +4140,54 @@
     "verificationNotes": "Computed from the official 2024 public country rows using the Global AI Vibrancy Tool ranking metrics, metric weights, and group weights."
   },
   {
+    "collection": "countryIndicatorScores",
+    "id": "uk-ai-procurement-guidelines-gbr-2020",
+    "name": "uk-ai-procurement-guidelines-gbr-2020",
+    "sourceName": "GOV.UK - Guidelines for AI procurement",
+    "sourceUrl": "https://www.gov.uk/government/publications/guidelines-for-ai-procurement/guidelines-for-ai-procurement/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official GOV.UK guidance states it is aimed at central government departments considering AI technology and provides AI-specific procurement considerations."
+  },
+  {
+    "collection": "countryIndicatorScores",
+    "id": "uk-ai-security-institute-gbr-2026",
+    "name": "uk-ai-security-institute-gbr-2026",
+    "sourceName": "UK AI Security Institute",
+    "sourceUrl": "https://www.aisi.gov.uk/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official AISI page describes a state-backed organisation conducting research, building infrastructure, testing risk mitigations, and working with AI developers and governments."
+  },
+  {
+    "collection": "countryIndicatorScores",
+    "id": "us-ai-acquisition-memo-m-24-18-usa-2024",
+    "name": "us-ai-acquisition-memo-m-24-18-usa-2024",
+    "sourceName": "OMB - M-24-18 AI Acquisition Memorandum",
+    "sourceUrl": "https://www.whitehouse.gov/wp-content/uploads/2024/10/M-24-18-AI-Acquisition-Memorandum.pdf",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official OMB memorandum states requirements and guidance for covered agencies acquiring AI systems and services, and states it does not create rights or obligations for contractors or the public."
+  },
+  {
+    "collection": "countryIndicatorScores",
+    "id": "us-nairr-pilot-usa-2026",
+    "name": "us-nairr-pilot-usa-2026",
+    "sourceName": "NSF - National Artificial Intelligence Research Resource",
+    "sourceUrl": "https://www.nsf.gov/focus-areas/ai/nairr",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official NSF page describes NAIRR as national infrastructure providing the research and education communities access to AI compute, software, data, models, educational resources, and expertise."
+  },
+  {
     "collection": "countryReadinessReports",
     "id": "unesco-ram-2026-ago",
     "name": "unesco-ram-2026-ago",
@@ -5622,10 +5742,10 @@
     "sourceName": "European Commission - AI Factories",
     "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-factories",
     "sourceKind": "official",
-    "verificationStatus": "likely_correct",
-    "confidence": "medium",
-    "lastVerified": "2026-06-04",
-    "verificationNotes": "Official European Commission source identified for future EU compute/infrastructure normalization; country rows are not imported in this pass."
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official European Commission AI Factories page describes EuroHPC-backed AI Factories, operational factories/antennas, and AI-optimised supercomputing investment context."
   },
   {
     "collection": "indicatorSources",
@@ -5730,10 +5850,10 @@
     "sourceName": "Government of the Netherlands - Algorithm Register",
     "sourceUrl": "https://algoritmes.overheid.nl/",
     "sourceKind": "official",
-    "verificationStatus": "likely_correct",
-    "confidence": "medium",
-    "lastVerified": "2026-06-04",
-    "verificationNotes": "Tracked as source-only context for future public-sector AI registry expansion."
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official register page states that Dutch government organizations publish information about algorithms they use, focusing on impactful algorithms including high-risk AI systems."
   },
   {
     "collection": "indicatorSources",
@@ -5790,10 +5910,10 @@
     "sourceName": "GOV.UK - Guidelines for AI procurement",
     "sourceUrl": "https://www.gov.uk/government/publications/guidelines-for-ai-procurement/guidelines-for-ai-procurement/",
     "sourceKind": "official",
-    "verificationStatus": "likely_correct",
-    "confidence": "medium",
-    "lastVerified": "2026-06-04",
-    "verificationNotes": "Official GOV.UK procurement guidance source identified for future public-procurement normalization; no country score rows are imported in this pass."
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official GOV.UK guidance states it is aimed at central government departments considering AI technology and provides AI-specific procurement considerations."
   },
   {
     "collection": "indicatorSources",
@@ -5836,12 +5956,12 @@
     "id": "us-nairr-pilot",
     "name": "U.S. National Artificial Intelligence Research Resource pilot",
     "sourceName": "NSF - National Artificial Intelligence Research Resource Pilot",
-    "sourceUrl": "https://www.nsf.gov/focus-areas/artificial-intelligence/nairr",
+    "sourceUrl": "https://www.nsf.gov/focus-areas/ai/nairr",
     "sourceKind": "official",
-    "verificationStatus": "likely_correct",
-    "confidence": "medium",
-    "lastVerified": "2026-06-04",
-    "verificationNotes": "Official NSF source identified for future compute/infrastructure normalization; country rows are not imported in this pass."
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-05",
+    "verificationNotes": "Official NSF page describes NAIRR as national infrastructure providing the research and education communities access to AI compute, software, data, models, educational resources, and expertise."
   },
   {
     "collection": "infrastructureNodes",

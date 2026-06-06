@@ -6444,6 +6444,96 @@
       "summary": "Score 0; rank 66",
       "url": "https://global-ai-governance-map.vercel.app/country/VNM",
       "embedUrl": "https://global-ai-governance-map.vercel.app/embed/atlas/stanford-vibrancy-2024-vnm"
+    },
+    {
+      "kind": "atlas-indicator-card",
+      "id": "ftc-operation-ai-comply-usa-2024",
+      "title": "United States",
+      "subtitle": "ftc-operation-ai-comply",
+      "summary": "Score 5",
+      "url": "https://global-ai-governance-map.vercel.app/country/USA",
+      "embedUrl": "https://global-ai-governance-map.vercel.app/embed/atlas/ftc-operation-ai-comply-usa-2024"
+    },
+    {
+      "kind": "atlas-indicator-card",
+      "id": "us-ai-acquisition-memo-m-24-18-usa-2024",
+      "title": "United States",
+      "subtitle": "us-ai-acquisition-memo-m-24-18",
+      "summary": "Context indicator",
+      "url": "https://global-ai-governance-map.vercel.app/country/USA",
+      "embedUrl": "https://global-ai-governance-map.vercel.app/embed/atlas/us-ai-acquisition-memo-m-24-18-usa-2024"
+    },
+    {
+      "kind": "atlas-indicator-card",
+      "id": "eu-ai-office-governance-enforcement-euu-2026",
+      "title": "EUU",
+      "subtitle": "eu-ai-office-governance-enforcement",
+      "summary": "Context indicator",
+      "url": "https://global-ai-governance-map.vercel.app/country/EUU",
+      "embedUrl": "https://global-ai-governance-map.vercel.app/embed/atlas/eu-ai-office-governance-enforcement-euu-2026"
+    },
+    {
+      "kind": "atlas-indicator-card",
+      "id": "eu-high-risk-ai-database-euu-2024",
+      "title": "EUU",
+      "subtitle": "eu-high-risk-ai-database",
+      "summary": "Context indicator",
+      "url": "https://global-ai-governance-map.vercel.app/country/EUU",
+      "embedUrl": "https://global-ai-governance-map.vercel.app/embed/atlas/eu-high-risk-ai-database-euu-2024"
+    },
+    {
+      "kind": "atlas-indicator-card",
+      "id": "eu-ai-factories-euu-2026",
+      "title": "EUU",
+      "subtitle": "eu-ai-factories",
+      "summary": "Context indicator",
+      "url": "https://global-ai-governance-map.vercel.app/country/EUU",
+      "embedUrl": "https://global-ai-governance-map.vercel.app/embed/atlas/eu-ai-factories-euu-2026"
+    },
+    {
+      "kind": "atlas-indicator-card",
+      "id": "us-nairr-pilot-usa-2026",
+      "title": "United States",
+      "subtitle": "us-nairr-pilot",
+      "summary": "Context indicator",
+      "url": "https://global-ai-governance-map.vercel.app/country/USA",
+      "embedUrl": "https://global-ai-governance-map.vercel.app/embed/atlas/us-nairr-pilot-usa-2026"
+    },
+    {
+      "kind": "atlas-indicator-card",
+      "id": "uk-ai-security-institute-gbr-2026",
+      "title": "United Kingdom",
+      "subtitle": "uk-ai-security-institute",
+      "summary": "Context indicator",
+      "url": "https://global-ai-governance-map.vercel.app/country/GBR",
+      "embedUrl": "https://global-ai-governance-map.vercel.app/embed/atlas/uk-ai-security-institute-gbr-2026"
+    },
+    {
+      "kind": "atlas-indicator-card",
+      "id": "japan-ai-safety-institute-jpn-2026",
+      "title": "Japan",
+      "subtitle": "japan-ai-safety-institute",
+      "summary": "Context indicator",
+      "url": "https://global-ai-governance-map.vercel.app/country/JPN",
+      "embedUrl": "https://global-ai-governance-map.vercel.app/embed/atlas/japan-ai-safety-institute-jpn-2026"
+    },
+    {
+      "kind": "atlas-indicator-card",
+      "id": "netherlands-public-algorithm-register-nld-2026",
+      "title": "Netherlands",
+      "subtitle": "netherlands-public-algorithm-register",
+      "summary": "Context indicator",
+      "url": "https://global-ai-governance-map.vercel.app/country/NLD",
+      "embedUrl": "https://global-ai-governance-map.vercel.app/embed/atlas/netherlands-public-algorithm-register-nld-2026"
+    },
+    {
+      "kind": "atlas-indicator-card",
+      "id": "uk-ai-procurement-guidelines-gbr-2020",
+      "title": "United Kingdom",
+      "subtitle": "uk-ai-procurement-guidelines",
+      "summary": "Context indicator",
+      "url": "https://global-ai-governance-map.vercel.app/country/GBR",
+      "embedUrl": "https://global-ai-governance-map.vercel.app/embed/atlas/uk-ai-procurement-guidelines-gbr-2020"
     }
   ]
 }
