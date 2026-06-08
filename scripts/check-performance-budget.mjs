@@ -8,7 +8,9 @@ const budgets = {
   maxInitialJsBytes: 725_000,
   maxInitialGzipBytes: 220_000,
   maxAtlasChunkBytes: 430_000,
-  maxTotalJsBytes: 1_400_000,
+  // Total JS includes optional lazy research-workbench evidence modules.
+  // Keep initial-load budgets strict; allow a narrow ceiling for richer lazy tools.
+  maxTotalJsBytes: 1_410_000,
 };
 
 const files = await readdir(distAssets);

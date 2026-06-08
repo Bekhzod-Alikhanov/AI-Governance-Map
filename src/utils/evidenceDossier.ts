@@ -40,6 +40,13 @@ import {
   READINESS_STATUS_LABELS,
 } from "./aiAtlas";
 import { INDICATOR_SOURCE_BY_ID } from "../data/aiAtlas";
+import {
+  COMPUTE_DEPENDENCY_RECORDS_BY_LAB,
+  INCIDENT_ENFORCEMENT_RECORDS_BY_LAB,
+  LAB_INTELLIGENCE_BY_LAB,
+  MODEL_GOVERNANCE_EVIDENCE_BY_LAB,
+  SAFETY_EVALUATION_RECORDS_BY_LAB,
+} from "../data/labIntelligence";
 
 export type DossierKind = "country" | "lab" | "instrument";
 
@@ -292,8 +299,14 @@ function buildLabDossier(labId: string, currentUrl: string): EvidenceDossier | n
   const exposures = getLabRegulatoryExposures(lab.id);
   const exposureSummary = summarizeLabExposures(exposures);
   const obligations = getLabObligations(lab.id);
+  const labProfile = LAB_INTELLIGENCE_BY_LAB[lab.id];
+  const modelGovernanceEvidence = MODEL_GOVERNANCE_EVIDENCE_BY_LAB[lab.id] ?? [];
+  const safetyEvaluationRecords = SAFETY_EVALUATION_RECORDS_BY_LAB[lab.id] ?? [];
+  const incidentEnforcementRecords = INCIDENT_ENFORCEMENT_RECORDS_BY_LAB[lab.id] ?? [];
+  const computeDependencyRecords = COMPUTE_DEPENDENCY_RECORDS_BY_LAB[lab.id] ?? [];
   const sources = createSourceCollector();
   sources.add("Frontier lab", lab);
+  if (labProfile) sources.add("Lab intelligence profile", { ...labProfile, name: `${lab.name} intelligence profile` });
   if (lab.safetyFramework) {
     sources.add("Lab safety framework", {
       id: `${lab.id}.safetyFramework`,
@@ -311,6 +324,10 @@ function buildLabDossier(labId: string, currentUrl: string): EvidenceDossier | n
   for (const obligation of obligations) {
     sources.add("Obligation", { ...obligation, name: `${OBLIGATION_CATEGORY_LABELS[obligation.category]} - ${lab.name}` });
   }
+  for (const row of modelGovernanceEvidence) sources.add("Model governance evidence", { ...row, name: row.title });
+  for (const row of safetyEvaluationRecords) sources.add("Safety evaluation", { ...row, name: row.evaluationBody });
+  for (const row of incidentEnforcementRecords) sources.add("Incident/enforcement", { ...row, name: row.title });
+  for (const row of computeDependencyRecords) sources.add("Compute dependency", { ...row, name: row.dependencyType });
 
   const caveats = [
     "Lab exposure is an analytical mapping of governance hooks, not a finding of enforcement or liability.",
@@ -325,6 +342,15 @@ function buildLabDossier(labId: string, currentUrl: string): EvidenceDossier | n
       : []),
     ...(exposures.some((row) => row.legalEffect === "infrastructure_constraint")
       ? ["Infrastructure and export-control dependency rows describe ecosystem constraints, not AI-specific legal obligations."]
+      : []),
+    ...(modelGovernanceEvidence.length
+      ? ["Model-governance evidence rows describe public company or issuer-controlled evidence, not regulatory certification."]
+      : []),
+    ...(safetyEvaluationRecords.length
+      ? ["Safety/evaluation rows are public evidence records and should not be read as a complete list of non-public evaluations."]
+      : []),
+    ...(computeDependencyRecords.length
+      ? ["Compute-dependency rows are infrastructure context and should not be read as procurement or capacity findings."]
       : []),
   ];
 
@@ -344,6 +370,9 @@ function buildLabDossier(labId: string, currentUrl: string): EvidenceDossier | n
       { label: "Standards exposure rows", value: exposureSummary.standards },
       { label: "Infrastructure exposure rows", value: exposureSummary.infrastructure },
       { label: "Structured obligation rows", value: obligations.length },
+      { label: "Model-governance evidence rows", value: modelGovernanceEvidence.length },
+      { label: "Safety/evaluation rows", value: safetyEvaluationRecords.length },
+      { label: "Compute-dependency context rows", value: computeDependencyRecords.length },
     ],
     sections: [
       {
@@ -353,6 +382,10 @@ function buildLabDossier(labId: string, currentUrl: string): EvidenceDossier | n
           { label: "Flagship models", detail: lab.flagshipModels.join("; ") },
           { label: "Safety framework", detail: lab.safetyFramework?.name ?? "None tracked." },
           { label: "Frontier Model Forum", detail: lab.isFMFMember ? "Member." : "Not tracked as a member." },
+          {
+            label: "Scenario markets",
+            detail: labProfile?.deploymentMarketIso3s.join("; ") ?? "No lab-intelligence scenario markets tracked.",
+          },
         ],
       },
       {
@@ -373,6 +406,33 @@ function buildLabDossier(labId: string, currentUrl: string): EvidenceDossier | n
             detail: `${LAB_EXPOSURE_KIND_LABELS[exposure.exposureKind]}; ${LAB_EXPOSURE_DIRECTNESS_LABELS[exposure.directness]}; strength ${exposure.strength}/5. ${exposure.rationale}${exposure.notes ? ` Caveat: ${exposure.notes}` : ""}`,
           };
         }),
+      },
+      {
+        title: "Model-governance evidence",
+        claims: modelGovernanceEvidence.length
+          ? modelGovernanceEvidence.map((row) => ({
+              label: row.title,
+              detail: `${row.summary} Caveat: ${row.caveat}`,
+            }))
+          : [{ label: "Model-governance evidence", detail: "No public evidence rows tracked." }],
+      },
+      {
+        title: "Safety and evaluation evidence",
+        claims: safetyEvaluationRecords.length
+          ? safetyEvaluationRecords.map((row) => ({
+              label: row.evaluationBody,
+              detail: `${row.summary} Caveat: ${row.caveat}`,
+            }))
+          : [{ label: "Safety and evaluation evidence", detail: "No lab-specific public evaluation rows tracked." }],
+      },
+      {
+        title: "Compute and infrastructure context",
+        claims: computeDependencyRecords.length
+          ? computeDependencyRecords.map((row) => ({
+              label: row.dependencyType.replace(/_/g, " "),
+              detail: `${row.summary} Caveat: ${row.caveat}`,
+            }))
+          : [{ label: "Compute context", detail: "No compute-dependency context rows tracked." }],
       },
     ],
     caveats,

@@ -17,6 +17,13 @@ import { NATIONAL_AI_REGULATIONS } from "../data/nationalAIRegulations";
 import { INTERNATIONAL_PARTICIPATION } from "../data/participation";
 import { SUBNATIONAL_AI_RULES } from "../data/subnationalRules";
 import { LAB_REGULATORY_EXPOSURES } from "../data/labRegulatoryExposures";
+import {
+  COMPUTE_DEPENDENCY_RECORDS,
+  INCIDENT_ENFORCEMENT_RECORDS,
+  LAB_INTELLIGENCE_PROFILES,
+  MODEL_GOVERNANCE_EVIDENCE,
+  SAFETY_EVALUATION_RECORDS,
+} from "../data/labIntelligence";
 import type { FilterState, LabRegulatoryExposure, VerificationMetadata } from "../types";
 import { downloadTextFile } from "../utils/downloadTextFile";
 import { filterCountries } from "../utils/filterCountries";
@@ -44,6 +51,7 @@ type DatasetKey =
   | "instruments"
   | "national"
   | "labs"
+  | "labIntelligence"
   | "exposure"
   | "obligations"
   | "implementation"
@@ -79,6 +87,7 @@ const DATASETS: Array<{ key: DatasetKey; label: string }> = [
   { key: "instruments", label: "Instruments" },
   { key: "national", label: "National rules" },
   { key: "labs", label: "Labs" },
+  { key: "labIntelligence", label: "Lab intel" },
   { key: "exposure", label: "Exposure" },
   { key: "obligations", label: "Obligations" },
   { key: "implementation", label: "Implementation" },
@@ -124,6 +133,16 @@ const COLUMNS: Record<DatasetKey, TableColumn[]> = {
     { key: "fmf", label: "FMF" },
     { key: "exposure", label: "Exposure count" },
     { key: "confidence", label: "Confidence" },
+  ],
+  labIntelligence: [
+    { key: "lab", label: "Lab" },
+    { key: "parent", label: "Parent / entity" },
+    { key: "framework", label: "Safety framework" },
+    { key: "markets", label: "Scenario markets" },
+    { key: "commitments", label: "Commitments" },
+    { key: "confidence", label: "Confidence" },
+    { key: "lastVerified", label: "Last verified" },
+    { key: "source", label: "Source" },
   ],
   exposure: [
     { key: "lab", label: "Lab" },
@@ -234,7 +253,7 @@ export function TableView({ filters, onSelectCountry, onSelectLab, onSelectInstr
     const header = columns.map((column) => column.label);
     const body = visibleRows.map((row) => columns.map((column) => csvCell(row.values[column.key] ?? "")));
     const csv = [header.map(csvCell).join(","), ...body.map((line) => line.join(","))].join("\n");
-    downloadTextFile(`global-ai-governance-map-${dataset}.csv`, csv, "text/csv;charset=utf-8");
+    downloadTextFile(`global-ai-governance-map-${datasetFilename(dataset)}.csv`, csv, "text/csv;charset=utf-8");
   }
 
   return (
@@ -422,6 +441,29 @@ function buildRows(
     );
   }
 
+  if (dataset === "labIntelligence") {
+    return LAB_INTELLIGENCE_PROFILES.filter((profile) => {
+      if (filters.selectedLabIds.length && !filters.selectedLabIds.includes(profile.labId)) return false;
+      return true;
+    }).map((profile) => {
+      const lab = FRONTIER_LABS.find((item) => item.id === profile.labId);
+      return row(
+        `lab-intelligence:${profile.id}`,
+        {
+          lab: lab?.name ?? profile.labId,
+          parent: profile.parentLegalEntity,
+          framework: profile.safetyFrameworkName ?? "",
+          markets: profile.deploymentMarketIso3s.join("; "),
+          commitments: profile.frontierCommitmentIds.length,
+          confidence: confidenceLabel(profile),
+          lastVerified: profile.lastVerified ?? "",
+          source: profile.sourceName,
+        },
+        lab ? { label: "Lab", onClick: () => onSelectLab(lab.id) } : undefined
+      );
+    });
+  }
+
   if (dataset === "exposure") {
     return LAB_REGULATORY_EXPOSURES.filter((exposure) => exposureMatchesFilters(exposure, filters)).map((exposure) => {
       const lab = FRONTIER_LABS.find((item) => item.id === exposure.labId);
@@ -581,6 +623,16 @@ function sourceRows(): TableRow[] {
     ...SUBNATIONAL_AI_RULES.map((item) => toSourceEntry("Subnational rule", item)),
     ...FRONTIER_LABS.map((item) => toSourceEntry("Frontier lab", item)),
     ...LAB_REGULATORY_EXPOSURES.map((item) => toLabExposureSourceEntry(item)),
+    ...LAB_INTELLIGENCE_PROFILES.map((item) =>
+      toSourceEntry("Lab intelligence profile", {
+        ...item,
+        name: `${FRONTIER_LABS.find((lab) => lab.id === item.labId)?.name ?? item.labId} intelligence profile`,
+      })
+    ),
+    ...MODEL_GOVERNANCE_EVIDENCE.map((item) => toSourceEntry("Model governance evidence", { ...item, name: item.title })),
+    ...SAFETY_EVALUATION_RECORDS.map((item) => toSourceEntry("Safety evaluation", { ...item, name: item.evaluationBody })),
+    ...INCIDENT_ENFORCEMENT_RECORDS.map((item) => toSourceEntry("Incident/enforcement", { ...item, name: item.title })),
+    ...COMPUTE_DEPENDENCY_RECORDS.map((item) => toSourceEntry("Compute dependency", { ...item, name: item.dependencyType })),
     ...GOVERNANCE_OBLIGATIONS.map((item) => toSourceEntry("Obligation", {
       ...item,
       name: `${OBligationName(item.category)} - ${getRecordDisplayName(item.parentType, item.parentId)}`,
@@ -717,4 +769,8 @@ function csvCell(value: string | number): string {
   const text = String(value);
   if (!/[",\n]/.test(text)) return text;
   return `"${text.replace(/"/g, '""')}"`;
+}
+
+function datasetFilename(dataset: DatasetKey): string {
+  return dataset.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
 }

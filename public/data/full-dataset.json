@@ -1,9 +1,9 @@
 {
-  "schemaVersion": "2026.06",
+  "schemaVersion": "2026.06.1",
   "snapshotDate": "2026-05-19",
   "schema": {
     "id": "https://global-ai-governance-map.vercel.app/dataset.schema.json",
-    "version": "2026.06",
+    "version": "2026.06.1",
     "format": "json-schema-draft-2020-12"
   },
   "title": "Global AI Governance Map dataset",
@@ -13,6 +13,11 @@
     "euMembers": 27,
     "frontierLabs": 13,
     "labRegulatoryExposures": 106,
+    "labIntelligenceProfiles": 13,
+    "modelGovernanceEvidence": 8,
+    "safetyEvaluationRecords": 4,
+    "incidentEnforcementRecords": 1,
+    "computeDependencyRecords": 4,
     "internationalInstruments": 37,
     "internationalParticipationRows": 1439,
     "nationalAIRegulations": 75,
@@ -27,7 +32,8 @@
     "dependencyEdges": 99,
     "outOfScopeItems": 7,
     "sourceNotes": 9,
-    "datasetReleases": 2
+    "datasetReleases": 2,
+    "recordChangeLogEntries": 2
   },
   "data": {
     "countries": [
@@ -4059,6 +4065,1117 @@
         "confidence": "medium",
         "lastVerified": "2026-05-20",
         "verificationNotes": "Official BIS source verifies the export-control action. Exposure is upstream infrastructure constraint, not an AI-specific national law."
+      }
+    ],
+    "labIntelligenceProfiles": [
+      {
+        "id": "openai-intelligence-profile",
+        "labId": "openai",
+        "parentLegalEntity": "OpenAI, L.L.C. / OpenAI OpCo structure",
+        "majorOffices": [
+          {
+            "label": "Headquarters or principal AI governance hook: United States",
+            "countryIso3": "USA",
+            "note": "This is a jurisdictional hook for research triage, not a complete legal-entity map."
+          }
+        ],
+        "modelFamilies": [
+          "GPT-5.x",
+          "GPT-5.4 / 5.5",
+          "o-series"
+        ],
+        "safetyFrameworkName": "Preparedness Framework",
+        "responsibleScalingPolicyUrl": "https://openai.com/index/updating-our-preparedness-framework/",
+        "frontierCommitmentIds": [
+          "seoul-frontier-ai-safety-commitments"
+        ],
+        "evaluationPartnerIds": [],
+        "deploymentMarketIso3s": [
+          "EUU",
+          "USA",
+          "GBR",
+          "KOR",
+          "CAN"
+        ],
+        "publicGovernanceContactUrl": "https://openai.com/index/updating-our-preparedness-framework/",
+        "summary": "OpenAI profile linking safety, commitment, evaluation, and compute-context rows.",
+        "caveat": "Research triage layer; not a full entity, product, or liability assessment.",
+        "sourceName": "OpenAI — Models index",
+        "sourceUrl": "https://developers.openai.com/api/docs/models/all",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "verificationNotes": "Primary company source checked for model or safety-framework reference; frontier-lab inclusion, HQ treatment, and power score remain methodology judgments.",
+        "sourceChain": [
+          {
+            "sourceName": "OpenAI — Preparedness Framework",
+            "sourceUrl": "https://openai.com/index/updating-our-preparedness-framework/",
+            "sourceKind": "official",
+            "note": "Safety-framework source attached to the lab profile."
+          }
+        ],
+        "reviewStatus": "editorial_checked",
+        "reviewNotes": "Checked context/legal separation for lab-intelligence v1.",
+        "expertReview": {
+          "reviewerRole": "dataset editor",
+          "reviewDate": "2026-06-07",
+          "reviewScope": "Checked context/legal separation for lab-intelligence v1.",
+          "unresolvedCaveats": [
+            "Refresh markets, evaluation partnerships, and model families monthly."
+          ]
+        }
+      },
+      {
+        "id": "anthropic-intelligence-profile",
+        "labId": "anthropic",
+        "parentLegalEntity": "Anthropic PBC",
+        "majorOffices": [
+          {
+            "label": "Headquarters or principal AI governance hook: United States",
+            "countryIso3": "USA",
+            "note": "This is a jurisdictional hook for research triage, not a complete legal-entity map."
+          }
+        ],
+        "modelFamilies": [
+          "Claude 4 family",
+          "Claude Opus line"
+        ],
+        "safetyFrameworkName": "Responsible Scaling Policy",
+        "responsibleScalingPolicyUrl": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy",
+        "frontierCommitmentIds": [
+          "seoul-frontier-ai-safety-commitments"
+        ],
+        "evaluationPartnerIds": [],
+        "deploymentMarketIso3s": [
+          "EUU",
+          "USA",
+          "GBR",
+          "KOR",
+          "CAN"
+        ],
+        "publicGovernanceContactUrl": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy",
+        "summary": "Anthropic profile linking safety, commitment, evaluation, and compute-context rows.",
+        "caveat": "Research triage layer; not a full entity, product, or liability assessment.",
+        "sourceName": "Anthropic — Claude 4 announcement",
+        "sourceUrl": "https://www.anthropic.com/news/claude-4",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "verificationNotes": "Primary company source checked for model or safety-framework reference; frontier-lab inclusion, HQ treatment, and power score remain methodology judgments.",
+        "sourceChain": [
+          {
+            "sourceName": "Anthropic — Responsible Scaling Policy",
+            "sourceUrl": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy",
+            "sourceKind": "official",
+            "note": "Safety-framework source attached to the lab profile."
+          }
+        ],
+        "reviewStatus": "editorial_checked",
+        "reviewNotes": "Checked context/legal separation for lab-intelligence v1.",
+        "expertReview": {
+          "reviewerRole": "dataset editor",
+          "reviewDate": "2026-06-07",
+          "reviewScope": "Checked context/legal separation for lab-intelligence v1.",
+          "unresolvedCaveats": [
+            "Refresh markets, evaluation partnerships, and model families monthly."
+          ]
+        }
+      },
+      {
+        "id": "google-deepmind-intelligence-profile",
+        "labId": "google-deepmind",
+        "parentLegalEntity": "Google LLC / Alphabet Inc.",
+        "majorOffices": [
+          {
+            "label": "Headquarters or principal AI governance hook: United States",
+            "countryIso3": "USA",
+            "note": "This is a jurisdictional hook for research triage, not a complete legal-entity map."
+          }
+        ],
+        "modelFamilies": [
+          "Gemini family"
+        ],
+        "safetyFrameworkName": "Frontier Safety Framework",
+        "responsibleScalingPolicyUrl": "https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/",
+        "frontierCommitmentIds": [
+          "seoul-frontier-ai-safety-commitments"
+        ],
+        "evaluationPartnerIds": [],
+        "deploymentMarketIso3s": [
+          "EUU",
+          "USA",
+          "GBR",
+          "KOR",
+          "CAN"
+        ],
+        "publicGovernanceContactUrl": "https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/",
+        "summary": "Google DeepMind profile linking safety, commitment, evaluation, and compute-context rows.",
+        "caveat": "Research triage layer; not a full entity, product, or liability assessment.",
+        "sourceName": "DeepMind — Model cards",
+        "sourceUrl": "https://deepmind.google/models/model-cards/",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "verificationNotes": "Primary company source checked for model or safety-framework reference; frontier-lab inclusion, HQ treatment, and power score remain methodology judgments.",
+        "sourceChain": [
+          {
+            "sourceName": "Google DeepMind — Frontier Safety Framework",
+            "sourceUrl": "https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/",
+            "sourceKind": "official",
+            "note": "Safety-framework source attached to the lab profile."
+          }
+        ],
+        "reviewStatus": "editorial_checked",
+        "reviewNotes": "Checked context/legal separation for lab-intelligence v1.",
+        "expertReview": {
+          "reviewerRole": "dataset editor",
+          "reviewDate": "2026-06-07",
+          "reviewScope": "Checked context/legal separation for lab-intelligence v1.",
+          "unresolvedCaveats": [
+            "Refresh markets, evaluation partnerships, and model families monthly."
+          ]
+        }
+      },
+      {
+        "id": "meta-intelligence-profile",
+        "labId": "meta",
+        "parentLegalEntity": "Meta Platforms, Inc.",
+        "majorOffices": [
+          {
+            "label": "Headquarters or principal AI governance hook: United States",
+            "countryIso3": "USA",
+            "note": "This is a jurisdictional hook for research triage, not a complete legal-entity map."
+          }
+        ],
+        "modelFamilies": [
+          "Llama family"
+        ],
+        "safetyFrameworkName": "Advanced AI Scaling Framework",
+        "responsibleScalingPolicyUrl": "https://ai.meta.com/static-resource/Meta_Advanced-AI-Scaling-Framework-v2",
+        "frontierCommitmentIds": [
+          "seoul-frontier-ai-safety-commitments"
+        ],
+        "evaluationPartnerIds": [],
+        "deploymentMarketIso3s": [
+          "EUU",
+          "USA",
+          "GBR",
+          "KOR"
+        ],
+        "publicGovernanceContactUrl": "https://ai.meta.com/static-resource/Meta_Advanced-AI-Scaling-Framework-v2",
+        "summary": "Meta profile linking safety, commitment, evaluation, and compute-context rows.",
+        "caveat": "Research triage layer; not a full entity, product, or liability assessment.",
+        "sourceName": "Meta AI — Llama",
+        "sourceUrl": "https://ai.meta.com/llama/",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "verificationNotes": "Primary company source checked for model or safety-framework reference; frontier-lab inclusion, HQ treatment, and power score remain methodology judgments.",
+        "sourceChain": [
+          {
+            "sourceName": "Meta — Advanced AI Scaling Framework v2",
+            "sourceUrl": "https://ai.meta.com/static-resource/Meta_Advanced-AI-Scaling-Framework-v2",
+            "sourceKind": "official",
+            "note": "Safety-framework source attached to the lab profile."
+          }
+        ],
+        "reviewStatus": "editorial_checked",
+        "reviewNotes": "Checked context/legal separation for lab-intelligence v1.",
+        "expertReview": {
+          "reviewerRole": "dataset editor",
+          "reviewDate": "2026-06-07",
+          "reviewScope": "Checked context/legal separation for lab-intelligence v1.",
+          "unresolvedCaveats": [
+            "Refresh markets, evaluation partnerships, and model families monthly."
+          ]
+        }
+      },
+      {
+        "id": "microsoft-intelligence-profile",
+        "labId": "microsoft",
+        "parentLegalEntity": "Microsoft Corporation",
+        "majorOffices": [
+          {
+            "label": "Headquarters or principal AI governance hook: United States",
+            "countryIso3": "USA",
+            "note": "This is a jurisdictional hook for research triage, not a complete legal-entity map."
+          }
+        ],
+        "modelFamilies": [
+          "Phi family",
+          "Azure AI stack"
+        ],
+        "safetyFrameworkName": "Frontier Governance Framework",
+        "responsibleScalingPolicyUrl": "https://blogs.microsoft.com/on-the-issues/2024/05/01/responsible-ai-transparency-report/",
+        "frontierCommitmentIds": [
+          "seoul-frontier-ai-safety-commitments"
+        ],
+        "evaluationPartnerIds": [],
+        "deploymentMarketIso3s": [
+          "EUU",
+          "USA",
+          "GBR",
+          "KOR",
+          "CAN"
+        ],
+        "publicGovernanceContactUrl": "https://blogs.microsoft.com/on-the-issues/2024/05/01/responsible-ai-transparency-report/",
+        "summary": "Microsoft profile linking safety, commitment, evaluation, and compute-context rows.",
+        "caveat": "Research triage layer; not a full entity, product, or liability assessment.",
+        "sourceName": "Microsoft — Azure Phi",
+        "sourceUrl": "https://azure.microsoft.com/en-us/products/phi/",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "verificationNotes": "Primary company source checked for model or safety-framework reference; frontier-lab inclusion, HQ treatment, and power score remain methodology judgments.",
+        "sourceChain": [
+          {
+            "sourceName": "Microsoft — Frontier Governance Framework",
+            "sourceUrl": "https://blogs.microsoft.com/on-the-issues/2024/05/01/responsible-ai-transparency-report/",
+            "sourceKind": "official",
+            "note": "Safety-framework source attached to the lab profile."
+          }
+        ],
+        "reviewStatus": "editorial_checked",
+        "reviewNotes": "Checked context/legal separation for lab-intelligence v1.",
+        "expertReview": {
+          "reviewerRole": "dataset editor",
+          "reviewDate": "2026-06-07",
+          "reviewScope": "Checked context/legal separation for lab-intelligence v1.",
+          "unresolvedCaveats": [
+            "Refresh markets, evaluation partnerships, and model families monthly."
+          ]
+        }
+      },
+      {
+        "id": "amazon-intelligence-profile",
+        "labId": "amazon",
+        "parentLegalEntity": "Amazon.com, Inc.",
+        "majorOffices": [
+          {
+            "label": "Headquarters or principal AI governance hook: United States",
+            "countryIso3": "USA",
+            "note": "This is a jurisdictional hook for research triage, not a complete legal-entity map."
+          }
+        ],
+        "modelFamilies": [
+          "Nova family"
+        ],
+        "safetyFrameworkName": "Frontier Model Safety Framework",
+        "responsibleScalingPolicyUrl": "https://www.amazon.science/publications/evaluating-the-critical-risks-of-amazons-nova-premier-under-the-frontier-model-safety-framework",
+        "frontierCommitmentIds": [
+          "seoul-frontier-ai-safety-commitments"
+        ],
+        "evaluationPartnerIds": [],
+        "deploymentMarketIso3s": [
+          "EUU",
+          "USA",
+          "GBR",
+          "KOR",
+          "CAN"
+        ],
+        "publicGovernanceContactUrl": "https://www.amazon.science/publications/evaluating-the-critical-risks-of-amazons-nova-premier-under-the-frontier-model-safety-framework",
+        "summary": "Amazon profile linking safety, commitment, evaluation, and compute-context rows.",
+        "caveat": "Research triage layer; not a full entity, product, or liability assessment.",
+        "sourceName": "Amazon — Nova",
+        "sourceUrl": "https://www.aboutamazon.com/news/aws/amazon-nova-foundation-models-guide",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "verificationNotes": "Primary company source checked for model or safety-framework reference; frontier-lab inclusion, HQ treatment, and power score remain methodology judgments.",
+        "sourceChain": [
+          {
+            "sourceName": "Amazon Science — Nova Premier critical-risk evaluation",
+            "sourceUrl": "https://www.amazon.science/publications/evaluating-the-critical-risks-of-amazons-nova-premier-under-the-frontier-model-safety-framework",
+            "sourceKind": "official",
+            "note": "Safety-framework source attached to the lab profile."
+          }
+        ],
+        "reviewStatus": "editorial_checked",
+        "reviewNotes": "Checked context/legal separation for lab-intelligence v1.",
+        "expertReview": {
+          "reviewerRole": "dataset editor",
+          "reviewDate": "2026-06-07",
+          "reviewScope": "Checked context/legal separation for lab-intelligence v1.",
+          "unresolvedCaveats": [
+            "Refresh markets, evaluation partnerships, and model families monthly."
+          ]
+        }
+      },
+      {
+        "id": "xai-intelligence-profile",
+        "labId": "xai",
+        "parentLegalEntity": "xAI Corp.",
+        "majorOffices": [
+          {
+            "label": "Headquarters or principal AI governance hook: United States",
+            "countryIso3": "USA",
+            "note": "This is a jurisdictional hook for research triage, not a complete legal-entity map."
+          }
+        ],
+        "modelFamilies": [
+          "Grok 3"
+        ],
+        "safetyFrameworkName": "Risk Management Framework",
+        "responsibleScalingPolicyUrl": "https://x.ai/news/grok-3",
+        "frontierCommitmentIds": [
+          "seoul-frontier-ai-safety-commitments"
+        ],
+        "evaluationPartnerIds": [],
+        "deploymentMarketIso3s": [
+          "EUU",
+          "USA",
+          "GBR"
+        ],
+        "publicGovernanceContactUrl": "https://x.ai/news/grok-3",
+        "summary": "xAI profile linking safety, commitment, evaluation, and compute-context rows.",
+        "caveat": "Research triage layer; not a full entity, product, or liability assessment.",
+        "sourceName": "xAI — Grok 3",
+        "sourceUrl": "https://x.ai/news/grok-3",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "verificationNotes": "Primary company source checked for model or safety-framework reference; frontier-lab inclusion, HQ treatment, and power score remain methodology judgments.",
+        "sourceChain": [
+          {
+            "sourceName": "xAI — Risk Management Framework",
+            "sourceUrl": "https://x.ai/news/grok-3",
+            "sourceKind": "official",
+            "note": "Safety-framework source attached to the lab profile."
+          }
+        ],
+        "reviewStatus": "editorial_checked",
+        "reviewNotes": "Checked context/legal separation for lab-intelligence v1.",
+        "expertReview": {
+          "reviewerRole": "dataset editor",
+          "reviewDate": "2026-06-07",
+          "reviewScope": "Checked context/legal separation for lab-intelligence v1.",
+          "unresolvedCaveats": [
+            "Refresh markets, evaluation partnerships, and model families monthly."
+          ]
+        }
+      },
+      {
+        "id": "mistral-intelligence-profile",
+        "labId": "mistral",
+        "parentLegalEntity": "Mistral AI SAS",
+        "majorOffices": [
+          {
+            "label": "Headquarters or principal AI governance hook: France",
+            "countryIso3": "FRA",
+            "note": "This is a jurisdictional hook for research triage, not a complete legal-entity map."
+          }
+        ],
+        "modelFamilies": [
+          "Mistral Large 3",
+          "Mistral Medium 3.5",
+          "Le Chat"
+        ],
+        "safetyFrameworkName": "Trust & compliance posture (EU AI Act compliance hub)",
+        "responsibleScalingPolicyUrl": "https://mistral.ai/models",
+        "frontierCommitmentIds": [
+          "seoul-frontier-ai-safety-commitments"
+        ],
+        "evaluationPartnerIds": [],
+        "deploymentMarketIso3s": [
+          "EUU",
+          "FRA",
+          "GBR",
+          "USA"
+        ],
+        "publicGovernanceContactUrl": "https://mistral.ai/models",
+        "summary": "Mistral profile linking safety, commitment, evaluation, and compute-context rows.",
+        "caveat": "Research triage layer; not a full entity, product, or liability assessment.",
+        "sourceName": "Mistral — Models",
+        "sourceUrl": "https://mistral.ai/models",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "verificationNotes": "Primary company source checked for model or safety-framework reference; frontier-lab inclusion, HQ treatment, and power score remain methodology judgments.",
+        "sourceChain": [
+          {
+            "sourceName": "Mistral AI",
+            "sourceUrl": "https://mistral.ai/models",
+            "sourceKind": "official",
+            "note": "Safety-framework source attached to the lab profile."
+          }
+        ],
+        "reviewStatus": "editorial_checked",
+        "reviewNotes": "Checked context/legal separation for lab-intelligence v1.",
+        "expertReview": {
+          "reviewerRole": "dataset editor",
+          "reviewDate": "2026-06-07",
+          "reviewScope": "Checked context/legal separation for lab-intelligence v1.",
+          "unresolvedCaveats": [
+            "Refresh markets, evaluation partnerships, and model families monthly."
+          ]
+        }
+      },
+      {
+        "id": "cohere-intelligence-profile",
+        "labId": "cohere",
+        "parentLegalEntity": "Cohere Inc.",
+        "majorOffices": [
+          {
+            "label": "Headquarters or principal AI governance hook: Canada",
+            "countryIso3": "CAN",
+            "note": "This is a jurisdictional hook for research triage, not a complete legal-entity map."
+          }
+        ],
+        "modelFamilies": [
+          "Command A",
+          "Enterprise stack"
+        ],
+        "safetyFrameworkName": "Secure AI Frontier Model Framework",
+        "responsibleScalingPolicyUrl": "https://cohere.com/blog/secure-model-framework",
+        "frontierCommitmentIds": [
+          "seoul-frontier-ai-safety-commitments"
+        ],
+        "evaluationPartnerIds": [],
+        "deploymentMarketIso3s": [
+          "CAN",
+          "USA",
+          "EUU",
+          "GBR"
+        ],
+        "publicGovernanceContactUrl": "https://cohere.com/blog/secure-model-framework",
+        "summary": "Cohere profile linking safety, commitment, evaluation, and compute-context rows.",
+        "caveat": "Research triage layer; not a full entity, product, or liability assessment.",
+        "sourceName": "Cohere — Command",
+        "sourceUrl": "https://cohere.com/command",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "verificationNotes": "Primary company source checked for model or safety-framework reference; frontier-lab inclusion, HQ treatment, and power score remain methodology judgments.",
+        "sourceChain": [
+          {
+            "sourceName": "Cohere — Secure AI Frontier Model Framework",
+            "sourceUrl": "https://cohere.com/blog/secure-model-framework",
+            "sourceKind": "official",
+            "note": "Safety-framework source attached to the lab profile."
+          }
+        ],
+        "reviewStatus": "editorial_checked",
+        "reviewNotes": "Checked context/legal separation for lab-intelligence v1.",
+        "expertReview": {
+          "reviewerRole": "dataset editor",
+          "reviewDate": "2026-06-07",
+          "reviewScope": "Checked context/legal separation for lab-intelligence v1.",
+          "unresolvedCaveats": [
+            "Refresh markets, evaluation partnerships, and model families monthly."
+          ]
+        }
+      },
+      {
+        "id": "deepseek-intelligence-profile",
+        "labId": "deepseek",
+        "parentLegalEntity": "Hangzhou DeepSeek Artificial Intelligence Co., Ltd. (reported operating entity)",
+        "majorOffices": [
+          {
+            "label": "Headquarters or principal AI governance hook: China",
+            "countryIso3": "CHN",
+            "note": "This is a jurisdictional hook for research triage, not a complete legal-entity map."
+          }
+        ],
+        "modelFamilies": [
+          "DeepSeek-R1",
+          "DeepSeek-V3"
+        ],
+        "safetyFrameworkName": "Usage restrictions / ToS",
+        "responsibleScalingPolicyUrl": "https://api-docs.deepseek.com/news/news250120",
+        "frontierCommitmentIds": [],
+        "evaluationPartnerIds": [
+          "nist-caisi-deepseek-evaluation"
+        ],
+        "deploymentMarketIso3s": [
+          "CHN"
+        ],
+        "publicGovernanceContactUrl": "https://api-docs.deepseek.com/news/news250120",
+        "summary": "DeepSeek profile linking safety, commitment, evaluation, and compute-context rows.",
+        "caveat": "Research triage layer; not a full entity, product, or liability assessment.",
+        "sourceName": "DeepSeek — API docs",
+        "sourceUrl": "https://api-docs.deepseek.com/news/news250120",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "verificationNotes": "Primary company source checked for model or safety-framework reference; frontier-lab inclusion, HQ treatment, and power score remain methodology judgments.",
+        "sourceChain": [
+          {
+            "sourceName": "DeepSeek — Terms of Use",
+            "sourceUrl": "https://api-docs.deepseek.com/news/news250120",
+            "sourceKind": "official",
+            "note": "Safety-framework source attached to the lab profile."
+          }
+        ],
+        "reviewStatus": "editorial_checked",
+        "reviewNotes": "Checked context/legal separation for lab-intelligence v1.",
+        "expertReview": {
+          "reviewerRole": "dataset editor",
+          "reviewDate": "2026-06-07",
+          "reviewScope": "Checked context/legal separation for lab-intelligence v1.",
+          "unresolvedCaveats": [
+            "Refresh markets, evaluation partnerships, and model families monthly."
+          ]
+        }
+      },
+      {
+        "id": "baidu-intelligence-profile",
+        "labId": "baidu",
+        "parentLegalEntity": "Baidu, Inc.",
+        "majorOffices": [
+          {
+            "label": "Headquarters or principal AI governance hook: China",
+            "countryIso3": "CHN",
+            "note": "This is a jurisdictional hook for research triage, not a complete legal-entity map."
+          }
+        ],
+        "modelFamilies": [
+          "ERNIE 5.1",
+          "ERNIE 4.5"
+        ],
+        "safetyFrameworkName": "Self-discipline / responsible AI principles",
+        "responsibleScalingPolicyUrl": "https://ernie.baidu.com/blog/posts/ernie-5.1-0508-release/",
+        "frontierCommitmentIds": [],
+        "evaluationPartnerIds": [],
+        "deploymentMarketIso3s": [
+          "CHN"
+        ],
+        "publicGovernanceContactUrl": "https://ernie.baidu.com/blog/posts/ernie-5.1-0508-release/",
+        "summary": "Baidu profile linking safety, commitment, evaluation, and compute-context rows.",
+        "caveat": "Research triage layer; not a full entity, product, or liability assessment.",
+        "sourceName": "Baidu — ERNIE",
+        "sourceUrl": "https://ernie.baidu.com/blog/posts/ernie-5.1-0508-release/",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "verificationNotes": "Primary company source checked for model or safety-framework reference; frontier-lab inclusion, HQ treatment, and power score remain methodology judgments.",
+        "sourceChain": [
+          {
+            "sourceName": "Baidu ERNIE — Release notes",
+            "sourceUrl": "https://ernie.baidu.com/blog/posts/ernie-5.1-0508-release/",
+            "sourceKind": "official",
+            "note": "Safety-framework source attached to the lab profile."
+          }
+        ],
+        "reviewStatus": "editorial_checked",
+        "reviewNotes": "Checked context/legal separation for lab-intelligence v1.",
+        "expertReview": {
+          "reviewerRole": "dataset editor",
+          "reviewDate": "2026-06-07",
+          "reviewScope": "Checked context/legal separation for lab-intelligence v1.",
+          "unresolvedCaveats": [
+            "Refresh markets, evaluation partnerships, and model families monthly."
+          ]
+        }
+      },
+      {
+        "id": "alibaba-intelligence-profile",
+        "labId": "alibaba",
+        "parentLegalEntity": "Alibaba Group / Alibaba Cloud",
+        "majorOffices": [
+          {
+            "label": "Headquarters or principal AI governance hook: China",
+            "countryIso3": "CHN",
+            "note": "This is a jurisdictional hook for research triage, not a complete legal-entity map."
+          }
+        ],
+        "modelFamilies": [
+          "Qwen 3",
+          "Qwen-Plus"
+        ],
+        "safetyFrameworkName": "AI Guardrails + Qwen3Guard",
+        "responsibleScalingPolicyUrl": "https://www.alibabacloud.com/en/press-room/alibaba-introduces-qwen3-setting-new-benchmark?_p_lc=1",
+        "frontierCommitmentIds": [],
+        "evaluationPartnerIds": [],
+        "deploymentMarketIso3s": [
+          "CHN",
+          "EUU"
+        ],
+        "publicGovernanceContactUrl": "https://www.alibabacloud.com/en/press-room/alibaba-introduces-qwen3-setting-new-benchmark?_p_lc=1",
+        "summary": "Alibaba profile linking safety, commitment, evaluation, and compute-context rows.",
+        "caveat": "Research triage layer; not a full entity, product, or liability assessment.",
+        "sourceName": "Alibaba Cloud — Press room",
+        "sourceUrl": "https://www.alibabacloud.com/en/press-room/alibaba-introduces-qwen3-setting-new-benchmark?_p_lc=1",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "verificationNotes": "Primary company source checked for model or safety-framework reference; frontier-lab inclusion, HQ treatment, and power score remain methodology judgments.",
+        "sourceChain": [
+          {
+            "sourceName": "Alibaba Cloud — Qwen3",
+            "sourceUrl": "https://www.alibabacloud.com/en/press-room/alibaba-introduces-qwen3-setting-new-benchmark?_p_lc=1",
+            "sourceKind": "official",
+            "note": "Safety-framework source attached to the lab profile."
+          }
+        ],
+        "reviewStatus": "editorial_checked",
+        "reviewNotes": "Checked context/legal separation for lab-intelligence v1.",
+        "expertReview": {
+          "reviewerRole": "dataset editor",
+          "reviewDate": "2026-06-07",
+          "reviewScope": "Checked context/legal separation for lab-intelligence v1.",
+          "unresolvedCaveats": [
+            "Refresh markets, evaluation partnerships, and model families monthly."
+          ]
+        }
+      },
+      {
+        "id": "tencent-intelligence-profile",
+        "labId": "tencent",
+        "parentLegalEntity": "Tencent Holdings / Tencent Cloud",
+        "majorOffices": [
+          {
+            "label": "Headquarters or principal AI governance hook: China",
+            "countryIso3": "CHN",
+            "note": "This is a jurisdictional hook for research triage, not a complete legal-entity map."
+          }
+        ],
+        "modelFamilies": [
+          "Hunyuan / Hy family"
+        ],
+        "safetyFrameworkName": "Responsible AI principles / internal risk governance",
+        "responsibleScalingPolicyUrl": "https://hunyuan.tencent.com/",
+        "frontierCommitmentIds": [],
+        "evaluationPartnerIds": [],
+        "deploymentMarketIso3s": [
+          "CHN"
+        ],
+        "publicGovernanceContactUrl": "https://hunyuan.tencent.com/",
+        "summary": "Tencent profile linking safety, commitment, evaluation, and compute-context rows.",
+        "caveat": "Research triage layer; not a full entity, product, or liability assessment.",
+        "sourceName": "Tencent — Hunyuan",
+        "sourceUrl": "https://hunyuan.tencent.com/",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "verificationNotes": "Primary company source checked for model or safety-framework reference; frontier-lab inclusion, HQ treatment, and power score remain methodology judgments.",
+        "sourceChain": [
+          {
+            "sourceName": "Tencent Hunyuan",
+            "sourceUrl": "https://hunyuan.tencent.com/",
+            "sourceKind": "official",
+            "note": "Safety-framework source attached to the lab profile."
+          }
+        ],
+        "reviewStatus": "editorial_checked",
+        "reviewNotes": "Checked context/legal separation for lab-intelligence v1.",
+        "expertReview": {
+          "reviewerRole": "dataset editor",
+          "reviewDate": "2026-06-07",
+          "reviewScope": "Checked context/legal separation for lab-intelligence v1.",
+          "unresolvedCaveats": [
+            "Refresh markets, evaluation partnerships, and model families monthly."
+          ]
+        }
+      }
+    ],
+    "modelGovernanceEvidence": [
+      {
+        "id": "openai-preparedness-framework-evidence",
+        "labIds": [
+          "openai"
+        ],
+        "evidenceKind": "safety_framework",
+        "title": "OpenAI Preparedness Framework",
+        "modelOrSystem": "GPT and o-series frontier models",
+        "domains": [
+          "frontier-gpai"
+        ],
+        "summary": "Company framework for frontier risk tracking, evaluations, thresholds, and deployment controls.",
+        "caveat": "Company or issuer-controlled evidence; not public law.",
+        "sourceName": "OpenAI - Preparedness Framework",
+        "sourceUrl": "https://openai.com/index/updating-our-preparedness-framework/",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-07",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "anthropic-responsible-scaling-policy-evidence",
+        "labIds": [
+          "anthropic"
+        ],
+        "evidenceKind": "responsible_scaling_policy",
+        "title": "Anthropic Responsible Scaling Policy",
+        "modelOrSystem": "Claude frontier models",
+        "domains": [
+          "frontier-gpai"
+        ],
+        "summary": "Responsible-scaling policy using AI Safety Levels and capability-triggered safeguards.",
+        "caveat": "Company or issuer-controlled evidence; not public law.",
+        "sourceName": "Anthropic - Responsible Scaling Policy",
+        "sourceUrl": "https://www.anthropic.com/rsp/",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-07",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "deepmind-frontier-safety-framework-evidence",
+        "labIds": [
+          "google-deepmind"
+        ],
+        "evidenceKind": "safety_framework",
+        "title": "Google DeepMind Frontier Safety Framework",
+        "modelOrSystem": "Gemini frontier models",
+        "domains": [
+          "frontier-gpai"
+        ],
+        "summary": "Framework for critical-capability thresholds plus security and deployment mitigations.",
+        "caveat": "Company or issuer-controlled evidence; not public law.",
+        "sourceName": "Google DeepMind - Frontier Safety Framework",
+        "sourceUrl": "https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-07",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "meta-advanced-ai-scaling-framework-evidence",
+        "labIds": [
+          "meta"
+        ],
+        "evidenceKind": "safety_framework",
+        "title": "Meta Advanced AI Scaling Framework",
+        "modelOrSystem": "Llama frontier releases",
+        "domains": [
+          "frontier-gpai"
+        ],
+        "summary": "Company framework for increasingly capable AI systems and release governance.",
+        "caveat": "Company or issuer-controlled evidence; not public law.",
+        "sourceName": "Meta AI - Advanced AI Scaling Framework",
+        "sourceUrl": "https://ai.meta.com/static-resource/Meta_Advanced-AI-Scaling-Framework-v2",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "microsoft-frontier-governance-framework-evidence",
+        "labIds": [
+          "microsoft"
+        ],
+        "evidenceKind": "safety_framework",
+        "title": "Microsoft Frontier Governance Framework",
+        "modelOrSystem": "Microsoft frontier model and platform stack",
+        "domains": [
+          "frontier-gpai",
+          "compute-cloud-chips"
+        ],
+        "summary": "Company frontier-governance evidence for model, deployment, and platform controls.",
+        "caveat": "Company or issuer-controlled evidence; not public law.",
+        "sourceName": "Microsoft - Responsible AI transparency report",
+        "sourceUrl": "https://blogs.microsoft.com/on-the-issues/2024/05/01/responsible-ai-transparency-report/",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "amazon-nova-premier-critical-risk-evidence",
+        "labIds": [
+          "amazon"
+        ],
+        "evidenceKind": "evaluation_report",
+        "title": "Amazon Nova Premier critical-risk evaluation",
+        "modelOrSystem": "Amazon Nova Premier",
+        "domains": [
+          "frontier-gpai"
+        ],
+        "summary": "Public critical-risk evaluation evidence under Amazon's Frontier Model Safety Framework.",
+        "caveat": "Evaluation evidence, not certification or a legal finding.",
+        "sourceName": "Amazon Science - Nova Premier critical-risk evaluation",
+        "sourceUrl": "https://www.amazon.science/publications/evaluating-the-critical-risks-of-amazons-nova-premier-under-the-frontier-model-safety-framework",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-07",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "cohere-secure-ai-frontier-model-framework-evidence",
+        "labIds": [
+          "cohere"
+        ],
+        "evidenceKind": "safety_framework",
+        "title": "Cohere Secure AI Frontier Model Framework",
+        "modelOrSystem": "Command family",
+        "domains": [
+          "frontier-gpai"
+        ],
+        "summary": "Company framework for secure frontier-model development and deployment risk management.",
+        "caveat": "Company or issuer-controlled evidence; not public law.",
+        "sourceName": "Cohere - Secure AI Frontier Model Framework",
+        "sourceUrl": "https://cohere.com/blog/secure-model-framework",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "seoul-frontier-ai-safety-commitments-company-roster",
+        "labIds": [
+          "amazon",
+          "anthropic",
+          "cohere",
+          "google-deepmind",
+          "meta",
+          "microsoft",
+          "mistral",
+          "openai",
+          "xai"
+        ],
+        "evidenceKind": "frontier_commitment",
+        "title": "Frontier AI Safety Commitments company roster",
+        "domains": [
+          "frontier-gpai"
+        ],
+        "summary": "Official Seoul Summit company roster for voluntary frontier-AI safety commitments.",
+        "caveat": "Company commitments, not treaty obligations or state participation.",
+        "sourceName": "GOV.UK - Frontier AI Safety Commitments",
+        "sourceUrl": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-07",
+        "reviewStatus": "editorial_checked"
+      }
+    ],
+    "safetyEvaluationRecords": [
+      {
+        "id": "nist-caisi-frontier-evaluation-landscape",
+        "evaluationBody": "NIST Center for AI Standards and Innovation",
+        "jurisdiction": "United States",
+        "labIds": [],
+        "evaluationType": "institute_landscape",
+        "publicResult": "methodology_only",
+        "domains": [
+          "frontier-gpai",
+          "cybersecurity-critical-infrastructure"
+        ],
+        "summary": "U.S. public technical body for AI standards, security, and evaluation science.",
+        "caveat": "Institute-level context; not a lab-specific legal obligation.",
+        "sourceName": "NIST - Center for AI Standards and Innovation",
+        "sourceUrl": "https://www.nist.gov/caisi",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-07",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "nist-caisi-deepseek-evaluation",
+        "evaluationBody": "NIST Center for AI Standards and Innovation",
+        "jurisdiction": "United States",
+        "labIds": [
+          "deepseek"
+        ],
+        "evaluationType": "government_testing",
+        "modelOrSystem": "DeepSeek AI models",
+        "publicResult": "published",
+        "domains": [
+          "frontier-gpai",
+          "cybersecurity-critical-infrastructure"
+        ],
+        "summary": "Published CAISI evaluation record for DeepSeek models.",
+        "caveat": "Evaluation evidence, not certification or a legal finding.",
+        "sourceName": "NIST - CAISI evaluation of DeepSeek AI models",
+        "sourceUrl": "https://www.nist.gov/document/caisi-evaluation-deepseek-ai-models-report",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-07",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "uk-aisi-frontier-trends-testing-landscape",
+        "evaluationBody": "UK AI Security Institute",
+        "jurisdiction": "United Kingdom",
+        "labIds": [],
+        "evaluationType": "institute_landscape",
+        "publicResult": "methodology_only",
+        "domains": [
+          "frontier-gpai",
+          "cybersecurity-critical-infrastructure"
+        ],
+        "summary": "UK public frontier-model testing and evaluation landscape evidence.",
+        "caveat": "Institute-level context; not a lab-specific legal obligation.",
+        "sourceName": "UK AISI - Frontier AI Trends Report",
+        "sourceUrl": "https://www.aisi.gov.uk/frontier-ai-trends-report",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-07",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "amazon-nova-premier-evaluation-record",
+        "evaluationBody": "Amazon Science",
+        "jurisdiction": "United States",
+        "labIds": [
+          "amazon"
+        ],
+        "evaluationType": "company_evaluation_report",
+        "modelOrSystem": "Amazon Nova Premier",
+        "publicResult": "published",
+        "domains": [
+          "frontier-gpai"
+        ],
+        "summary": "Published critical-risk evaluation report for Nova Premier.",
+        "caveat": "Evaluation evidence, not certification or a legal finding.",
+        "sourceName": "Amazon Science - Nova Premier critical-risk evaluation",
+        "sourceUrl": "https://www.amazon.science/publications/evaluating-the-critical-risks-of-amazons-nova-premier-under-the-frontier-model-safety-framework",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-07",
+        "reviewStatus": "editorial_checked"
+      }
+    ],
+    "incidentEnforcementRecords": [
+      {
+        "id": "ftc-operation-ai-comply-2024",
+        "eventType": "enforcement_action",
+        "title": "FTC Operation AI Comply",
+        "jurisdiction": "United States",
+        "countryIso3": "USA",
+        "labIds": [],
+        "date": "2024-09-25",
+        "status": "public enforcement sweep announced",
+        "domains": [
+          "enforcement-litigation"
+        ],
+        "summary": "FTC enforcement sweep against deceptive AI claims and schemes.",
+        "caveat": "Enforcement context only; no tracked frontier lab is treated as a target without an official source.",
+        "sourceName": "FTC - Operation AI Comply",
+        "sourceUrl": "https://www.ftc.gov/news-events/news/press-releases/2024/09/ftc-announces-crackdown-deceptive-ai-claims-schemes",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-07",
+        "reviewStatus": "editorial_checked"
+      }
+    ],
+    "computeDependencyRecords": [
+      {
+        "id": "frontier-labs-advanced-ai-chip-dependency",
+        "labIds": [
+          "openai",
+          "anthropic",
+          "google-deepmind",
+          "meta",
+          "microsoft",
+          "amazon",
+          "xai",
+          "mistral",
+          "cohere",
+          "deepseek",
+          "baidu",
+          "alibaba",
+          "tencent"
+        ],
+        "infrastructureId": "advanced-ai-chips",
+        "dependencyType": "advanced_chips",
+        "directness": "indirect",
+        "strength": 5,
+        "summary": "Frontier training and inference depend on advanced accelerators and supply chains.",
+        "caveat": "Infrastructure context; not AI-specific law or capacity/procurement proof.",
+        "sourceName": "NVIDIA - H100 Tensor Core GPU",
+        "sourceUrl": "https://www.nvidia.com/en-us/data-center/h100/",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "verificationNotes": "Representative advanced-AI accelerator source; row is analytical infrastructure context.",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "frontier-labs-hyperscale-cloud-dependency",
+        "labIds": [
+          "openai",
+          "anthropic",
+          "meta",
+          "xai",
+          "mistral",
+          "cohere",
+          "deepseek",
+          "baidu"
+        ],
+        "infrastructureId": "hyperscale-cloud",
+        "dependencyType": "cloud_platform",
+        "directness": "indirect",
+        "strength": 4,
+        "summary": "Cloud or cloud-adjacent capacity for training, inference, distribution, or enterprise deployment.",
+        "caveat": "Infrastructure context; not AI-specific law or capacity/procurement proof.",
+        "sourceName": "Synergy Research - Cloud market share",
+        "sourceUrl": "https://www.srgresearch.com/articles/q1-cloud-spending-grows-by-over-10-billion-from-2022-the-big-three-account-for-65-of-the-total",
+        "sourceKind": "secondary",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "verificationNotes": "Secondary market source used for cloud-market context only; no legal claim depends on this row.",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "chinese-frontier-labs-us-export-control-dependency",
+        "labIds": [
+          "deepseek",
+          "baidu",
+          "alibaba",
+          "tencent"
+        ],
+        "infrastructureId": "us-bis-export-controls",
+        "dependencyType": "export_control",
+        "jurisdiction": "United States / China",
+        "directness": "indirect",
+        "strength": 4,
+        "summary": "Upstream export-control constraint for Chinese frontier-AI compute access.",
+        "caveat": "Export-control context, separate from AI-specific legal exposure.",
+        "sourceName": "U.S. BIS - AI chip controls",
+        "sourceUrl": "https://www.bis.gov/press-release/department-commerce-rescinds-biden-era-artificial-intelligence-diffusion-rule-strengthens-chip-related",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-05-20",
+        "verificationNotes": "BIS source verifies export-control context; lab-specific dependency is analytical synthesis.",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "us-nairr-public-compute-context",
+        "labIds": [],
+        "infrastructureId": "hyperscale-cloud",
+        "dependencyType": "public_compute",
+        "jurisdiction": "United States",
+        "directness": "indirect",
+        "strength": 2,
+        "summary": "Public compute-access context for researchers and non-frontier actors.",
+        "caveat": "Infrastructure context; not AI-specific law or capacity/procurement proof.",
+        "sourceName": "NSF - National AI Research Resource Pilot",
+        "sourceUrl": "https://www.nsf.gov/focus-areas/artificial-intelligence/nairr",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-06-07",
+        "verificationNotes": "Official NSF source used for public-compute context; not used for legal map coloring.",
+        "reviewStatus": "editorial_checked"
       }
     ],
     "internationalInstruments": [
@@ -44121,6 +45238,40 @@
           "docs/SOURCE_AUDIT_CURRENT.md",
           "docs/ROADMAP_BACKLOG_LEDGER.md"
         ]
+      }
+    ],
+    "recordChangeLogEntries": [
+      {
+        "id": "2026-06-07-lab-intelligence-layer",
+        "recordId": "lab-intelligence-v1",
+        "recordKind": "dataset",
+        "changeType": "added",
+        "date": "2026-06-07",
+        "summary": "Added lab-intelligence profiles, evidence rows, compute context, and public endpoints.",
+        "reviewer": {
+          "reviewerRole": "dataset editor",
+          "reviewDate": "2026-06-07",
+          "reviewScope": "Checked context/legal separation for lab-intelligence v1.",
+          "unresolvedCaveats": [
+            "Refresh markets, evaluation partnerships, and model families monthly."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-07-context-separation",
+        "recordId": "lab-intelligence-v1",
+        "recordKind": "dataset",
+        "changeType": "manually_verified",
+        "date": "2026-06-07",
+        "summary": "Confirmed lab-intelligence rows do not drive binding-law coloring, summaries, or obligation counts.",
+        "reviewer": {
+          "reviewerRole": "dataset editor",
+          "reviewDate": "2026-06-07",
+          "reviewScope": "Checked context/legal separation for lab-intelligence v1.",
+          "unresolvedCaveats": [
+            "Refresh markets, evaluation partnerships, and model families monthly."
+          ]
+        }
       }
     ]
   }

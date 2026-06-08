@@ -1,0 +1,24 @@
+[
+  {
+    "id": "ftc-operation-ai-comply-2024",
+    "eventType": "enforcement_action",
+    "title": "FTC Operation AI Comply",
+    "jurisdiction": "United States",
+    "countryIso3": "USA",
+    "labIds": [],
+    "date": "2024-09-25",
+    "status": "public enforcement sweep announced",
+    "domains": [
+      "enforcement-litigation"
+    ],
+    "summary": "FTC enforcement sweep against deceptive AI claims and schemes.",
+    "caveat": "Enforcement context only; no tracked frontier lab is treated as a target without an official source.",
+    "sourceName": "FTC - Operation AI Comply",
+    "sourceUrl": "https://www.ftc.gov/news-events/news/press-releases/2024/09/ftc-announces-crackdown-deceptive-ai-claims-schemes",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-07",
+    "reviewStatus": "editorial_checked"
+  }
+]

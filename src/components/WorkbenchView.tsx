@@ -60,6 +60,8 @@ import { SourceLink } from "./SourceLink";
 import { VerificationMeta } from "./VerificationMeta";
 import { EvidenceDossierButton } from "./EvidenceDossierButton";
 import { CorrectionLink } from "./CorrectionLink";
+import { LabIntelligenceBoard } from "./LabIntelligenceBoard";
+import { getLabIntelligenceSummary } from "../utils/labIntelligence";
 
 interface Props {
   filters: FilterState;
@@ -105,6 +107,12 @@ const WORKFLOWS: Array<{
     id: "lab-exposure",
     title: "Assess frontier-lab exposure",
     detail: "Emphasize lab-facing binding, voluntary, standard, and infrastructure hooks.",
+    patch: { frontierAIRelevant: "yes", selectedDomains: ["frontier-gpai", "compute-cloud-chips"] },
+  },
+  {
+    id: "lab-intelligence-board",
+    title: "Use Lab Board",
+    detail: "Compare safety frameworks, evaluation evidence, compute dependencies, and exposure counts by lab.",
     patch: { frontierAIRelevant: "yes", selectedDomains: ["frontier-gpai", "compute-cloud-chips"] },
   },
   {
@@ -194,6 +202,29 @@ const TOP_RESEARCH_QUESTIONS: Array<{
     ],
     scenario: { labId: "openai", markets: ["EUU", "USA", "GBR", "KOR"] },
     answerCardId: "lab-exposure",
+  },
+  {
+    id: "labs-with-safety-frameworks",
+    title: "Which labs publish safety frameworks?",
+    detail: "Open the Lab Board and compare public framework and commitment evidence.",
+    patch: { frontierAIRelevant: "yes", selectedDomains: ["frontier-gpai"] },
+    compareItems: [
+      { kind: "lab", id: "openai" },
+      { kind: "lab", id: "anthropic" },
+      { kind: "lab", id: "google-deepmind" },
+    ],
+    answerCardId: "lab-safety-evidence",
+  },
+  {
+    id: "government-evaluation-exposure",
+    title: "Where is government evaluation evidence visible?",
+    detail: "Compare safety-institute and public evaluation evidence without treating it as binding law.",
+    patch: { frontierAIRelevant: "yes", selectedDomains: ["frontier-gpai", "cybersecurity-critical-infrastructure"] },
+    compareItems: [
+      { kind: "lab", id: "deepseek" },
+      { kind: "lab", id: "amazon" },
+    ],
+    answerCardId: "safety-evaluations",
   },
   {
     id: "china-synthetic-media",
@@ -557,6 +588,8 @@ export function WorkbenchView({
           </div>
         </section>
 
+        <LabIntelligenceBoard onSelectLab={onSelectLab} />
+
         <section className="mt-4 rounded-lg border border-canvas-line bg-white p-3">
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div>
@@ -659,7 +692,7 @@ export function WorkbenchView({
                   onClick={exportComparisonCsv}
                   className="h-8 rounded-md border border-canvas-line bg-white px-2.5 text-xs font-semibold text-ink-700 hover:border-accent hover:text-accent"
                 >
-                  Export CSV
+                  Export comparison CSV
                 </button>
                 <select
                   value={compareKind}
@@ -727,7 +760,7 @@ export function WorkbenchView({
                 onClick={exportScenarioCsv}
                 className="rounded-md border border-canvas-line bg-white px-2.5 py-1 text-xs font-semibold text-ink-700 hover:border-accent hover:text-accent"
               >
-                Export CSV
+                Export scenario CSV
               </button>
             </div>
             <label className="mt-3 block text-xs font-medium text-ink-700">
@@ -772,6 +805,12 @@ export function WorkbenchView({
                 <p className="mt-1 text-ink-600">{exposureEffectSummary(scenario.exposureRows)}</p>
                 <p className="mt-2 font-semibold text-ink-900">Structured obligations</p>
                 <p className="mt-1 text-ink-600">{summarizeObligationCategories(scenario.obligations)}</p>
+                <p className="mt-2 font-semibold text-ink-900">Evidence context</p>
+                <p className="mt-1 text-ink-600">
+                  {scenario.modelGovernanceEvidence.length} model-governance row(s);{" "}
+                  {scenario.safetyEvaluationRecords.length} safety/evaluation row(s);{" "}
+                  {scenario.computeDependencyRecords.length} compute-dependency row(s).
+                </p>
                 <ul className="mt-2 space-y-1">
                   {scenario.exposureRows.slice(0, 5).map((row) => {
                     const target = getLabExposureTarget(row);
@@ -814,6 +853,8 @@ export function WorkbenchView({
               { id: "full", name: "/data/full-dataset.json", detail: "Full static research snapshot" },
               { id: "obligations", name: "/data/obligation-matrix.json", detail: "Structured obligation rows" },
               { id: "labs", name: "/data/lab-exposure-matrix.json", detail: "Lab regulatory-exposure matrix" },
+              { id: "lab-intel", name: "/data/lab-intelligence.json", detail: "Frontier-lab intelligence profiles" },
+              { id: "safety", name: "/data/safety-evaluations.json", detail: "Safety and evaluation evidence" },
             ]}
           />
         </section>
@@ -853,7 +894,7 @@ function RecordRoutePanel({
         <RecordText label="Implementation" value={summarizeImplementationStatuses(implementation)} />
         <RecordActions>
           <button type="button" onClick={() => onSelectCountry(summary.country!.iso3)} className={smallButtonClass}>
-            Open drawer
+            Open country drawer
           </button>
           <EvidenceDossierButton kind="country" id={summary.country.iso3} />
           <a className={smallButtonClass} href={recordRoute("country", summary.country.iso3)}>
@@ -884,7 +925,7 @@ function RecordRoutePanel({
         <RecordText label="Obligations" value={summarizeObligationCategories(obligations)} />
         <RecordActions>
           <button type="button" onClick={() => onSelectLab(lab.id)} className={smallButtonClass}>
-            Open drawer
+            Open lab drawer
           </button>
           <EvidenceDossierButton kind="lab" id={lab.id} />
           <a className={smallButtonClass} href={recordRoute("lab", lab.id)}>
@@ -1343,6 +1384,7 @@ function getCompareSummary(item: WorkbenchCompareItem) {
     const lab = LAB_BY_ID[item.id];
     const exposures = getLabRegulatoryExposures(item.id);
     const obligations = getLabObligations(item.id);
+    const intelligence = getLabIntelligenceSummary(item.id);
     return {
       title: lab?.name ?? item.id,
       metrics: [
@@ -1350,6 +1392,8 @@ function getCompareSummary(item: WorkbenchCompareItem) {
         ["Exposure", String(exposures.length)],
         ["Binding", String(exposures.filter((row) => row.legalEffect === "binding").length)],
         ["Obligations", String(obligations.length)],
+        ["Safety evidence", String(intelligence?.modelGovernanceEvidence.length ?? 0)],
+        ["Evaluations", String(intelligence?.safetyEvaluationRecords.length ?? 0)],
       ],
       detail: exposureEffectSummary(exposures),
     };
@@ -1436,7 +1480,7 @@ function renderScenarioCsv(
   marketIso3s: string[],
   scenario: ReturnType<typeof buildScenarioAssessment>
 ): string {
-  const rows = [["lab", "markets", "target", "legal_effect", "directness", "strength", "rationale", "source_url"]];
+  const rows = [["lab", "markets", "category", "target", "legal_effect", "directness", "strength", "rationale", "source_url"]];
   if (!scenario) return rows.map(csvRow).join("\n");
   const lab = LAB_BY_ID[labId];
   const markets = marketIso3s.map((iso3) => COUNTRY_BY_ISO3[iso3]?.name ?? iso3).join("; ");
@@ -1445,11 +1489,51 @@ function renderScenarioCsv(
     rows.push([
       lab?.name ?? labId,
       markets,
+      "regulatory_exposure",
       target.name,
       LAB_EXPOSURE_EFFECT_LABELS[row.legalEffect],
       row.directness,
       String(row.strength),
       row.rationale,
+      row.sourceUrl,
+    ]);
+  });
+  scenario.modelGovernanceEvidence.forEach((row) => {
+    rows.push([
+      lab?.name ?? labId,
+      markets,
+      "model_governance_evidence",
+      row.title,
+      "context",
+      "evidence",
+      "",
+      row.summary,
+      row.sourceUrl,
+    ]);
+  });
+  scenario.safetyEvaluationRecords.forEach((row) => {
+    rows.push([
+      lab?.name ?? labId,
+      markets,
+      "safety_evaluation",
+      row.evaluationBody,
+      "context",
+      row.publicResult,
+      "",
+      row.summary,
+      row.sourceUrl,
+    ]);
+  });
+  scenario.computeDependencyRecords.forEach((row) => {
+    rows.push([
+      lab?.name ?? labId,
+      markets,
+      "compute_dependency",
+      row.infrastructureId,
+      "infrastructure_context",
+      row.directness,
+      String(row.strength),
+      row.summary,
       row.sourceUrl,
     ]);
   });

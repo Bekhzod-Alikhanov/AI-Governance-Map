@@ -6,6 +6,12 @@ import { GOVERNANCE_OBLIGATIONS } from "../data/governanceObligations";
 import { IMPLEMENTATION_MILESTONES } from "../data/implementationMilestones";
 import { INTERNATIONAL_INSTRUMENTS } from "../data/internationalInstruments";
 import { LAB_REGULATORY_EXPOSURES } from "../data/labRegulatoryExposures";
+import {
+  COMPUTE_DEPENDENCY_RECORDS,
+  LAB_INTELLIGENCE_PROFILES,
+  MODEL_GOVERNANCE_EVIDENCE,
+  SAFETY_EVALUATION_RECORDS,
+} from "../data/labIntelligence";
 import { NATIONAL_AI_REGULATIONS } from "../data/nationalAIRegulations";
 import { DATA_SNAPSHOT_DATE } from "./governanceTaxonomy";
 import {
@@ -32,6 +38,10 @@ describe("dataset export helpers", () => {
     expect(snapshot.counts.countries).toBe(COUNTRIES.filter((country) => country.iso3 !== "EUU").length);
     expect(snapshot.counts.frontierLabs).toBe(FRONTIER_LABS.length);
     expect(snapshot.counts.labRegulatoryExposures).toBe(LAB_REGULATORY_EXPOSURES.length);
+    expect(snapshot.counts.labIntelligenceProfiles).toBe(LAB_INTELLIGENCE_PROFILES.length);
+    expect(snapshot.counts.modelGovernanceEvidence).toBe(MODEL_GOVERNANCE_EVIDENCE.length);
+    expect(snapshot.counts.safetyEvaluationRecords).toBe(SAFETY_EVALUATION_RECORDS.length);
+    expect(snapshot.counts.computeDependencyRecords).toBe(COMPUTE_DEPENDENCY_RECORDS.length);
     expect(snapshot.counts.internationalInstruments).toBe(INTERNATIONAL_INSTRUMENTS.length);
     expect(snapshot.counts.nationalAIRegulations).toBe(NATIONAL_AI_REGULATIONS.length);
     expect(snapshot.counts.governanceObligations).toBe(GOVERNANCE_OBLIGATIONS.length);
@@ -42,6 +52,8 @@ describe("dataset export helpers", () => {
     expect(snapshot.data.countries).toBe(COUNTRIES);
     expect(snapshot.data.frontierLabs).toBe(FRONTIER_LABS);
     expect(snapshot.data.labRegulatoryExposures).toBe(LAB_REGULATORY_EXPOSURES);
+    expect(snapshot.data.labIntelligenceProfiles).toBe(LAB_INTELLIGENCE_PROFILES);
+    expect(snapshot.data.modelGovernanceEvidence).toBe(MODEL_GOVERNANCE_EVIDENCE);
     expect(snapshot.data.countryIndicatorScores).toBe(COUNTRY_INDICATOR_SCORES);
     expect(validateDatasetSnapshotShape(snapshot)).toEqual([]);
   });

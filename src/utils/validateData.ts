@@ -12,6 +12,14 @@ import { INFRASTRUCTURE_NODES, INFRA_BY_ID } from "../data/infrastructure";
 import { DEPENDENCY_EDGES } from "../data/dependencies";
 import { SUBNATIONAL_AI_RULES, SUBNATIONAL_BY_ID } from "../data/subnationalRules";
 import { LAB_REGULATORY_EXPOSURES } from "../data/labRegulatoryExposures";
+import {
+  COMPUTE_DEPENDENCY_RECORDS,
+  INCIDENT_ENFORCEMENT_RECORDS,
+  LAB_INTELLIGENCE_PROFILES,
+  MODEL_GOVERNANCE_EVIDENCE,
+  RECORD_CHANGE_LOG_ENTRIES,
+  SAFETY_EVALUATION_RECORDS,
+} from "../data/labIntelligence";
 import { AI_ATLAS_SOURCES, COUNTRY_INDICATOR_SCORES, COUNTRY_READINESS_REPORTS, INDICATOR_SOURCE_BY_ID } from "../data/aiAtlas";
 import { hasCyrillic } from "./translateSeedDataToEnglish";
 import {
@@ -226,6 +234,115 @@ export function validateData(): ValidationReport {
     if (exposure.directness !== "direct" && !exposure.notes && !exposure.verificationNotes) {
       warnings.push(`Indirect or conditional lab exposure ${exposure.id} lacks a caveat note`);
     }
+  }
+
+  // Workbench domains
+  // Frontier-lab intelligence evidence
+  const labIntelligenceProfileIds = new Set<string>();
+  for (const profile of LAB_INTELLIGENCE_PROFILES) {
+    if (!profile.id) errors.push("Lab intelligence profile missing id");
+    if (labIntelligenceProfileIds.has(profile.id)) errors.push(`Duplicate lab intelligence profile id: ${profile.id}`);
+    labIntelligenceProfileIds.add(profile.id);
+    if (!LAB_BY_ID[profile.labId]) {
+      errors.push(`Lab intelligence profile ${profile.id} references unknown lab ${profile.labId}`);
+    }
+    for (const office of profile.majorOffices) {
+      if (!COUNTRY_BY_ISO3[office.countryIso3] && office.countryIso3 !== "EUU") {
+        errors.push(`Lab intelligence profile ${profile.id} references unknown office country ${office.countryIso3}`);
+      }
+    }
+    for (const marketIso3 of profile.deploymentMarketIso3s) {
+      if (!COUNTRY_BY_ISO3[marketIso3] && marketIso3 !== "EUU") {
+        errors.push(`Lab intelligence profile ${profile.id} references unknown deployment market ${marketIso3}`);
+      }
+    }
+    validateSource("Lab intelligence profile", profile.id, profile);
+    validateDate(`Lab intelligence profile ${profile.id} lastVerified`, profile.lastVerified);
+    if (!profile.caveat) warnings.push(`Lab intelligence profile ${profile.id} missing caveat`);
+  }
+
+  const modelEvidenceIds = new Set<string>();
+  for (const evidence of MODEL_GOVERNANCE_EVIDENCE) {
+    if (!evidence.id) errors.push("Model governance evidence missing id");
+    if (modelEvidenceIds.has(evidence.id)) errors.push(`Duplicate model governance evidence id: ${evidence.id}`);
+    modelEvidenceIds.add(evidence.id);
+    for (const labId of evidence.labIds) {
+      if (!LAB_BY_ID[labId]) errors.push(`Model governance evidence ${evidence.id} references unknown lab ${labId}`);
+    }
+    for (const domainId of evidence.domains) {
+      if (!GOVERNANCE_DOMAIN_BY_ID[domainId]) {
+        errors.push(`Model governance evidence ${evidence.id} references unknown domain ${domainId}`);
+      }
+    }
+    validateSource("Model governance evidence", evidence.id, evidence);
+    validateDate(`Model governance evidence ${evidence.id} lastVerified`, evidence.lastVerified);
+    if (!evidence.caveat) errors.push(`Model governance evidence ${evidence.id} missing caveat`);
+  }
+
+  const safetyEvaluationIds = new Set<string>();
+  for (const evaluation of SAFETY_EVALUATION_RECORDS) {
+    if (!evaluation.id) errors.push("Safety evaluation record missing id");
+    if (safetyEvaluationIds.has(evaluation.id)) errors.push(`Duplicate safety evaluation record id: ${evaluation.id}`);
+    safetyEvaluationIds.add(evaluation.id);
+    for (const labId of evaluation.labIds) {
+      if (!LAB_BY_ID[labId]) errors.push(`Safety evaluation record ${evaluation.id} references unknown lab ${labId}`);
+    }
+    for (const domainId of evaluation.domains) {
+      if (!GOVERNANCE_DOMAIN_BY_ID[domainId]) {
+        errors.push(`Safety evaluation record ${evaluation.id} references unknown domain ${domainId}`);
+      }
+    }
+    validateSource("Safety evaluation record", evaluation.id, evaluation);
+    validateDate(`Safety evaluation record ${evaluation.id} lastVerified`, evaluation.lastVerified);
+    if (!evaluation.caveat) errors.push(`Safety evaluation record ${evaluation.id} missing caveat`);
+  }
+
+  const incidentIds = new Set<string>();
+  for (const incident of INCIDENT_ENFORCEMENT_RECORDS) {
+    if (!incident.id) errors.push("Incident/enforcement record missing id");
+    if (incidentIds.has(incident.id)) errors.push(`Duplicate incident/enforcement record id: ${incident.id}`);
+    incidentIds.add(incident.id);
+    if (incident.countryIso3 && !COUNTRY_BY_ISO3[incident.countryIso3]) {
+      errors.push(`Incident/enforcement record ${incident.id} references unknown country ${incident.countryIso3}`);
+    }
+    for (const labId of incident.labIds) {
+      if (!LAB_BY_ID[labId]) errors.push(`Incident/enforcement record ${incident.id} references unknown lab ${labId}`);
+    }
+    for (const domainId of incident.domains) {
+      if (!GOVERNANCE_DOMAIN_BY_ID[domainId]) {
+        errors.push(`Incident/enforcement record ${incident.id} references unknown domain ${domainId}`);
+      }
+    }
+    validateSource("Incident/enforcement record", incident.id, incident);
+    validateDate(`Incident/enforcement record ${incident.id} date`, incident.date);
+    validateDate(`Incident/enforcement record ${incident.id} lastVerified`, incident.lastVerified);
+    if (!incident.caveat) errors.push(`Incident/enforcement record ${incident.id} missing caveat`);
+  }
+
+  const computeDependencyIds = new Set<string>();
+  for (const dependency of COMPUTE_DEPENDENCY_RECORDS) {
+    if (!dependency.id) errors.push("Compute dependency record missing id");
+    if (computeDependencyIds.has(dependency.id)) errors.push(`Duplicate compute dependency record id: ${dependency.id}`);
+    computeDependencyIds.add(dependency.id);
+    for (const labId of dependency.labIds) {
+      if (!LAB_BY_ID[labId]) errors.push(`Compute dependency record ${dependency.id} references unknown lab ${labId}`);
+    }
+    if (!INFRA_BY_ID[dependency.infrastructureId]) {
+      errors.push(`Compute dependency record ${dependency.id} references unknown infrastructure ${dependency.infrastructureId}`);
+    }
+    if (dependency.strength < 1 || dependency.strength > 5) {
+      errors.push(`Compute dependency record ${dependency.id} strength outside 1-5 range`);
+    }
+    validateSource("Compute dependency record", dependency.id, dependency);
+    validateDate(`Compute dependency record ${dependency.id} lastVerified`, dependency.lastVerified);
+    if (!dependency.caveat) errors.push(`Compute dependency record ${dependency.id} missing caveat`);
+  }
+
+  const changelogIds = new Set<string>();
+  for (const entry of RECORD_CHANGE_LOG_ENTRIES) {
+    if (changelogIds.has(entry.id)) errors.push(`Duplicate record changelog id: ${entry.id}`);
+    changelogIds.add(entry.id);
+    validateDate(`Record changelog ${entry.id} date`, entry.date);
   }
 
   // Workbench domains

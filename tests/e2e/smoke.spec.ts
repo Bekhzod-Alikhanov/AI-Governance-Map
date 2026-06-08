@@ -166,6 +166,13 @@ test.describe("governance map smoke flows", () => {
     const exposureDownload = await exposureDownloadPromise;
     expect(exposureDownload.suggestedFilename()).toBe("global-ai-governance-map-exposure.csv");
 
+    await page.getByRole("button", { name: "Lab intel" }).click();
+    await expect(page.getByText("Preparedness Framework").first()).toBeVisible();
+    const labIntelDownloadPromise = page.waitForEvent("download");
+    await page.getByRole("button", { name: "Export CSV" }).click();
+    const labIntelDownload = await labIntelDownloadPromise;
+    expect(labIntelDownload.suggestedFilename()).toBe("global-ai-governance-map-lab-intelligence.csv");
+
     await page.getByRole("button", { name: "Obligations" }).click();
     await expect(page.getByText("Incident reporting").first()).toBeVisible();
     const obligationDownloadPromise = page.waitForEvent("download");
@@ -188,11 +195,11 @@ test.describe("governance map smoke flows", () => {
     await expect(page.locator("h3", { hasText: "United States" })).toBeVisible();
     await expect(page.getByText("Obligations:", { exact: false }).first()).toBeVisible();
     await expect(page.getByText("Implementation:", { exact: false }).first()).toBeVisible();
-    await expect(page.getByRole("button", { name: "Open drawer" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Open country drawer" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Stable URL" })).toHaveAttribute("href", "/country/USA");
 
     await page.goto("/lab/openai");
-    await expect(page.getByRole("heading", { name: "OpenAI" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "OpenAI", level: 3 })).toBeVisible();
     await expect(page.getByText("Regulatory scenario")).toBeVisible();
 
     await page.goto("/instrument/eu-ai-act");
@@ -212,11 +219,18 @@ test.describe("governance map smoke flows", () => {
     await page.goto("/?lens=workbench");
 
     await expect(page.getByRole("heading", { name: "Answer concrete AI-governance questions" })).toBeVisible();
+    const labBoard = page.locator("section", { has: page.getByRole("heading", { name: "Frontier lab intelligence board" }) });
+    await expect(labBoard).toBeVisible();
+    await expect(labBoard.getByText("Preparedness Framework").first()).toBeVisible();
+    const labBoardDownloadPromise = page.waitForEvent("download");
+    await labBoard.getByRole("button", { name: "Export Lab Board CSV" }).click();
+    const labBoardDownload = await labBoardDownloadPromise;
+    expect(labBoardDownload.suggestedFilename()).toBe("global-ai-governance-map-lab-intelligence.csv");
     await page.getByRole("button", { name: /Who requires incident reporting/ }).click();
     await expect(page).toHaveURL(/wbQuestion=incident-reporting/);
     await expect(page.getByRole("heading", { name: "Incident reporting" }).first()).toBeVisible();
     const comparisonDownloadPromise = page.waitForEvent("download");
-    await page.getByRole("button", { name: "Export CSV" }).first().click();
+    await page.getByRole("button", { name: "Export comparison CSV" }).click();
     const comparisonDownload = await comparisonDownloadPromise;
     expect(comparisonDownload.suggestedFilename()).toBe("ai-governance-workbench-comparison.csv");
 

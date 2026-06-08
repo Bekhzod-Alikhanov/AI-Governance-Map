@@ -1,0 +1,316 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://global-ai-governance-map.vercel.app/dataset.schema.json",
+  "title": "Global AI Governance Map dataset snapshot",
+  "description": "Self-contained static research snapshot for frontier-AI governance mapping. This dataset is not legal advice.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "snapshotDate",
+    "schema",
+    "title",
+    "caveat",
+    "counts",
+    "data"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "2026.06.1"
+    },
+    "snapshotDate": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "schema": {
+      "type": "object",
+      "required": [
+        "id",
+        "version",
+        "format"
+      ],
+      "properties": {
+        "id": {
+          "const": "https://global-ai-governance-map.vercel.app/dataset.schema.json"
+        },
+        "version": {
+          "const": "2026.06.1"
+        },
+        "format": {
+          "const": "json-schema-draft-2020-12"
+        }
+      }
+    },
+    "title": {
+      "type": "string"
+    },
+    "caveat": {
+      "type": "string"
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "countries": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "euMembers": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "frontierLabs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "labRegulatoryExposures": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "labIntelligenceProfiles": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "modelGovernanceEvidence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "safetyEvaluationRecords": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "incidentEnforcementRecords": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "computeDependencyRecords": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "internationalInstruments": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "internationalParticipationRows": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "nationalAIRegulations": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "subnationalAIRules": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "governanceDomains": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "governanceObligations": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "implementationMilestones": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "indicatorSources": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "countryIndicatorScores": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "countryReadinessReports": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "infrastructureNodes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "dependencyEdges": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "outOfScopeItems": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sourceNotes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "datasetReleases": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "recordChangeLogEntries": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "countries": {
+          "type": "array"
+        },
+        "euMembers": {
+          "type": "array"
+        },
+        "frontierLabs": {
+          "type": "array"
+        },
+        "labRegulatoryExposures": {
+          "type": "array"
+        },
+        "labIntelligenceProfiles": {
+          "type": "array"
+        },
+        "modelGovernanceEvidence": {
+          "type": "array"
+        },
+        "safetyEvaluationRecords": {
+          "type": "array"
+        },
+        "incidentEnforcementRecords": {
+          "type": "array"
+        },
+        "computeDependencyRecords": {
+          "type": "array"
+        },
+        "internationalInstruments": {
+          "type": "array"
+        },
+        "internationalParticipation": {
+          "type": "array"
+        },
+        "nationalAIRegulations": {
+          "type": "array"
+        },
+        "subnationalAIRules": {
+          "type": "array"
+        },
+        "governanceDomains": {
+          "type": "array"
+        },
+        "governanceObligations": {
+          "type": "array"
+        },
+        "implementationMilestones": {
+          "type": "array"
+        },
+        "indicatorSources": {
+          "type": "array"
+        },
+        "countryIndicatorScores": {
+          "type": "array"
+        },
+        "countryReadinessReports": {
+          "type": "array"
+        },
+        "infrastructureNodes": {
+          "type": "array"
+        },
+        "dependencyEdges": {
+          "type": "array"
+        },
+        "outOfScopeItems": {
+          "type": "array"
+        },
+        "sourceNotes": {
+          "type": "array"
+        },
+        "datasetReleases": {
+          "type": "array"
+        },
+        "recordChangeLogEntries": {
+          "type": "array"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "verificationMetadata": {
+      "type": "object",
+      "properties": {
+        "sourceKind": {
+          "enum": [
+            "official",
+            "secondary",
+            "mixed",
+            "unknown"
+          ]
+        },
+        "verificationStatus": {
+          "enum": [
+            "verified",
+            "likely_correct",
+            "uncertain",
+            "needs_external_check"
+          ]
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "lastVerified": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "verificationNotes": {
+          "type": "string"
+        },
+        "reviewStatus": {
+          "enum": [
+            "unreviewed",
+            "editorial_checked",
+            "expert_reviewed",
+            "needs_review"
+          ]
+        },
+        "reviewNotes": {
+          "type": "string"
+        },
+        "sourceChain": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "sourceName",
+              "sourceUrl"
+            ],
+            "properties": {
+              "sourceName": {
+                "type": "string"
+              },
+              "sourceUrl": {
+                "type": "string",
+                "format": "uri"
+              },
+              "sourceKind": {
+                "enum": [
+                  "official",
+                  "secondary",
+                  "mixed",
+                  "unknown"
+                ]
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

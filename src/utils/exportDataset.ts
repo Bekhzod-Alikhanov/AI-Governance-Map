@@ -10,6 +10,14 @@ import { IMPLEMENTATION_MILESTONES } from "../data/implementationMilestones";
 import { INFRASTRUCTURE_NODES } from "../data/infrastructure";
 import { INTERNATIONAL_INSTRUMENTS } from "../data/internationalInstruments";
 import { LAB_REGULATORY_EXPOSURES } from "../data/labRegulatoryExposures";
+import {
+  COMPUTE_DEPENDENCY_RECORDS,
+  INCIDENT_ENFORCEMENT_RECORDS,
+  LAB_INTELLIGENCE_PROFILES,
+  MODEL_GOVERNANCE_EVIDENCE,
+  RECORD_CHANGE_LOG_ENTRIES,
+  SAFETY_EVALUATION_RECORDS,
+} from "../data/labIntelligence";
 import { NATIONAL_AI_REGULATIONS } from "../data/nationalAIRegulations";
 import { OUT_OF_SCOPE_ITEMS } from "../data/outOfScope";
 import { INTERNATIONAL_PARTICIPATION } from "../data/participation";
@@ -42,6 +50,11 @@ export function buildDatasetSnapshot() {
       euMembers: EU_MEMBER_ISO3.length,
       frontierLabs: FRONTIER_LABS.length,
       labRegulatoryExposures: LAB_REGULATORY_EXPOSURES.length,
+      labIntelligenceProfiles: LAB_INTELLIGENCE_PROFILES.length,
+      modelGovernanceEvidence: MODEL_GOVERNANCE_EVIDENCE.length,
+      safetyEvaluationRecords: SAFETY_EVALUATION_RECORDS.length,
+      incidentEnforcementRecords: INCIDENT_ENFORCEMENT_RECORDS.length,
+      computeDependencyRecords: COMPUTE_DEPENDENCY_RECORDS.length,
       internationalInstruments: INTERNATIONAL_INSTRUMENTS.length,
       internationalParticipationRows: INTERNATIONAL_PARTICIPATION.length,
       nationalAIRegulations: NATIONAL_AI_REGULATIONS.length,
@@ -57,12 +70,18 @@ export function buildDatasetSnapshot() {
       outOfScopeItems: OUT_OF_SCOPE_ITEMS.length,
       sourceNotes: SOURCE_NOTES.length,
       datasetReleases: DATASET_RELEASES.length,
+      recordChangeLogEntries: RECORD_CHANGE_LOG_ENTRIES.length,
     },
     data: {
       countries: COUNTRIES,
       euMembers: EU_MEMBER_ISO3,
       frontierLabs: FRONTIER_LABS,
       labRegulatoryExposures: LAB_REGULATORY_EXPOSURES,
+      labIntelligenceProfiles: LAB_INTELLIGENCE_PROFILES,
+      modelGovernanceEvidence: MODEL_GOVERNANCE_EVIDENCE,
+      safetyEvaluationRecords: SAFETY_EVALUATION_RECORDS,
+      incidentEnforcementRecords: INCIDENT_ENFORCEMENT_RECORDS,
+      computeDependencyRecords: COMPUTE_DEPENDENCY_RECORDS,
       internationalInstruments: INTERNATIONAL_INSTRUMENTS,
       internationalParticipation: INTERNATIONAL_PARTICIPATION,
       nationalAIRegulations: NATIONAL_AI_REGULATIONS,
@@ -78,6 +97,7 @@ export function buildDatasetSnapshot() {
       outOfScopeItems: OUT_OF_SCOPE_ITEMS,
       sourceNotes: SOURCE_NOTES,
       datasetReleases: DATASET_RELEASES,
+      recordChangeLogEntries: RECORD_CHANGE_LOG_ENTRIES,
     },
   };
 }
@@ -85,7 +105,7 @@ export function buildDatasetSnapshot() {
 export function buildCitationText(): string {
   return [
     `Global AI Governance Map dataset, snapshot ${DATA_SNAPSHOT_DATE}.`,
-    "Coverage: frontier-AI governance actors, instruments, national AI-specific rules, participation rows, labs, structured obligations, implementation milestones, AI Atlas context indicators, infrastructure, dependency links, and source metadata.",
+    "Coverage: frontier-AI governance actors, instruments, national AI-specific rules, participation rows, labs, structured obligations, lab-intelligence evidence, implementation milestones, AI Atlas context indicators, infrastructure, dependency links, and source metadata.",
     "Use with source verification. This dataset is a research aid and is not legal advice.",
     "Repository: https://github.com/Bekhzod-Alikhanov/global-ai-governance-map",
     "Live app: https://global-ai-governance-map.vercel.app/",
@@ -147,6 +167,24 @@ export function buildFilteredDatasetSnapshot(filters: FilterState) {
   const filteredLabRegulatoryExposures = LAB_REGULATORY_EXPOSURES.filter((exposure) =>
     exposureMatchesExportScope(exposure, filters, filteredLabIds)
   );
+  const filteredLabIntelligenceProfiles = LAB_INTELLIGENCE_PROFILES.filter((profile) =>
+    filteredLabIds.has(profile.labId)
+  );
+  const filteredModelGovernanceEvidence = MODEL_GOVERNANCE_EVIDENCE.filter((row) =>
+    row.labIds.some((labId) => filteredLabIds.has(labId))
+  );
+  const filteredSafetyEvaluationRecords = SAFETY_EVALUATION_RECORDS.filter((row) => {
+    if (row.labIds.length) return row.labIds.some((labId) => filteredLabIds.has(labId));
+    return true;
+  });
+  const filteredIncidentEnforcementRecords = INCIDENT_ENFORCEMENT_RECORDS.filter((row) => {
+    if (row.labIds.length && row.labIds.some((labId) => filteredLabIds.has(labId))) return true;
+    return Boolean(row.countryIso3 && countryIso3s.has(row.countryIso3));
+  });
+  const filteredComputeDependencyRecords = COMPUTE_DEPENDENCY_RECORDS.filter((row) => {
+    if (row.labIds.length) return row.labIds.some((labId) => filteredLabIds.has(labId));
+    return true;
+  });
   const filteredObligations = GOVERNANCE_OBLIGATIONS.filter((obligation) =>
     obligationMatchesExportScope(obligation, filters, countryIso3s, filteredLabIds)
   );
@@ -170,6 +208,11 @@ export function buildFilteredDatasetSnapshot(filters: FilterState) {
       euMembers: filteredCountries.filter((country) => country.isEUMember).length,
       frontierLabs: filteredLabs.length,
       labRegulatoryExposures: filteredLabRegulatoryExposures.length,
+      labIntelligenceProfiles: filteredLabIntelligenceProfiles.length,
+      modelGovernanceEvidence: filteredModelGovernanceEvidence.length,
+      safetyEvaluationRecords: filteredSafetyEvaluationRecords.length,
+      incidentEnforcementRecords: filteredIncidentEnforcementRecords.length,
+      computeDependencyRecords: filteredComputeDependencyRecords.length,
       internationalInstruments: filteredInstruments.length,
       internationalParticipationRows: filteredParticipation.length,
       nationalAIRegulations: filteredNational.length,
@@ -185,12 +228,18 @@ export function buildFilteredDatasetSnapshot(filters: FilterState) {
       outOfScopeItems: OUT_OF_SCOPE_ITEMS.length,
       sourceNotes: SOURCE_NOTES.length,
       datasetReleases: DATASET_RELEASES.length,
+      recordChangeLogEntries: RECORD_CHANGE_LOG_ENTRIES.length,
     },
     data: {
       countries: filteredCountries,
       euMembers: EU_MEMBER_ISO3.filter((iso3) => countryIso3s.has(iso3)),
       frontierLabs: filteredLabs,
       labRegulatoryExposures: filteredLabRegulatoryExposures,
+      labIntelligenceProfiles: filteredLabIntelligenceProfiles,
+      modelGovernanceEvidence: filteredModelGovernanceEvidence,
+      safetyEvaluationRecords: filteredSafetyEvaluationRecords,
+      incidentEnforcementRecords: filteredIncidentEnforcementRecords,
+      computeDependencyRecords: filteredComputeDependencyRecords,
       internationalInstruments: filteredInstruments,
       internationalParticipation: filteredParticipation,
       nationalAIRegulations: filteredNational,
@@ -206,6 +255,7 @@ export function buildFilteredDatasetSnapshot(filters: FilterState) {
       outOfScopeItems: OUT_OF_SCOPE_ITEMS,
       sourceNotes: SOURCE_NOTES,
       datasetReleases: DATASET_RELEASES,
+      recordChangeLogEntries: RECORD_CHANGE_LOG_ENTRIES,
     },
   };
 }

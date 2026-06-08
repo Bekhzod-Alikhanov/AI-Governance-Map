@@ -1,0 +1,91 @@
+[
+  {
+    "id": "nist-caisi-frontier-evaluation-landscape",
+    "evaluationBody": "NIST Center for AI Standards and Innovation",
+    "jurisdiction": "United States",
+    "labIds": [],
+    "evaluationType": "institute_landscape",
+    "publicResult": "methodology_only",
+    "domains": [
+      "frontier-gpai",
+      "cybersecurity-critical-infrastructure"
+    ],
+    "summary": "U.S. public technical body for AI standards, security, and evaluation science.",
+    "caveat": "Institute-level context; not a lab-specific legal obligation.",
+    "sourceName": "NIST - Center for AI Standards and Innovation",
+    "sourceUrl": "https://www.nist.gov/caisi",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-07",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "nist-caisi-deepseek-evaluation",
+    "evaluationBody": "NIST Center for AI Standards and Innovation",
+    "jurisdiction": "United States",
+    "labIds": [
+      "deepseek"
+    ],
+    "evaluationType": "government_testing",
+    "modelOrSystem": "DeepSeek AI models",
+    "publicResult": "published",
+    "domains": [
+      "frontier-gpai",
+      "cybersecurity-critical-infrastructure"
+    ],
+    "summary": "Published CAISI evaluation record for DeepSeek models.",
+    "caveat": "Evaluation evidence, not certification or a legal finding.",
+    "sourceName": "NIST - CAISI evaluation of DeepSeek AI models",
+    "sourceUrl": "https://www.nist.gov/document/caisi-evaluation-deepseek-ai-models-report",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-07",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "uk-aisi-frontier-trends-testing-landscape",
+    "evaluationBody": "UK AI Security Institute",
+    "jurisdiction": "United Kingdom",
+    "labIds": [],
+    "evaluationType": "institute_landscape",
+    "publicResult": "methodology_only",
+    "domains": [
+      "frontier-gpai",
+      "cybersecurity-critical-infrastructure"
+    ],
+    "summary": "UK public frontier-model testing and evaluation landscape evidence.",
+    "caveat": "Institute-level context; not a lab-specific legal obligation.",
+    "sourceName": "UK AISI - Frontier AI Trends Report",
+    "sourceUrl": "https://www.aisi.gov.uk/frontier-ai-trends-report",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-07",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "amazon-nova-premier-evaluation-record",
+    "evaluationBody": "Amazon Science",
+    "jurisdiction": "United States",
+    "labIds": [
+      "amazon"
+    ],
+    "evaluationType": "company_evaluation_report",
+    "modelOrSystem": "Amazon Nova Premier",
+    "publicResult": "published",
+    "domains": [
+      "frontier-gpai"
+    ],
+    "summary": "Published critical-risk evaluation report for Nova Premier.",
+    "caveat": "Evaluation evidence, not certification or a legal finding.",
+    "sourceName": "Amazon Science - Nova Premier critical-risk evaluation",
+    "sourceUrl": "https://www.amazon.science/publications/evaluating-the-critical-risks-of-amazons-nova-premier-under-the-frontier-model-safety-framework",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-07",
+    "reviewStatus": "editorial_checked"
+  }
+]

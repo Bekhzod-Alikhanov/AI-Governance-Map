@@ -1,0 +1,178 @@
+[
+  {
+    "id": "openai-preparedness-framework-evidence",
+    "labIds": [
+      "openai"
+    ],
+    "evidenceKind": "safety_framework",
+    "title": "OpenAI Preparedness Framework",
+    "modelOrSystem": "GPT and o-series frontier models",
+    "domains": [
+      "frontier-gpai"
+    ],
+    "summary": "Company framework for frontier risk tracking, evaluations, thresholds, and deployment controls.",
+    "caveat": "Company or issuer-controlled evidence; not public law.",
+    "sourceName": "OpenAI - Preparedness Framework",
+    "sourceUrl": "https://openai.com/index/updating-our-preparedness-framework/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-07",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "anthropic-responsible-scaling-policy-evidence",
+    "labIds": [
+      "anthropic"
+    ],
+    "evidenceKind": "responsible_scaling_policy",
+    "title": "Anthropic Responsible Scaling Policy",
+    "modelOrSystem": "Claude frontier models",
+    "domains": [
+      "frontier-gpai"
+    ],
+    "summary": "Responsible-scaling policy using AI Safety Levels and capability-triggered safeguards.",
+    "caveat": "Company or issuer-controlled evidence; not public law.",
+    "sourceName": "Anthropic - Responsible Scaling Policy",
+    "sourceUrl": "https://www.anthropic.com/rsp/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-07",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "deepmind-frontier-safety-framework-evidence",
+    "labIds": [
+      "google-deepmind"
+    ],
+    "evidenceKind": "safety_framework",
+    "title": "Google DeepMind Frontier Safety Framework",
+    "modelOrSystem": "Gemini frontier models",
+    "domains": [
+      "frontier-gpai"
+    ],
+    "summary": "Framework for critical-capability thresholds plus security and deployment mitigations.",
+    "caveat": "Company or issuer-controlled evidence; not public law.",
+    "sourceName": "Google DeepMind - Frontier Safety Framework",
+    "sourceUrl": "https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-07",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "meta-advanced-ai-scaling-framework-evidence",
+    "labIds": [
+      "meta"
+    ],
+    "evidenceKind": "safety_framework",
+    "title": "Meta Advanced AI Scaling Framework",
+    "modelOrSystem": "Llama frontier releases",
+    "domains": [
+      "frontier-gpai"
+    ],
+    "summary": "Company framework for increasingly capable AI systems and release governance.",
+    "caveat": "Company or issuer-controlled evidence; not public law.",
+    "sourceName": "Meta AI - Advanced AI Scaling Framework",
+    "sourceUrl": "https://ai.meta.com/static-resource/Meta_Advanced-AI-Scaling-Framework-v2",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-05-20",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "microsoft-frontier-governance-framework-evidence",
+    "labIds": [
+      "microsoft"
+    ],
+    "evidenceKind": "safety_framework",
+    "title": "Microsoft Frontier Governance Framework",
+    "modelOrSystem": "Microsoft frontier model and platform stack",
+    "domains": [
+      "frontier-gpai",
+      "compute-cloud-chips"
+    ],
+    "summary": "Company frontier-governance evidence for model, deployment, and platform controls.",
+    "caveat": "Company or issuer-controlled evidence; not public law.",
+    "sourceName": "Microsoft - Responsible AI transparency report",
+    "sourceUrl": "https://blogs.microsoft.com/on-the-issues/2024/05/01/responsible-ai-transparency-report/",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-05-20",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "amazon-nova-premier-critical-risk-evidence",
+    "labIds": [
+      "amazon"
+    ],
+    "evidenceKind": "evaluation_report",
+    "title": "Amazon Nova Premier critical-risk evaluation",
+    "modelOrSystem": "Amazon Nova Premier",
+    "domains": [
+      "frontier-gpai"
+    ],
+    "summary": "Public critical-risk evaluation evidence under Amazon's Frontier Model Safety Framework.",
+    "caveat": "Evaluation evidence, not certification or a legal finding.",
+    "sourceName": "Amazon Science - Nova Premier critical-risk evaluation",
+    "sourceUrl": "https://www.amazon.science/publications/evaluating-the-critical-risks-of-amazons-nova-premier-under-the-frontier-model-safety-framework",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-07",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "cohere-secure-ai-frontier-model-framework-evidence",
+    "labIds": [
+      "cohere"
+    ],
+    "evidenceKind": "safety_framework",
+    "title": "Cohere Secure AI Frontier Model Framework",
+    "modelOrSystem": "Command family",
+    "domains": [
+      "frontier-gpai"
+    ],
+    "summary": "Company framework for secure frontier-model development and deployment risk management.",
+    "caveat": "Company or issuer-controlled evidence; not public law.",
+    "sourceName": "Cohere - Secure AI Frontier Model Framework",
+    "sourceUrl": "https://cohere.com/blog/secure-model-framework",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-05-20",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "seoul-frontier-ai-safety-commitments-company-roster",
+    "labIds": [
+      "amazon",
+      "anthropic",
+      "cohere",
+      "google-deepmind",
+      "meta",
+      "microsoft",
+      "mistral",
+      "openai",
+      "xai"
+    ],
+    "evidenceKind": "frontier_commitment",
+    "title": "Frontier AI Safety Commitments company roster",
+    "domains": [
+      "frontier-gpai"
+    ],
+    "summary": "Official Seoul Summit company roster for voluntary frontier-AI safety commitments.",
+    "caveat": "Company commitments, not treaty obligations or state participation.",
+    "sourceName": "GOV.UK - Frontier AI Safety Commitments",
+    "sourceUrl": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-07",
+    "reviewStatus": "editorial_checked"
+  }
+]

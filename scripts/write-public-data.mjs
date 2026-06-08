@@ -14,19 +14,37 @@ function sourceEntries(snapshot) {
   for (const [collection, rows] of Object.entries(snapshot.data)) {
     if (!Array.isArray(rows)) continue;
     for (const row of rows) {
-      if (!row || typeof row !== "object" || !row.sourceUrl) continue;
-      entries.push({
-        collection,
-        id: row.id,
-        name: row.name ?? row.label ?? row.id,
-        sourceName: row.sourceName,
-        sourceUrl: row.sourceUrl,
-        sourceKind: row.sourceKind ?? "",
-        verificationStatus: row.verificationStatus ?? "",
-        confidence: row.confidence ?? "",
-        lastVerified: row.lastVerified ?? "",
-        verificationNotes: row.verificationNotes ?? "",
-      });
+      if (!row || typeof row !== "object") continue;
+      if (row.sourceUrl) {
+        entries.push({
+          collection,
+          id: row.id,
+          name: row.name ?? row.title ?? row.label ?? row.id,
+          sourceName: row.sourceName,
+          sourceUrl: row.sourceUrl,
+          sourceKind: row.sourceKind ?? "",
+          verificationStatus: row.verificationStatus ?? "",
+          confidence: row.confidence ?? "",
+          lastVerified: row.lastVerified ?? "",
+          verificationNotes: row.verificationNotes ?? "",
+        });
+      }
+      if (Array.isArray(row.sourceChain)) {
+        for (const [index, source] of row.sourceChain.entries()) {
+          entries.push({
+            collection,
+            id: `${row.id}.sourceChain.${index}`,
+            name: `${row.name ?? row.title ?? row.label ?? row.id} supporting source`,
+            sourceName: source.sourceName,
+            sourceUrl: source.sourceUrl,
+            sourceKind: source.sourceKind ?? "",
+            verificationStatus: row.verificationStatus ?? "",
+            confidence: row.confidence ?? "",
+            lastVerified: row.lastVerified ?? "",
+            verificationNotes: source.note ?? row.verificationNotes ?? "",
+          });
+        }
+      }
     }
   }
   return entries.sort((a, b) => `${a.collection}:${a.id}`.localeCompare(`${b.collection}:${b.id}`));
@@ -135,7 +153,9 @@ try {
   const releasesModule = await server.ssrLoadModule("/src/data/datasetReleases.ts");
   const obligationsModule = await server.ssrLoadModule("/src/data/governanceObligations.ts");
   const labExposureModule = await server.ssrLoadModule("/src/data/labRegulatoryExposures.ts");
+  const labIntelligenceModule = await server.ssrLoadModule("/src/data/labIntelligence.ts");
   const aiAtlasModule = await server.ssrLoadModule("/src/data/aiAtlas.ts");
+  const datasetSchemaModule = await server.ssrLoadModule("/src/utils/datasetSchema.ts");
   const summaryModule = await server.ssrLoadModule("/src/utils/getCountryGovernanceSummary.ts");
   const aiAtlasUtils = await server.ssrLoadModule("/src/utils/aiAtlas.ts");
   const workbenchModule = await server.ssrLoadModule("/src/utils/researchWorkbench.ts");
@@ -178,6 +198,11 @@ try {
           "/data/country-summaries.json",
           "/data/obligation-matrix.json",
           "/data/lab-exposure-matrix.json",
+          "/data/lab-intelligence.json",
+          "/data/model-governance-evidence.json",
+          "/data/safety-evaluations.json",
+          "/data/enforcement-events.json",
+          "/data/compute-dependencies.json",
           "/data/implementation-tracker.json",
           "/data/ai-atlas-indicators.json",
           "/data/ai-atlas-sources.json",
@@ -186,6 +211,8 @@ try {
           "/data/changelog.json",
           "/data/record-page-index.json",
           "/data/embed-cards.json",
+          "/data/schema.json",
+          "/data/release-package.json",
         ],
       }),
       "utf8"
@@ -193,6 +220,11 @@ try {
     writeFile(path.join(outDir, "country-summaries.json"), stableJson(countrySummaries), "utf8"),
     writeFile(path.join(outDir, "obligation-matrix.json"), stableJson(obligationsModule.GOVERNANCE_OBLIGATIONS), "utf8"),
     writeFile(path.join(outDir, "lab-exposure-matrix.json"), stableJson(labExposureModule.LAB_REGULATORY_EXPOSURES), "utf8"),
+    writeFile(path.join(outDir, "lab-intelligence.json"), stableJson(labIntelligenceModule.LAB_INTELLIGENCE_PROFILES), "utf8"),
+    writeFile(path.join(outDir, "model-governance-evidence.json"), stableJson(labIntelligenceModule.MODEL_GOVERNANCE_EVIDENCE), "utf8"),
+    writeFile(path.join(outDir, "safety-evaluations.json"), stableJson(labIntelligenceModule.SAFETY_EVALUATION_RECORDS), "utf8"),
+    writeFile(path.join(outDir, "enforcement-events.json"), stableJson(labIntelligenceModule.INCIDENT_ENFORCEMENT_RECORDS), "utf8"),
+    writeFile(path.join(outDir, "compute-dependencies.json"), stableJson(labIntelligenceModule.COMPUTE_DEPENDENCY_RECORDS), "utf8"),
     writeFile(path.join(outDir, "implementation-tracker.json"), stableJson(snapshot.data.implementationMilestones), "utf8"),
     writeFile(path.join(outDir, "ai-atlas-indicators.json"), stableJson(aiAtlasModule.COUNTRY_INDICATOR_SCORES), "utf8"),
     writeFile(path.join(outDir, "ai-atlas-sources.json"), stableJson(aiAtlasModule.AI_ATLAS_SOURCES), "utf8"),
@@ -201,6 +233,25 @@ try {
     writeFile(path.join(outDir, "changelog.json"), stableJson(releasesModule.DATASET_RELEASES), "utf8"),
     writeFile(path.join(outDir, "record-page-index.json"), stableJson(recordPageIndex(snapshot)), "utf8"),
     writeFile(path.join(outDir, "embed-cards.json"), stableJson(embedCards(snapshot, countrySummaries)), "utf8"),
+    writeFile(path.join(outDir, "schema.json"), stableJson(datasetSchemaModule.DATASET_SCHEMA), "utf8"),
+    writeFile(
+      path.join(outDir, "release-package.json"),
+      stableJson({
+        title: "Global AI Governance Map release package",
+        snapshotDate: snapshot.snapshotDate,
+        schema: datasetSchemaModule.DATASET_SCHEMA,
+        dataset: snapshot,
+        sources: sourceEntries(snapshot),
+        changelog: labIntelligenceModule.RECORD_CHANGE_LOG_ENTRIES,
+        releases: releasesModule.DATASET_RELEASES,
+        reviewReport: {
+          caveat:
+            "Generated static release package. Official sites that block automated link checks still require manual review.",
+          manualReviewRequired: snapshot.data.datasetReleases.flatMap((release) => release.unresolvedManualReview ?? []),
+        },
+      }),
+      "utf8"
+    ),
   ]);
 } finally {
   await server.close();

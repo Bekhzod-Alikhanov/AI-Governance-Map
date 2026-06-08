@@ -13,6 +13,13 @@ import {
 } from "../data/implementationMilestones";
 import { INSTRUMENT_BY_ID } from "../data/internationalInstruments";
 import { LAB_REGULATORY_EXPOSURES } from "../data/labRegulatoryExposures";
+import {
+  COMPUTE_DEPENDENCY_RECORDS_BY_LAB,
+  MODEL_GOVERNANCE_EVIDENCE,
+  MODEL_GOVERNANCE_EVIDENCE_BY_LAB,
+  SAFETY_EVALUATION_RECORDS,
+  SAFETY_EVALUATION_RECORDS_BY_LAB,
+} from "../data/labIntelligence";
 import { NATIONAL_AI_REGULATIONS, NATIONAL_REG_BY_ID } from "../data/nationalAIRegulations";
 import { INTERNATIONAL_PARTICIPATION } from "../data/participation";
 import { SUBNATIONAL_BY_ID } from "../data/subnationalRules";
@@ -21,8 +28,11 @@ import type {
   FilterState,
   GovernanceObligation,
   ImplementationMilestone,
+  ComputeDependencyRecord,
   LabRegulatoryExposure,
+  ModelGovernanceEvidence,
   ObligationParentType,
+  SafetyEvaluationRecord,
 } from "../types";
 import { getCountryGovernanceSummary } from "./getCountryGovernanceSummary";
 import {
@@ -46,6 +56,9 @@ export interface ScenarioAssessment {
   marketNames: string[];
   exposureRows: LabRegulatoryExposure[];
   obligations: GovernanceObligation[];
+  modelGovernanceEvidence: ModelGovernanceEvidence[];
+  safetyEvaluationRecords: SafetyEvaluationRecord[];
+  computeDependencyRecords: ComputeDependencyRecord[];
   caveats: string[];
 }
 
@@ -150,6 +163,10 @@ export function buildWorkbenchAnswerCards(filters: FilterState): WorkbenchAnswer
   const proposedRules = NATIONAL_AI_REGULATIONS.filter((row) => row.bindingStatus === "proposed");
   const coeRows = INTERNATIONAL_PARTICIPATION.filter((row) => row.instrumentId === "coe-ai-convention");
   const labExposureSummary = summarizeLabExposures(LAB_REGULATORY_EXPOSURES);
+  const labsWithSafetyFrameworkEvidence = unique(
+    MODEL_GOVERNANCE_EVIDENCE.flatMap((row) => row.labIds)
+  ).length;
+  const labSpecificSafetyEvaluations = SAFETY_EVALUATION_RECORDS.filter((row) => row.labIds.length > 0);
   const activeImplementation = IMPLEMENTATION_MILESTONES.filter((row) =>
     ["in_force", "phased_application", "implementing_rules_pending"].includes(row.status)
   );
@@ -178,6 +195,20 @@ export function buildWorkbenchAnswerCards(filters: FilterState): WorkbenchAnswer
       label: "Lab exposure",
       value: `${labExposureSummary.binding} binding`,
       detail: `${labExposureSummary.voluntary} voluntary, ${labExposureSummary.standards} standards, ${labExposureSummary.infrastructure} infrastructure rows are clearly separated.`,
+    },
+    {
+      id: "lab-safety-evidence",
+      label: "Safety evidence",
+      value: String(labsWithSafetyFrameworkEvidence),
+      detail:
+        "Labs with public safety-framework, responsible-scaling, commitment, model-card, or evaluation evidence rows.",
+    },
+    {
+      id: "safety-evaluations",
+      label: "Evaluation evidence",
+      value: String(labSpecificSafetyEvaluations.length),
+      detail:
+        "Lab-specific public safety/evaluation rows; institute-level rows are kept as context and not legal obligations.",
     },
     {
       id: "implementation",
@@ -221,10 +252,14 @@ export function buildScenarioAssessment(labId: string, marketIso3s: string[]): S
     marketNames: marketIso3s.map((iso3) => COUNTRY_BY_ISO3[iso3]?.name ?? iso3),
     exposureRows,
     obligations: uniqueById(exposureRows.flatMap((row) => OBLIGATIONS_BY_PARENT[parentKey("lab_exposure", row.id)] ?? [])),
+    modelGovernanceEvidence: MODEL_GOVERNANCE_EVIDENCE_BY_LAB[labId] ?? [],
+    safetyEvaluationRecords: SAFETY_EVALUATION_RECORDS_BY_LAB[labId] ?? [],
+    computeDependencyRecords: COMPUTE_DEPENDENCY_RECORDS_BY_LAB[labId] ?? [],
     caveats: [
       "Scenario output is a research aid, not legal advice.",
       "Market-access exposure depends on deployment facts, provider role, model capability, and local implementing rules.",
       "Infrastructure rows describe ecosystem constraints and should not be read as AI-specific legal duties.",
+      "Safety-framework and evaluation rows are evidence/context records; they are not certification or liability findings.",
     ],
   };
 }

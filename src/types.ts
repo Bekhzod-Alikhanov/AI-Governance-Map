@@ -47,6 +47,18 @@ export type VerificationStatus =
   | "uncertain"
   | "needs_external_check";
 export type DataConfidence = "high" | "medium" | "low";
+export type ExpertReviewStatus =
+  | "unreviewed"
+  | "editorial_checked"
+  | "expert_reviewed"
+  | "needs_review";
+
+export interface SourceChainEntry {
+  sourceName: string;
+  sourceUrl: string;
+  sourceKind?: SourceKind;
+  note?: string;
+}
 
 export interface VerificationMetadata {
   sourceKind?: SourceKind;
@@ -54,6 +66,9 @@ export interface VerificationMetadata {
   confidence?: DataConfidence;
   lastVerified?: string;
   verificationNotes?: string;
+  sourceChain?: SourceChainEntry[];
+  reviewStatus?: ExpertReviewStatus;
+  reviewNotes?: string;
 }
 
 export interface NationalAIRegulation extends VerificationMetadata {
@@ -235,6 +250,146 @@ export interface LabRegulatoryExposure extends VerificationMetadata {
   sourceName: string;
   sourceUrl: string;
   notes?: string;
+}
+
+// ===== Frontier-lab intelligence evidence layer =====
+export interface ExpertReviewMetadata {
+  reviewerRole: string;
+  reviewDate: string;
+  reviewScope: string;
+  unresolvedCaveats?: string[];
+}
+
+export interface RecordChangeLogEntry {
+  id: string;
+  recordId: string;
+  recordKind:
+    | "lab_intelligence_profile"
+    | "model_governance_evidence"
+    | "safety_evaluation"
+    | "incident_enforcement"
+    | "compute_dependency"
+    | "dataset";
+  changeType:
+    | "added"
+    | "changed"
+    | "downgraded"
+    | "removed"
+    | "source_replaced"
+    | "manually_verified";
+  date: string;
+  summary: string;
+  reviewer?: ExpertReviewMetadata;
+}
+
+export interface LabIntelligenceProfile extends VerificationMetadata {
+  id: string;
+  labId: string;
+  parentLegalEntity: string;
+  majorOffices: Array<{
+    label: string;
+    countryIso3: string;
+    note?: string;
+  }>;
+  modelFamilies: string[];
+  safetyFrameworkName?: string;
+  responsibleScalingPolicyUrl?: string;
+  frontierCommitmentIds: string[];
+  evaluationPartnerIds: string[];
+  deploymentMarketIso3s: string[];
+  publicGovernanceContactUrl?: string;
+  summary: string;
+  caveat: string;
+  sourceName: string;
+  sourceUrl: string;
+  expertReview?: ExpertReviewMetadata;
+}
+
+export type ModelGovernanceEvidenceKind =
+  | "safety_framework"
+  | "responsible_scaling_policy"
+  | "model_card"
+  | "release_note"
+  | "frontier_commitment"
+  | "evaluation_report";
+
+export interface ModelGovernanceEvidence extends VerificationMetadata {
+  id: string;
+  labIds: string[];
+  evidenceKind: ModelGovernanceEvidenceKind;
+  title: string;
+  modelOrSystem?: string;
+  domains: GovernanceDomainId[];
+  summary: string;
+  caveat: string;
+  sourceName: string;
+  sourceUrl: string;
+}
+
+export type SafetyEvaluationType =
+  | "government_testing"
+  | "public_methodology"
+  | "third_party_evaluation"
+  | "company_evaluation_report"
+  | "institute_landscape";
+
+export interface SafetyEvaluationRecord extends VerificationMetadata {
+  id: string;
+  evaluationBody: string;
+  jurisdiction?: string;
+  labIds: string[];
+  evaluationType: SafetyEvaluationType;
+  modelOrSystem?: string;
+  publicResult: "published" | "methodology_only" | "partnership_disclosed" | "not_public";
+  domains: GovernanceDomainId[];
+  summary: string;
+  caveat: string;
+  sourceName: string;
+  sourceUrl: string;
+}
+
+export type IncidentEnforcementEventType =
+  | "enforcement_action"
+  | "regulator_investigation"
+  | "litigation"
+  | "public_incident"
+  | "policy_warning";
+
+export interface IncidentEnforcementRecord extends VerificationMetadata {
+  id: string;
+  eventType: IncidentEnforcementEventType;
+  title: string;
+  jurisdiction: string;
+  countryIso3?: string;
+  labIds: string[];
+  date: string;
+  status: string;
+  domains: GovernanceDomainId[];
+  summary: string;
+  caveat: string;
+  sourceName: string;
+  sourceUrl: string;
+}
+
+export type ComputeDependencyType =
+  | "advanced_chips"
+  | "cloud_platform"
+  | "export_control"
+  | "public_compute"
+  | "data_center_investment";
+
+export interface ComputeDependencyRecord extends VerificationMetadata {
+  id: string;
+  labIds: string[];
+  infrastructureId: string;
+  dependencyType: ComputeDependencyType;
+  jurisdiction?: string;
+  directness: LabExposureDirectness;
+  strength: number;
+  summary: string;
+  caveat: string;
+  sourceName: string;
+  sourceUrl: string;
 }
 
 // ===== Research workbench taxonomy =====

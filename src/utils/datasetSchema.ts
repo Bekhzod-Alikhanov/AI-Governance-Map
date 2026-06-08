@@ -1,4 +1,4 @@
-export const DATASET_SCHEMA_VERSION = "2026.06";
+export const DATASET_SCHEMA_VERSION = "2026.06.1";
 export const DATASET_SCHEMA_ID = "https://global-ai-governance-map.vercel.app/dataset.schema.json";
 
 const DATA_KEYS = [
@@ -6,6 +6,11 @@ const DATA_KEYS = [
   "euMembers",
   "frontierLabs",
   "labRegulatoryExposures",
+  "labIntelligenceProfiles",
+  "modelGovernanceEvidence",
+  "safetyEvaluationRecords",
+  "incidentEnforcementRecords",
+  "computeDependencyRecords",
   "internationalInstruments",
   "internationalParticipation",
   "nationalAIRegulations",
@@ -21,6 +26,7 @@ const DATA_KEYS = [
   "outOfScopeItems",
   "sourceNotes",
   "datasetReleases",
+  "recordChangeLogEntries",
 ] as const;
 
 const COUNT_TO_DATA_KEY = {
@@ -28,6 +34,11 @@ const COUNT_TO_DATA_KEY = {
   euMembers: "euMembers",
   frontierLabs: "frontierLabs",
   labRegulatoryExposures: "labRegulatoryExposures",
+  labIntelligenceProfiles: "labIntelligenceProfiles",
+  modelGovernanceEvidence: "modelGovernanceEvidence",
+  safetyEvaluationRecords: "safetyEvaluationRecords",
+  incidentEnforcementRecords: "incidentEnforcementRecords",
+  computeDependencyRecords: "computeDependencyRecords",
   internationalInstruments: "internationalInstruments",
   internationalParticipationRows: "internationalParticipation",
   nationalAIRegulations: "nationalAIRegulations",
@@ -43,6 +54,7 @@ const COUNT_TO_DATA_KEY = {
   outOfScopeItems: "outOfScopeItems",
   sourceNotes: "sourceNotes",
   datasetReleases: "datasetReleases",
+  recordChangeLogEntries: "recordChangeLogEntries",
 } as const;
 
 export const DATASET_SCHEMA = {
@@ -92,6 +104,23 @@ export const DATASET_SCHEMA = {
         confidence: { enum: ["high", "medium", "low"] },
         lastVerified: { type: "string", pattern: "^\\d{4}-\\d{2}-\\d{2}$" },
         verificationNotes: { type: "string" },
+        reviewStatus: {
+          enum: ["unreviewed", "editorial_checked", "expert_reviewed", "needs_review"],
+        },
+        reviewNotes: { type: "string" },
+        sourceChain: {
+          type: "array",
+          items: {
+            type: "object",
+            required: ["sourceName", "sourceUrl"],
+            properties: {
+              sourceName: { type: "string" },
+              sourceUrl: { type: "string", format: "uri" },
+              sourceKind: { enum: ["official", "secondary", "mixed", "unknown"] },
+              note: { type: "string" },
+            },
+          },
+        },
       },
     },
   },
