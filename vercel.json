@@ -10,6 +10,11 @@
     { "source": "/rule/:path*", "destination": "/index.html" },
     { "source": "/obligation/:path*", "destination": "/index.html" },
     { "source": "/exposure/:path*", "destination": "/index.html" },
+    { "source": "/institution/:path*", "destination": "/index.html" },
+    { "source": "/policy-process/:path*", "destination": "/index.html" },
+    { "source": "/standard/:path*", "destination": "/index.html" },
+    { "source": "/public-sector-ai/:path*", "destination": "/index.html" },
+    { "source": "/enforcement/:path*", "destination": "/index.html" },
     { "source": "/embed/:path*", "destination": "/index.html" }
   ]
 }
