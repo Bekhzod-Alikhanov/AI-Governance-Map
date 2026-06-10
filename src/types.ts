@@ -269,6 +269,11 @@ export interface RecordChangeLogEntry {
     | "safety_evaluation"
     | "incident_enforcement"
     | "compute_dependency"
+    | "institution"
+    | "policy_process"
+    | "standards_conformity"
+    | "public_sector_ai"
+    | "policy_brief"
     | "dataset";
   changeType:
     | "added"
@@ -364,6 +369,10 @@ export interface IncidentEnforcementRecord extends VerificationMetadata {
   labIds: string[];
   date: string;
   status: string;
+  proceduralStage?: string;
+  affectedActorClass?: string;
+  outcomeOrRemedy?: string;
+  officialDocketUrl?: string;
   domains: GovernanceDomainId[];
   summary: string;
   caveat: string;
@@ -392,6 +401,170 @@ export interface ComputeDependencyRecord extends VerificationMetadata {
   sourceUrl: string;
 }
 
+// ===== Research-grade corpus layer =====
+export type CorpusRecordKind =
+  | "institution"
+  | "policy_process"
+  | "standards_conformity"
+  | "public_sector_ai"
+  | "enforcement";
+
+export interface CorpusRecordReference {
+  kind:
+    | CorpusRecordKind
+    | "country"
+    | "lab"
+    | "instrument"
+    | "national_rule"
+    | "international_instrument"
+    | "subnational_rule"
+    | "obligation"
+    | "lab_exposure"
+    | "implementation";
+  id: string;
+  label?: string;
+}
+
+export type InstitutionType =
+  | "ai_office"
+  | "ai_safety_institute"
+  | "technical_evaluation_body"
+  | "data_protection_authority"
+  | "consumer_protection_authority"
+  | "competition_authority"
+  | "standards_body"
+  | "procurement_authority"
+  | "digital_ministry"
+  | "parliamentary_committee"
+  | "court_or_tribunal"
+  | "treaty_body"
+  | "other";
+
+export interface InstitutionRecord extends VerificationMetadata {
+  id: string;
+  name: string;
+  institutionType: InstitutionType;
+  jurisdiction: string;
+  countryIso3?: string;
+  mandate: string;
+  authorityScope: string;
+  powers: string[];
+  domains: GovernanceDomainId[];
+  relatedRecords: CorpusRecordReference[];
+  contactUrl?: string;
+  summary: string;
+  caveat: string;
+  sourceName: string;
+  sourceUrl: string;
+}
+
+export type PolicyProcessType =
+  | "consultation"
+  | "call_for_evidence"
+  | "hearing"
+  | "parliamentary_stage"
+  | "standards_consultation"
+  | "treaty_negotiation"
+  | "implementation_consultation"
+  | "guidance_update"
+  | "monitoring_process";
+
+export type PolicyProcessStatus = "open" | "closed" | "ongoing" | "scheduled" | "watch";
+
+export interface PolicyProcessRecord extends VerificationMetadata {
+  id: string;
+  title: string;
+  processType: PolicyProcessType;
+  jurisdiction: string;
+  countryIso3?: string;
+  stage: string;
+  status: PolicyProcessStatus;
+  deadline?: string;
+  conveningBody: string;
+  relatedRecords: CorpusRecordReference[];
+  domains: GovernanceDomainId[];
+  submissionUrl?: string;
+  summary: string;
+  caveat: string;
+  sourceName: string;
+  sourceUrl: string;
+}
+
+export type StandardsConformityStatus =
+  | "published"
+  | "under_development"
+  | "work_programme"
+  | "guidance"
+  | "conformity_context";
+
+export interface StandardsConformityRecord extends VerificationMetadata {
+  id: string;
+  title: string;
+  standardsBody: string;
+  jurisdiction: string;
+  countryIso3?: string;
+  status: StandardsConformityStatus;
+  legalRole: "voluntary_standard" | "harmonized_standard_candidate" | "presumption_of_conformity" | "guidance" | "context";
+  relatedRecords: CorpusRecordReference[];
+  domains: GovernanceDomainId[];
+  summary: string;
+  caveat: string;
+  sourceName: string;
+  sourceUrl: string;
+}
+
+export type PublicSectorAIType =
+  | "ai_use_case_inventory"
+  | "algorithmic_impact_assessment"
+  | "public_ai_registry"
+  | "procurement_guidance"
+  | "public_ai_pilot"
+  | "public_compute_service";
+
+export interface PublicSectorAIRecord extends VerificationMetadata {
+  id: string;
+  title: string;
+  recordType: PublicSectorAIType;
+  jurisdiction: string;
+  countryIso3?: string;
+  legalEffect: "binding_public_sector_policy" | "guidance" | "transparency_registry" | "procurement_context" | "context";
+  coveredPublicBodies: string;
+  relatedRecords: CorpusRecordReference[];
+  domains: GovernanceDomainId[];
+  summary: string;
+  caveat: string;
+  sourceName: string;
+  sourceUrl: string;
+}
+
+export type PolicyBriefKind =
+  | "country"
+  | "lab_market"
+  | "institution"
+  | "deadline_watch"
+  | "enforcement_watch"
+  | "standards_conformity";
+
+export interface PolicyBrief {
+  id: string;
+  kind: PolicyBriefKind;
+  title: string;
+  subtitle: string;
+  summary: string;
+  recordRefs: CorpusRecordReference[];
+  sourceRefs: Array<{
+    recordId: string;
+    sourceName: string;
+    sourceUrl: string;
+    sourceKind?: SourceKind;
+    verificationStatus?: VerificationStatus;
+    confidence?: DataConfidence;
+    lastVerified?: string;
+  }>;
+  caveats: string[];
+  markdown: string;
+}
+
 // ===== Research workbench taxonomy =====
 export type GovernanceDomainId =
   | "frontier-gpai"
@@ -405,6 +578,7 @@ export type GovernanceDomainId =
   | "defense-autonomous-weapons"
   | "cybersecurity-critical-infrastructure"
   | "compute-cloud-chips"
+  | "standards-conformity"
   | "public-procurement"
   | "enforcement-litigation";
 
@@ -569,6 +743,11 @@ export type MapModeId =
   | "implementation-deadline"
   | "source-confidence"
   | "frontier-relevance"
+  | "ai-institutions"
+  | "policy-windows"
+  | "public-sector-ai"
+  | "enforcement-activity"
+  | "standards-conformity"
   | "gov-ai-readiness"
   | "democratic-values"
   | "unesco-ram-status"

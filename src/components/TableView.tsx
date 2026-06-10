@@ -24,6 +24,7 @@ import {
   MODEL_GOVERNANCE_EVIDENCE,
   SAFETY_EVALUATION_RECORDS,
 } from "../data/labIntelligence";
+import { RESEARCH_CORPUS_RECORDS, corpusKindLabel, corpusRoute } from "../utils/researchCorpus";
 import type { FilterState, LabRegulatoryExposure, VerificationMetadata } from "../types";
 import { downloadTextFile } from "../utils/downloadTextFile";
 import { filterCountries } from "../utils/filterCountries";
@@ -55,6 +56,7 @@ type DatasetKey =
   | "exposure"
   | "obligations"
   | "implementation"
+  | "corpus"
   | "indicators"
   | "participation"
   | "sources"
@@ -91,6 +93,7 @@ const DATASETS: Array<{ key: DatasetKey; label: string }> = [
   { key: "exposure", label: "Exposure" },
   { key: "obligations", label: "Obligations" },
   { key: "implementation", label: "Implementation" },
+  { key: "corpus", label: "Corpus" },
   { key: "indicators", label: "Indicators" },
   { key: "participation", label: "Participation" },
   { key: "sources", label: "Sources" },
@@ -175,6 +178,16 @@ const COLUMNS: Record<DatasetKey, TableColumn[]> = {
     { key: "date", label: "Date" },
     { key: "nextDeadline", label: "Next deadline" },
     { key: "confidence", label: "Confidence" },
+    { key: "source", label: "Source" },
+  ],
+  corpus: [
+    { key: "record", label: "Record" },
+    { key: "kind", label: "Type" },
+    { key: "jurisdiction", label: "Jurisdiction" },
+    { key: "status", label: "Status" },
+    { key: "domains", label: "Domains" },
+    { key: "confidence", label: "Confidence" },
+    { key: "lastVerified", label: "Last verified" },
     { key: "source", label: "Source" },
   ],
   indicators: [
@@ -514,6 +527,35 @@ function buildRows(
     );
   }
 
+  if (dataset === "corpus") {
+    return RESEARCH_CORPUS_RECORDS.filter((record) => {
+      if (
+        filters.selectedDomains.length &&
+        !record.domains.some((domain) => filters.selectedDomains.includes(domain))
+      ) {
+        return false;
+      }
+      if (filters.selectedRegions.length) {
+        const country = record.countryIso3 ? COUNTRY_BY_ISO3[record.countryIso3] : null;
+        if (country && !filters.selectedRegions.includes(country.region)) return false;
+      }
+      return true;
+    }).map((record) =>
+      row(`corpus:${record.routeKind}:${record.id}`, {
+        record: record.title,
+        kind: corpusKindLabel(record.kind),
+        jurisdiction: record.jurisdiction,
+        status: record.status,
+        domains: record.domains.map(domainLabel).join("; "),
+        confidence: confidenceLabel(record.metadata),
+        lastVerified: record.metadata.lastVerified ?? "",
+        source: record.sourceName,
+      }, { label: "URL", onClick: () => {
+        window.location.href = corpusRoute(record);
+      } })
+    );
+  }
+
   if (dataset === "indicators") {
     const scoreRows = COUNTRY_INDICATOR_SCORES.filter((score) => {
       const country = COUNTRY_BY_ISO3[score.countryIso3];
@@ -633,6 +675,15 @@ function sourceRows(): TableRow[] {
     ...SAFETY_EVALUATION_RECORDS.map((item) => toSourceEntry("Safety evaluation", { ...item, name: item.evaluationBody })),
     ...INCIDENT_ENFORCEMENT_RECORDS.map((item) => toSourceEntry("Incident/enforcement", { ...item, name: item.title })),
     ...COMPUTE_DEPENDENCY_RECORDS.map((item) => toSourceEntry("Compute dependency", { ...item, name: item.dependencyType })),
+    ...RESEARCH_CORPUS_RECORDS.map((item) =>
+      toSourceEntry(corpusKindLabel(item.kind), {
+        id: item.id,
+        name: item.title,
+        sourceName: item.sourceName,
+        sourceUrl: item.sourceUrl,
+        ...item.metadata,
+      })
+    ),
     ...GOVERNANCE_OBLIGATIONS.map((item) => toSourceEntry("Obligation", {
       ...item,
       name: `${OBligationName(item.category)} - ${getRecordDisplayName(item.parentType, item.parentId)}`,

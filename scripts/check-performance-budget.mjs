@@ -8,9 +8,10 @@ const budgets = {
   maxInitialJsBytes: 725_000,
   maxInitialGzipBytes: 220_000,
   maxAtlasChunkBytes: 430_000,
-  // Total JS includes optional lazy research-workbench evidence modules.
-  // Keep initial-load budgets strict; allow a narrow ceiling for richer lazy tools.
-  maxTotalJsBytes: 1_410_000,
+  maxCorpusChunkBytes: 40_000,
+  // Total JS includes optional lazy research-workbench, Atlas, dossier, and corpus modules.
+  // Keep initial-load budgets strict; allow a narrow ceiling for richer lazy research tools.
+  maxTotalJsBytes: 1_500_000,
 };
 
 const files = await readdir(distAssets);
@@ -34,6 +35,8 @@ const initialJsBytes = initialRows.reduce((sum, row) => sum + row.bytes, 0);
 const initialGzipBytes = initialRows.reduce((sum, row) => sum + row.gzipBytes, 0);
 const atlasRows = rows.filter((row) => /aiAtlas/i.test(row.file));
 const atlasChunkBytes = atlasRows.reduce((sum, row) => sum + row.bytes, 0);
+const corpusRows = rows.filter((row) => /researchCorpus|policyBrief/i.test(row.file));
+const corpusChunkBytes = corpusRows.reduce((sum, row) => sum + row.bytes, 0);
 
 const issues = [];
 if (initialJsBytes > budgets.maxInitialJsBytes) {
@@ -44,6 +47,9 @@ if (initialGzipBytes > budgets.maxInitialGzipBytes) {
 }
 if (atlasChunkBytes > budgets.maxAtlasChunkBytes) {
   issues.push(`Atlas lazy chunk ${atlasChunkBytes} exceeds budget ${budgets.maxAtlasChunkBytes}`);
+}
+if (corpusChunkBytes > budgets.maxCorpusChunkBytes) {
+  issues.push(`Corpus lazy chunk ${corpusChunkBytes} exceeds budget ${budgets.maxCorpusChunkBytes}`);
 }
 if (totalJsBytes > budgets.maxTotalJsBytes) {
   issues.push(`Total JS ${totalJsBytes} exceeds budget ${budgets.maxTotalJsBytes}`);
@@ -58,6 +64,7 @@ console.log(
       initialJsBytes,
       initialGzipBytes,
       atlasChunkBytes,
+      corpusChunkBytes,
       totalJsBytes,
       chunks: rows.sort((a, b) => b.bytes - a.bytes).slice(0, 12),
       issues,

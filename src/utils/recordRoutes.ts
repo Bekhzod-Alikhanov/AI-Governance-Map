@@ -2,7 +2,18 @@ import { COUNTRY_BY_ISO3 } from "../data/countries";
 import { LAB_BY_ID } from "../data/frontierLabs";
 import { INSTRUMENT_BY_ID } from "../data/internationalInstruments";
 
-export type RecordRouteKind = "country" | "lab" | "instrument" | "rule" | "obligation" | "exposure";
+export type RecordRouteKind =
+  | "country"
+  | "lab"
+  | "instrument"
+  | "rule"
+  | "obligation"
+  | "exposure"
+  | "institution"
+  | "policy-process"
+  | "standard"
+  | "public-sector-ai"
+  | "enforcement";
 
 export interface RecordRoute {
   kind: RecordRouteKind;
@@ -16,6 +27,11 @@ const ROUTE_PREFIXES: Record<RecordRouteKind, string> = {
   rule: "/rule/",
   obligation: "/obligation/",
   exposure: "/exposure/",
+  institution: "/institution/",
+  "policy-process": "/policy-process/",
+  standard: "/standard/",
+  "public-sector-ai": "/public-sector-ai/",
+  enforcement: "/enforcement/",
 };
 
 export function recordRoute(kind: RecordRouteKind, id: string): string {

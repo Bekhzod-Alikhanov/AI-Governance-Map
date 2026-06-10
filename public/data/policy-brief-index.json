@@ -1,0 +1,38 @@
+[
+  {
+    "id": "country-brief",
+    "kind": "country",
+    "title": "Country brief",
+    "description": "Legal status, obligations, implementation milestones, corpus records, and source caveats for one jurisdiction."
+  },
+  {
+    "id": "lab-by-market",
+    "kind": "lab_market",
+    "title": "Lab-by-market brief",
+    "description": "Likely governance layers for a lab across selected deployment markets, using exposure rows and caveats."
+  },
+  {
+    "id": "institution-brief",
+    "kind": "institution",
+    "title": "Institution brief",
+    "description": "Mandate, powers, related records, source confidence, and caveats for a regulator or governance body."
+  },
+  {
+    "id": "deadline-watch",
+    "kind": "deadline_watch",
+    "title": "Upcoming deadline brief",
+    "description": "Open policy windows and implementation deadlines from official-source rows."
+  },
+  {
+    "id": "enforcement-watch",
+    "kind": "enforcement_watch",
+    "title": "Enforcement/process watch brief",
+    "description": "Official enforcement and litigation context without converting activity into legal conclusions."
+  },
+  {
+    "id": "standards-conformity",
+    "kind": "standards_conformity",
+    "title": "Standards/conformity brief",
+    "description": "Standards work and conformity hooks, with explicit caveats about non-law status."
+  }
+]

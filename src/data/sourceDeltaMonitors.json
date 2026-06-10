@@ -58,7 +58,7 @@
       "id": "eu-ai-act-eur-lex",
       "name": "EU AI Act EUR-Lex status",
       "sourceLabel": "EUR-Lex Regulation (EU) 2024/1689",
-      "sourceUrl": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng",
+      "sourceUrl": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
       "recordIds": ["eu-ai-act", "eu-ai-act-regional"],
       "currentAppClaim": "Regulation (EU) 2024/1689 is the EU AI Act, entered into force on 1 August 2024, with phased application across EU member states.",
       "requiredPatterns": [

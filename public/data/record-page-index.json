@@ -1152,6 +1152,12 @@
     "url": "https://global-ai-governance-map.vercel.app/country/ZWE"
   },
   {
+    "kind": "enforcement",
+    "id": "ftc-operation-ai-comply-2024",
+    "name": "FTC Operation AI Comply",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/ftc-operation-ai-comply-2024"
+  },
+  {
     "kind": "exposure",
     "id": "alibaba--compute_dependency--advanced-ai-chips",
     "name": "alibaba -> advanced-ai-chips",
@@ -1788,6 +1794,48 @@
     "url": "https://global-ai-governance-map.vercel.app/exposure/xai--standards_influence--us-nist-ai-rmf"
   },
   {
+    "kind": "institution",
+    "id": "canada-treasury-board-secretariat",
+    "name": "Treasury Board of Canada Secretariat",
+    "url": "https://global-ai-governance-map.vercel.app/institution/canada-treasury-board-secretariat"
+  },
+  {
+    "kind": "institution",
+    "id": "cen-cenelec-jtc21",
+    "name": "CEN-CENELEC Joint Technical Committee 21",
+    "url": "https://global-ai-governance-map.vercel.app/institution/cen-cenelec-jtc21"
+  },
+  {
+    "kind": "institution",
+    "id": "coe-treaty-office",
+    "name": "Council of Europe Treaty Office",
+    "url": "https://global-ai-governance-map.vercel.app/institution/coe-treaty-office"
+  },
+  {
+    "kind": "institution",
+    "id": "eu-ai-office",
+    "name": "European AI Office",
+    "url": "https://global-ai-governance-map.vercel.app/institution/eu-ai-office"
+  },
+  {
+    "kind": "institution",
+    "id": "uk-ai-security-institute",
+    "name": "UK AI Security Institute",
+    "url": "https://global-ai-governance-map.vercel.app/institution/uk-ai-security-institute"
+  },
+  {
+    "kind": "institution",
+    "id": "us-ftc",
+    "name": "U.S. Federal Trade Commission",
+    "url": "https://global-ai-governance-map.vercel.app/institution/us-ftc"
+  },
+  {
+    "kind": "institution",
+    "id": "us-nist-caisi",
+    "name": "NIST Center for AI Standards and Innovation (CAISI)",
+    "url": "https://global-ai-governance-map.vercel.app/institution/us-nist-caisi"
+  },
+  {
     "kind": "instrument",
     "id": "apec-ai-initiative-2026-2030",
     "name": "APEC AI Initiative 2026–2030",
@@ -2212,6 +2260,42 @@
     "id": "us-take-it-down-deepfake-removal",
     "name": "watermarking_content_labeling",
     "url": "https://global-ai-governance-map.vercel.app/obligation/us-take-it-down-deepfake-removal"
+  },
+  {
+    "kind": "policy-process",
+    "id": "cen-cenelec-jtc21-ai-act-standardization-process",
+    "name": "CEN-CENELEC JTC 21 AI Act standardization work programme",
+    "url": "https://global-ai-governance-map.vercel.app/policy-process/cen-cenelec-jtc21-ai-act-standardization-process"
+  },
+  {
+    "kind": "policy-process",
+    "id": "eu-ai-office-gpai-tools-process",
+    "name": "EU AI Office GPAI implementation tools and code-of-practice process",
+    "url": "https://global-ai-governance-map.vercel.app/policy-process/eu-ai-office-gpai-tools-process"
+  },
+  {
+    "kind": "policy-process",
+    "id": "eu-high-risk-ai-guidelines-consultation-2026",
+    "name": "EU draft guidelines on high-risk AI classification consultation",
+    "url": "https://global-ai-governance-map.vercel.app/policy-process/eu-high-risk-ai-guidelines-consultation-2026"
+  },
+  {
+    "kind": "policy-process",
+    "id": "uk-aisi-frontier-trends-monitoring",
+    "name": "UK AISI frontier AI trends and testing monitoring",
+    "url": "https://global-ai-governance-map.vercel.app/policy-process/uk-aisi-frontier-trends-monitoring"
+  },
+  {
+    "kind": "public-sector-ai",
+    "id": "canada-algorithmic-impact-assessment",
+    "name": "Canada Algorithmic Impact Assessment tool",
+    "url": "https://global-ai-governance-map.vercel.app/public-sector-ai/canada-algorithmic-impact-assessment"
+  },
+  {
+    "kind": "public-sector-ai",
+    "id": "us-federal-ai-use-case-inventory",
+    "name": "U.S. federal AI use case inventories",
+    "url": "https://global-ai-governance-map.vercel.app/public-sector-ai/us-federal-ai-use-case-inventory"
   },
   {
     "kind": "rule",
@@ -2704,5 +2788,29 @@
     "id": "za-national-ai-policy-framework-2024",
     "name": "South Africa National AI Policy Framework",
     "url": "https://global-ai-governance-map.vercel.app/rule/za-national-ai-policy-framework-2024"
+  },
+  {
+    "kind": "standard",
+    "id": "cen-cenelec-ai-act-harmonized-standards",
+    "name": "CEN-CENELEC AI Act harmonized-standardization work",
+    "url": "https://global-ai-governance-map.vercel.app/standard/cen-cenelec-ai-act-harmonized-standards"
+  },
+  {
+    "kind": "standard",
+    "id": "iso-iec-42001-ai-management-system",
+    "name": "ISO/IEC 42001:2023 AI management system standard",
+    "url": "https://global-ai-governance-map.vercel.app/standard/iso-iec-42001-ai-management-system"
+  },
+  {
+    "kind": "standard",
+    "id": "nist-ai-rmf-conformity-context",
+    "name": "NIST AI RMF standards and risk-management context",
+    "url": "https://global-ai-governance-map.vercel.app/standard/nist-ai-rmf-conformity-context"
+  },
+  {
+    "kind": "standard",
+    "id": "nist-genai-profile-conformity-context",
+    "name": "NIST AI RMF Generative AI Profile context",
+    "url": "https://global-ai-governance-map.vercel.app/standard/nist-genai-profile-conformity-context"
   }
 ]

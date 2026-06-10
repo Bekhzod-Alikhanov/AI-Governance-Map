@@ -13,6 +13,12 @@ import {
   SAFETY_EVALUATION_RECORDS,
 } from "../data/labIntelligence";
 import { NATIONAL_AI_REGULATIONS } from "../data/nationalAIRegulations";
+import {
+  INSTITUTION_RECORDS,
+  POLICY_PROCESS_RECORDS,
+  PUBLIC_SECTOR_AI_RECORDS,
+  STANDARDS_CONFORMITY_RECORDS,
+} from "../data/researchCorpus";
 import { DATA_SNAPSHOT_DATE } from "./governanceTaxonomy";
 import {
   buildCitationText,
@@ -42,6 +48,10 @@ describe("dataset export helpers", () => {
     expect(snapshot.counts.modelGovernanceEvidence).toBe(MODEL_GOVERNANCE_EVIDENCE.length);
     expect(snapshot.counts.safetyEvaluationRecords).toBe(SAFETY_EVALUATION_RECORDS.length);
     expect(snapshot.counts.computeDependencyRecords).toBe(COMPUTE_DEPENDENCY_RECORDS.length);
+    expect(snapshot.counts.institutionRecords).toBe(INSTITUTION_RECORDS.length);
+    expect(snapshot.counts.policyProcessRecords).toBe(POLICY_PROCESS_RECORDS.length);
+    expect(snapshot.counts.standardsConformityRecords).toBe(STANDARDS_CONFORMITY_RECORDS.length);
+    expect(snapshot.counts.publicSectorAIRecords).toBe(PUBLIC_SECTOR_AI_RECORDS.length);
     expect(snapshot.counts.internationalInstruments).toBe(INTERNATIONAL_INSTRUMENTS.length);
     expect(snapshot.counts.nationalAIRegulations).toBe(NATIONAL_AI_REGULATIONS.length);
     expect(snapshot.counts.governanceObligations).toBe(GOVERNANCE_OBLIGATIONS.length);
@@ -54,6 +64,7 @@ describe("dataset export helpers", () => {
     expect(snapshot.data.labRegulatoryExposures).toBe(LAB_REGULATORY_EXPOSURES);
     expect(snapshot.data.labIntelligenceProfiles).toBe(LAB_INTELLIGENCE_PROFILES);
     expect(snapshot.data.modelGovernanceEvidence).toBe(MODEL_GOVERNANCE_EVIDENCE);
+    expect(snapshot.data.institutionRecords).toBe(INSTITUTION_RECORDS);
     expect(snapshot.data.countryIndicatorScores).toBe(COUNTRY_INDICATOR_SCORES);
     expect(validateDatasetSnapshotShape(snapshot)).toEqual([]);
   });

@@ -78,6 +78,11 @@ const MAP_MODE_OPTIONS: Array<{ id: MapModeId; label: string }> = [
   { id: "implementation-deadline", label: "Implementation" },
   { id: "source-confidence", label: "Source confidence" },
   { id: "frontier-relevance", label: "Frontier relevance" },
+  { id: "ai-institutions", label: "AI institutions" },
+  { id: "policy-windows", label: "Policy windows" },
+  { id: "public-sector-ai", label: "Public-sector AI" },
+  { id: "enforcement-activity", label: "Enforcement" },
+  { id: "standards-conformity", label: "Standards" },
   { id: "gov-ai-readiness", label: "Gov readiness" },
   { id: "democratic-values", label: "Democratic values" },
   { id: "unesco-ram-status", label: "UNESCO RAM" },
@@ -88,6 +93,13 @@ const ATLAS_MAP_MODES = new Set<MapModeId>([
   "democratic-values",
   "unesco-ram-status",
   "ai-vibrancy",
+]);
+const CORPUS_MAP_MODES = new Set<MapModeId>([
+  "ai-institutions",
+  "policy-windows",
+  "public-sector-ai",
+  "enforcement-activity",
+  "standards-conformity",
 ]);
 
 function LensFallback() {
@@ -185,22 +197,25 @@ export default function App() {
 
   useEffect(() => {
     let cancelled = false;
-    if (!ATLAS_MAP_MODES.has(mapMode)) {
+    if (!ATLAS_MAP_MODES.has(mapMode) && !CORPUS_MAP_MODES.has(mapMode)) {
       return () => {
         cancelled = true;
       };
     }
 
-    import("./utils/aiAtlas")
-      .then(({ buildAtlasMapContext }) => {
+    const contextPromise = ATLAS_MAP_MODES.has(mapMode)
+      ? import("./utils/aiAtlas").then(({ buildAtlasMapContext }) => buildAtlasMapContext(mapMode))
+      : import("./utils/researchCorpus").then(({ buildCorpusMapContext }) => buildCorpusMapContext(mapMode));
+
+    contextPromise
+      .then((context) => {
         if (!cancelled) {
-          const context = buildAtlasMapContext(mapMode);
           setContextFillState({ mapMode, fills: context.fills, reasons: context.reasons });
         }
       })
       .catch((error: unknown) => {
         if (!cancelled) {
-          console.error("Unable to load AI Atlas map data", error);
+          console.error("Unable to load context map data", error);
         }
       });
 

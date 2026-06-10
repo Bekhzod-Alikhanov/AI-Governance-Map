@@ -1,0 +1,133 @@
+[
+  {
+    "id": "cen-cenelec-ai-act-harmonized-standards",
+    "title": "CEN-CENELEC AI Act harmonized-standardization work",
+    "standardsBody": "CEN-CENELEC JTC 21",
+    "jurisdiction": "European Union / European standardization",
+    "countryIso3": "EUU",
+    "status": "under_development",
+    "legalRole": "harmonized_standard_candidate",
+    "relatedRecords": [
+      {
+        "kind": "institution",
+        "id": "cen-cenelec-jtc21",
+        "label": "CEN-CENELEC JTC 21"
+      },
+      {
+        "kind": "international_instrument",
+        "id": "cen-cenelec-ai-act-standards",
+        "label": "CEN-CENELEC AI Act standardization work"
+      },
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "domains": [
+      "frontier-gpai",
+      "cybersecurity-critical-infrastructure"
+    ],
+    "summary": "AI Act-supporting harmonized standards work covering risk management, transparency, human oversight, cybersecurity, quality assurance, and conformity assessment.",
+    "caveat": "Standards and conformity-assessment rows are not national law unless a verified legal instrument incorporates them.",
+    "sourceName": "CEN-CENELEC - Artificial Intelligence",
+    "sourceUrl": "https://www.cencenelec.eu/areas-of-work/cen-cenelec-topics/artificial-intelligence/",
+    "verificationNotes": "Official page states that standards, once published in the OJEU, can provide legal presumption of conformity.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "iso-iec-42001-ai-management-system",
+    "title": "ISO/IEC 42001:2023 AI management system standard",
+    "standardsBody": "ISO/IEC JTC 1/SC 42",
+    "jurisdiction": "International",
+    "status": "published",
+    "legalRole": "voluntary_standard",
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "iso-iec-42001-2023",
+        "label": "ISO/IEC 42001:2023"
+      }
+    ],
+    "domains": [
+      "frontier-gpai",
+      "public-sector"
+    ],
+    "summary": "International AI management-system standard for establishing, implementing, maintaining, and improving AI governance processes.",
+    "caveat": "Standards and conformity-assessment rows are not national law unless a verified legal instrument incorporates them.",
+    "sourceName": "ISO - ISO/IEC 42001:2023",
+    "sourceUrl": "https://www.iso.org/standard/42001",
+    "verificationNotes": "Official ISO page identifies ISO/IEC 42001:2023 as a published international AI management-system standard.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "nist-ai-rmf-conformity-context",
+    "title": "NIST AI RMF standards and risk-management context",
+    "standardsBody": "NIST",
+    "jurisdiction": "United States / international influence",
+    "countryIso3": "USA",
+    "status": "guidance",
+    "legalRole": "guidance",
+    "relatedRecords": [
+      {
+        "kind": "national_rule",
+        "id": "us-nist-ai-rmf",
+        "label": "NIST AI RMF"
+      }
+    ],
+    "domains": [
+      "frontier-gpai",
+      "public-sector",
+      "cybersecurity-critical-infrastructure"
+    ],
+    "summary": "Voluntary AI risk-management framework used as technical governance context and referenced across public/private AI governance.",
+    "caveat": "NIST AI RMF is voluntary guidance unless a separate legal or contractual instrument makes it operative.",
+    "sourceName": "NIST - AI Risk Management Framework",
+    "sourceUrl": "https://www.nist.gov/itl/ai-risk-management-framework",
+    "verificationNotes": "Official NIST source used for voluntary technical-governance context.",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-10",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "nist-genai-profile-conformity-context",
+    "title": "NIST AI RMF Generative AI Profile context",
+    "standardsBody": "NIST",
+    "jurisdiction": "United States / international influence",
+    "countryIso3": "USA",
+    "status": "guidance",
+    "legalRole": "guidance",
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "nist-genai-profile",
+        "label": "NIST GenAI Profile"
+      }
+    ],
+    "domains": [
+      "frontier-gpai",
+      "synthetic-media",
+      "cybersecurity-critical-infrastructure"
+    ],
+    "summary": "Generative-AI profile for applying the NIST AI RMF to generative AI risks and controls.",
+    "caveat": "Voluntary U.S. technical guidance; not an international agreement or binding law.",
+    "sourceName": "NIST - AI RMF Generative AI Profile",
+    "sourceUrl": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+    "verificationNotes": "Official NIST publication page used for source-backed generative-AI governance context.",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-10",
+    "reviewStatus": "editorial_checked"
+  }
+]

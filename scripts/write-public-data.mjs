@@ -74,6 +74,21 @@ function recordPageIndex(snapshot) {
   for (const exposure of snapshot.data.labRegulatoryExposures) {
     records.push({ kind: "exposure", id: exposure.id, name: `${exposure.labId} -> ${exposure.targetId}`, url: publicUrl(`/exposure/${exposure.id}`) });
   }
+  for (const institution of snapshot.data.institutionRecords) {
+    records.push({ kind: "institution", id: institution.id, name: institution.name, url: publicUrl(`/institution/${institution.id}`) });
+  }
+  for (const process of snapshot.data.policyProcessRecords) {
+    records.push({ kind: "policy-process", id: process.id, name: process.title, url: publicUrl(`/policy-process/${process.id}`) });
+  }
+  for (const standard of snapshot.data.standardsConformityRecords) {
+    records.push({ kind: "standard", id: standard.id, name: standard.title, url: publicUrl(`/standard/${standard.id}`) });
+  }
+  for (const record of snapshot.data.publicSectorAIRecords) {
+    records.push({ kind: "public-sector-ai", id: record.id, name: record.title, url: publicUrl(`/public-sector-ai/${record.id}`) });
+  }
+  for (const record of snapshot.data.incidentEnforcementRecords) {
+    records.push({ kind: "enforcement", id: record.id, name: record.title, url: publicUrl(`/enforcement/${record.id}`) });
+  }
   return records.sort((a, b) => `${a.kind}:${a.id}`.localeCompare(`${b.kind}:${b.id}`));
 }
 
@@ -154,11 +169,14 @@ try {
   const obligationsModule = await server.ssrLoadModule("/src/data/governanceObligations.ts");
   const labExposureModule = await server.ssrLoadModule("/src/data/labRegulatoryExposures.ts");
   const labIntelligenceModule = await server.ssrLoadModule("/src/data/labIntelligence.ts");
+  const researchCorpusModule = await server.ssrLoadModule("/src/data/researchCorpus.ts");
   const aiAtlasModule = await server.ssrLoadModule("/src/data/aiAtlas.ts");
   const datasetSchemaModule = await server.ssrLoadModule("/src/utils/datasetSchema.ts");
   const summaryModule = await server.ssrLoadModule("/src/utils/getCountryGovernanceSummary.ts");
   const aiAtlasUtils = await server.ssrLoadModule("/src/utils/aiAtlas.ts");
   const workbenchModule = await server.ssrLoadModule("/src/utils/researchWorkbench.ts");
+  const researchCorpusUtils = await server.ssrLoadModule("/src/utils/researchCorpus.ts");
+  const policyBriefModule = await server.ssrLoadModule("/src/utils/policyBrief.ts");
 
   const snapshot = exportDataset.buildDatasetSnapshot();
   const countrySummaries = countriesModule.COUNTRIES
@@ -203,6 +221,13 @@ try {
           "/data/safety-evaluations.json",
           "/data/enforcement-events.json",
           "/data/compute-dependencies.json",
+          "/data/institutions.json",
+          "/data/policy-processes.json",
+          "/data/standards-conformity.json",
+          "/data/public-sector-ai.json",
+          "/data/enforcement-litigation.json",
+          "/data/policy-brief-index.json",
+          "/data/corpus-index.json",
           "/data/implementation-tracker.json",
           "/data/ai-atlas-indicators.json",
           "/data/ai-atlas-sources.json",
@@ -225,6 +250,20 @@ try {
     writeFile(path.join(outDir, "safety-evaluations.json"), stableJson(labIntelligenceModule.SAFETY_EVALUATION_RECORDS), "utf8"),
     writeFile(path.join(outDir, "enforcement-events.json"), stableJson(labIntelligenceModule.INCIDENT_ENFORCEMENT_RECORDS), "utf8"),
     writeFile(path.join(outDir, "compute-dependencies.json"), stableJson(labIntelligenceModule.COMPUTE_DEPENDENCY_RECORDS), "utf8"),
+    writeFile(path.join(outDir, "institutions.json"), stableJson(researchCorpusModule.INSTITUTION_RECORDS), "utf8"),
+    writeFile(path.join(outDir, "policy-processes.json"), stableJson(researchCorpusModule.POLICY_PROCESS_RECORDS), "utf8"),
+    writeFile(path.join(outDir, "standards-conformity.json"), stableJson(researchCorpusModule.STANDARDS_CONFORMITY_RECORDS), "utf8"),
+    writeFile(path.join(outDir, "public-sector-ai.json"), stableJson(researchCorpusModule.PUBLIC_SECTOR_AI_RECORDS), "utf8"),
+    writeFile(path.join(outDir, "enforcement-litigation.json"), stableJson(labIntelligenceModule.INCIDENT_ENFORCEMENT_RECORDS), "utf8"),
+    writeFile(path.join(outDir, "policy-brief-index.json"), stableJson(policyBriefModule.POLICY_BRIEF_INDEX), "utf8"),
+    writeFile(
+      path.join(outDir, "corpus-index.json"),
+      stableJson({
+        rows: researchCorpusUtils.buildCorpusRows(),
+        coverageReport: researchCorpusUtils.getCorpusCoverageReport(),
+      }),
+      "utf8"
+    ),
     writeFile(path.join(outDir, "implementation-tracker.json"), stableJson(snapshot.data.implementationMilestones), "utf8"),
     writeFile(path.join(outDir, "ai-atlas-indicators.json"), stableJson(aiAtlasModule.COUNTRY_INDICATOR_SCORES), "utf8"),
     writeFile(path.join(outDir, "ai-atlas-sources.json"), stableJson(aiAtlasModule.AI_ATLAS_SOURCES), "utf8"),
@@ -243,7 +282,9 @@ try {
         dataset: snapshot,
         sources: sourceEntries(snapshot),
         changelog: labIntelligenceModule.RECORD_CHANGE_LOG_ENTRIES,
+        corpusChangelog: researchCorpusModule.RESEARCH_CORPUS_CHANGELOG,
         releases: releasesModule.DATASET_RELEASES,
+        corpusCoverageReport: researchCorpusUtils.getCorpusCoverageReport(),
         reviewReport: {
           caveat:
             "Generated static release package. Official sites that block automated link checks still require manual review.",

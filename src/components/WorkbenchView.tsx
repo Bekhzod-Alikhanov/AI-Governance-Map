@@ -61,7 +61,16 @@ import { VerificationMeta } from "./VerificationMeta";
 import { EvidenceDossierButton } from "./EvidenceDossierButton";
 import { CorrectionLink } from "./CorrectionLink";
 import { LabIntelligenceBoard } from "./LabIntelligenceBoard";
+import { ResearchCorpusPanel } from "./ResearchCorpusPanel";
+import { PolicyBriefButton } from "./PolicyBriefButton";
 import { getLabIntelligenceSummary } from "../utils/labIntelligence";
+import {
+  corpusKindLabel,
+  corpusRoute,
+  getCorpusRecord,
+  relatedRecordsFor,
+  type CorpusUiKind,
+} from "../utils/researchCorpus";
 
 interface Props {
   filters: FilterState;
@@ -590,6 +599,8 @@ export function WorkbenchView({
 
         <LabIntelligenceBoard onSelectLab={onSelectLab} />
 
+        <ResearchCorpusPanel onOpenMapMode={onOpenAtlasMapMode} />
+
         <section className="mt-4 rounded-lg border border-canvas-line bg-white p-3">
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div>
@@ -1046,6 +1057,73 @@ function RecordRoutePanel({
             recordName={`${lab?.name ?? exposure.labId} - ${target.name}`}
             sourceUrl={exposure.sourceUrl}
             claim={exposure.rationale}
+            compact
+          />
+        </RecordActions>
+      </RecordPanelShell>
+    );
+  }
+
+  if (
+    routeRecord.kind === "institution" ||
+    routeRecord.kind === "policy-process" ||
+    routeRecord.kind === "standard" ||
+    routeRecord.kind === "public-sector-ai" ||
+    routeRecord.kind === "enforcement"
+  ) {
+    const corpusRecord = getCorpusRecord(routeRecord.kind as CorpusUiKind, routeRecord.id);
+    if (!corpusRecord) return null;
+    const related = relatedRecordsFor(corpusRecord);
+    return (
+      <RecordPanelShell title={corpusRecord.title} subtitle={`${corpusKindLabel(corpusRecord.kind)} - ${corpusRecord.jurisdiction}`}>
+        <RecordMetrics
+          items={[
+            ["Status", corpusRecord.status],
+            ["Jurisdiction", corpusRecord.jurisdiction],
+            ["Domains", String(corpusRecord.domains.length)],
+            ["Confidence", corpusRecord.metadata.confidence ? DATA_CONFIDENCE_LABELS[corpusRecord.metadata.confidence] : ""],
+          ]}
+        />
+        <RecordText label="Research summary" value={corpusRecord.summary} />
+        <RecordText label="Caveat" value={corpusRecord.caveat} />
+        <RecordText
+          label="Related records"
+          value={
+            related.length
+              ? related.map((reference) => `${reference.label ?? reference.id} (${reference.kind})`).join("; ")
+              : "No related record references tracked."
+          }
+        />
+        <div className="mt-3">
+          <VerificationMeta item={corpusRecord.metadata} compact />
+        </div>
+        <RecordActions>
+          <a className={smallButtonClass} href={corpusRoute(corpusRecord)}>
+            Stable URL
+          </a>
+          <EvidenceDossierButton kind={corpusRecord.routeKind} id={corpusRecord.id} compact />
+          <PolicyBriefButton
+            kind={
+              corpusRecord.kind === "standards_conformity"
+                ? "standards_conformity"
+                : corpusRecord.kind === "enforcement"
+                  ? "enforcement_watch"
+                  : corpusRecord.kind === "policy_process"
+                    ? "deadline_watch"
+                    : corpusRecord.kind === "public_sector_ai" && corpusRecord.countryIso3
+                      ? "country"
+                      : "institution"
+            }
+            id={corpusRecord.kind === "institution" || corpusRecord.kind === "standards_conformity" ? corpusRecord.id : corpusRecord.countryIso3}
+            compact
+          />
+          <SourceLink name={corpusRecord.sourceName} url={corpusRecord.sourceUrl} />
+          <CorrectionLink
+            recordKind={corpusRecord.kind}
+            recordId={corpusRecord.id}
+            recordName={corpusRecord.title}
+            sourceUrl={corpusRecord.sourceUrl}
+            claim={corpusRecord.summary}
             compact
           />
         </RecordActions>

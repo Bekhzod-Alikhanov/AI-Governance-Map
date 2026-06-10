@@ -21,6 +21,14 @@ const ATLAS_MODES: MapModeId[] = [
   "ai-vibrancy",
 ];
 
+const CORPUS_MODES: MapModeId[] = [
+  "ai-institutions",
+  "policy-windows",
+  "public-sector-ai",
+  "enforcement-activity",
+  "standards-conformity",
+];
+
 interface Props {
   mapMode?: MapModeId;
 }
@@ -28,7 +36,8 @@ interface Props {
 export function Legend({ mapMode = "binding-law" }: Props) {
   const [open, setOpen] = useState(false);
   const isAtlasMode = ATLAS_MODES.includes(mapMode);
-  const fills = isAtlasMode ? atlasFillsForMode(mapMode) : FILLS;
+  const isCorpusMode = CORPUS_MODES.includes(mapMode);
+  const fills = isAtlasMode ? atlasFillsForMode(mapMode) : isCorpusMode ? corpusFillsForMode(mapMode) : FILLS;
   return (
     <div className="rounded-xl border border-canvas-line bg-white shadow-panel">
       <button
@@ -105,12 +114,45 @@ export function Legend({ mapMode = "binding-law" }: Props) {
           <p className="md:col-span-2 rounded-md bg-canvas px-2 py-1.5 text-[11px] leading-relaxed text-ink-600">
             {isAtlasMode
               ? "AI Atlas colors show contextual readiness, assessment, democratic-values, or ecosystem indicators. They do not imply binding AI law, legal compliance, or treaty participation."
+              : isCorpusMode
+                ? "Research-corpus colors show official-source context such as institutions, open policy windows, standards, registries, or enforcement records. They do not change binding-law summaries."
               : "Map colors are dataset classifications, not legal conclusions. EU member states can show binding applicability through the EU AI Act rather than a separate national AI law."}
           </p>
         </div>
       )}
     </div>
   );
+}
+
+function corpusFillsForMode(mapMode: MapModeId) {
+  if (mapMode === "ai-institutions") {
+    return [
+      { color: "#E5E7EB", label: "No mapped institution row" },
+      { color: "#0F766E", label: "AI institution / authority context" },
+    ];
+  }
+  if (mapMode === "policy-windows") {
+    return [
+      { color: "#E5E7EB", label: "No mapped policy-window row" },
+      { color: "#EA580C", label: "Open or ongoing policy process" },
+    ];
+  }
+  if (mapMode === "public-sector-ai") {
+    return [
+      { color: "#E5E7EB", label: "No public-sector AI row" },
+      { color: "#2563EB", label: "Registry, AIA, or public-sector AI context" },
+    ];
+  }
+  if (mapMode === "enforcement-activity") {
+    return [
+      { color: "#E5E7EB", label: "No official enforcement row" },
+      { color: "#DC2626", label: "Official enforcement / litigation context" },
+    ];
+  }
+  return [
+    { color: "#E5E7EB", label: "No standards/conformity row" },
+    { color: "#7C3AED", label: "Standards or conformity infrastructure context" },
+  ];
 }
 
 function atlasFillsForMode(mapMode: MapModeId) {

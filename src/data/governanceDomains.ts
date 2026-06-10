@@ -57,6 +57,11 @@ export const GOVERNANCE_DOMAINS: GovernanceDomain[] = [
     description: "AI compute, hyperscale cloud, export controls, chips, and infrastructure bottlenecks.",
   },
   {
+    id: "standards-conformity",
+    label: "Standards / conformity",
+    description: "AI standards, harmonized standards, conformity assessment, assurance, and certification context.",
+  },
+  {
     id: "public-procurement",
     label: "Public procurement",
     description: "AI procurement, public purchasing rules, vendor assurance, and government acquisition controls.",

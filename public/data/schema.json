@@ -16,7 +16,7 @@
   ],
   "properties": {
     "schemaVersion": {
-      "const": "2026.06.1"
+      "const": "2026.06.2"
     },
     "snapshotDate": {
       "type": "string",
@@ -34,7 +34,7 @@
           "const": "https://global-ai-governance-map.vercel.app/dataset.schema.json"
         },
         "version": {
-          "const": "2026.06.1"
+          "const": "2026.06.2"
         },
         "format": {
           "const": "json-schema-draft-2020-12"
@@ -84,6 +84,22 @@
           "minimum": 0
         },
         "computeDependencyRecords": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "institutionRecords": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "policyProcessRecords": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "standardsConformityRecords": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "publicSectorAIRecords": {
           "type": "integer",
           "minimum": 0
         },
@@ -182,6 +198,18 @@
           "type": "array"
         },
         "computeDependencyRecords": {
+          "type": "array"
+        },
+        "institutionRecords": {
+          "type": "array"
+        },
+        "policyProcessRecords": {
+          "type": "array"
+        },
+        "standardsConformityRecords": {
+          "type": "array"
+        },
+        "publicSectorAIRecords": {
           "type": "array"
         },
         "internationalInstruments": {

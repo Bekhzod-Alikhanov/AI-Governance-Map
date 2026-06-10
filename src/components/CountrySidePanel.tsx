@@ -23,6 +23,7 @@ import {
   summarizeObligationCategories,
 } from "../utils/researchWorkbench";
 import { buildGovernanceColorReason, type MapColorReason } from "../utils/mapColorReason";
+import { corpusKindLabel, corpusRoute, getCorpusRecordsForCountry } from "../utils/researchCorpus";
 
 const AIAtlasSection = lazy(() => import("./AIAtlasSection").then((module) => ({ default: module.AIAtlasSection })));
 
@@ -77,6 +78,7 @@ export function CountrySidePanel({
   const implementation = getCountryImplementationMilestones(country.iso3);
   const subnationalRules = getSubnationalRulesByCountry(country.iso3);
   const colorReason = contextReason ?? buildGovernanceColorReason(getCountryMapSummary(iso3), lens, mapMode);
+  const corpusRecords = getCorpusRecordsForCountry(country.iso3);
 
   return (
     <aside
@@ -231,6 +233,33 @@ export function CountrySidePanel({
         <Suspense fallback={<AIAtlasSectionFallback />}>
           <AIAtlasSection iso3={country.iso3} />
         </Suspense>
+
+        {corpusRecords.length > 0 && (
+          <section className="mt-6">
+            <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">
+              Research corpus context ({corpusRecords.length})
+            </h3>
+            <ul className="space-y-1.5">
+              {corpusRecords.map((record) => (
+                <li key={`${record.routeKind}:${record.id}`} className="rounded-md border border-canvas-line bg-white px-3 py-2 text-xs">
+                  <p className="text-[11px] uppercase tracking-wide text-ink-500">{corpusKindLabel(record.kind)}</p>
+                  <p className="mt-0.5 font-semibold text-ink-900">{record.title}</p>
+                  <p className="mt-1 leading-relaxed text-ink-600">{record.summary}</p>
+                  <p className="mt-1 rounded-md bg-canvas px-2 py-1 text-[11px] leading-relaxed text-ink-600">{record.caveat}</p>
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <a href={corpusRoute(record)} className="rounded-md border border-canvas-line px-2 py-0.5 text-[11px] font-medium text-ink-600 hover:border-accent hover:text-accent">
+                      Record URL
+                    </a>
+                    <SourceLink name={record.sourceName} url={record.sourceUrl} />
+                  </div>
+                  <div className="mt-2">
+                    <VerificationMeta item={record.metadata} compact />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {summary.hqLabs.length > 0 && (
           <section className="mt-6">

@@ -20,6 +20,12 @@ import {
   RECORD_CHANGE_LOG_ENTRIES,
   SAFETY_EVALUATION_RECORDS,
 } from "../data/labIntelligence";
+import {
+  INSTITUTION_RECORDS,
+  POLICY_PROCESS_RECORDS,
+  PUBLIC_SECTOR_AI_RECORDS,
+  STANDARDS_CONFORMITY_RECORDS,
+} from "../data/researchCorpus";
 import { AI_ATLAS_SOURCES, COUNTRY_INDICATOR_SCORES, COUNTRY_READINESS_REPORTS, INDICATOR_SOURCE_BY_ID } from "../data/aiAtlas";
 import { hasCyrillic } from "./translateSeedDataToEnglish";
 import {
@@ -45,6 +51,7 @@ export function validateData(): ValidationReport {
   const sourceHostCounts = new Map<string, { sourceKind: string; count: number }>();
   const sourceIssueCounts = new Map<string, number>();
   const indirectParticipationWithoutNote = new Map<string, number>();
+  const corpusReferences: Array<{ owner: string; kind: string; id: string }> = [];
 
   function addCount(map: Map<string, number>, key: string) {
     map.set(key, (map.get(key) ?? 0) + 1);
@@ -338,6 +345,92 @@ export function validateData(): ValidationReport {
     if (!dependency.caveat) errors.push(`Compute dependency record ${dependency.id} missing caveat`);
   }
 
+  // Research corpus
+  const institutionIds = new Set<string>();
+  for (const institution of INSTITUTION_RECORDS) {
+    if (!institution.id) errors.push("Institution record missing id");
+    if (institutionIds.has(institution.id)) errors.push(`Duplicate institution record id: ${institution.id}`);
+    institutionIds.add(institution.id);
+    if (institution.countryIso3 && institution.countryIso3 !== "EUU" && !COUNTRY_BY_ISO3[institution.countryIso3]) {
+      errors.push(`Institution ${institution.id} references unknown country ${institution.countryIso3}`);
+    }
+    for (const domainId of institution.domains) {
+      if (!GOVERNANCE_DOMAIN_BY_ID[domainId]) errors.push(`Institution ${institution.id} references unknown domain ${domainId}`);
+    }
+    corpusReferences.push(...institution.relatedRecords.map((ref) => ({ owner: `Institution ${institution.id}`, kind: ref.kind, id: ref.id })));
+    validateSource("Institution", institution.id, institution);
+    validateDate(`Institution ${institution.id} lastVerified`, institution.lastVerified);
+    if (!institution.caveat) errors.push(`Institution ${institution.id} missing caveat`);
+  }
+
+  const policyProcessIds = new Set<string>();
+  for (const process of POLICY_PROCESS_RECORDS) {
+    if (!process.id) errors.push("Policy process record missing id");
+    if (policyProcessIds.has(process.id)) errors.push(`Duplicate policy process record id: ${process.id}`);
+    policyProcessIds.add(process.id);
+    if (process.countryIso3 && process.countryIso3 !== "EUU" && !COUNTRY_BY_ISO3[process.countryIso3]) {
+      errors.push(`Policy process ${process.id} references unknown country ${process.countryIso3}`);
+    }
+    for (const domainId of process.domains) {
+      if (!GOVERNANCE_DOMAIN_BY_ID[domainId]) errors.push(`Policy process ${process.id} references unknown domain ${domainId}`);
+    }
+    corpusReferences.push(...process.relatedRecords.map((ref) => ({ owner: `Policy process ${process.id}`, kind: ref.kind, id: ref.id })));
+    validateSource("Policy process", process.id, process);
+    validateDate(`Policy process ${process.id} deadline`, process.deadline);
+    validateDate(`Policy process ${process.id} lastVerified`, process.lastVerified);
+    if (process.status === "open" && !process.deadline) warnings.push(`Open policy process ${process.id} has no deadline`);
+    if (!process.caveat) errors.push(`Policy process ${process.id} missing caveat`);
+  }
+
+  const standardsIds = new Set<string>();
+  for (const standard of STANDARDS_CONFORMITY_RECORDS) {
+    if (!standard.id) errors.push("Standards/conformity record missing id");
+    if (standardsIds.has(standard.id)) errors.push(`Duplicate standards/conformity record id: ${standard.id}`);
+    standardsIds.add(standard.id);
+    if (standard.countryIso3 && standard.countryIso3 !== "EUU" && !COUNTRY_BY_ISO3[standard.countryIso3]) {
+      errors.push(`Standards/conformity record ${standard.id} references unknown country ${standard.countryIso3}`);
+    }
+    for (const domainId of standard.domains) {
+      if (!GOVERNANCE_DOMAIN_BY_ID[domainId]) errors.push(`Standards/conformity record ${standard.id} references unknown domain ${domainId}`);
+    }
+    corpusReferences.push(...standard.relatedRecords.map((ref) => ({ owner: `Standards/conformity ${standard.id}`, kind: ref.kind, id: ref.id })));
+    validateSource("Standards/conformity", standard.id, standard);
+    validateDate(`Standards/conformity ${standard.id} lastVerified`, standard.lastVerified);
+    if (!standard.caveat) errors.push(`Standards/conformity record ${standard.id} missing caveat`);
+  }
+
+  const publicSectorIds = new Set<string>();
+  for (const record of PUBLIC_SECTOR_AI_RECORDS) {
+    if (!record.id) errors.push("Public-sector AI record missing id");
+    if (publicSectorIds.has(record.id)) errors.push(`Duplicate public-sector AI record id: ${record.id}`);
+    publicSectorIds.add(record.id);
+    if (record.countryIso3 && record.countryIso3 !== "EUU" && !COUNTRY_BY_ISO3[record.countryIso3]) {
+      errors.push(`Public-sector AI record ${record.id} references unknown country ${record.countryIso3}`);
+    }
+    for (const domainId of record.domains) {
+      if (!GOVERNANCE_DOMAIN_BY_ID[domainId]) errors.push(`Public-sector AI record ${record.id} references unknown domain ${domainId}`);
+    }
+    corpusReferences.push(...record.relatedRecords.map((ref) => ({ owner: `Public-sector AI ${record.id}`, kind: ref.kind, id: ref.id })));
+    validateSource("Public-sector AI", record.id, record);
+    validateDate(`Public-sector AI ${record.id} lastVerified`, record.lastVerified);
+    if (!record.caveat) errors.push(`Public-sector AI record ${record.id} missing caveat`);
+  }
+
+  for (const ref of corpusReferences) {
+    if (
+      !corpusReferenceExists(ref.kind, ref.id, {
+        institutionIds,
+        policyProcessIds,
+        standardsIds,
+        publicSectorIds,
+        incidentIds,
+        labExposureIds,
+      })
+    ) {
+      errors.push(`${ref.owner} references unknown ${ref.kind} ${ref.id}`);
+    }
+  }
+
   const changelogIds = new Set<string>();
   for (const entry of RECORD_CHANGE_LOG_ENTRIES) {
     if (changelogIds.has(entry.id)) errors.push(`Duplicate record changelog id: ${entry.id}`);
@@ -520,6 +613,34 @@ function parentReferenceExists(parentType: string, parentId: string, labExposure
   if (parentType === "international_instrument") return Boolean(INSTRUMENT_BY_ID[parentId]);
   if (parentType === "subnational_rule") return Boolean(SUBNATIONAL_BY_ID[parentId]);
   if (parentType === "lab_exposure") return labExposureIds.has(parentId);
+  return false;
+}
+
+function corpusReferenceExists(
+  kind: string,
+  id: string,
+  ids: {
+    institutionIds: Set<string>;
+    policyProcessIds: Set<string>;
+    standardsIds: Set<string>;
+    publicSectorIds: Set<string>;
+    incidentIds: Set<string>;
+    labExposureIds: Set<string>;
+  }
+): boolean {
+  if (kind === "institution") return ids.institutionIds.has(id);
+  if (kind === "policy_process") return ids.policyProcessIds.has(id);
+  if (kind === "standards_conformity") return ids.standardsIds.has(id);
+  if (kind === "public_sector_ai") return ids.publicSectorIds.has(id);
+  if (kind === "enforcement") return ids.incidentIds.has(id);
+  if (kind === "country") return Boolean(COUNTRY_BY_ISO3[id]);
+  if (kind === "lab") return Boolean(LAB_BY_ID[id]);
+  if (kind === "instrument" || kind === "international_instrument") return Boolean(INSTRUMENT_BY_ID[id]);
+  if (kind === "national_rule") return Boolean(NATIONAL_REG_BY_ID[id]);
+  if (kind === "subnational_rule") return Boolean(SUBNATIONAL_BY_ID[id]);
+  if (kind === "lab_exposure") return ids.labExposureIds.has(id);
+  if (kind === "obligation") return GOVERNANCE_OBLIGATIONS.some((row) => row.id === id);
+  if (kind === "implementation") return IMPLEMENTATION_MILESTONES.some((row) => row.id === id);
   return false;
 }
 

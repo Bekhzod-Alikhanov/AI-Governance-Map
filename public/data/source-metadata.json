@@ -5780,8 +5780,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-06-07",
-    "verificationNotes": ""
+    "lastVerified": "2026-06-10",
+    "verificationNotes": "Official FTC release announces five law-enforcement actions and states that using AI tools does not exempt firms from existing law."
   },
   {
     "collection": "indicatorSources",
@@ -6058,6 +6058,90 @@
     "confidence": "medium",
     "lastVerified": "2026-05-20",
     "verificationNotes": "BIS source verifies the 2025 AI-chip export-control action; this record remains out-of-scope as AI-specific law and is included as frontier-AI infrastructure governance."
+  },
+  {
+    "collection": "institutionRecords",
+    "id": "canada-treasury-board-secretariat",
+    "name": "Treasury Board of Canada Secretariat",
+    "sourceName": "Canada.ca - Algorithmic Impact Assessment tool",
+    "sourceUrl": "https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/algorithmic-impact-assessment.html",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "verificationNotes": "Official Canada.ca page describes the AIA as a mandatory risk assessment tool supporting the Directive on Automated Decision-Making."
+  },
+  {
+    "collection": "institutionRecords",
+    "id": "cen-cenelec-jtc21",
+    "name": "CEN-CENELEC Joint Technical Committee 21",
+    "sourceName": "CEN-CENELEC - Artificial Intelligence",
+    "sourceUrl": "https://www.cencenelec.eu/areas-of-work/cen-cenelec-topics/artificial-intelligence/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "verificationNotes": "Official CEN-CENELEC page describes JTC 21, AI Act support, harmonized standards, and five working groups."
+  },
+  {
+    "collection": "institutionRecords",
+    "id": "coe-treaty-office",
+    "name": "Council of Europe Treaty Office",
+    "sourceName": "Council of Europe Treaty Office - CETS No. 225",
+    "sourceUrl": "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=225",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-10",
+    "verificationNotes": "Official Treaty Office page may block automated checks; manual verification remains required for time-sensitive treaty status."
+  },
+  {
+    "collection": "institutionRecords",
+    "id": "eu-ai-office",
+    "name": "European AI Office",
+    "sourceName": "European Commission - European AI Office",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-office",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "verificationNotes": "Official Commission page describes AI Office support for AI Act implementation, GPAI enforcement, evaluations, information requests, and sanctions."
+  },
+  {
+    "collection": "institutionRecords",
+    "id": "uk-ai-security-institute",
+    "name": "UK AI Security Institute",
+    "sourceName": "UK AI Security Institute",
+    "sourceUrl": "https://www.aisi.gov.uk/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "verificationNotes": "Official AISI site describes its state-backed mission, advanced-AI testing, developer partnerships, and policy role."
+  },
+  {
+    "collection": "institutionRecords",
+    "id": "us-ftc",
+    "name": "U.S. Federal Trade Commission",
+    "sourceName": "FTC - Operation AI Comply",
+    "sourceUrl": "https://www.ftc.gov/news-events/news/press-releases/2024/09/ftc-announces-crackdown-deceptive-ai-claims-schemes",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "verificationNotes": "Official FTC release states that Operation AI Comply announced five law-enforcement actions involving AI claims or AI-enabled deceptive conduct."
+  },
+  {
+    "collection": "institutionRecords",
+    "id": "us-nist-caisi",
+    "name": "NIST Center for AI Standards and Innovation (CAISI)",
+    "sourceName": "NIST - Center for AI Standards and Innovation",
+    "sourceUrl": "https://www.nist.gov/caisi",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "verificationNotes": "Official NIST page describes voluntary agreements, unclassified evaluations, national-security risk focus, and interagency coordination."
   },
   {
     "collection": "internationalInstruments",
@@ -26352,6 +26436,78 @@
     "verificationNotes": "Official DCDT source supports the South Africa National AI Policy Framework. Treat as policy-framework context; any later draft national AI policy or withdrawal/reissue should be tracked separately before changing legal effect."
   },
   {
+    "collection": "policyProcessRecords",
+    "id": "cen-cenelec-jtc21-ai-act-standardization-process",
+    "name": "CEN-CENELEC JTC 21 AI Act standardization work programme",
+    "sourceName": "CEN-CENELEC - Artificial Intelligence",
+    "sourceUrl": "https://www.cencenelec.eu/areas-of-work/cen-cenelec-topics/artificial-intelligence/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "verificationNotes": "Official page links JTC 21 work to harmonized standards supporting the EU AI Act."
+  },
+  {
+    "collection": "policyProcessRecords",
+    "id": "eu-ai-office-gpai-tools-process",
+    "name": "EU AI Office GPAI implementation tools and code-of-practice process",
+    "sourceName": "European Commission - European AI Office",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-office",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "verificationNotes": "Official AI Office page describes drawing up codes of practice and preparing guidance, implementing/delegated acts, and tools."
+  },
+  {
+    "collection": "policyProcessRecords",
+    "id": "eu-high-risk-ai-guidelines-consultation-2026",
+    "name": "EU draft guidelines on high-risk AI classification consultation",
+    "sourceName": "European Commission - high-risk AI classification feedback",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/news/commission-seeks-feedback-draft-guidelines-classification-high-risk-artificial-intelligence-systems",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "verificationNotes": "Official Commission release says stakeholders are invited to share views by 23 June 2026."
+  },
+  {
+    "collection": "policyProcessRecords",
+    "id": "uk-aisi-frontier-trends-monitoring",
+    "name": "UK AISI frontier AI trends and testing monitoring",
+    "sourceName": "UK AI Security Institute",
+    "sourceUrl": "https://www.aisi.gov.uk/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "verificationNotes": "Official AISI site describes frontier model testing, the Frontier AI Trends Report, and advanced-AI risk research."
+  },
+  {
+    "collection": "publicSectorAIRecords",
+    "id": "canada-algorithmic-impact-assessment",
+    "name": "Canada Algorithmic Impact Assessment tool",
+    "sourceName": "Canada.ca - Algorithmic Impact Assessment tool",
+    "sourceUrl": "https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/algorithmic-impact-assessment.html",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "verificationNotes": "Official Canada.ca page calls the AIA a mandatory risk assessment tool supporting the Directive on Automated Decision-Making."
+  },
+  {
+    "collection": "publicSectorAIRecords",
+    "id": "us-federal-ai-use-case-inventory",
+    "name": "U.S. federal AI use case inventories",
+    "sourceName": "AI.gov - Federal AI Use Case Inventories",
+    "sourceUrl": "https://www.ai.gov/ai-use-cases/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "verificationNotes": "Official AI.gov page lists federal AI use-case inventory materials and agency links."
+  },
+  {
     "collection": "safetyEvaluationRecords",
     "id": "amazon-nova-premier-evaluation-record",
     "name": "amazon-nova-premier-evaluation-record",
@@ -26398,6 +26554,54 @@
     "confidence": "high",
     "lastVerified": "2026-06-07",
     "verificationNotes": ""
+  },
+  {
+    "collection": "standardsConformityRecords",
+    "id": "cen-cenelec-ai-act-harmonized-standards",
+    "name": "CEN-CENELEC AI Act harmonized-standardization work",
+    "sourceName": "CEN-CENELEC - Artificial Intelligence",
+    "sourceUrl": "https://www.cencenelec.eu/areas-of-work/cen-cenelec-topics/artificial-intelligence/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "verificationNotes": "Official page states that standards, once published in the OJEU, can provide legal presumption of conformity."
+  },
+  {
+    "collection": "standardsConformityRecords",
+    "id": "iso-iec-42001-ai-management-system",
+    "name": "ISO/IEC 42001:2023 AI management system standard",
+    "sourceName": "ISO - ISO/IEC 42001:2023",
+    "sourceUrl": "https://www.iso.org/standard/42001",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "verificationNotes": "Official ISO page identifies ISO/IEC 42001:2023 as a published international AI management-system standard."
+  },
+  {
+    "collection": "standardsConformityRecords",
+    "id": "nist-ai-rmf-conformity-context",
+    "name": "NIST AI RMF standards and risk-management context",
+    "sourceName": "NIST - AI Risk Management Framework",
+    "sourceUrl": "https://www.nist.gov/itl/ai-risk-management-framework",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-10",
+    "verificationNotes": "Official NIST source used for voluntary technical-governance context."
+  },
+  {
+    "collection": "standardsConformityRecords",
+    "id": "nist-genai-profile-conformity-context",
+    "name": "NIST AI RMF Generative AI Profile context",
+    "sourceName": "NIST - AI RMF Generative AI Profile",
+    "sourceUrl": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-10",
+    "verificationNotes": "Official NIST publication page used for source-backed generative-AI governance context."
   },
   {
     "collection": "subnationalAIRules",

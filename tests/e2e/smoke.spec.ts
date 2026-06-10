@@ -243,6 +243,45 @@ test.describe("governance map smoke flows", () => {
     await expect(page.getByRole("link", { name: "Open full record" })).toBeVisible();
   });
 
+  test("supports research corpus routes, exports, briefs, and context map modes", async ({ page }) => {
+    await page.goto("/?lens=workbench");
+
+    const corpus = page.locator("section", { has: page.getByRole("heading", { name: /Find institutions/ }) });
+    await expect(corpus).toBeVisible();
+    await expect(corpus.getByText("European AI Office", { exact: true }).first()).toBeVisible();
+    const corpusDownloadPromise = page.waitForEvent("download");
+    await corpus.getByRole("button", { name: "Export corpus CSV" }).click();
+    const corpusDownload = await corpusDownloadPromise;
+    expect(corpusDownload.suggestedFilename()).toBe("global-ai-governance-map-research-corpus.csv");
+
+    await corpus.getByRole("button", { name: "Institution map" }).click();
+    await expect(page.getByLabel("Map color mode")).toHaveValue("ai-institutions");
+    await expect(page.getByText("Sources:")).toBeVisible();
+
+    await page.goto("/institution/eu-ai-office");
+    await expect(page.getByRole("heading", { name: "European AI Office" })).toBeVisible();
+    await expect(page.getByText("not a separate national law")).toBeVisible();
+    await page.getByRole("button", { name: "Dossier" }).first().click();
+    await expect(page.getByRole("dialog", { name: /European AI Office evidence dossier/ })).toBeVisible();
+    await page.getByLabel("Close evidence dossier").click();
+
+    await page.getByRole("button", { name: "Brief" }).first().click();
+    await expect(page.getByRole("dialog", { name: /European AI Office brief/ })).toBeVisible();
+    const briefDownloadPromise = page.waitForEvent("download");
+    await page.getByRole("button", { name: "Download Markdown" }).click();
+    const briefDownload = await briefDownloadPromise;
+    expect(briefDownload.suggestedFilename()).toBe("global-ai-governance-map-institution-eu-ai-office-policy-brief.md");
+    await page.getByLabel("Close policy brief").click();
+
+    await page.goto("/policy-process/eu-high-risk-ai-guidelines-consultation-2026");
+    await expect(page.getByRole("heading", { name: /high-risk AI classification/ })).toBeVisible();
+    await expect(page.getByText("deadline", { exact: false }).first()).toBeVisible();
+
+    await page.goto("/standard/iso-iec-42001-ai-management-system");
+    await expect(page.getByRole("heading", { name: /ISO\/IEC 42001/ })).toBeVisible();
+    await expect(page.getByText("Standards and conformity")).toBeVisible();
+  });
+
   test("keeps map result scope clear while filtering", async ({ page }) => {
     await page.goto("/");
 

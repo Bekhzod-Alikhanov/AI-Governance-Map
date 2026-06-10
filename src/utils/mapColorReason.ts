@@ -112,6 +112,20 @@ export function buildGovernanceColorReason(
     };
   }
 
+  if (
+    mapMode === "ai-institutions" ||
+    mapMode === "policy-windows" ||
+    mapMode === "public-sector-ai" ||
+    mapMode === "enforcement-activity" ||
+    mapMode === "standards-conformity"
+  ) {
+    return {
+      label: "Research-corpus context mode",
+      detail:
+        "This mode highlights official-source corpus records such as institutions, policy windows, standards, public-sector AI, or enforcement context. It does not change binding-law rollups.",
+    };
+  }
+
   return {
     label: "Context indicator mode",
     detail: "This mode uses contextual indicator data and does not change legal-status, obligation, or binding-law rollups.",

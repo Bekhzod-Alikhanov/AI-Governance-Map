@@ -315,13 +315,24 @@ export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
     labIds: [],
     date: "2024-09-25",
     status: "public enforcement sweep announced",
+    proceduralStage: "announced enforcement actions",
+    affectedActorClass: "AI products, AI claims, and AI-enabled deceptive schemes",
+    outcomeOrRemedy: "Five law-enforcement actions announced; outcomes vary by matter.",
+    officialDocketUrl:
+      "https://www.ftc.gov/news-events/news/press-releases/2024/09/ftc-announces-crackdown-deceptive-ai-claims-schemes",
     domains: ["enforcement-litigation"],
     summary: "FTC enforcement sweep against deceptive AI claims and schemes.",
     caveat: "Enforcement context only; no tracked frontier lab is treated as a target without an official source.",
     sourceName: "FTC - Operation AI Comply",
     sourceUrl:
       "https://www.ftc.gov/news-events/news/press-releases/2024/09/ftc-announces-crackdown-deceptive-ai-claims-schemes",
-    ...OFFICIAL_COMPANY,
+    sourceKind: "official",
+    verificationStatus: "verified",
+    confidence: "high",
+    lastVerified: "2026-06-10",
+    verificationNotes:
+      "Official FTC release announces five law-enforcement actions and states that using AI tools does not exempt firms from existing law.",
+    reviewStatus: "editorial_checked",
   },
 ];
 

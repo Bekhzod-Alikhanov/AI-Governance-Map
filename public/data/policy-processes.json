@@ -1,0 +1,155 @@
+[
+  {
+    "id": "eu-high-risk-ai-guidelines-consultation-2026",
+    "title": "EU draft guidelines on high-risk AI classification consultation",
+    "processType": "implementation_consultation",
+    "jurisdiction": "European Union",
+    "countryIso3": "EUU",
+    "stage": "Stakeholder feedback on draft guidelines",
+    "status": "open",
+    "deadline": "2026-06-23",
+    "conveningBody": "European Commission / AI Office",
+    "relatedRecords": [
+      {
+        "kind": "institution",
+        "id": "eu-ai-office",
+        "label": "European AI Office"
+      },
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      },
+      {
+        "kind": "implementation",
+        "id": "eu-ai-act-phased-application",
+        "label": "AI Act phased application"
+      }
+    ],
+    "domains": [
+      "frontier-gpai",
+      "public-sector",
+      "employment-hiring",
+      "healthcare",
+      "finance"
+    ],
+    "submissionUrl": "https://digital-strategy.ec.europa.eu/en/news/commission-seeks-feedback-draft-guidelines-classification-high-risk-artificial-intelligence-systems",
+    "summary": "Open feedback process on draft guidelines for classifying high-risk AI systems under the AI Act.",
+    "caveat": "Draft guidance process; not a final legal interpretation and not itself a new binding rule.",
+    "sourceName": "European Commission - high-risk AI classification feedback",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/news/commission-seeks-feedback-draft-guidelines-classification-high-risk-artificial-intelligence-systems",
+    "verificationNotes": "Official Commission release says stakeholders are invited to share views by 23 June 2026.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "eu-ai-office-gpai-tools-process",
+    "title": "EU AI Office GPAI implementation tools and code-of-practice process",
+    "processType": "guidance_update",
+    "jurisdiction": "European Union",
+    "countryIso3": "EUU",
+    "stage": "Implementation tools and guidance preparation",
+    "status": "ongoing",
+    "conveningBody": "European AI Office",
+    "relatedRecords": [
+      {
+        "kind": "institution",
+        "id": "eu-ai-office",
+        "label": "European AI Office"
+      },
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      },
+      {
+        "kind": "implementation",
+        "id": "eu-gpai-code-practice-published",
+        "label": "GPAI Code of Practice milestone"
+      }
+    ],
+    "domains": [
+      "frontier-gpai"
+    ],
+    "summary": "Ongoing EU AI Office process for AI Act GPAI implementation tools, codes of practice, guidance, and compliance-monitoring support.",
+    "caveat": "Process row; it should not be read as a separate obligation beyond the underlying AI Act and adopted implementing materials.",
+    "sourceName": "European Commission - European AI Office",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-office",
+    "verificationNotes": "Official AI Office page describes drawing up codes of practice and preparing guidance, implementing/delegated acts, and tools.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "cen-cenelec-jtc21-ai-act-standardization-process",
+    "title": "CEN-CENELEC JTC 21 AI Act standardization work programme",
+    "processType": "standards_consultation",
+    "jurisdiction": "European standardization",
+    "countryIso3": "EUU",
+    "stage": "Standards under development",
+    "status": "ongoing",
+    "conveningBody": "CEN-CENELEC JTC 21",
+    "relatedRecords": [
+      {
+        "kind": "institution",
+        "id": "cen-cenelec-jtc21",
+        "label": "CEN-CENELEC JTC 21"
+      },
+      {
+        "kind": "standards_conformity",
+        "id": "cen-cenelec-ai-act-harmonized-standards",
+        "label": "AI Act harmonized standards work"
+      }
+    ],
+    "domains": [
+      "frontier-gpai",
+      "cybersecurity-critical-infrastructure"
+    ],
+    "summary": "European AI standards work programme supporting AI Act conformity, including risk management, quality management, conformity assessment, datasets, robustness, and cybersecurity.",
+    "caveat": "Standards and conformity-assessment rows are not national law unless a verified legal instrument incorporates them.",
+    "sourceName": "CEN-CENELEC - Artificial Intelligence",
+    "sourceUrl": "https://www.cencenelec.eu/areas-of-work/cen-cenelec-topics/artificial-intelligence/",
+    "verificationNotes": "Official page links JTC 21 work to harmonized standards supporting the EU AI Act.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "uk-aisi-frontier-trends-monitoring",
+    "title": "UK AISI frontier AI trends and testing monitoring",
+    "processType": "monitoring_process",
+    "jurisdiction": "United Kingdom",
+    "countryIso3": "GBR",
+    "stage": "Public frontier-model testing evidence and monitoring",
+    "status": "ongoing",
+    "conveningBody": "UK AI Security Institute",
+    "relatedRecords": [
+      {
+        "kind": "institution",
+        "id": "uk-ai-security-institute",
+        "label": "UK AISI"
+      }
+    ],
+    "domains": [
+      "frontier-gpai",
+      "cybersecurity-critical-infrastructure"
+    ],
+    "summary": "AISI process for public evidence on frontier-model trends, capabilities, and testing.",
+    "caveat": "Monitoring and research process; not a certification or legal compliance determination.",
+    "sourceName": "UK AI Security Institute",
+    "sourceUrl": "https://www.aisi.gov.uk/",
+    "verificationNotes": "Official AISI site describes frontier model testing, the Frontier AI Trends Report, and advanced-AI risk research.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-10",
+    "reviewStatus": "editorial_checked"
+  }
+]

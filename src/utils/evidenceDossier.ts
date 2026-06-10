@@ -47,8 +47,25 @@ import {
   MODEL_GOVERNANCE_EVIDENCE_BY_LAB,
   SAFETY_EVALUATION_RECORDS_BY_LAB,
 } from "../data/labIntelligence";
+import {
+  corpusKindLabel,
+  getCorpusRecord,
+  getCorpusRecordsForCountry,
+  getCorpusRecordsForRelatedId,
+  relatedRecordsFor,
+  type CorpusUiKind,
+  type ResearchCorpusRecord,
+} from "./researchCorpus";
 
-export type DossierKind = "country" | "lab" | "instrument";
+export type DossierKind =
+  | "country"
+  | "lab"
+  | "instrument"
+  | "institution"
+  | "policy-process"
+  | "standard"
+  | "public-sector-ai"
+  | "enforcement";
 
 export interface EvidenceDossierMetric {
   label: string;
@@ -100,7 +117,8 @@ export function buildEvidenceDossier(
 ): EvidenceDossier | null {
   if (kind === "country") return buildCountryDossier(id, currentUrl);
   if (kind === "lab") return buildLabDossier(id, currentUrl);
-  return buildInstrumentDossier(id, currentUrl);
+  if (kind === "instrument") return buildInstrumentDossier(id, currentUrl);
+  return buildCorpusDossier(kind, id, currentUrl);
 }
 
 export function renderEvidenceDossierMarkdown(dossier: EvidenceDossier): string {
@@ -178,6 +196,7 @@ function buildCountryDossier(iso3: string, currentUrl: string): EvidenceDossier 
   const obligations = getCountryObligations(iso3);
   const implementation = getCountryImplementationMilestones(iso3);
   const atlas = getCountryAtlasSummary(iso3);
+  const corpusRecords = getCorpusRecordsForCountry(iso3);
 
   const caveats = [
     "This country profile is a research aggregation, not legal advice.",
@@ -221,6 +240,7 @@ function buildCountryDossier(iso3: string, currentUrl: string): EvidenceDossier 
       name: `${country.name} - ${INDICATOR_SOURCE_BY_ID[report.sourceId]?.name ?? report.sourceName}`,
     });
   }
+  for (const record of corpusRecords) sources.add(corpusKindLabel(record.kind), corpusSourceRecord(record));
 
   return {
     kind: "country",
@@ -240,6 +260,7 @@ function buildCountryDossier(iso3: string, currentUrl: string): EvidenceDossier 
       { label: "Frontier labs headquartered here", value: summary.hqLabs.length },
       { label: "Structured obligation rows", value: obligations.length },
       { label: "Implementation milestones", value: implementation.length },
+      { label: "Research-corpus rows", value: corpusRecords.length },
       ...(atlas.oxford ? [{ label: "Government AI readiness", value: `${formatAtlasScore(atlas.oxford)} ${formatAtlasRank(atlas.oxford)}` }] : []),
       ...(atlas.caidp ? [{ label: "CAIDP democratic-values score", value: `${formatAtlasScore(atlas.caidp)}${atlas.caidp.tier ? ` Tier ${atlas.caidp.tier}` : ""}` }] : []),
       ...(atlas.stanford ? [{ label: "Stanford AI vibrancy", value: `${formatAtlasScore(atlas.stanford)} ${formatAtlasRank(atlas.stanford)}` }] : []),
@@ -287,6 +308,15 @@ function buildCountryDossier(iso3: string, currentUrl: string): EvidenceDossier 
         title: "AI Atlas context indicators",
         claims: atlasClaims(atlas),
       },
+      {
+        title: "Research corpus evidence",
+        claims: corpusRecords.length
+          ? corpusRecords.map((record) => ({
+              label: `${record.title} (${corpusKindLabel(record.kind)})`,
+              detail: `${record.status}. ${record.summary} Caveat: ${record.caveat}`,
+            }))
+          : [{ label: "Research corpus", detail: "No institution, process, standards, public-sector AI, or enforcement row is mapped here yet." }],
+      },
     ],
     caveats,
     sources: sources.list(),
@@ -304,6 +334,7 @@ function buildLabDossier(labId: string, currentUrl: string): EvidenceDossier | n
   const safetyEvaluationRecords = SAFETY_EVALUATION_RECORDS_BY_LAB[lab.id] ?? [];
   const incidentEnforcementRecords = INCIDENT_ENFORCEMENT_RECORDS_BY_LAB[lab.id] ?? [];
   const computeDependencyRecords = COMPUTE_DEPENDENCY_RECORDS_BY_LAB[lab.id] ?? [];
+  const relatedCorpusRecords = getCorpusRecordsForRelatedId(lab.id);
   const sources = createSourceCollector();
   sources.add("Frontier lab", lab);
   if (labProfile) sources.add("Lab intelligence profile", { ...labProfile, name: `${lab.name} intelligence profile` });
@@ -328,6 +359,7 @@ function buildLabDossier(labId: string, currentUrl: string): EvidenceDossier | n
   for (const row of safetyEvaluationRecords) sources.add("Safety evaluation", { ...row, name: row.evaluationBody });
   for (const row of incidentEnforcementRecords) sources.add("Incident/enforcement", { ...row, name: row.title });
   for (const row of computeDependencyRecords) sources.add("Compute dependency", { ...row, name: row.dependencyType });
+  for (const record of relatedCorpusRecords) sources.add(corpusKindLabel(record.kind), corpusSourceRecord(record));
 
   const caveats = [
     "Lab exposure is an analytical mapping of governance hooks, not a finding of enforcement or liability.",
@@ -373,6 +405,7 @@ function buildLabDossier(labId: string, currentUrl: string): EvidenceDossier | n
       { label: "Model-governance evidence rows", value: modelGovernanceEvidence.length },
       { label: "Safety/evaluation rows", value: safetyEvaluationRecords.length },
       { label: "Compute-dependency context rows", value: computeDependencyRecords.length },
+      { label: "Research-corpus context rows", value: relatedCorpusRecords.length },
     ],
     sections: [
       {
@@ -434,6 +467,15 @@ function buildLabDossier(labId: string, currentUrl: string): EvidenceDossier | n
             }))
           : [{ label: "Compute context", detail: "No compute-dependency context rows tracked." }],
       },
+      {
+        title: "Research corpus evidence",
+        claims: relatedCorpusRecords.length
+          ? relatedCorpusRecords.map((record) => ({
+              label: `${record.title} (${corpusKindLabel(record.kind)})`,
+              detail: `${record.status}. ${record.summary} Caveat: ${record.caveat}`,
+            }))
+          : [{ label: "Research corpus", detail: "No directly related corpus rows are linked to this lab yet." }],
+      },
     ],
     caveats,
     sources: sources.list(),
@@ -445,6 +487,7 @@ function buildInstrumentDossier(instrumentId: string, currentUrl: string): Evide
   if (!instrument) return null;
   const participations = PARTICIPATION_BY_INSTRUMENT[instrument.id] ?? [];
   const obligations = getInstrumentObligations(instrument.id);
+  const relatedCorpusRecords = getCorpusRecordsForRelatedId(instrument.id);
   const sources = createSourceCollector();
   sources.add("International instrument", instrument);
   for (const obligation of obligations) {
@@ -456,6 +499,7 @@ function buildInstrumentDossier(instrumentId: string, currentUrl: string): Evide
       name: `${participation.countryIso3} - ${instrument.name}`,
     });
   }
+  for (const record of relatedCorpusRecords) sources.add(corpusKindLabel(record.kind), corpusSourceRecord(record));
 
   const participationCounts = countBy(participations.map((row) => row.participationType));
   const caveats = [
@@ -490,6 +534,7 @@ function buildInstrumentDossier(instrumentId: string, currentUrl: string): Evide
       { label: "Participation rows", value: participations.length },
       { label: "Frontier-AI relevant", value: instrument.frontierAIRelevant ? "Yes" : "No" },
       { label: "Structured obligation rows", value: obligations.length },
+      { label: "Research-corpus rows", value: relatedCorpusRecords.length },
     ],
     sections: [
       {
@@ -518,6 +563,59 @@ function buildInstrumentDossier(instrumentId: string, currentUrl: string): Evide
             .map((row) => row.countryIso3)
             .join(", ")}`,
         })),
+      },
+      {
+        title: "Research corpus evidence",
+        claims: relatedCorpusRecords.length
+          ? relatedCorpusRecords.map((record) => ({
+              label: `${record.title} (${corpusKindLabel(record.kind)})`,
+              detail: `${record.status}. ${record.summary} Caveat: ${record.caveat}`,
+            }))
+          : [{ label: "Research corpus", detail: "No directly related corpus rows are linked to this instrument yet." }],
+      },
+    ],
+    caveats,
+    sources: sources.list(),
+  };
+}
+
+function buildCorpusDossier(kind: CorpusUiKind, id: string, currentUrl: string): EvidenceDossier | null {
+  const record = getCorpusRecord(kind, id);
+  if (!record) return null;
+  const related = relatedRecordsFor(record);
+  const sources = createSourceCollector();
+  sources.add(corpusKindLabel(record.kind), corpusSourceRecord(record));
+  const caveats = [
+    "Research-corpus records are context/evidence records unless a separate verified legal record establishes binding effect.",
+    record.caveat,
+  ];
+  return {
+    kind,
+    id: record.id,
+    title: `${record.title} evidence dossier`,
+    subtitle: `${corpusKindLabel(record.kind)} - ${record.jurisdiction}`,
+    snapshotDate: DATA_SNAPSHOT_DATE,
+    currentUrl,
+    summary: `${record.title} is tracked as ${record.status} for ${record.jurisdiction}.`,
+    metrics: [
+      { label: "Corpus type", value: corpusKindLabel(record.kind) },
+      { label: "Jurisdiction", value: record.jurisdiction },
+      { label: "Status", value: record.status },
+      { label: "Confidence", value: record.metadata.confidence ? DATA_CONFIDENCE_LABELS[record.metadata.confidence] : "" },
+    ],
+    sections: [
+      {
+        title: "Research corpus evidence",
+        claims: [
+          { label: "Summary", detail: record.summary },
+          { label: "Caveat", detail: record.caveat },
+          {
+            label: "Related records",
+            detail: related.length
+              ? related.map((reference) => `${reference.label ?? reference.id} (${reference.kind})`).join("; ")
+              : "No related record references tracked.",
+          },
+        ],
       },
     ],
     caveats,
@@ -582,6 +680,20 @@ function exposureSourceRecord(
     confidence: exposure.confidence,
     lastVerified: exposure.lastVerified,
     verificationNotes: exposure.verificationNotes,
+  };
+}
+
+function corpusSourceRecord(record: ResearchCorpusRecord): SourceBackedRecord {
+  return {
+    id: record.id,
+    name: record.title,
+    sourceName: record.sourceName,
+    sourceUrl: record.sourceUrl,
+    sourceKind: record.metadata.sourceKind,
+    verificationStatus: record.metadata.verificationStatus,
+    confidence: record.metadata.confidence,
+    lastVerified: record.metadata.lastVerified,
+    verificationNotes: record.metadata.verificationNotes,
   };
 }
 
