@@ -85,6 +85,27 @@
       "reason": "Official Ghana ministry page is browser-accessible but rejects or fails automated fetch checks."
     },
     {
+      "recordId": "kr-ai-safety-institute",
+      "sourceUrl": "https://www.msit.go.kr/eng/bbs/view.do?bbsSeqNo=42&mId=4&nttSeqNo=1057&sCode=eng",
+      "status": "manual_ok",
+      "lastChecked": "2026-06-11",
+      "reason": "Official MSIT page is browser-accessible but rejects or fails automated fetch checks."
+    },
+    {
+      "recordId": "kr-pipc-deepseek-status-examination-2025",
+      "sourceUrl": "https://www.pipc.go.kr/eng/user/ltn/new/noticeDetail.do?bbsId=BBSMSTR_000000000001&nttId=2819",
+      "status": "manual_ok",
+      "lastChecked": "2026-06-11",
+      "reason": "Official PIPC page is browser-accessible but rejects or fails automated fetch checks."
+    },
+    {
+      "recordId": "nl-ap-clearview-ai-fine-2024",
+      "sourceUrl": "https://www.autoriteitpersoonsgegevens.nl/en/documents/decision-fine-clearview-ai",
+      "status": "manual_ok",
+      "lastChecked": "2026-06-11",
+      "reason": "Official Dutch DPA page is browser-accessible but rejects or fails automated fetch checks."
+    },
+    {
       "recordId": "ng-national-ai-strategy",
       "sourceUrl": "https://ncair.nitda.gov.ng/wp-content/uploads/2024/08/National-AI-Strategy_01082024-copy.pdf",
       "status": "manual_ok",

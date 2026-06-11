@@ -7,7 +7,7 @@
     "countryIso3": "EUU",
     "stage": "Stakeholder feedback on draft guidelines",
     "status": "open",
-    "deadline": "2026-06-23",
+    "deadline": "2026-07-23",
     "conveningBody": "European Commission / AI Office",
     "relatedRecords": [
       {
@@ -33,16 +33,191 @@
       "healthcare",
       "finance"
     ],
-    "submissionUrl": "https://digital-strategy.ec.europa.eu/en/news/commission-seeks-feedback-draft-guidelines-classification-high-risk-artificial-intelligence-systems",
+    "submissionUrl": "https://digital-strategy.ec.europa.eu/en/consultations/targeted-consultation-draft-guidelines-classification-high-risk-artificial-intelligence-systems",
     "summary": "Open feedback process on draft guidelines for classifying high-risk AI systems under the AI Act.",
     "caveat": "Draft guidance process; not a final legal interpretation and not itself a new binding rule.",
-    "sourceName": "European Commission - high-risk AI classification feedback",
-    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/news/commission-seeks-feedback-draft-guidelines-classification-high-risk-artificial-intelligence-systems",
-    "verificationNotes": "Official Commission release says stakeholders are invited to share views by 23 June 2026.",
+    "sourceName": "European Commission - high-risk AI classification consultation",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/consultations/targeted-consultation-draft-guidelines-classification-high-risk-artificial-intelligence-systems",
+    "verificationNotes": "Official Commission consultation page says the consultation opened on 19 May 2026, was extended from 23 June to 23 July 2026, and final guidelines are expected by the end of 2026.",
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-06-10",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "eu-article50-transparency-guidelines-consultation-2026",
+    "title": "EU draft guidelines on AI Act transparency obligations consultation",
+    "processType": "implementation_consultation",
+    "jurisdiction": "European Union",
+    "countryIso3": "EUU",
+    "stage": "Stakeholder feedback on draft Article 50 transparency guidelines",
+    "status": "closed",
+    "deadline": "2026-06-03",
+    "conveningBody": "European Commission / AI Office",
+    "relatedRecords": [
+      {
+        "kind": "institution",
+        "id": "eu-ai-office",
+        "label": "European AI Office"
+      },
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "domains": [
+      "frontier-gpai",
+      "synthetic-media",
+      "public-sector"
+    ],
+    "submissionUrl": "https://digital-strategy.ec.europa.eu/en/consultations/consultation-draft-guidelines-transparency-obligations-under-ai-act",
+    "summary": "Targeted feedback process on draft guidelines for AI Act Article 50 transparency duties for interactive AI, generative AI, deepfakes, and related systems.",
+    "caveat": "Closed draft-guidance process; it should not be read as a final legal interpretation or a separate legal instrument.",
+    "sourceName": "European Commission - Article 50 transparency-obligations consultation",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/consultations/consultation-draft-guidelines-transparency-obligations-under-ai-act",
+    "verificationNotes": "Official Commission consultation page states opening 8 May 2026, closing 3 June 2026, and describes Article 50 transparency guideline scope.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "ie-ai-bill-pre-legislative-scrutiny-2026",
+    "title": "Ireland Regulation of Artificial Intelligence Bill pre-legislative scrutiny consultation",
+    "processType": "parliamentary_stage",
+    "jurisdiction": "Ireland",
+    "countryIso3": "IRL",
+    "stage": "Pre-legislative scrutiny public consultation",
+    "status": "closed",
+    "deadline": "2026-04-13",
+    "conveningBody": "Houses of the Oireachtas committee process",
+    "relatedRecords": [
+      {
+        "kind": "institution",
+        "id": "ie-dete-ai-act-competent-authority",
+        "label": "Ireland AI Act contact"
+      }
+    ],
+    "domains": [
+      "frontier-gpai",
+      "public-sector"
+    ],
+    "submissionUrl": "https://www.oireachtas.ie/en/committees/making-a-submission/public-consultations/20260306-public-consultation-on-the-pre-legislative-scrutiny-of-the-general-scheme-of-the-regulation-of-the-artificial-intelligence-bill-2026/",
+    "summary": "Irish parliamentary pre-legislative scrutiny consultation on the General Scheme of the Regulation of the Artificial Intelligence Bill 2026.",
+    "caveat": "Parliamentary process row; it should not be treated as enacted law or a final implementation model.",
+    "sourceName": "Houses of the Oireachtas - AI Bill 2026 public consultation",
+    "sourceUrl": "https://www.oireachtas.ie/en/committees/making-a-submission/public-consultations/20260306-public-consultation-on-the-pre-legislative-scrutiny-of-the-general-scheme-of-the-regulation-of-the-artificial-intelligence-bill-2026/",
+    "verificationNotes": "Official Oireachtas consultation URL from the submitted research report; direct automated retrieval may be unreliable, so the row is kept medium-confidence pending periodic manual check.",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "uk-jchr-ai-human-rights-inquiry-2026",
+    "title": "UK Joint Committee on Human Rights inquiry on AI regulation",
+    "processType": "call_for_evidence",
+    "jurisdiction": "United Kingdom",
+    "countryIso3": "GBR",
+    "stage": "Parliamentary inquiry evidence gathering",
+    "status": "closed",
+    "deadline": "2025-09-05",
+    "conveningBody": "UK Parliament Joint Committee on Human Rights",
+    "relatedRecords": [
+      {
+        "kind": "institution",
+        "id": "uk-ai-security-institute",
+        "label": "UK AI Security Institute"
+      }
+    ],
+    "domains": [
+      "frontier-gpai",
+      "public-sector",
+      "biometric-identification",
+      "enforcement-litigation"
+    ],
+    "submissionUrl": "https://committees.parliament.uk/committee/93/human-rights-joint-committee/news/208676/new-inquiry-human-rights-and-the-regulation-of-artificial-intelligence/",
+    "summary": "UK parliamentary inquiry examining how human rights can be protected in the age of AI and whether existing regulation is sufficient.",
+    "caveat": "Parliamentary inquiry process; it is evidence-gathering and policy scrutiny, not a binding legal instrument.",
+    "sourceName": "UK Parliament - Joint Committee on Human Rights AI inquiry",
+    "sourceUrl": "https://committees.parliament.uk/committee/93/human-rights-joint-committee/news/208676/new-inquiry-human-rights-and-the-regulation-of-artificial-intelligence/",
+    "verificationNotes": "Official UK Parliament page states the inquiry launch, terms of reference, and 5 September 2025 submission deadline.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "eu-parliament-ai-democracy-hearing-2026",
+    "title": "European Parliament hearing on democracy and elections in the AI era",
+    "processType": "hearing",
+    "jurisdiction": "European Union",
+    "countryIso3": "EUU",
+    "stage": "Committee hearing held",
+    "status": "closed",
+    "deadline": "2026-03-18",
+    "conveningBody": "European Parliament AFCO, LIBE, and EUDS committees",
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "domains": [
+      "synthetic-media",
+      "public-sector",
+      "enforcement-litigation"
+    ],
+    "summary": "European Parliament joint hearing on how AI affects elections, disinformation, deepfakes, and democratic integrity.",
+    "caveat": "Parliamentary hearing context; it does not by itself create legal obligations.",
+    "sourceName": "European Parliament - Democracy and elections in the AI era hearing",
+    "sourceUrl": "https://www.europarl.europa.eu/committees/en/joint-public-hearing-on-democracy-and-el/product-details/20260309CHE13842",
+    "verificationNotes": "Official European Parliament hearing page lists the 18 March 2026 joint hearing and its AI-democracy scope.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "coe-ai-convention-open-signature-process",
+    "title": "Council of Europe AI Framework Convention signature and ratification process",
+    "processType": "treaty_negotiation",
+    "jurisdiction": "Council of Europe / international",
+    "stage": "Open signature and ratification process",
+    "status": "ongoing",
+    "conveningBody": "Council of Europe",
+    "relatedRecords": [
+      {
+        "kind": "institution",
+        "id": "coe-treaty-office",
+        "label": "Council of Europe Treaty Office"
+      },
+      {
+        "kind": "international_instrument",
+        "id": "coe-ai-convention",
+        "label": "CoE AI Convention"
+      }
+    ],
+    "domains": [
+      "frontier-gpai",
+      "public-sector"
+    ],
+    "summary": "Ongoing signature and ratification process for the Council of Europe Framework Convention on AI.",
+    "caveat": "Treaty status depends on signature, ratification, entry into force, and domestic implementation; signature is not the same as ratification.",
+    "sourceName": "Council of Europe - Framework Convention on Artificial Intelligence",
+    "sourceUrl": "https://www.coe.int/en/web/artificial-intelligence/the-framework-convention-on-artificial-intelligence",
+    "verificationNotes": "Official Council of Europe page states the Convention opened for signature on 5 September 2024 and lists parties/signatories; Treaty Office status still requires periodic manual checks.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
     "reviewStatus": "editorial_checked"
   },
   {

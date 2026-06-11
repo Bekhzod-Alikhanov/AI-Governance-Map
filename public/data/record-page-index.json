@@ -1153,9 +1153,39 @@
   },
   {
     "kind": "enforcement",
+    "id": "ftc-donotpay-ai-lawyer-2025",
+    "name": "FTC DoNotPay AI-lawyer deceptive-claims order",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/ftc-donotpay-ai-lawyer-2025"
+  },
+  {
+    "kind": "enforcement",
     "id": "ftc-operation-ai-comply-2024",
     "name": "FTC Operation AI Comply",
     "url": "https://global-ai-governance-map.vercel.app/enforcement/ftc-operation-ai-comply-2024"
+  },
+  {
+    "kind": "enforcement",
+    "id": "ftc-rite-aid-facial-recognition-2024",
+    "name": "FTC Rite Aid facial-recognition order",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/ftc-rite-aid-facial-recognition-2024"
+  },
+  {
+    "kind": "enforcement",
+    "id": "kr-pipc-deepseek-status-examination-2025",
+    "name": "Korean PIPC DeepSeek status examination",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/kr-pipc-deepseek-status-examination-2025"
+  },
+  {
+    "kind": "enforcement",
+    "id": "nl-ap-clearview-ai-fine-2024",
+    "name": "Dutch DPA Clearview AI facial-recognition fine",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/nl-ap-clearview-ai-fine-2024"
+  },
+  {
+    "kind": "enforcement",
+    "id": "sec-ai-washing-investment-advisers-2024",
+    "name": "SEC AI-washing settlements with investment advisers",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/sec-ai-washing-investment-advisers-2024"
   },
   {
     "kind": "exposure",
@@ -1819,6 +1849,48 @@
   },
   {
     "kind": "institution",
+    "id": "eu-edps-ai-act-supervisor",
+    "name": "European Data Protection Supervisor as AI Act supervisor for EU institutions",
+    "url": "https://global-ai-governance-map.vercel.app/institution/eu-edps-ai-act-supervisor"
+  },
+  {
+    "kind": "institution",
+    "id": "ie-dete-ai-act-competent-authority",
+    "name": "Ireland Minister for Enterprise, Tourism and Employment AI Act contact",
+    "url": "https://global-ai-governance-map.vercel.app/institution/ie-dete-ai-act-competent-authority"
+  },
+  {
+    "kind": "institution",
+    "id": "it-acn-ai-act-msa",
+    "name": "Agenzia per la cybersicurezza nazionale as Italy AI Act market-surveillance contact",
+    "url": "https://global-ai-governance-map.vercel.app/institution/it-acn-ai-act-msa"
+  },
+  {
+    "kind": "institution",
+    "id": "kr-ai-safety-institute",
+    "name": "Korea AI Safety Institute",
+    "url": "https://global-ai-governance-map.vercel.app/institution/kr-ai-safety-institute"
+  },
+  {
+    "kind": "institution",
+    "id": "lt-rrt-ai-act-msa",
+    "name": "Communications Regulatory Authority as Lithuania AI Act market-surveillance contact",
+    "url": "https://global-ai-governance-map.vercel.app/institution/lt-rrt-ai-act-msa"
+  },
+  {
+    "kind": "institution",
+    "id": "lv-crpc-ai-act-msa",
+    "name": "Consumer Rights Protection Centre as Latvia AI Act market-surveillance contact",
+    "url": "https://global-ai-governance-map.vercel.app/institution/lv-crpc-ai-act-msa"
+  },
+  {
+    "kind": "institution",
+    "id": "sg-ai-verify-foundation",
+    "name": "AI Verify Foundation",
+    "url": "https://global-ai-governance-map.vercel.app/institution/sg-ai-verify-foundation"
+  },
+  {
+    "kind": "institution",
     "id": "uk-ai-security-institute",
     "name": "UK AI Security Institute",
     "url": "https://global-ai-governance-map.vercel.app/institution/uk-ai-security-institute"
@@ -2269,9 +2341,21 @@
   },
   {
     "kind": "policy-process",
+    "id": "coe-ai-convention-open-signature-process",
+    "name": "Council of Europe AI Framework Convention signature and ratification process",
+    "url": "https://global-ai-governance-map.vercel.app/policy-process/coe-ai-convention-open-signature-process"
+  },
+  {
+    "kind": "policy-process",
     "id": "eu-ai-office-gpai-tools-process",
     "name": "EU AI Office GPAI implementation tools and code-of-practice process",
     "url": "https://global-ai-governance-map.vercel.app/policy-process/eu-ai-office-gpai-tools-process"
+  },
+  {
+    "kind": "policy-process",
+    "id": "eu-article50-transparency-guidelines-consultation-2026",
+    "name": "EU draft guidelines on AI Act transparency obligations consultation",
+    "url": "https://global-ai-governance-map.vercel.app/policy-process/eu-article50-transparency-guidelines-consultation-2026"
   },
   {
     "kind": "policy-process",
@@ -2281,9 +2365,27 @@
   },
   {
     "kind": "policy-process",
+    "id": "eu-parliament-ai-democracy-hearing-2026",
+    "name": "European Parliament hearing on democracy and elections in the AI era",
+    "url": "https://global-ai-governance-map.vercel.app/policy-process/eu-parliament-ai-democracy-hearing-2026"
+  },
+  {
+    "kind": "policy-process",
+    "id": "ie-ai-bill-pre-legislative-scrutiny-2026",
+    "name": "Ireland Regulation of Artificial Intelligence Bill pre-legislative scrutiny consultation",
+    "url": "https://global-ai-governance-map.vercel.app/policy-process/ie-ai-bill-pre-legislative-scrutiny-2026"
+  },
+  {
+    "kind": "policy-process",
     "id": "uk-aisi-frontier-trends-monitoring",
     "name": "UK AISI frontier AI trends and testing monitoring",
     "url": "https://global-ai-governance-map.vercel.app/policy-process/uk-aisi-frontier-trends-monitoring"
+  },
+  {
+    "kind": "policy-process",
+    "id": "uk-jchr-ai-human-rights-inquiry-2026",
+    "name": "UK Joint Committee on Human Rights inquiry on AI regulation",
+    "url": "https://global-ai-governance-map.vercel.app/policy-process/uk-jchr-ai-human-rights-inquiry-2026"
   },
   {
     "kind": "public-sector-ai",
@@ -2293,9 +2395,45 @@
   },
   {
     "kind": "public-sector-ai",
+    "id": "eu-ai-act-article-71-high-risk-database",
+    "name": "EU AI Act Article 71 high-risk AI systems database",
+    "url": "https://global-ai-governance-map.vercel.app/public-sector-ai/eu-ai-act-article-71-high-risk-database"
+  },
+  {
+    "kind": "public-sector-ai",
+    "id": "nl-algorithm-register",
+    "name": "Netherlands government Algorithm Register",
+    "url": "https://global-ai-governance-map.vercel.app/public-sector-ai/nl-algorithm-register"
+  },
+  {
+    "kind": "public-sector-ai",
+    "id": "uk-algorithmic-transparency-recording-standard",
+    "name": "UK Algorithmic Transparency Recording Standard hub",
+    "url": "https://global-ai-governance-map.vercel.app/public-sector-ai/uk-algorithmic-transparency-recording-standard"
+  },
+  {
+    "kind": "public-sector-ai",
+    "id": "us-doj-2025-ai-use-case-inventory",
+    "name": "U.S. Department of Justice 2025 AI use-case inventory",
+    "url": "https://global-ai-governance-map.vercel.app/public-sector-ai/us-doj-2025-ai-use-case-inventory"
+  },
+  {
+    "kind": "public-sector-ai",
     "id": "us-federal-ai-use-case-inventory",
     "name": "U.S. federal AI use case inventories",
     "url": "https://global-ai-governance-map.vercel.app/public-sector-ai/us-federal-ai-use-case-inventory"
+  },
+  {
+    "kind": "public-sector-ai",
+    "id": "us-omb-m25-21-public-ai-inventories",
+    "name": "U.S. OMB M-25-21 federal AI use-case inventory requirements",
+    "url": "https://global-ai-governance-map.vercel.app/public-sector-ai/us-omb-m25-21-public-ai-inventories"
+  },
+  {
+    "kind": "public-sector-ai",
+    "id": "us-omb-m25-22-ai-acquisition",
+    "name": "U.S. OMB M-25-22 AI acquisition guidance",
+    "url": "https://global-ai-governance-map.vercel.app/public-sector-ai/us-omb-m25-22-ai-acquisition"
   },
   {
     "kind": "rule",
@@ -2797,15 +2935,51 @@
   },
   {
     "kind": "standard",
+    "id": "eu-ai-act-notified-bodies-infrastructure",
+    "name": "EU AI Act notified-body list infrastructure",
+    "url": "https://global-ai-governance-map.vercel.app/standard/eu-ai-act-notified-bodies-infrastructure"
+  },
+  {
+    "kind": "standard",
+    "id": "eu-ai-act-standardisation-request",
+    "name": "European Commission AI Act standardisation request",
+    "url": "https://global-ai-governance-map.vercel.app/standard/eu-ai-act-standardisation-request"
+  },
+  {
+    "kind": "standard",
+    "id": "eu-pren-18286-public-enquiry",
+    "name": "prEN 18286 AI quality management system public enquiry",
+    "url": "https://global-ai-governance-map.vercel.app/standard/eu-pren-18286-public-enquiry"
+  },
+  {
+    "kind": "standard",
+    "id": "iso-iec-23894-risk-management",
+    "name": "ISO/IEC 23894:2023 AI risk management guidance",
+    "url": "https://global-ai-governance-map.vercel.app/standard/iso-iec-23894-risk-management"
+  },
+  {
+    "kind": "standard",
     "id": "iso-iec-42001-ai-management-system",
     "name": "ISO/IEC 42001:2023 AI management system standard",
     "url": "https://global-ai-governance-map.vercel.app/standard/iso-iec-42001-ai-management-system"
   },
   {
     "kind": "standard",
+    "id": "iso-iec-42005-impact-assessment",
+    "name": "ISO/IEC 42005:2025 AI system impact assessment guidance",
+    "url": "https://global-ai-governance-map.vercel.app/standard/iso-iec-42005-impact-assessment"
+  },
+  {
+    "kind": "standard",
     "id": "nist-ai-rmf-conformity-context",
     "name": "NIST AI RMF standards and risk-management context",
     "url": "https://global-ai-governance-map.vercel.app/standard/nist-ai-rmf-conformity-context"
+  },
+  {
+    "kind": "standard",
+    "id": "nist-ai-rmf-playbook",
+    "name": "NIST AI RMF Playbook",
+    "url": "https://global-ai-governance-map.vercel.app/standard/nist-ai-rmf-playbook"
   },
   {
     "kind": "standard",

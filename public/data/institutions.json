@@ -272,5 +272,253 @@
     "confidence": "medium",
     "lastVerified": "2026-06-10",
     "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "eu-edps-ai-act-supervisor",
+    "name": "European Data Protection Supervisor as AI Act supervisor for EU institutions",
+    "institutionType": "data_protection_authority",
+    "jurisdiction": "European Union institutions, bodies, offices, and agencies",
+    "countryIso3": "EUU",
+    "mandate": "Market-surveillance authority for AI Act implementation and respect by EU institutions, bodies, offices, and agencies.",
+    "authorityScope": "EU-institution scope under the AI Act; separate from member-state market surveillance authority designations.",
+    "powers": [
+      "Monitor implementation and respect of the AI Act by EU institutions and bodies",
+      "Act as designated market surveillance authority for EU institutions",
+      "Impose administrative fines under AI Act conditions"
+    ],
+    "domains": [
+      "public-sector",
+      "enforcement-litigation"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      },
+      {
+        "kind": "institution",
+        "id": "eu-ai-office",
+        "label": "European AI Office"
+      }
+    ],
+    "contactUrl": "https://www.edps.europa.eu/",
+    "summary": "EU AI Act supervisory hook for EU institutions and bodies, distinct from national AI Act enforcement.",
+    "caveat": "This row concerns EU institutions and bodies; it should not be read as a national competent-authority designation.",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "verificationNotes": "Official Commission page identifies the EDPS as the designated AI Act market surveillance authority for EU institutions, bodies and agencies.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "it-acn-ai-act-msa",
+    "name": "Agenzia per la cybersicurezza nazionale as Italy AI Act market-surveillance contact",
+    "institutionType": "other",
+    "jurisdiction": "Italy",
+    "countryIso3": "ITA",
+    "mandate": "Italian national contact listed by the European Commission for AI Act market surveillance implementation.",
+    "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
+    "powers": [
+      "Listed as national AI Act market-surveillance contact",
+      "Participates in AI Act market-surveillance architecture"
+    ],
+    "domains": [
+      "cybersecurity-critical-infrastructure",
+      "enforcement-litigation"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "contactUrl": "https://www.acn.gov.it/",
+    "summary": "Commission-listed Italian AI Act market-surveillance contact.",
+    "caveat": "Commission list confirms the contact; it does not fully describe domestic powers or sectoral enforcement arrangements.",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "verificationNotes": "Official Commission list names Italy's Agenzia per la cybersicurezza nazionale / National Cybersecurity Agency.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "lv-crpc-ai-act-msa",
+    "name": "Consumer Rights Protection Centre as Latvia AI Act market-surveillance contact",
+    "institutionType": "consumer_protection_authority",
+    "jurisdiction": "Latvia",
+    "countryIso3": "LVA",
+    "mandate": "Latvian national contact listed by the European Commission for AI Act market surveillance implementation.",
+    "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
+    "powers": [
+      "Listed as national AI Act market-surveillance contact",
+      "Participates in AI Act market-surveillance architecture"
+    ],
+    "domains": [
+      "public-sector",
+      "enforcement-litigation"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "contactUrl": "https://www.ptac.gov.lv/",
+    "summary": "Commission-listed Latvian AI Act market-surveillance contact.",
+    "caveat": "Commission list confirms the contact; it does not fully describe domestic powers or sectoral enforcement arrangements.",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "verificationNotes": "Official Commission list names Latvia's Patērētāju tiesību aizsardzības centrs / Consumer Rights Protection Centre.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "lt-rrt-ai-act-msa",
+    "name": "Communications Regulatory Authority as Lithuania AI Act market-surveillance contact",
+    "institutionType": "other",
+    "jurisdiction": "Lithuania",
+    "countryIso3": "LTU",
+    "mandate": "Lithuanian national contact listed by the European Commission for AI Act market surveillance implementation.",
+    "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
+    "powers": [
+      "Listed as national AI Act market-surveillance contact",
+      "Participates in AI Act market-surveillance architecture"
+    ],
+    "domains": [
+      "public-sector",
+      "enforcement-litigation"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "contactUrl": "https://www.rrt.lt/",
+    "summary": "Commission-listed Lithuanian AI Act market-surveillance contact.",
+    "caveat": "Commission list confirms the contact; it does not fully describe domestic powers or sectoral enforcement arrangements.",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "verificationNotes": "Official Commission list names Lithuania's Communications Regulatory Authority.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "ie-dete-ai-act-competent-authority",
+    "name": "Ireland Minister for Enterprise, Tourism and Employment AI Act contact",
+    "institutionType": "digital_ministry",
+    "jurisdiction": "Ireland",
+    "countryIso3": "IRL",
+    "mandate": "Irish national contact listed by the European Commission for AI Act market surveillance implementation.",
+    "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
+    "powers": [
+      "Listed as national AI Act market-surveillance contact",
+      "Participates in AI Act market-surveillance architecture"
+    ],
+    "domains": [
+      "public-sector",
+      "enforcement-litigation"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "contactUrl": "https://enterprise.gov.ie/en/what-we-do/innovation-research-development/artificial-intelligence/eu-ai-act/",
+    "summary": "Commission-listed Irish AI Act market-surveillance contact.",
+    "caveat": "Commission list confirms the contact; it does not fully describe domestic powers or sectoral enforcement arrangements.",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "verificationNotes": "Official Commission list names Ireland's Minister for Enterprise, Tourism and Employment.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "kr-ai-safety-institute",
+    "name": "Korea AI Safety Institute",
+    "institutionType": "ai_safety_institute",
+    "jurisdiction": "Republic of Korea",
+    "countryIso3": "KOR",
+    "mandate": "Korean technical AI-safety institute announced for domestic AI safety work and International Network of AI Safety Institutes participation.",
+    "authorityScope": "Technical safety and international cooperation context; not represented as a general AI licensing regulator.",
+    "powers": [
+      "Participate in International Network of AI Safety Institutes work",
+      "Support domestic AI safety research and evaluation activities",
+      "Coordinate with MSIT on AI safety policy implementation"
+    ],
+    "domains": [
+      "frontier-gpai",
+      "cybersecurity-critical-infrastructure"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "national_rule",
+        "id": "kr-ai-basic-act",
+        "label": "Korea AI Basic Act"
+      }
+    ],
+    "contactUrl": "https://www.msit.go.kr/eng/",
+    "summary": "Korean AI safety institute context for frontier-AI safety coordination and technical evaluation capacity.",
+    "caveat": "The official MSIT source verifies launch and network participation context; it does not by itself create lab-specific legal duties.",
+    "sourceName": "MSIT - Korea participates in International Network of AI Safety Institutes",
+    "sourceUrl": "https://www.msit.go.kr/eng/bbs/view.do?bbsSeqNo=42&mId=4&nttSeqNo=1057&sCode=eng",
+    "verificationNotes": "Official MSIT release states Korea launched its domestic AI Safety Institute in November 2024 and joined the international network process.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "sg-ai-verify-foundation",
+    "name": "AI Verify Foundation",
+    "institutionType": "technical_evaluation_body",
+    "jurisdiction": "Singapore / international AI assurance community",
+    "countryIso3": "SGP",
+    "mandate": "Open-source AI governance testing and assurance community associated with AI Verify tooling, Project Moonshot, sandbox work, and tester accreditation.",
+    "authorityScope": "Technical assurance and testing ecosystem; not a statutory AI regulator or binding certification authority in this dataset.",
+    "powers": [
+      "Maintain AI Verify testing framework and toolkit context",
+      "Convene AI owners, solution providers, users, and policymakers",
+      "Support AI assurance sandbox and tester accreditation activity"
+    ],
+    "domains": [
+      "frontier-gpai",
+      "standards-conformity",
+      "public-sector"
+    ],
+    "relatedRecords": [],
+    "contactUrl": "https://aiverifyfoundation.sg/",
+    "summary": "Singapore-linked AI assurance and testing foundation for trustworthy-AI tooling and evaluation ecosystem context.",
+    "caveat": "Issuer-controlled assurance body context; rows using it should not imply legal certification or binding state regulation.",
+    "sourceName": "AI Verify Foundation",
+    "sourceUrl": "https://aiverifyfoundation.sg/",
+    "verificationNotes": "Official AI Verify Foundation site describes the foundation as a global open-source community and describes AI Verify, Project Moonshot, sandbox, and accreditation work.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
   }
 ]

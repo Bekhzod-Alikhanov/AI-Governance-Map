@@ -129,5 +129,207 @@
     "confidence": "medium",
     "lastVerified": "2026-06-10",
     "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "eu-ai-act-standardisation-request",
+    "title": "European Commission AI Act standardisation request",
+    "standardsBody": "European Commission / CEN-CENELEC",
+    "jurisdiction": "European Union / European standardization",
+    "countryIso3": "EUU",
+    "status": "work_programme",
+    "legalRole": "harmonized_standard_candidate",
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      },
+      {
+        "kind": "institution",
+        "id": "cen-cenelec-jtc21",
+        "label": "CEN-CENELEC JTC 21"
+      },
+      {
+        "kind": "standards_conformity",
+        "id": "cen-cenelec-ai-act-harmonized-standards",
+        "label": "AI Act harmonized standards work"
+      }
+    ],
+    "domains": [
+      "frontier-gpai",
+      "standards-conformity",
+      "cybersecurity-critical-infrastructure"
+    ],
+    "summary": "Commission request and work programme for CEN-CENELEC AI Act-supporting harmonized standards across risk, data, transparency, oversight, robustness, cybersecurity, quality, and conformity assessment.",
+    "caveat": "Standards and conformity-assessment rows are not national law unless a verified legal instrument incorporates them.",
+    "sourceName": "European Commission - Standardisation of the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-act-standardisation",
+    "verificationNotes": "Official Commission page states that the Commission requested CEN and CENELEC to develop standards in ten key AI Act areas.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "eu-pren-18286-public-enquiry",
+    "title": "prEN 18286 AI quality management system public enquiry",
+    "standardsBody": "CEN-CENELEC JTC 21",
+    "jurisdiction": "European Union / European standardization",
+    "countryIso3": "EUU",
+    "status": "under_development",
+    "legalRole": "harmonized_standard_candidate",
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      },
+      {
+        "kind": "standards_conformity",
+        "id": "eu-ai-act-standardisation-request",
+        "label": "AI Act standardisation request"
+      }
+    ],
+    "domains": [
+      "frontier-gpai",
+      "standards-conformity"
+    ],
+    "summary": "First AI Act harmonized-standard candidate to enter public enquiry, focused on quality management systems for EU AI Act regulatory purposes.",
+    "caveat": "Standards and conformity-assessment rows are not national law unless a verified legal instrument incorporates them.",
+    "sourceName": "European Commission - Standardisation of the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-act-standardisation",
+    "verificationNotes": "Official Commission page states that prEN 18286 entered public enquiry on 30 October 2025 and is designed to help high-risk AI providers comply with AI Act Article 17.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "eu-ai-act-notified-bodies-infrastructure",
+    "title": "EU AI Act notified-body list infrastructure",
+    "standardsBody": "European Commission",
+    "jurisdiction": "European Union",
+    "countryIso3": "EUU",
+    "status": "conformity_context",
+    "legalRole": "context",
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "domains": [
+      "standards-conformity",
+      "public-sector"
+    ],
+    "summary": "AI Act mechanism requiring the Commission to assign identification numbers and maintain a public list of notified bodies under the Regulation.",
+    "caveat": "This row tracks the legal/institutional mechanism, not a populated final list of AI Act notified bodies.",
+    "sourceName": "AI Act Service Desk - Article 35",
+    "sourceUrl": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-35",
+    "verificationNotes": "Official AI Act Service Desk text for Article 35 states that the Commission shall assign identification numbers and make the list of notified bodies publicly available and up to date.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "nist-ai-rmf-playbook",
+    "title": "NIST AI RMF Playbook",
+    "standardsBody": "NIST",
+    "jurisdiction": "United States / international influence",
+    "countryIso3": "USA",
+    "status": "guidance",
+    "legalRole": "guidance",
+    "relatedRecords": [
+      {
+        "kind": "standards_conformity",
+        "id": "nist-ai-rmf-conformity-context",
+        "label": "NIST AI RMF standards context"
+      },
+      {
+        "kind": "national_rule",
+        "id": "us-nist-ai-rmf",
+        "label": "NIST AI RMF"
+      }
+    ],
+    "domains": [
+      "frontier-gpai",
+      "standards-conformity",
+      "cybersecurity-critical-infrastructure"
+    ],
+    "summary": "Voluntary NIST AI RMF companion playbook with suggested actions for Govern, Map, Measure, and Manage functions.",
+    "caveat": "Voluntary technical guidance; it becomes operative only through separate law, policy, contract, or organizational adoption.",
+    "sourceName": "NIST - AI RMF Playbook",
+    "sourceUrl": "https://www.nist.gov/itl/ai-risk-management-framework/nist-ai-rmf-playbook",
+    "verificationNotes": "Official NIST page describes the Playbook as a voluntary companion to AI RMF 1.0 with suggested actions and references.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "iso-iec-23894-risk-management",
+    "title": "ISO/IEC 23894:2023 AI risk management guidance",
+    "standardsBody": "ISO/IEC JTC 1/SC 42",
+    "jurisdiction": "International",
+    "status": "published",
+    "legalRole": "voluntary_standard",
+    "relatedRecords": [
+      {
+        "kind": "standards_conformity",
+        "id": "iso-iec-42001-ai-management-system",
+        "label": "ISO/IEC 42001"
+      }
+    ],
+    "domains": [
+      "frontier-gpai",
+      "standards-conformity",
+      "cybersecurity-critical-infrastructure"
+    ],
+    "summary": "Published ISO/IEC guidance standard on managing risk related to AI products, systems, and services.",
+    "caveat": "Issuer-controlled standards-body source; this is voluntary standards context unless incorporated by law or contract.",
+    "sourceName": "ISO - ISO/IEC 23894:2023",
+    "sourceUrl": "https://www.iso.org/standard/77304.html",
+    "verificationNotes": "Official ISO page identifies ISO/IEC 23894:2023 as a published international standard and describes AI risk-management guidance.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "iso-iec-42005-impact-assessment",
+    "title": "ISO/IEC 42005:2025 AI system impact assessment guidance",
+    "standardsBody": "ISO/IEC JTC 1/SC 42",
+    "jurisdiction": "International",
+    "status": "published",
+    "legalRole": "voluntary_standard",
+    "relatedRecords": [
+      {
+        "kind": "standards_conformity",
+        "id": "iso-iec-42001-ai-management-system",
+        "label": "ISO/IEC 42001"
+      }
+    ],
+    "domains": [
+      "frontier-gpai",
+      "standards-conformity",
+      "public-sector"
+    ],
+    "summary": "Published ISO/IEC standard providing guidance for organizations conducting AI system impact assessments.",
+    "caveat": "Issuer-controlled standards-body source; this is voluntary standards context unless incorporated by law or contract.",
+    "sourceName": "ISO - ISO/IEC 42005:2025",
+    "sourceUrl": "https://www.iso.org/standard/42005",
+    "verificationNotes": "Official ISO page identifies ISO/IEC 42005:2025 as a published international standard and describes AI system impact-assessment guidance.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
   }
 ]

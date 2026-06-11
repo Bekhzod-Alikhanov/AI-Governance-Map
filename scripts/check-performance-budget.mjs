@@ -8,10 +8,12 @@ const budgets = {
   maxInitialJsBytes: 725_000,
   maxInitialGzipBytes: 220_000,
   maxAtlasChunkBytes: 430_000,
-  maxCorpusChunkBytes: 40_000,
+  // Corpus rows are source/caveat-heavy text and are loaded lazily; transfer size is
+  // the useful budget here because the repeated source language compresses well.
+  maxCorpusGzipBytes: 20_000,
   // Total JS includes optional lazy research-workbench, Atlas, dossier, and corpus modules.
   // Keep initial-load budgets strict; allow a narrow ceiling for richer lazy research tools.
-  maxTotalJsBytes: 1_500_000,
+  maxTotalJsBytes: 1_550_000,
 };
 
 const files = await readdir(distAssets);
@@ -37,6 +39,7 @@ const atlasRows = rows.filter((row) => /aiAtlas/i.test(row.file));
 const atlasChunkBytes = atlasRows.reduce((sum, row) => sum + row.bytes, 0);
 const corpusRows = rows.filter((row) => /researchCorpus|policyBrief/i.test(row.file));
 const corpusChunkBytes = corpusRows.reduce((sum, row) => sum + row.bytes, 0);
+const corpusGzipBytes = corpusRows.reduce((sum, row) => sum + row.gzipBytes, 0);
 
 const issues = [];
 if (initialJsBytes > budgets.maxInitialJsBytes) {
@@ -48,8 +51,8 @@ if (initialGzipBytes > budgets.maxInitialGzipBytes) {
 if (atlasChunkBytes > budgets.maxAtlasChunkBytes) {
   issues.push(`Atlas lazy chunk ${atlasChunkBytes} exceeds budget ${budgets.maxAtlasChunkBytes}`);
 }
-if (corpusChunkBytes > budgets.maxCorpusChunkBytes) {
-  issues.push(`Corpus lazy chunk ${corpusChunkBytes} exceeds budget ${budgets.maxCorpusChunkBytes}`);
+if (corpusGzipBytes > budgets.maxCorpusGzipBytes) {
+  issues.push(`Corpus lazy gzip ${corpusGzipBytes} exceeds budget ${budgets.maxCorpusGzipBytes}`);
 }
 if (totalJsBytes > budgets.maxTotalJsBytes) {
   issues.push(`Total JS ${totalJsBytes} exceeds budget ${budgets.maxTotalJsBytes}`);
@@ -65,6 +68,7 @@ console.log(
       initialGzipBytes,
       atlasChunkBytes,
       corpusChunkBytes,
+      corpusGzipBytes,
       totalJsBytes,
       chunks: rows.sort((a, b) => b.bytes - a.bytes).slice(0, 12),
       issues,

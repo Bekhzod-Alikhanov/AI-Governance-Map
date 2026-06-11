@@ -34,7 +34,20 @@ describe("research corpus helpers", () => {
     const csv = renderCorpusCsv(usRows);
 
     expect(usRows.some((row) => row.id === "us-nist-caisi")).toBe(true);
+    expect(usRows.some((row) => row.id === "us-omb-m25-22-ai-acquisition")).toBe(true);
     expect(csv).toContain("NIST Center for AI Standards and Innovation");
+  });
+
+  it("keeps new corpus context records separate from binding-law rollups", () => {
+    const italyRows = getCorpusRecordsForCountry("ITA");
+    const netherlandsRows = getCorpusRecordsForCountry("NLD");
+    const italySummary = getCountryGovernanceSummary("ITA");
+    const netherlandsSummary = getCountryGovernanceSummary("NLD");
+
+    expect(italyRows.some((row) => row.id === "it-acn-ai-act-msa")).toBe(true);
+    expect(netherlandsRows.some((row) => row.id === "nl-algorithm-register")).toBe(true);
+    expect(italySummary.nationalRegulations.some((record) => record.id === "it-acn-ai-act-msa")).toBe(false);
+    expect(netherlandsSummary.nationalRegulations.some((record) => record.id === "nl-algorithm-register")).toBe(false);
   });
 
   it("builds an editorial coverage report", () => {

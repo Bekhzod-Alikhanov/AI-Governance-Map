@@ -37,6 +37,22 @@ const ISSUER_CONTROLLED_CONTEXT = {
   reviewStatus: "editorial_checked",
 } as const;
 
+const OFFICIAL_ENFORCEMENT_2026_06_11 = {
+  sourceKind: "official",
+  verificationStatus: "verified",
+  confidence: "high",
+  lastVerified: "2026-06-11",
+  reviewStatus: "editorial_checked",
+} as const;
+
+const LIKELY_OFFICIAL_ENFORCEMENT_2026_06_11 = {
+  sourceKind: "official",
+  verificationStatus: "likely_correct",
+  confidence: "medium",
+  lastVerified: "2026-06-11",
+  reviewStatus: "editorial_checked",
+} as const;
+
 const SEOUL_COMMITMENT_LABS = [
   "amazon",
   "anthropic",
@@ -334,6 +350,132 @@ export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
       "Official FTC release announces five law-enforcement actions and states that using AI tools does not exempt firms from existing law.",
     reviewStatus: "editorial_checked",
   },
+  {
+    id: "ftc-rite-aid-facial-recognition-2024",
+    eventType: "enforcement_action",
+    title: "FTC Rite Aid facial-recognition order",
+    jurisdiction: "United States",
+    countryIso3: "USA",
+    labIds: [],
+    date: "2024-03-08",
+    status: "stipulated order filed; case listed as pending on FTC page",
+    proceduralStage: "federal court case and FTC stipulated order",
+    affectedActorClass: "Retail deployer using facial recognition for security and surveillance",
+    outcomeOrRemedy:
+      "Five-year prohibition on facial-recognition use for security or surveillance plus automated-system safeguards and information-security obligations.",
+    officialDocketUrl:
+      "https://www.ftc.gov/legal-library/browse/cases-proceedings/2023190-rite-aid-corporation-ftc-v",
+    domains: ["biometric-identification", "enforcement-litigation"],
+    summary:
+      "FTC case involving Rite Aid's use of facial recognition technology and safeguards for automated biometric systems.",
+    caveat:
+      "Existing-law enforcement context for biometric AI; no frontier lab is treated as a party or target.",
+    sourceName: "FTC - Rite Aid Corporation, FTC v.",
+    sourceUrl: "https://www.ftc.gov/legal-library/browse/cases-proceedings/2023190-rite-aid-corporation-ftc-v",
+    verificationNotes:
+      "Official FTC case page lists the AI/facial-recognition tags, docket details, and case summary describing the five-year facial-recognition prohibition and safeguards.",
+    ...OFFICIAL_ENFORCEMENT_2026_06_11,
+  },
+  {
+    id: "sec-ai-washing-investment-advisers-2024",
+    eventType: "enforcement_action",
+    title: "SEC AI-washing settlements with investment advisers",
+    jurisdiction: "United States",
+    countryIso3: "USA",
+    labIds: [],
+    date: "2024-03-18",
+    status: "settled charges announced",
+    proceduralStage: "SEC settled enforcement actions",
+    affectedActorClass: "Investment advisers making AI-use claims",
+    outcomeOrRemedy: "$400,000 in total civil penalties across two settling investment advisers.",
+    officialDocketUrl: "https://www.sec.gov/newsroom/press-releases/2024-36",
+    domains: ["finance", "enforcement-litigation"],
+    summary:
+      "SEC settled charges against investment advisers for allegedly false and misleading AI-use statements.",
+    caveat:
+      "Securities-enforcement context for AI claims; it does not establish a general AI-specific statute.",
+    sourceName: "SEC - AI-washing investment adviser settlements",
+    sourceUrl: "https://www.sec.gov/newsroom/press-releases/2024-36",
+    verificationNotes:
+      "Official SEC release announces settled charges against Delphia and Global Predictions for false and misleading AI-use statements and total civil penalties.",
+    ...OFFICIAL_ENFORCEMENT_2026_06_11,
+  },
+  {
+    id: "ftc-donotpay-ai-lawyer-2025",
+    eventType: "enforcement_action",
+    title: "FTC DoNotPay AI-lawyer deceptive-claims order",
+    jurisdiction: "United States",
+    countryIso3: "USA",
+    labIds: [],
+    date: "2025-02-11",
+    status: "final order announced",
+    proceduralStage: "FTC final order",
+    affectedActorClass: "Consumer AI service making professional-substitution claims",
+    outcomeOrRemedy:
+      "Order prohibiting deceptive professional-substitution claims, imposing monetary relief, and requiring notice to affected subscribers.",
+    officialDocketUrl: "https://www.ftc.gov/legal-library/browse/cases-proceedings/donotpay",
+    domains: ["enforcement-litigation"],
+    summary:
+      "FTC case against DoNotPay over claims that its AI service could substitute for a human lawyer.",
+    caveat:
+      "Consumer-protection enforcement context; not a general finding about all legal-AI products or frontier labs.",
+    sourceName: "FTC - DoNotPay",
+    sourceUrl: "https://www.ftc.gov/legal-library/browse/cases-proceedings/donotpay",
+    verificationNotes:
+      "Official FTC case page describes the AI-lawyer claims, settlement, final order, monetary relief, and notice requirement.",
+    ...OFFICIAL_ENFORCEMENT_2026_06_11,
+  },
+  {
+    id: "nl-ap-clearview-ai-fine-2024",
+    eventType: "enforcement_action",
+    title: "Dutch DPA Clearview AI facial-recognition fine",
+    jurisdiction: "Netherlands",
+    countryIso3: "NLD",
+    labIds: [],
+    date: "2024-09-03",
+    status: "administrative fine decision published",
+    proceduralStage: "Dutch data-protection authority decision",
+    affectedActorClass: "Facial-recognition service provider",
+    outcomeOrRemedy:
+      "Fine decision concerning Clearview AI facial-recognition data collection; exact continuing procedural posture should be checked manually.",
+    officialDocketUrl: "https://www.autoriteitpersoonsgegevens.nl/en/documents/decision-fine-clearview-ai",
+    domains: ["biometric-identification", "enforcement-litigation"],
+    summary:
+      "Dutch Data Protection Authority decision concerning Clearview AI's facial-recognition data collection.",
+    caveat:
+      "Official page can reject automated retrieval; keep as medium confidence until manually spot-checked in the next source review.",
+    sourceName: "Dutch Data Protection Authority - Clearview AI fine decision",
+    sourceUrl: "https://www.autoriteitpersoonsgegevens.nl/en/documents/decision-fine-clearview-ai",
+    verificationNotes:
+      "Official Dutch DPA URL was identified by the source report but automated access returned a rejection; row remains medium confidence and should not be used as a frontier-lab legal exposure claim.",
+    ...LIKELY_OFFICIAL_ENFORCEMENT_2026_06_11,
+  },
+  {
+    id: "kr-pipc-deepseek-status-examination-2025",
+    eventType: "regulator_investigation",
+    title: "Korean PIPC DeepSeek status examination",
+    jurisdiction: "Republic of Korea",
+    countryIso3: "KOR",
+    labIds: ["deepseek"],
+    date: "2025-04-24",
+    status: "recommendations for correction and improvement announced",
+    proceduralStage: "PIPC status examination results",
+    affectedActorClass: "Foreign generative-AI service provider operating in Korea",
+    outcomeOrRemedy:
+      "Recommendations on cross-border transfer legal bases, deletion of certain transferred user-entered data, Korean privacy policy disclosure, child-data checks, safeguards, and domestic-agent designation.",
+    officialDocketUrl:
+      "https://www.pipc.go.kr/eng/user/ltn/new/noticeDetail.do?bbsId=BBSMSTR_000000000001&nttId=2819",
+    domains: ["frontier-gpai", "enforcement-litigation"],
+    summary:
+      "Korean PIPC status-examination results and recommendations concerning DeepSeek's R1 LLM chatbot service in Korea.",
+    caveat:
+      "Privacy regulator examination and recommendations; legal effect should be read from the official PIPC release and underlying PIPA, not generalized to all frontier labs.",
+    sourceName: "PIPC - DeepSeek status examination results",
+    sourceUrl: "https://www.pipc.go.kr/eng/user/ltn/new/noticeDetail.do?bbsId=BBSMSTR_000000000001&nttId=2819",
+    verificationNotes:
+      "Official PIPC release states the commission concluded deliberations on DeepSeek status-examination results and issued recommendations for correction and improvement.",
+    ...OFFICIAL_ENFORCEMENT_2026_06_11,
+  },
 ];
 
 export const COMPUTE_DEPENDENCY_RECORDS: ComputeDependencyRecord[] = [
@@ -447,6 +589,21 @@ export const RECORD_CHANGE_LOG_ENTRIES = [
     summary:
       "Expanded the FTC Operation AI Comply row with procedural-stage, affected-actor, outcome/remedy, and corpus-route metadata.",
     reviewer: EDITORIAL_REVIEW,
+  },
+  {
+    id: "2026-06-11-official-enforcement-corpus-expansion",
+    recordId: "incident-enforcement-corpus",
+    recordKind: "dataset",
+    changeType: "added",
+    date: "2026-06-11",
+    summary:
+      "Added official-source enforcement and regulator-action records from the first corpus data expansion sprint.",
+    reviewer: {
+      ...EDITORIAL_REVIEW,
+      reviewDate: "2026-06-11",
+      reviewScope:
+        "Official regulator/court/docket source checks for enforcement records; media-only allegations excluded.",
+    },
   },
 ] as const;
 

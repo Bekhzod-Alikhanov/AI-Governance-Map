@@ -17,15 +17,15 @@
     "domains": [
       "public-sector"
     ],
-    "summary": "AI.gov inventory page for U.S. federal government AI use cases and agency inventory links.",
+    "summary": "OMB-backed federal government AI use-case inventory reporting requirement and public inventory context.",
     "caveat": "Public-sector transparency context; not a private-sector frontier-lab obligation.",
-    "sourceName": "AI.gov - Federal AI Use Case Inventories",
-    "sourceUrl": "https://www.ai.gov/ai-use-cases/",
-    "verificationNotes": "Official AI.gov page lists federal AI use-case inventory materials and agency links.",
+    "sourceName": "OMB Memorandum M-25-21",
+    "sourceUrl": "https://www.whitehouse.gov/wp-content/uploads/2025/02/M-25-21-Accelerating-Federal-Use-of-AI-through-Innovation-Governance-and-Public-Trust.pdf",
+    "verificationNotes": "Prior AI.gov inventory page now returns 404; retained as federal inventory context using live official OMB M-25-21 source for annual AI inventory reporting.",
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-06-10",
+    "lastVerified": "2026-06-11",
     "reviewStatus": "editorial_checked"
   },
   {
@@ -55,6 +55,181 @@
     "verificationStatus": "verified",
     "confidence": "high",
     "lastVerified": "2026-06-10",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "eu-ai-act-article-71-high-risk-database",
+    "title": "EU AI Act Article 71 high-risk AI systems database",
+    "recordType": "public_ai_registry",
+    "jurisdiction": "European Union",
+    "countryIso3": "EUU",
+    "legalEffect": "transparency_registry",
+    "coveredPublicBodies": "European Commission database infrastructure for registered high-risk AI systems and related public-authority deployer entries under the AI Act.",
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "domains": [
+      "public-sector",
+      "standards-conformity"
+    ],
+    "summary": "AI Act database mechanism for high-risk AI systems listed in Annex III and related registration requirements.",
+    "caveat": "Tracks the legal database mechanism; it is not evidence that every required record is already publicly populated.",
+    "sourceName": "AI Act Service Desk - Article 71",
+    "sourceUrl": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-71",
+    "verificationNotes": "Official AI Act Service Desk text for Article 71 states that the Commission shall set up and maintain an EU database and that most registered information is publicly accessible.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "nl-algorithm-register",
+    "title": "Netherlands government Algorithm Register",
+    "recordType": "public_ai_registry",
+    "jurisdiction": "Netherlands",
+    "countryIso3": "NLD",
+    "legalEffect": "transparency_registry",
+    "coveredPublicBodies": "Dutch government organizations publishing information about algorithms used in their work.",
+    "relatedRecords": [],
+    "domains": [
+      "public-sector"
+    ],
+    "summary": "Dutch public algorithm register focused on impactful algorithms, including high-risk AI systems.",
+    "caveat": "Public-sector transparency register; it should not be read as a full inventory of all AI systems or private-sector AI use.",
+    "sourceName": "Netherlands government Algorithm Register",
+    "sourceUrl": "https://algoritmes.overheid.nl/en",
+    "verificationNotes": "Official register page states that Dutch government organizations publish algorithm information and that the register focuses on impactful algorithms, including high-risk AI systems.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "uk-algorithmic-transparency-recording-standard",
+    "title": "UK Algorithmic Transparency Recording Standard hub",
+    "recordType": "public_ai_registry",
+    "jurisdiction": "United Kingdom",
+    "countryIso3": "GBR",
+    "legalEffect": "binding_public_sector_policy",
+    "coveredPublicBodies": "UK government departments and in-scope arm's-length bodies delivering public/frontline services or directly interacting with the public.",
+    "relatedRecords": [],
+    "domains": [
+      "public-sector"
+    ],
+    "summary": "UK public-sector standard and repository for publishing information about algorithmic tools and algorithm-assisted decisions.",
+    "caveat": "Public-sector transparency obligation/context; it is not a private-sector frontier-lab law.",
+    "sourceName": "GOV.UK - Algorithmic Transparency Recording Standard Hub",
+    "sourceUrl": "https://www.gov.uk/government/collections/algorithmic-transparency-recording-standard-hub",
+    "verificationNotes": "Official GOV.UK page states that ATRS is mandatory for government departments and in-scope arm's-length bodies and includes a repository of published records.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "us-omb-m25-21-public-ai-inventories",
+    "title": "U.S. OMB M-25-21 federal AI use-case inventory requirements",
+    "recordType": "ai_use_case_inventory",
+    "jurisdiction": "United States",
+    "countryIso3": "USA",
+    "legalEffect": "binding_public_sector_policy",
+    "coveredPublicBodies": "U.S. federal executive departments and agencies covered by OMB federal AI governance memoranda.",
+    "relatedRecords": [
+      {
+        "kind": "public_sector_ai",
+        "id": "us-federal-ai-use-case-inventory",
+        "label": "U.S. federal AI inventories"
+      }
+    ],
+    "domains": [
+      "public-sector"
+    ],
+    "summary": "Federal AI governance memorandum requiring agencies to continue annual AI use-case inventory reporting and publication of publicly releasable uses.",
+    "caveat": "Federal public-sector policy; it does not impose private-sector AI duties.",
+    "sourceName": "OMB Memorandum M-25-21",
+    "sourceUrl": "https://www.whitehouse.gov/wp-content/uploads/2025/02/M-25-21-Accelerating-Federal-Use-of-AI-through-Innovation-Governance-and-Public-Trust.pdf",
+    "verificationNotes": "Official OMB memorandum describes agency AI governance, Chief AI Officer expectations, and continued annual AI use-case inventory reporting.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "us-doj-2025-ai-use-case-inventory",
+    "title": "U.S. Department of Justice 2025 AI use-case inventory",
+    "recordType": "ai_use_case_inventory",
+    "jurisdiction": "United States",
+    "countryIso3": "USA",
+    "legalEffect": "transparency_registry",
+    "coveredPublicBodies": "U.S. Department of Justice components contributing to the consolidated 2025 DOJ AI Use Case Inventory.",
+    "relatedRecords": [
+      {
+        "kind": "public_sector_ai",
+        "id": "us-omb-m25-21-public-ai-inventories",
+        "label": "OMB M-25-21 inventories"
+      },
+      {
+        "kind": "public_sector_ai",
+        "id": "us-federal-ai-use-case-inventory",
+        "label": "U.S. federal AI inventories"
+      }
+    ],
+    "domains": [
+      "public-sector",
+      "enforcement-litigation"
+    ],
+    "summary": "Agency-specific 2025 AI use-case inventory with DOJ AI uses across development, pilot, deployed, and retired stages.",
+    "caveat": "Agency inventory context; release limitations mean it should not be read as a complete operational audit of all DOJ AI use.",
+    "sourceName": "U.S. Department of Justice - AI Inventory",
+    "sourceUrl": "https://www.justice.gov/ai/ai-inventory",
+    "verificationNotes": "Official DOJ page says M-25-21 and EO 13960 require annual AI inventories and describes the 2025 DOJ inventory as including 315 entries.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "us-omb-m25-22-ai-acquisition",
+    "title": "U.S. OMB M-25-22 AI acquisition guidance",
+    "recordType": "procurement_guidance",
+    "jurisdiction": "United States",
+    "countryIso3": "USA",
+    "legalEffect": "procurement_context",
+    "coveredPublicBodies": "U.S. federal executive departments and agencies acquiring AI capabilities.",
+    "relatedRecords": [
+      {
+        "kind": "public_sector_ai",
+        "id": "us-omb-m25-21-public-ai-inventories",
+        "label": "OMB M-25-21"
+      },
+      {
+        "kind": "institution",
+        "id": "us-nist-caisi",
+        "label": "NIST CAISI"
+      }
+    ],
+    "domains": [
+      "public-sector",
+      "public-procurement"
+    ],
+    "summary": "Federal procurement guidance for improving agency acquisition of AI capabilities in government.",
+    "caveat": "Public-sector acquisition guidance; it is procurement context and should not be treated as a general private-sector AI law.",
+    "sourceName": "OMB Memorandum M-25-22",
+    "sourceUrl": "https://www.whitehouse.gov/wp-content/uploads/2025/02/M-25-22-Driving-Efficient-Acquisition-of-Artificial-Intelligence-in-Government.pdf",
+    "verificationNotes": "Official OMB memorandum M-25-22 provides guidance to agencies on acquiring AI responsibly and improving government AI acquisition.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-11",
     "reviewStatus": "editorial_checked"
   }
 ]

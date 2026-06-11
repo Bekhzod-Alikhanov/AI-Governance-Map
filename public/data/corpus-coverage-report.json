@@ -1,11 +1,11 @@
 {
-  "totalRecords": 18,
+  "totalRecords": 47,
   "recordsByKind": {
-    "institution": 7,
-    "policy_process": 4,
-    "standards_conformity": 4,
-    "public_sector_ai": 2,
-    "enforcement": 1
+    "institution": 14,
+    "policy_process": 9,
+    "standards_conformity": 10,
+    "public_sector_ai": 8,
+    "enforcement": 6
   },
   "countriesWithInstitutionData": [
     "AUT",
@@ -37,7 +37,9 @@
     "SWE",
     "USA",
     "GBR",
-    "CAN"
+    "CAN",
+    "KOR",
+    "SGP"
   ],
   "countriesWithNoInstitutionData": [
     "ALB",
@@ -161,7 +163,6 @@
     "MAC",
     "MNG",
     "PRK",
-    "KOR",
     "TWN",
     "BRN",
     "KHM",
@@ -170,7 +171,6 @@
     "MYS",
     "MMR",
     "PHL",
-    "SGP",
     "THA",
     "TLS",
     "VNM",
