@@ -438,6 +438,16 @@ export const RECORD_CHANGE_LOG_ENTRIES = [
     summary: "Confirmed lab-intelligence rows do not drive binding-law coloring, summaries, or obligation counts.",
     reviewer: EDITORIAL_REVIEW,
   },
+  {
+    id: "2026-06-10-ftc-operation-ai-comply-corpus",
+    recordId: "ftc-operation-ai-comply-2024",
+    recordKind: "incident_enforcement",
+    changeType: "changed",
+    date: "2026-06-10",
+    summary:
+      "Expanded the FTC Operation AI Comply row with procedural-stage, affected-actor, outcome/remedy, and corpus-route metadata.",
+    reviewer: EDITORIAL_REVIEW,
+  },
 ] as const;
 
 export const LAB_INTELLIGENCE_BY_LAB = Object.fromEntries(

@@ -1,0 +1,463 @@
+{
+  "title": "Global AI Governance Map data dictionary",
+  "schemaVersion": "2026.06.3",
+  "snapshotDate": "2026-05-19",
+  "caveat": "This dictionary defines research data fields. It is not legal advice and should not be read as a substitute for checking official sources.",
+  "legalSeparationInvariant": "Legal records drive legal map modes. Atlas, corpus, process, standards, public-sector, safety, procurement, and infrastructure records drive only context modes unless a separate verified legal record establishes legal effect.",
+  "collections": [
+    {
+      "id": "institutionRecords",
+      "label": "Institution records",
+      "purpose": "Track AI offices, safety institutes, standards bodies, treaty bodies, regulators, digital ministries, and other public authorities relevant to AI governance.",
+      "legalEffectCaveat": "Institution rows describe mandate and authority context. They do not establish a new legal duty without a separate verified legal record.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "definition": "Stable machine-readable institution ID.",
+          "example": "eu-ai-office"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "definition": "Institution name as used in the source."
+        },
+        {
+          "name": "institutionType",
+          "type": "InstitutionType",
+          "required": true,
+          "definition": "Controlled taxonomy for AI office, safety institute, standards body, regulator, court, treaty body, or other institution."
+        },
+        {
+          "name": "jurisdiction",
+          "type": "string",
+          "required": true,
+          "definition": "Jurisdiction or institutional scope."
+        },
+        {
+          "name": "countryIso3",
+          "type": "ISO3 | EUU",
+          "required": false,
+          "definition": "Country or supranational geography used for map context."
+        },
+        {
+          "name": "mandate",
+          "type": "string",
+          "required": true,
+          "definition": "Source-backed description of the institution's role."
+        },
+        {
+          "name": "authorityScope",
+          "type": "string",
+          "required": true,
+          "definition": "Limit of authority, especially where a body is advisory, technical, voluntary, or not a regulator."
+        },
+        {
+          "name": "powers",
+          "type": "string[]",
+          "required": true,
+          "definition": "Discrete source-backed powers, functions, or activities."
+        },
+        {
+          "name": "relatedRecords",
+          "type": "CorpusRecordReference[]",
+          "required": true,
+          "definition": "Links to rules, instruments, obligations, processes, labs, or other corpus records."
+        },
+        {
+          "name": "sourceKind",
+          "type": "official | secondary | mixed | unknown",
+          "required": true,
+          "definition": "Classifies the authority of the cited source for this claim.",
+          "example": "official"
+        },
+        {
+          "name": "verificationStatus",
+          "type": "verified | likely_correct | uncertain | needs_external_check",
+          "required": true,
+          "definition": "Editorial status after source review. Uncertain records remain visible but should not drive strong legal conclusions.",
+          "example": "verified"
+        },
+        {
+          "name": "confidence",
+          "type": "high | medium | low",
+          "required": true,
+          "definition": "Confidence in the record after considering source quality, specificity, currency, and legal ambiguity.",
+          "example": "high"
+        },
+        {
+          "name": "lastVerified",
+          "type": "YYYY-MM-DD",
+          "required": true,
+          "definition": "Date this exact source-backed claim was last checked by the editorial workflow.",
+          "example": "2026-06-10"
+        },
+        {
+          "name": "verificationNotes",
+          "type": "string",
+          "required": true,
+          "definition": "Short source-audit note explaining what the source supports and any limits."
+        },
+        {
+          "name": "reviewStatus",
+          "type": "unreviewed | editorial_checked | expert_reviewed | needs_review",
+          "required": false,
+          "definition": "Optional editorial or expert-review state for records that need higher assurance."
+        }
+      ]
+    },
+    {
+      "id": "policyProcessRecords",
+      "label": "Policy-process records",
+      "purpose": "Track consultations, calls for evidence, hearings, standards consultations, implementation guidance, treaty negotiations, and monitoring processes.",
+      "legalEffectCaveat": "A process row is not a final legal interpretation or binding obligation unless the underlying legal record separately says so.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "definition": "Stable process ID."
+        },
+        {
+          "name": "processType",
+          "type": "PolicyProcessType",
+          "required": true,
+          "definition": "Controlled taxonomy for consultation, hearing, guidance update, standards process, treaty negotiation, or monitoring process."
+        },
+        {
+          "name": "stage",
+          "type": "string",
+          "required": true,
+          "definition": "Current stage described by the source."
+        },
+        {
+          "name": "status",
+          "type": "open | closed | ongoing | scheduled | watch",
+          "required": true,
+          "definition": "Whether the process is open for action, closed, ongoing, scheduled, or monitored."
+        },
+        {
+          "name": "deadline",
+          "type": "YYYY-MM-DD",
+          "required": false,
+          "definition": "Submission or action deadline where explicitly available."
+        },
+        {
+          "name": "conveningBody",
+          "type": "string",
+          "required": true,
+          "definition": "Institution convening the process."
+        },
+        {
+          "name": "sourceKind",
+          "type": "official | secondary | mixed | unknown",
+          "required": true,
+          "definition": "Classifies the authority of the cited source for this claim.",
+          "example": "official"
+        },
+        {
+          "name": "verificationStatus",
+          "type": "verified | likely_correct | uncertain | needs_external_check",
+          "required": true,
+          "definition": "Editorial status after source review. Uncertain records remain visible but should not drive strong legal conclusions.",
+          "example": "verified"
+        },
+        {
+          "name": "confidence",
+          "type": "high | medium | low",
+          "required": true,
+          "definition": "Confidence in the record after considering source quality, specificity, currency, and legal ambiguity.",
+          "example": "high"
+        },
+        {
+          "name": "lastVerified",
+          "type": "YYYY-MM-DD",
+          "required": true,
+          "definition": "Date this exact source-backed claim was last checked by the editorial workflow.",
+          "example": "2026-06-10"
+        },
+        {
+          "name": "verificationNotes",
+          "type": "string",
+          "required": true,
+          "definition": "Short source-audit note explaining what the source supports and any limits."
+        },
+        {
+          "name": "reviewStatus",
+          "type": "unreviewed | editorial_checked | expert_reviewed | needs_review",
+          "required": false,
+          "definition": "Optional editorial or expert-review state for records that need higher assurance."
+        }
+      ]
+    },
+    {
+      "id": "standardsConformityRecords",
+      "label": "Standards and conformity records",
+      "purpose": "Track harmonized standards work, voluntary standards, conformity-assessment infrastructure, and technical governance guidance.",
+      "legalEffectCaveat": "Standards are not national law unless a verified legal instrument incorporates them or grants a legal presumption of conformity.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "definition": "Stable standards/conformity record ID."
+        },
+        {
+          "name": "standardsBody",
+          "type": "string",
+          "required": true,
+          "definition": "Standards or technical-governance body responsible for the work item."
+        },
+        {
+          "name": "status",
+          "type": "StandardsConformityStatus",
+          "required": true,
+          "definition": "Published, under development, work programme, guidance, or conformity context."
+        },
+        {
+          "name": "legalRole",
+          "type": "voluntary_standard | harmonized_standard_candidate | presumption_of_conformity | guidance | context",
+          "required": true,
+          "definition": "How the standard or conformity item relates to law or compliance context."
+        },
+        {
+          "name": "sourceKind",
+          "type": "official | secondary | mixed | unknown",
+          "required": true,
+          "definition": "Classifies the authority of the cited source for this claim.",
+          "example": "official"
+        },
+        {
+          "name": "verificationStatus",
+          "type": "verified | likely_correct | uncertain | needs_external_check",
+          "required": true,
+          "definition": "Editorial status after source review. Uncertain records remain visible but should not drive strong legal conclusions.",
+          "example": "verified"
+        },
+        {
+          "name": "confidence",
+          "type": "high | medium | low",
+          "required": true,
+          "definition": "Confidence in the record after considering source quality, specificity, currency, and legal ambiguity.",
+          "example": "high"
+        },
+        {
+          "name": "lastVerified",
+          "type": "YYYY-MM-DD",
+          "required": true,
+          "definition": "Date this exact source-backed claim was last checked by the editorial workflow.",
+          "example": "2026-06-10"
+        },
+        {
+          "name": "verificationNotes",
+          "type": "string",
+          "required": true,
+          "definition": "Short source-audit note explaining what the source supports and any limits."
+        },
+        {
+          "name": "reviewStatus",
+          "type": "unreviewed | editorial_checked | expert_reviewed | needs_review",
+          "required": false,
+          "definition": "Optional editorial or expert-review state for records that need higher assurance."
+        }
+      ]
+    },
+    {
+      "id": "publicSectorAIRecords",
+      "label": "Public-sector AI records",
+      "purpose": "Track public-sector registries, AI use-case inventories, algorithmic impact-assessment systems, AI procurement guidance, public pilots, and public compute context.",
+      "legalEffectCaveat": "Public-sector records usually apply to public bodies or procurement practice and should not be read as general private-sector AI law.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "definition": "Stable public-sector AI record ID."
+        },
+        {
+          "name": "recordType",
+          "type": "PublicSectorAIType",
+          "required": true,
+          "definition": "Registry, AI use-case inventory, AIA system, procurement guidance, public pilot, or public compute service."
+        },
+        {
+          "name": "legalEffect",
+          "type": "binding_public_sector_policy | guidance | transparency_registry | procurement_context | context",
+          "required": true,
+          "definition": "Public-sector legal or policy role."
+        },
+        {
+          "name": "coveredPublicBodies",
+          "type": "string",
+          "required": true,
+          "definition": "Public bodies or systems covered by the record."
+        },
+        {
+          "name": "sourceKind",
+          "type": "official | secondary | mixed | unknown",
+          "required": true,
+          "definition": "Classifies the authority of the cited source for this claim.",
+          "example": "official"
+        },
+        {
+          "name": "verificationStatus",
+          "type": "verified | likely_correct | uncertain | needs_external_check",
+          "required": true,
+          "definition": "Editorial status after source review. Uncertain records remain visible but should not drive strong legal conclusions.",
+          "example": "verified"
+        },
+        {
+          "name": "confidence",
+          "type": "high | medium | low",
+          "required": true,
+          "definition": "Confidence in the record after considering source quality, specificity, currency, and legal ambiguity.",
+          "example": "high"
+        },
+        {
+          "name": "lastVerified",
+          "type": "YYYY-MM-DD",
+          "required": true,
+          "definition": "Date this exact source-backed claim was last checked by the editorial workflow.",
+          "example": "2026-06-10"
+        },
+        {
+          "name": "verificationNotes",
+          "type": "string",
+          "required": true,
+          "definition": "Short source-audit note explaining what the source supports and any limits."
+        },
+        {
+          "name": "reviewStatus",
+          "type": "unreviewed | editorial_checked | expert_reviewed | needs_review",
+          "required": false,
+          "definition": "Optional editorial or expert-review state for records that need higher assurance."
+        }
+      ]
+    },
+    {
+      "id": "incidentEnforcementRecords",
+      "label": "Enforcement and litigation records",
+      "purpose": "Track official enforcement actions, regulator investigations, litigation, public incidents, and policy warnings relevant to AI governance.",
+      "legalEffectCaveat": "Enforcement records are event evidence. They do not create map binding-law coloring unless the event is itself a verified binding order or tied to a verified legal rule.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "definition": "Stable enforcement or incident record ID."
+        },
+        {
+          "name": "eventType",
+          "type": "IncidentEnforcementEventType",
+          "required": true,
+          "definition": "Controlled event type such as enforcement action, investigation, litigation, public incident, or policy warning."
+        },
+        {
+          "name": "proceduralStage",
+          "type": "string",
+          "required": false,
+          "definition": "Current procedural stage where available."
+        },
+        {
+          "name": "outcomeOrRemedy",
+          "type": "string",
+          "required": false,
+          "definition": "Outcome, remedy, or relief where officially available."
+        },
+        {
+          "name": "officialDocketUrl",
+          "type": "URL",
+          "required": false,
+          "definition": "Official docket, regulator action, or court source where available."
+        },
+        {
+          "name": "sourceKind",
+          "type": "official | secondary | mixed | unknown",
+          "required": true,
+          "definition": "Classifies the authority of the cited source for this claim.",
+          "example": "official"
+        },
+        {
+          "name": "verificationStatus",
+          "type": "verified | likely_correct | uncertain | needs_external_check",
+          "required": true,
+          "definition": "Editorial status after source review. Uncertain records remain visible but should not drive strong legal conclusions.",
+          "example": "verified"
+        },
+        {
+          "name": "confidence",
+          "type": "high | medium | low",
+          "required": true,
+          "definition": "Confidence in the record after considering source quality, specificity, currency, and legal ambiguity.",
+          "example": "high"
+        },
+        {
+          "name": "lastVerified",
+          "type": "YYYY-MM-DD",
+          "required": true,
+          "definition": "Date this exact source-backed claim was last checked by the editorial workflow.",
+          "example": "2026-06-10"
+        },
+        {
+          "name": "verificationNotes",
+          "type": "string",
+          "required": true,
+          "definition": "Short source-audit note explaining what the source supports and any limits."
+        },
+        {
+          "name": "reviewStatus",
+          "type": "unreviewed | editorial_checked | expert_reviewed | needs_review",
+          "required": false,
+          "definition": "Optional editorial or expert-review state for records that need higher assurance."
+        }
+      ]
+    }
+  ],
+  "confidenceLadder": [
+    {
+      "id": "official_legal_text",
+      "label": "Official legal text",
+      "definition": "Primary statute, regulation, treaty text, gazette, official treaty-status page, or authoritative legal instrument source.",
+      "mapEffect": "legal_color_allowed_when_verified"
+    },
+    {
+      "id": "official_regulator_page",
+      "label": "Official regulator or government page",
+      "definition": "Government, regulator, public authority, treaty body, or intergovernmental page describing mandate, implementation, guidance, process, or enforcement status.",
+      "mapEffect": "legal_color_allowed_when_verified"
+    },
+    {
+      "id": "issuer_controlled_source",
+      "label": "Issuer-controlled source",
+      "definition": "Company, standards body, index publisher, research institute, or framework issuer page used for context, commitments, scores, or technical material.",
+      "mapEffect": "context_only"
+    },
+    {
+      "id": "standards_body_source",
+      "label": "Standards body source",
+      "definition": "ISO, IEC, CEN, CENELEC, NIST, or similar source for standards and conformity infrastructure. Legal role depends on incorporation by a separate verified legal record.",
+      "mapEffect": "context_only"
+    },
+    {
+      "id": "reputable_secondary_context",
+      "label": "Reputable secondary context",
+      "definition": "Used only as discovery or clearly labeled context. It should not be the basis for binding-law coloring or strong legal-effect summaries.",
+      "mapEffect": "no_legal_color"
+    },
+    {
+      "id": "inferred_relationship",
+      "label": "Inferred relationship",
+      "definition": "Analytical connection drawn from structured data, such as lab market-access exposure. It must include rationale, directness, caveat, and confidence metadata.",
+      "mapEffect": "no_legal_color"
+    }
+  ],
+  "editorialRules": [
+    "Do not let Atlas or corpus context indicators affect binding-law map coloring.",
+    "Do not treat signature as ratification, membership coverage as explicit endorsement, or standards as national law.",
+    "Use official or issuer-controlled sources for high-impact public claims.",
+    "If official verification is blocked, keep the record visible with a caveat and manual-review note rather than upgrading confidence.",
+    "Uncertain or low-confidence records must not drive strong legal-effect summaries."
+  ]
+}

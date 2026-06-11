@@ -1,7 +1,7 @@
 {
   "title": "Global AI Governance Map public data endpoints",
   "snapshotDate": "2026-05-19",
-  "schemaVersion": "2026.06.2",
+  "schemaVersion": "2026.06.3",
   "caveat": "Research dataset only. It is not legal advice and time-sensitive legal status should be verified against official sources.",
   "endpoints": [
     "/data/full-dataset.json",
@@ -20,6 +20,8 @@
     "/data/enforcement-litigation.json",
     "/data/policy-brief-index.json",
     "/data/corpus-index.json",
+    "/data/corpus-coverage-report.json",
+    "/data/data-dictionary.json",
     "/data/implementation-tracker.json",
     "/data/ai-atlas-indicators.json",
     "/data/ai-atlas-sources.json",

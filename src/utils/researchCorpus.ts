@@ -7,10 +7,14 @@ import {
   POLICY_PROCESS_RECORDS,
   PUBLIC_SECTOR_AI_BY_ID,
   PUBLIC_SECTOR_AI_RECORDS,
+  RESEARCH_CORPUS_CHANGELOG,
   STANDARDS_CONFORMITY_BY_ID,
   STANDARDS_CONFORMITY_RECORDS,
 } from "../data/researchCorpus";
-import { INCIDENT_ENFORCEMENT_RECORDS } from "../data/labIntelligence";
+import {
+  INCIDENT_ENFORCEMENT_RECORDS,
+  RECORD_CHANGE_LOG_ENTRIES as LAB_INTELLIGENCE_CHANGELOG,
+} from "../data/labIntelligence";
 import type {
   CorpusRecordKind,
   CorpusRecordReference,
@@ -20,6 +24,7 @@ import type {
   MapModeId,
   PolicyProcessRecord,
   PublicSectorAIRecord,
+  RecordChangeLogEntry,
   StandardsConformityRecord,
   VerificationMetadata,
 } from "../types";
@@ -146,6 +151,19 @@ export function buildCorpusRows() {
     confidence: record.metadata.confidence,
     lastVerified: record.metadata.lastVerified,
   }));
+}
+
+export function getCorpusChangelogForRecord(record: ResearchCorpusRecord): RecordChangeLogEntry[] {
+  const recordKind = changelogKindForRecord(record);
+  return [...RESEARCH_CORPUS_CHANGELOG, ...LAB_INTELLIGENCE_CHANGELOG].filter(
+    (entry) => entry.recordKind === recordKind && entry.recordId === record.id
+  ).sort((a, b) => b.date.localeCompare(a.date));
+}
+
+export function getCorpusDatasetChangelog(): RecordChangeLogEntry[] {
+  return [...RESEARCH_CORPUS_CHANGELOG, ...LAB_INTELLIGENCE_CHANGELOG]
+    .filter((entry) => entry.recordKind === "dataset")
+    .sort((a, b) => b.date.localeCompare(a.date));
 }
 
 export function renderCorpusCsv(records: ResearchCorpusRecord[] = RESEARCH_CORPUS_RECORDS): string {
@@ -403,6 +421,11 @@ function corpusKindToRouteKind(kind: CorpusRecordKind): CorpusUiKind {
   if (kind === "standards_conformity") return "standard";
   if (kind === "public_sector_ai") return "public-sector-ai";
   return kind;
+}
+
+function changelogKindForRecord(record: ResearchCorpusRecord): RecordChangeLogEntry["recordKind"] {
+  if (record.kind === "enforcement") return "incident_enforcement";
+  return record.kind;
 }
 
 function isCorpusReference(kind: CorpusRecordReference["kind"]): kind is CorpusRecordKind {

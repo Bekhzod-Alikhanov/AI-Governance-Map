@@ -17,7 +17,10 @@ This ledger tracks the research-corpus expansion so new work does not duplicate 
 | Policy brief workflow | done | Static Markdown/copy/download/print policy briefs added for country, lab-by-market, institution, deadline-watch, enforcement-watch, and standards/conformity workflows. |
 | Public corpus endpoints | done | Public JSON endpoints added for institutions, policy processes, standards/conformity, public-sector AI, enforcement/litigation, corpus index, and policy brief index. |
 | Context map modes | done | Context-only map modes added for AI institutions, policy windows, public-sector AI, enforcement activity, and standards/conformity. |
-| Editorial release infrastructure | partial | Release package includes corpus coverage. Monthly release notes and broader source-delta monitors remain continuing operations. |
+| Data dictionary | done | Human-readable dictionary is visible in Workbench and exported at `/data/data-dictionary.json`. |
+| Corpus coverage report | done | Coverage, stale-check, official-source-gap, and missing-institution diagnostics are visible in Workbench and exported at `/data/corpus-coverage-report.json`. |
+| Record-level corpus changelog | done | Corpus record pages show row-level changelog entries where available, and release packages include corpus changelog metadata. |
+| Editorial release infrastructure | partial | Release package includes corpus coverage, dictionary, source metadata, and changelog. Monthly release notes and broader source-delta monitors remain continuing operations. |
 | AI assistant | deferred | Do not add until retrieval/citation guardrails are explicitly designed and tested. |
 
 ## Next Editorial Expansion

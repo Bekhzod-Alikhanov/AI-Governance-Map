@@ -1,4 +1,4 @@
-export const DATASET_SCHEMA_VERSION = "2026.06.2";
+export const DATASET_SCHEMA_VERSION = "2026.06.3";
 export const DATASET_SCHEMA_ID = "https://global-ai-governance-map.vercel.app/dataset.schema.json";
 
 const DATA_KEYS = [

@@ -1,7 +1,9 @@
 import type {
+  ExpertReviewMetadata,
   InstitutionRecord,
   PolicyProcessRecord,
   PublicSectorAIRecord,
+  RecordChangeLogEntry,
   StandardsConformityRecord,
   VerificationMetadata,
 } from "../types";
@@ -24,6 +26,17 @@ const LIKELY_OFFICIAL = {
 
 const STANDARDS_CAVEAT =
   "Standards and conformity-assessment rows are not national law unless a verified legal instrument incorporates them.";
+
+const CORPUS_REVIEWER = {
+  reviewerRole: "editorial source verification",
+  reviewDate: "2026-06-10",
+  reviewScope:
+    "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+  unresolvedCaveats: [
+    "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+    "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes.",
+  ],
+} satisfies ExpertReviewMetadata;
 
 export const INSTITUTION_RECORDS: InstitutionRecord[] = [
   {
@@ -465,8 +478,45 @@ export const RESEARCH_CORPUS_CHANGELOG = [
     date: "2026-06-10",
     summary:
       "Added research-corpus starter records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+    reviewer: CORPUS_REVIEWER,
   },
-] as const;
+  ...INSTITUTION_RECORDS.map((record) => ({
+    id: `2026-06-10-institution-${record.id}`,
+    recordId: record.id,
+    recordKind: "institution" as const,
+    changeType: "added" as const,
+    date: "2026-06-10",
+    summary: `Added institution corpus record for ${record.name}.`,
+    reviewer: CORPUS_REVIEWER,
+  })),
+  ...POLICY_PROCESS_RECORDS.map((record) => ({
+    id: `2026-06-10-policy-process-${record.id}`,
+    recordId: record.id,
+    recordKind: "policy_process" as const,
+    changeType: "added" as const,
+    date: "2026-06-10",
+    summary: `Added policy-process corpus record for ${record.title}.`,
+    reviewer: CORPUS_REVIEWER,
+  })),
+  ...STANDARDS_CONFORMITY_RECORDS.map((record) => ({
+    id: `2026-06-10-standard-${record.id}`,
+    recordId: record.id,
+    recordKind: "standards_conformity" as const,
+    changeType: "added" as const,
+    date: "2026-06-10",
+    summary: `Added standards/conformity corpus record for ${record.title}.`,
+    reviewer: CORPUS_REVIEWER,
+  })),
+  ...PUBLIC_SECTOR_AI_RECORDS.map((record) => ({
+    id: `2026-06-10-public-sector-ai-${record.id}`,
+    recordId: record.id,
+    recordKind: "public_sector_ai" as const,
+    changeType: "added" as const,
+    date: "2026-06-10",
+    summary: `Added public-sector AI corpus record for ${record.title}.`,
+    reviewer: CORPUS_REVIEWER,
+  })),
+] satisfies RecordChangeLogEntry[];
 
 export const INSTITUTION_BY_ID = Object.fromEntries(
   INSTITUTION_RECORDS.map((record) => [record.id, record])

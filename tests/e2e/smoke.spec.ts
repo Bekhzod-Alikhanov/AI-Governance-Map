@@ -249,6 +249,10 @@ test.describe("governance map smoke flows", () => {
     const corpus = page.locator("section", { has: page.getByRole("heading", { name: /Find institutions/ }) });
     await expect(corpus).toBeVisible();
     await expect(corpus.getByText("European AI Office", { exact: true }).first()).toBeVisible();
+    await corpus.getByRole("button", { name: "Data dictionary" }).click();
+    await expect(corpus.getByRole("heading", { name: "Global AI Governance Map data dictionary" })).toBeVisible();
+    await corpus.getByRole("button", { name: "Coverage report" }).click();
+    await expect(corpus.getByRole("heading", { name: "Editorial gaps and source-health checks" })).toBeVisible();
     const corpusDownloadPromise = page.waitForEvent("download");
     await corpus.getByRole("button", { name: "Export corpus CSV" }).click();
     const corpusDownload = await corpusDownloadPromise;
@@ -261,6 +265,8 @@ test.describe("governance map smoke flows", () => {
     await page.goto("/institution/eu-ai-office");
     await expect(page.getByRole("heading", { name: "European AI Office" })).toBeVisible();
     await expect(page.getByText("not a separate national law")).toBeVisible();
+    await expect(page.getByText("Record changelog")).toBeVisible();
+    await expect(page.getByText(/Added institution corpus record/)).toBeVisible();
     await page.getByRole("button", { name: "Dossier" }).first().click();
     await expect(page.getByRole("dialog", { name: /European AI Office evidence dossier/ })).toBeVisible();
     await page.getByLabel("Close evidence dossier").click();

@@ -166,6 +166,7 @@ try {
   const exportDataset = await server.ssrLoadModule("/src/utils/exportDataset.ts");
   const countriesModule = await server.ssrLoadModule("/src/data/countries.ts");
   const releasesModule = await server.ssrLoadModule("/src/data/datasetReleases.ts");
+  const dataDictionaryModule = await server.ssrLoadModule("/src/data/dataDictionary.ts");
   const obligationsModule = await server.ssrLoadModule("/src/data/governanceObligations.ts");
   const labExposureModule = await server.ssrLoadModule("/src/data/labRegulatoryExposures.ts");
   const labIntelligenceModule = await server.ssrLoadModule("/src/data/labIntelligence.ts");
@@ -228,6 +229,8 @@ try {
           "/data/enforcement-litigation.json",
           "/data/policy-brief-index.json",
           "/data/corpus-index.json",
+          "/data/corpus-coverage-report.json",
+          "/data/data-dictionary.json",
           "/data/implementation-tracker.json",
           "/data/ai-atlas-indicators.json",
           "/data/ai-atlas-sources.json",
@@ -264,6 +267,12 @@ try {
       }),
       "utf8"
     ),
+    writeFile(
+      path.join(outDir, "corpus-coverage-report.json"),
+      stableJson(researchCorpusUtils.getCorpusCoverageReport()),
+      "utf8"
+    ),
+    writeFile(path.join(outDir, "data-dictionary.json"), stableJson(dataDictionaryModule.DATA_DICTIONARY), "utf8"),
     writeFile(path.join(outDir, "implementation-tracker.json"), stableJson(snapshot.data.implementationMilestones), "utf8"),
     writeFile(path.join(outDir, "ai-atlas-indicators.json"), stableJson(aiAtlasModule.COUNTRY_INDICATOR_SCORES), "utf8"),
     writeFile(path.join(outDir, "ai-atlas-sources.json"), stableJson(aiAtlasModule.AI_ATLAS_SOURCES), "utf8"),
@@ -283,6 +292,7 @@ try {
         sources: sourceEntries(snapshot),
         changelog: labIntelligenceModule.RECORD_CHANGE_LOG_ENTRIES,
         corpusChangelog: researchCorpusModule.RESEARCH_CORPUS_CHANGELOG,
+        dataDictionary: dataDictionaryModule.DATA_DICTIONARY,
         releases: releasesModule.DATASET_RELEASES,
         corpusCoverageReport: researchCorpusUtils.getCorpusCoverageReport(),
         reviewReport: {

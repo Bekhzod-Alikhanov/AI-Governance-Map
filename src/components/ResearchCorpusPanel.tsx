@@ -1,11 +1,15 @@
 import { useMemo, useState } from "react";
 import clsx from "clsx";
 import type { MapModeId } from "../types";
+import { COUNTRY_BY_ISO3 } from "../data/countries";
+import { DATA_DICTIONARY } from "../data/dataDictionary";
 import { downloadTextFile } from "../utils/downloadTextFile";
 import {
   buildCorpusMapContext,
   corpusKindLabel,
   corpusRoute,
+  getCorpusCoverageReport,
+  getCorpusDatasetChangelog,
   renderCorpusCsv,
   RESEARCH_CORPUS_RECORDS,
   type ResearchCorpusRecord,
@@ -40,6 +44,8 @@ const CORPUS_MAP_MODES: Array<{ id: MapModeId; label: string; detail: string }> 
 export function ResearchCorpusPanel({ onOpenMapMode }: Props) {
   const [kindFilter, setKindFilter] = useState<(typeof CORPUS_FILTERS)[number]["id"]>("all");
   const [query, setQuery] = useState("");
+  const [showDictionary, setShowDictionary] = useState(false);
+  const [showCoverage, setShowCoverage] = useState(false);
   const rows = useMemo(() => {
     const q = query.trim().toLowerCase();
     return RESEARCH_CORPUS_RECORDS.filter((record) => {
@@ -51,6 +57,8 @@ export function ResearchCorpusPanel({ onOpenMapMode }: Props) {
     });
   }, [kindFilter, query]);
   const answerCards = useMemo(() => buildCorpusAnswerCards(), []);
+  const coverageReport = useMemo(() => getCorpusCoverageReport(), []);
+  const datasetChangelog = useMemo(() => getCorpusDatasetChangelog().slice(0, 3), []);
 
   function exportCsv() {
     downloadTextFile("global-ai-governance-map-research-corpus.csv", renderCorpusCsv(rows), "text/csv;charset=utf-8");
@@ -67,6 +75,22 @@ export function ResearchCorpusPanel({ onOpenMapMode }: Props) {
           </p>
         </div>
         <div className="flex flex-wrap gap-1.5">
+          <button
+            type="button"
+            onClick={() => setShowDictionary((value) => !value)}
+            className="rounded-md border border-canvas-line bg-white px-2 py-1 text-[11px] font-medium text-ink-700 hover:border-accent hover:text-accent"
+            aria-expanded={showDictionary}
+          >
+            Data dictionary
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowCoverage((value) => !value)}
+            className="rounded-md border border-canvas-line bg-white px-2 py-1 text-[11px] font-medium text-ink-700 hover:border-accent hover:text-accent"
+            aria-expanded={showCoverage}
+          >
+            Coverage report
+          </button>
           <PolicyBriefButton kind="deadline_watch" compact />
           <PolicyBriefButton kind="enforcement_watch" compact />
           <PolicyBriefButton kind="standards_conformity" compact />
@@ -89,6 +113,35 @@ export function ResearchCorpusPanel({ onOpenMapMode }: Props) {
           </div>
         ))}
       </div>
+
+      <div className="mt-3 grid gap-2 md:grid-cols-4">
+        <TrustMetric label="Corpus records" value={coverageReport.totalRecords} detail="Official-first context rows." />
+        <TrustMetric
+          label="No institution data"
+          value={coverageReport.countriesWithNoInstitutionData.length}
+          detail="Editorial gaps, not absence claims."
+        />
+        <TrustMetric label="Stale checks" value={coverageReport.staleVerificationRecords.length} detail="Older than 180 days." />
+        <TrustMetric label="Source gaps" value={coverageReport.officialSourceGaps.length} detail="Non-official corpus sources." />
+      </div>
+
+      {showDictionary && <DataDictionaryPanel />}
+      {showCoverage && <CoverageReportPanel report={coverageReport} />}
+      {datasetChangelog.length > 0 && (
+        <div className="mt-3 rounded-lg border border-canvas-line bg-canvas/35 p-3">
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-500">Latest corpus changelog</p>
+          <ul className="mt-2 grid gap-2 md:grid-cols-3">
+            {datasetChangelog.map((entry) => (
+              <li key={entry.id} className="rounded-md bg-white px-2.5 py-2 text-xs">
+                <p className="font-semibold text-ink-900">
+                  {entry.changeType.replace(/_/g, " ")} - {entry.date}
+                </p>
+                <p className="mt-1 leading-relaxed text-ink-600">{entry.summary}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="mt-3 grid gap-2 md:grid-cols-5">
         {CORPUS_MAP_MODES.map((mode) => {
@@ -157,6 +210,145 @@ export function ResearchCorpusPanel({ onOpenMapMode }: Props) {
         {!rows.length && <p className="px-3 py-4 text-sm text-ink-500">No corpus rows match this filter.</p>}
       </div>
     </section>
+  );
+}
+
+function TrustMetric({ label, value, detail }: { label: string; value: number; detail: string }) {
+  return (
+    <div className="rounded-lg border border-canvas-line bg-canvas/35 px-3 py-2">
+      <p className="text-[10px] font-semibold uppercase tracking-wide text-ink-500">{label}</p>
+      <p className="mt-1 text-lg font-semibold text-ink-900">{value}</p>
+      <p className="mt-0.5 text-[11px] leading-relaxed text-ink-600">{detail}</p>
+    </div>
+  );
+}
+
+function DataDictionaryPanel() {
+  return (
+    <div className="mt-3 rounded-lg border border-canvas-line bg-canvas/35 p-3">
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-500">Data dictionary</p>
+          <h4 className="mt-0.5 text-sm font-semibold text-ink-900">{DATA_DICTIONARY.title}</h4>
+          <p className="mt-1 max-w-4xl text-xs leading-relaxed text-ink-600">
+            {DATA_DICTIONARY.legalSeparationInvariant}
+          </p>
+        </div>
+        <a
+          href="/data/data-dictionary.json"
+          className="rounded-md border border-canvas-line bg-white px-2 py-1 text-[11px] font-medium text-ink-700 hover:border-accent hover:text-accent"
+        >
+          JSON
+        </a>
+      </div>
+      <div className="mt-3 grid gap-2 lg:grid-cols-2">
+        {DATA_DICTIONARY.collections.map((collection) => (
+          <article key={collection.id} className="rounded-lg border border-canvas-line bg-white p-3 text-xs">
+            <p className="font-semibold text-ink-900">{collection.label}</p>
+            <p className="mt-1 leading-relaxed text-ink-600">{collection.purpose}</p>
+            <p className="mt-2 rounded-md bg-canvas/60 px-2 py-1.5 text-[11px] leading-relaxed text-ink-600">
+              {collection.legalEffectCaveat}
+            </p>
+            <dl className="mt-2 grid gap-1.5 sm:grid-cols-2">
+              {collection.fields.slice(0, 6).map((field) => (
+                <div key={field.name} className="rounded-md border border-canvas-line px-2 py-1.5">
+                  <dt className="font-medium text-ink-900">{field.name}</dt>
+                  <dd className="mt-0.5 text-[11px] text-ink-600">
+                    {field.type}
+                    {field.required ? " - required" : " - optional"}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </article>
+        ))}
+      </div>
+      <div className="mt-3 rounded-lg border border-canvas-line bg-white p-3">
+        <p className="text-xs font-semibold text-ink-900">Confidence ladder</p>
+        <div className="mt-2 grid gap-2 md:grid-cols-2 xl:grid-cols-3">
+          {DATA_DICTIONARY.confidenceLadder.map((entry) => (
+            <div key={entry.id} className="rounded-md bg-canvas/50 px-2.5 py-2 text-xs">
+              <p className="font-semibold text-ink-900">{entry.label}</p>
+              <p className="mt-1 leading-relaxed text-ink-600">{entry.definition}</p>
+              <p className="mt-1 text-[11px] uppercase tracking-wide text-ink-500">
+                {entry.mapEffect.replace(/_/g, " ")}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CoverageReportPanel({ report }: { report: ReturnType<typeof getCorpusCoverageReport> }) {
+  const missingCountries = report.countriesWithNoInstitutionData.slice(0, 16);
+  return (
+    <div className="mt-3 rounded-lg border border-canvas-line bg-canvas/35 p-3 text-xs">
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-500">Corpus coverage report</p>
+          <h4 className="mt-0.5 text-sm font-semibold text-ink-900">Editorial gaps and source-health checks</h4>
+          <p className="mt-1 max-w-4xl leading-relaxed text-ink-600">{report.caveat}</p>
+        </div>
+        <a
+          href="/data/corpus-coverage-report.json"
+          className="rounded-md border border-canvas-line bg-white px-2 py-1 text-[11px] font-medium text-ink-700 hover:border-accent hover:text-accent"
+        >
+          JSON
+        </a>
+      </div>
+      <div className="mt-3 grid gap-2 md:grid-cols-2">
+        <div className="rounded-lg border border-canvas-line bg-white p-3">
+          <p className="font-semibold text-ink-900">Records by kind</p>
+          <dl className="mt-2 grid gap-1.5 sm:grid-cols-2">
+            {Object.entries(report.recordsByKind).map(([kind, count]) => (
+              <div key={kind} className="flex items-center justify-between rounded-md bg-canvas/50 px-2 py-1.5">
+                <dt className="text-ink-600">{corpusKindLabel(kind as Parameters<typeof corpusKindLabel>[0])}</dt>
+                <dd className="font-semibold text-ink-900">{count}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+        <div className="rounded-lg border border-canvas-line bg-white p-3">
+          <p className="font-semibold text-ink-900">Institution coverage gaps</p>
+          <p className="mt-1 leading-relaxed text-ink-600">
+            {report.countriesWithNoInstitutionData.length} countries do not yet have a mapped institution row.
+          </p>
+          <p className="mt-2 text-[11px] leading-relaxed text-ink-600">
+            Sample:{" "}
+            {missingCountries
+              .map((iso3) => COUNTRY_BY_ISO3[iso3]?.name ?? iso3)
+              .join(", ")}
+            {report.countriesWithNoInstitutionData.length > missingCountries.length ? ", ..." : ""}
+          </p>
+        </div>
+      </div>
+      <div className="mt-2 grid gap-2 md:grid-cols-3">
+        <CoverageList title="Missing open deadlines" rows={report.recordsMissingDeadlines} />
+        <CoverageList title="Stale verification" rows={report.staleVerificationRecords} />
+        <CoverageList title="Official-source gaps" rows={report.officialSourceGaps} />
+      </div>
+    </div>
+  );
+}
+
+function CoverageList({ title, rows }: { title: string; rows: string[] }) {
+  return (
+    <div className="rounded-lg border border-canvas-line bg-white p-3">
+      <p className="font-semibold text-ink-900">{title}</p>
+      {rows.length ? (
+        <ul className="mt-2 space-y-1 text-[11px] text-ink-600">
+          {rows.slice(0, 6).map((row) => (
+            <li key={row} className="rounded-md bg-canvas/50 px-2 py-1">
+              {row}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="mt-2 rounded-md bg-emerald-50 px-2 py-1 text-[11px] text-emerald-800">No current rows.</p>
+      )}
+    </div>
   );
 }
 

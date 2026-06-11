@@ -24,6 +24,7 @@ import {
   INSTITUTION_RECORDS,
   POLICY_PROCESS_RECORDS,
   PUBLIC_SECTOR_AI_RECORDS,
+  RESEARCH_CORPUS_CHANGELOG,
   STANDARDS_CONFORMITY_RECORDS,
 } from "../data/researchCorpus";
 import { AI_ATLAS_SOURCES, COUNTRY_INDICATOR_SCORES, COUNTRY_READINESS_REPORTS, INDICATOR_SOURCE_BY_ID } from "../data/aiAtlas";
@@ -432,7 +433,7 @@ export function validateData(): ValidationReport {
   }
 
   const changelogIds = new Set<string>();
-  for (const entry of RECORD_CHANGE_LOG_ENTRIES) {
+  for (const entry of [...RECORD_CHANGE_LOG_ENTRIES, ...RESEARCH_CORPUS_CHANGELOG]) {
     if (changelogIds.has(entry.id)) errors.push(`Duplicate record changelog id: ${entry.id}`);
     changelogIds.add(entry.id);
     validateDate(`Record changelog ${entry.id} date`, entry.date);

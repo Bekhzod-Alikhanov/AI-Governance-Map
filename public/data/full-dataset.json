@@ -1,9 +1,9 @@
 {
-  "schemaVersion": "2026.06.2",
+  "schemaVersion": "2026.06.3",
   "snapshotDate": "2026-05-19",
   "schema": {
     "id": "https://global-ai-governance-map.vercel.app/dataset.schema.json",
-    "version": "2026.06.2",
+    "version": "2026.06.3",
     "format": "json-schema-draft-2020-12"
   },
   "title": "Global AI Governance Map dataset",
@@ -37,7 +37,7 @@
     "outOfScopeItems": 7,
     "sourceNotes": 9,
     "datasetReleases": 2,
-    "recordChangeLogEntries": 3
+    "recordChangeLogEntries": 21
   },
   "data": {
     "countries": [
@@ -45912,12 +45912,326 @@
         }
       },
       {
+        "id": "2026-06-10-ftc-operation-ai-comply-corpus",
+        "recordId": "ftc-operation-ai-comply-2024",
+        "recordKind": "incident_enforcement",
+        "changeType": "changed",
+        "date": "2026-06-10",
+        "summary": "Expanded the FTC Operation AI Comply row with procedural-stage, affected-actor, outcome/remedy, and corpus-route metadata.",
+        "reviewer": {
+          "reviewerRole": "dataset editor",
+          "reviewDate": "2026-06-07",
+          "reviewScope": "Checked context/legal separation for lab-intelligence v1.",
+          "unresolvedCaveats": [
+            "Refresh markets, evaluation partnerships, and model families monthly."
+          ]
+        }
+      },
+      {
         "id": "2026-06-10-research-corpus-v1",
         "recordId": "research-corpus-v1",
         "recordKind": "dataset",
         "changeType": "added",
         "date": "2026-06-10",
-        "summary": "Added research-corpus starter records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports."
+        "summary": "Added research-corpus starter records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-10-institution-eu-ai-office",
+        "recordId": "eu-ai-office",
+        "recordKind": "institution",
+        "changeType": "added",
+        "date": "2026-06-10",
+        "summary": "Added institution corpus record for European AI Office.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-10-institution-us-nist-caisi",
+        "recordId": "us-nist-caisi",
+        "recordKind": "institution",
+        "changeType": "added",
+        "date": "2026-06-10",
+        "summary": "Added institution corpus record for NIST Center for AI Standards and Innovation (CAISI).",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-10-institution-uk-ai-security-institute",
+        "recordId": "uk-ai-security-institute",
+        "recordKind": "institution",
+        "changeType": "added",
+        "date": "2026-06-10",
+        "summary": "Added institution corpus record for UK AI Security Institute.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-10-institution-cen-cenelec-jtc21",
+        "recordId": "cen-cenelec-jtc21",
+        "recordKind": "institution",
+        "changeType": "added",
+        "date": "2026-06-10",
+        "summary": "Added institution corpus record for CEN-CENELEC Joint Technical Committee 21.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-10-institution-us-ftc",
+        "recordId": "us-ftc",
+        "recordKind": "institution",
+        "changeType": "added",
+        "date": "2026-06-10",
+        "summary": "Added institution corpus record for U.S. Federal Trade Commission.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-10-institution-canada-treasury-board-secretariat",
+        "recordId": "canada-treasury-board-secretariat",
+        "recordKind": "institution",
+        "changeType": "added",
+        "date": "2026-06-10",
+        "summary": "Added institution corpus record for Treasury Board of Canada Secretariat.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-10-institution-coe-treaty-office",
+        "recordId": "coe-treaty-office",
+        "recordKind": "institution",
+        "changeType": "added",
+        "date": "2026-06-10",
+        "summary": "Added institution corpus record for Council of Europe Treaty Office.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-10-policy-process-eu-high-risk-ai-guidelines-consultation-2026",
+        "recordId": "eu-high-risk-ai-guidelines-consultation-2026",
+        "recordKind": "policy_process",
+        "changeType": "added",
+        "date": "2026-06-10",
+        "summary": "Added policy-process corpus record for EU draft guidelines on high-risk AI classification consultation.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-10-policy-process-eu-ai-office-gpai-tools-process",
+        "recordId": "eu-ai-office-gpai-tools-process",
+        "recordKind": "policy_process",
+        "changeType": "added",
+        "date": "2026-06-10",
+        "summary": "Added policy-process corpus record for EU AI Office GPAI implementation tools and code-of-practice process.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-10-policy-process-cen-cenelec-jtc21-ai-act-standardization-process",
+        "recordId": "cen-cenelec-jtc21-ai-act-standardization-process",
+        "recordKind": "policy_process",
+        "changeType": "added",
+        "date": "2026-06-10",
+        "summary": "Added policy-process corpus record for CEN-CENELEC JTC 21 AI Act standardization work programme.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-10-policy-process-uk-aisi-frontier-trends-monitoring",
+        "recordId": "uk-aisi-frontier-trends-monitoring",
+        "recordKind": "policy_process",
+        "changeType": "added",
+        "date": "2026-06-10",
+        "summary": "Added policy-process corpus record for UK AISI frontier AI trends and testing monitoring.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-10-standard-cen-cenelec-ai-act-harmonized-standards",
+        "recordId": "cen-cenelec-ai-act-harmonized-standards",
+        "recordKind": "standards_conformity",
+        "changeType": "added",
+        "date": "2026-06-10",
+        "summary": "Added standards/conformity corpus record for CEN-CENELEC AI Act harmonized-standardization work.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-10-standard-iso-iec-42001-ai-management-system",
+        "recordId": "iso-iec-42001-ai-management-system",
+        "recordKind": "standards_conformity",
+        "changeType": "added",
+        "date": "2026-06-10",
+        "summary": "Added standards/conformity corpus record for ISO/IEC 42001:2023 AI management system standard.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-10-standard-nist-ai-rmf-conformity-context",
+        "recordId": "nist-ai-rmf-conformity-context",
+        "recordKind": "standards_conformity",
+        "changeType": "added",
+        "date": "2026-06-10",
+        "summary": "Added standards/conformity corpus record for NIST AI RMF standards and risk-management context.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-10-standard-nist-genai-profile-conformity-context",
+        "recordId": "nist-genai-profile-conformity-context",
+        "recordKind": "standards_conformity",
+        "changeType": "added",
+        "date": "2026-06-10",
+        "summary": "Added standards/conformity corpus record for NIST AI RMF Generative AI Profile context.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-10-public-sector-ai-us-federal-ai-use-case-inventory",
+        "recordId": "us-federal-ai-use-case-inventory",
+        "recordKind": "public_sector_ai",
+        "changeType": "added",
+        "date": "2026-06-10",
+        "summary": "Added public-sector AI corpus record for U.S. federal AI use case inventories.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-10-public-sector-ai-canada-algorithmic-impact-assessment",
+        "recordId": "canada-algorithmic-impact-assessment",
+        "recordKind": "public_sector_ai",
+        "changeType": "added",
+        "date": "2026-06-10",
+        "summary": "Added public-sector AI corpus record for Canada Algorithmic Impact Assessment tool.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
       }
     ]
   }

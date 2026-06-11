@@ -67,6 +67,7 @@ import { getLabIntelligenceSummary } from "../utils/labIntelligence";
 import {
   corpusKindLabel,
   corpusRoute,
+  getCorpusChangelogForRecord,
   getCorpusRecord,
   relatedRecordsFor,
   type CorpusUiKind,
@@ -1074,6 +1075,7 @@ function RecordRoutePanel({
     const corpusRecord = getCorpusRecord(routeRecord.kind as CorpusUiKind, routeRecord.id);
     if (!corpusRecord) return null;
     const related = relatedRecordsFor(corpusRecord);
+    const changelog = getCorpusChangelogForRecord(corpusRecord);
     return (
       <RecordPanelShell title={corpusRecord.title} subtitle={`${corpusKindLabel(corpusRecord.kind)} - ${corpusRecord.jurisdiction}`}>
         <RecordMetrics
@@ -1097,6 +1099,7 @@ function RecordRoutePanel({
         <div className="mt-3">
           <VerificationMeta item={corpusRecord.metadata} compact />
         </div>
+        <RecordChangelog entries={changelog} />
         <RecordActions>
           <a className={smallButtonClass} href={corpusRoute(corpusRecord)}>
             Stable URL
@@ -1167,6 +1170,37 @@ function RecordRoutePanel({
         />
       </RecordActions>
     </RecordPanelShell>
+  );
+}
+
+function RecordChangelog({
+  entries,
+}: {
+  entries: Array<{ id: string; changeType: string; date: string; summary: string; reviewer?: { reviewerRole: string; reviewDate: string } }>;
+}) {
+  return (
+    <div className="mt-3 rounded-lg border border-canvas-line bg-canvas/40 p-3 text-xs">
+      <p className="font-semibold text-ink-900">Record changelog</p>
+      {entries.length ? (
+        <ul className="mt-2 space-y-1.5">
+          {entries.map((entry) => (
+            <li key={entry.id} className="rounded-md bg-white px-2.5 py-2">
+              <p className="font-medium text-ink-900">
+                {entry.changeType.replace(/_/g, " ")} - {entry.date}
+              </p>
+              <p className="mt-1 leading-relaxed text-ink-600">{entry.summary}</p>
+              {entry.reviewer && (
+                <p className="mt-1 text-[11px] text-ink-500">
+                  Reviewed by {entry.reviewer.reviewerRole} on {entry.reviewer.reviewDate}.
+                </p>
+              )}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="mt-2 text-ink-600">No row-specific changelog entry is published yet.</p>
+      )}
+    </div>
   );
 }
 

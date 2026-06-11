@@ -16,7 +16,7 @@
   ],
   "properties": {
     "schemaVersion": {
-      "const": "2026.06.2"
+      "const": "2026.06.3"
     },
     "snapshotDate": {
       "type": "string",
@@ -34,7 +34,7 @@
           "const": "https://global-ai-governance-map.vercel.app/dataset.schema.json"
         },
         "version": {
-          "const": "2026.06.2"
+          "const": "2026.06.3"
         },
         "format": {
           "const": "json-schema-draft-2020-12"

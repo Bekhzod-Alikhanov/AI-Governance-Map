@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   buildCorpusMapContext,
+  getCorpusChangelogForRecord,
   getCorpusCoverageReport,
   getCorpusRecord,
   getCorpusRecordsForCountry,
@@ -42,5 +43,14 @@ describe("research corpus helpers", () => {
     expect(report.totalRecords).toBe(RESEARCH_CORPUS_RECORDS.length);
     expect(report.openPolicyWindows).toBeGreaterThanOrEqual(1);
     expect(report.officialSourceGaps).toEqual([]);
+  });
+
+  it("exposes record-level corpus changelog entries", () => {
+    const euOffice = getCorpusRecord("institution", "eu-ai-office");
+    expect(euOffice).not.toBeNull();
+
+    const changelog = getCorpusChangelogForRecord(euOffice!);
+    expect(changelog[0]?.recordKind).toBe("institution");
+    expect(changelog[0]?.summary).toContain("European AI Office");
   });
 });
