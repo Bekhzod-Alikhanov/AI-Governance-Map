@@ -1855,6 +1855,12 @@
   },
   {
     "kind": "institution",
+    "id": "cy-commissioner-communications-ai-act-msa",
+    "name": "Commissioner of Communications as Cyprus AI Act market-surveillance contact",
+    "url": "https://global-ai-governance-map.vercel.app/institution/cy-commissioner-communications-ai-act-msa"
+  },
+  {
+    "kind": "institution",
     "id": "es-aesia-ai-act-pending-msa",
     "name": "Spanish Artificial Intelligence Surveillance Agency pending AI Act Single Point of Contact",
     "url": "https://global-ai-governance-map.vercel.app/institution/es-aesia-ai-act-pending-msa"
@@ -1886,13 +1892,13 @@
   {
     "kind": "institution",
     "id": "ie-dete-ai-act-competent-authority",
-    "name": "Ireland Minister for Enterprise, Tourism and Employment AI Act contact",
+    "name": "Minister for Enterprise, Tourism and Employment as Ireland AI Act market-surveillance contact",
     "url": "https://global-ai-governance-map.vercel.app/institution/ie-dete-ai-act-competent-authority"
   },
   {
     "kind": "institution",
     "id": "it-acn-ai-act-msa",
-    "name": "Agenzia per la cybersicurezza nazionale as Italy AI Act market-surveillance contact",
+    "name": "National Cybersecurity Agency as Italy AI Act market-surveillance contact",
     "url": "https://global-ai-governance-map.vercel.app/institution/it-acn-ai-act-msa"
   },
   {
@@ -1910,13 +1916,13 @@
   {
     "kind": "institution",
     "id": "lt-rrt-ai-act-msa",
-    "name": "Communications Regulatory Authority as Lithuania AI Act market-surveillance contact",
+    "name": "Communications Regulatory Authority of the Republic of Lithuania as Lithuania AI Act market-surveillance contact",
     "url": "https://global-ai-governance-map.vercel.app/institution/lt-rrt-ai-act-msa"
   },
   {
     "kind": "institution",
     "id": "lu-cnpd-ai-act-pending-msa",
-    "name": "Luxembourg CNPD pending AI Act Single Point of Contact",
+    "name": "National Commission for Data Protection pending AI Act Single Point of Contact",
     "url": "https://global-ai-governance-map.vercel.app/institution/lu-cnpd-ai-act-pending-msa"
   },
   {
@@ -1940,7 +1946,7 @@
   {
     "kind": "institution",
     "id": "si-akos-ai-act-pending-msa",
-    "name": "Slovenia AKOS pending AI Act Single Point of Contact",
+    "name": "Agency for Communication Networks and Services of the Republic of Slovenia pending AI Act Single Point of Contact",
     "url": "https://global-ai-governance-map.vercel.app/institution/si-akos-ai-act-pending-msa"
   },
   {

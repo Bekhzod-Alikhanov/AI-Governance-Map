@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { COUNTRIES } from "../data/countries";
 import { AI_ATLAS_SOURCES, COUNTRY_INDICATOR_SCORES, COUNTRY_READINESS_REPORTS } from "../data/aiAtlas";
 import { FRONTIER_LABS } from "../data/frontierLabs";
+import { EU_AI_ACT_AUTHORITY_MATRIX } from "../data/euAiActAuthorities";
 import { GOVERNANCE_OBLIGATIONS } from "../data/governanceObligations";
 import { IMPLEMENTATION_MILESTONES } from "../data/implementationMilestones";
 import { INTERNATIONAL_INSTRUMENTS } from "../data/internationalInstruments";
@@ -52,6 +53,7 @@ describe("dataset export helpers", () => {
     expect(snapshot.counts.policyProcessRecords).toBe(POLICY_PROCESS_RECORDS.length);
     expect(snapshot.counts.standardsConformityRecords).toBe(STANDARDS_CONFORMITY_RECORDS.length);
     expect(snapshot.counts.publicSectorAIRecords).toBe(PUBLIC_SECTOR_AI_RECORDS.length);
+    expect(snapshot.counts.euAiActAuthorityMatrix).toBe(EU_AI_ACT_AUTHORITY_MATRIX.length);
     expect(snapshot.counts.internationalInstruments).toBe(INTERNATIONAL_INSTRUMENTS.length);
     expect(snapshot.counts.nationalAIRegulations).toBe(NATIONAL_AI_REGULATIONS.length);
     expect(snapshot.counts.governanceObligations).toBe(GOVERNANCE_OBLIGATIONS.length);
@@ -65,6 +67,7 @@ describe("dataset export helpers", () => {
     expect(snapshot.data.labIntelligenceProfiles).toBe(LAB_INTELLIGENCE_PROFILES);
     expect(snapshot.data.modelGovernanceEvidence).toBe(MODEL_GOVERNANCE_EVIDENCE);
     expect(snapshot.data.institutionRecords).toBe(INSTITUTION_RECORDS);
+    expect(snapshot.data.euAiActAuthorityMatrix).toBe(EU_AI_ACT_AUTHORITY_MATRIX);
     expect(snapshot.data.countryIndicatorScores).toBe(COUNTRY_INDICATOR_SCORES);
     expect(validateDatasetSnapshotShape(snapshot)).toEqual([]);
   });

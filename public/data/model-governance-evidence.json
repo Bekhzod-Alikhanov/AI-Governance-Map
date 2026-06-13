@@ -174,5 +174,181 @@
     "confidence": "high",
     "lastVerified": "2026-06-07",
     "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "openai-model-catalog-evidence",
+    "labIds": [
+      "openai"
+    ],
+    "evidenceKind": "model_card",
+    "title": "OpenAI API model catalog",
+    "modelOrSystem": "GPT-5.x and o-series model families",
+    "domains": [
+      "frontier-gpai"
+    ],
+    "summary": "Official OpenAI model catalog used as current model-family evidence.",
+    "caveat": "Company or issuer-controlled model evidence; not safety certification, audit evidence, or public law.",
+    "sourceName": "OpenAI API docs - models",
+    "sourceUrl": "https://developers.openai.com/api/docs/models/all",
+    "verificationNotes": "Issuer-controlled model catalog; not an external safety audit.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "anthropic-model-overview-evidence",
+    "labIds": [
+      "anthropic"
+    ],
+    "evidenceKind": "model_card",
+    "title": "Anthropic Claude model overview",
+    "modelOrSystem": "Claude model family",
+    "domains": [
+      "frontier-gpai"
+    ],
+    "summary": "Official Anthropic docs used as Claude model-family evidence.",
+    "caveat": "Company or issuer-controlled model evidence; not safety certification, audit evidence, or public law.",
+    "sourceName": "Anthropic docs - Claude models overview",
+    "sourceUrl": "https://docs.anthropic.com/en/docs/about-claude/models/overview",
+    "verificationNotes": "Official docs were reachable through the platform redirect; refresh monthly.",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "deepmind-model-cards-evidence",
+    "labIds": [
+      "google-deepmind"
+    ],
+    "evidenceKind": "model_card",
+    "title": "Google DeepMind model-card index",
+    "modelOrSystem": "Gemini and other DeepMind model families",
+    "domains": [
+      "frontier-gpai"
+    ],
+    "summary": "Official DeepMind model-card page used as model documentation evidence.",
+    "caveat": "Company or issuer-controlled model evidence; not safety certification, audit evidence, or public law.",
+    "sourceName": "Google DeepMind - model cards",
+    "sourceUrl": "https://deepmind.google/models/model-cards/",
+    "verificationNotes": "Issuer-controlled model-card index; not independent certification.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "meta-llama-model-evidence",
+    "labIds": [
+      "meta"
+    ],
+    "evidenceKind": "model_card",
+    "title": "Meta Llama model family page",
+    "modelOrSystem": "Llama model family",
+    "domains": [
+      "frontier-gpai"
+    ],
+    "summary": "Official Meta Llama page used as model-family evidence.",
+    "caveat": "Company or issuer-controlled model evidence; not safety certification, audit evidence, or public law.",
+    "sourceName": "Meta AI - Llama",
+    "sourceUrl": "https://ai.meta.com/llama/",
+    "verificationNotes": "Issuer-controlled model-family evidence; context only.",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "xai-grok-model-docs-evidence",
+    "labIds": [
+      "xai"
+    ],
+    "evidenceKind": "release_note",
+    "title": "xAI Grok model documentation",
+    "modelOrSystem": "Grok 4.3",
+    "domains": [
+      "frontier-gpai"
+    ],
+    "summary": "Official xAI docs describe Grok 4.3 model-context information.",
+    "caveat": "Company or issuer-controlled model evidence; not safety certification, audit evidence, or public law.",
+    "sourceName": "xAI docs - models",
+    "sourceUrl": "https://docs.x.ai/developers/models",
+    "verificationNotes": "Official xAI docs listed Grok 4.3 in the 2026-06-13 check.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "mistral-model-portfolio-evidence",
+    "labIds": [
+      "mistral"
+    ],
+    "evidenceKind": "release_note",
+    "title": "Mistral model portfolio",
+    "modelOrSystem": "Mistral Medium 3.5 and Mistral Large 3",
+    "domains": [
+      "frontier-gpai"
+    ],
+    "summary": "Official Mistral page describes flagship and open-weight model families.",
+    "caveat": "Company or issuer-controlled model evidence; not safety certification, audit evidence, or public law.",
+    "sourceName": "Mistral AI - models",
+    "sourceUrl": "https://mistral.ai/models",
+    "verificationNotes": "Official page checked for Medium 3.5, Large 3, and open-weight positioning.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "alibaba-qwen-model-family-evidence",
+    "labIds": [
+      "alibaba"
+    ],
+    "evidenceKind": "release_note",
+    "title": "Alibaba Qwen model family",
+    "modelOrSystem": "Qwen3 and Qwen multimodal family",
+    "domains": [
+      "frontier-gpai"
+    ],
+    "summary": "Official Alibaba Cloud page describes Qwen3 and Qwen model coverage.",
+    "caveat": "Company or issuer-controlled model evidence; not safety certification, audit evidence, or public law.",
+    "sourceName": "Alibaba Cloud - Qwen",
+    "sourceUrl": "https://www.alibabacloud.com/en/solutions/generative-ai/qwen",
+    "verificationNotes": "Official page checked for Qwen3, multilingual, and multimodal coverage.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "baidu-ernie-5-1-release-evidence",
+    "labIds": [
+      "baidu"
+    ],
+    "evidenceKind": "release_note",
+    "title": "Baidu ERNIE 5.1 release",
+    "modelOrSystem": "ERNIE 5.1",
+    "domains": [
+      "frontier-gpai"
+    ],
+    "summary": "Official Baidu note describes ERNIE 5.1 release and benchmark positioning.",
+    "caveat": "Company or issuer-controlled model evidence; not safety certification, audit evidence, or public law.",
+    "sourceName": "Baidu ERNIE - ERNIE 5.1 release",
+    "sourceUrl": "https://ernie.baidu.com/blog/posts/ernie-5.1-0508-release/",
+    "verificationNotes": "Official blog announced ERNIE 5.1 on 2026-05-09.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "reviewStatus": "editorial_checked"
   }
 ]

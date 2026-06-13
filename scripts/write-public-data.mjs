@@ -171,6 +171,7 @@ try {
   const labExposureModule = await server.ssrLoadModule("/src/data/labRegulatoryExposures.ts");
   const labIntelligenceModule = await server.ssrLoadModule("/src/data/labIntelligence.ts");
   const researchCorpusModule = await server.ssrLoadModule("/src/data/researchCorpus.ts");
+  const euAiActAuthoritiesModule = await server.ssrLoadModule("/src/data/euAiActAuthorities.ts");
   const aiAtlasModule = await server.ssrLoadModule("/src/data/aiAtlas.ts");
   const datasetSchemaModule = await server.ssrLoadModule("/src/utils/datasetSchema.ts");
   const summaryModule = await server.ssrLoadModule("/src/utils/getCountryGovernanceSummary.ts");
@@ -226,6 +227,7 @@ try {
           "/data/policy-processes.json",
           "/data/standards-conformity.json",
           "/data/public-sector-ai.json",
+          "/data/eu-ai-act-authority-matrix.json",
           "/data/enforcement-litigation.json",
           "/data/policy-brief-index.json",
           "/data/corpus-index.json",
@@ -257,6 +259,11 @@ try {
     writeFile(path.join(outDir, "policy-processes.json"), stableJson(researchCorpusModule.POLICY_PROCESS_RECORDS), "utf8"),
     writeFile(path.join(outDir, "standards-conformity.json"), stableJson(researchCorpusModule.STANDARDS_CONFORMITY_RECORDS), "utf8"),
     writeFile(path.join(outDir, "public-sector-ai.json"), stableJson(researchCorpusModule.PUBLIC_SECTOR_AI_RECORDS), "utf8"),
+    writeFile(
+      path.join(outDir, "eu-ai-act-authority-matrix.json"),
+      stableJson(euAiActAuthoritiesModule.EU_AI_ACT_AUTHORITY_MATRIX),
+      "utf8"
+    ),
     writeFile(path.join(outDir, "enforcement-litigation.json"), stableJson(labIntelligenceModule.INCIDENT_ENFORCEMENT_RECORDS), "utf8"),
     writeFile(path.join(outDir, "policy-brief-index.json"), stableJson(policyBriefModule.POLICY_BRIEF_INDEX), "utf8"),
     writeFile(
@@ -292,6 +299,7 @@ try {
         sources: sourceEntries(snapshot),
         changelog: labIntelligenceModule.RECORD_CHANGE_LOG_ENTRIES,
         corpusChangelog: researchCorpusModule.RESEARCH_CORPUS_CHANGELOG,
+        euAiActAuthorityMatrix: euAiActAuthoritiesModule.EU_AI_ACT_AUTHORITY_MATRIX,
         dataDictionary: dataDictionaryModule.DATA_DICTIONARY,
         releases: releasesModule.DATASET_RELEASES,
         corpusCoverageReport: researchCorpusUtils.getCorpusCoverageReport(),

@@ -315,47 +315,12 @@
     "reviewStatus": "editorial_checked"
   },
   {
-    "id": "it-acn-ai-act-msa",
-    "name": "Agenzia per la cybersicurezza nazionale as Italy AI Act market-surveillance contact",
+    "id": "cy-commissioner-communications-ai-act-msa",
+    "name": "Commissioner of Communications as Cyprus AI Act market-surveillance contact",
     "institutionType": "other",
-    "jurisdiction": "Italy",
-    "countryIso3": "ITA",
-    "mandate": "Italian national contact listed by the European Commission for AI Act market surveillance implementation.",
-    "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
-    "powers": [
-      "Listed as national AI Act market-surveillance contact",
-      "Participates in AI Act market-surveillance architecture"
-    ],
-    "domains": [
-      "cybersecurity-critical-infrastructure",
-      "enforcement-litigation"
-    ],
-    "relatedRecords": [
-      {
-        "kind": "international_instrument",
-        "id": "eu-ai-act",
-        "label": "EU AI Act"
-      }
-    ],
-    "contactUrl": "https://www.acn.gov.it/",
-    "summary": "Commission-listed Italian AI Act market-surveillance contact.",
-    "caveat": "Commission list confirms the contact; it does not fully describe domestic powers or sectoral enforcement arrangements.",
-    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
-    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
-    "verificationNotes": "Official Commission list names Italy's Agenzia per la cybersicurezza nazionale / National Cybersecurity Agency.",
-    "sourceKind": "official",
-    "verificationStatus": "verified",
-    "confidence": "high",
-    "lastVerified": "2026-06-11",
-    "reviewStatus": "editorial_checked"
-  },
-  {
-    "id": "lv-crpc-ai-act-msa",
-    "name": "Consumer Rights Protection Centre as Latvia AI Act market-surveillance contact",
-    "institutionType": "consumer_protection_authority",
-    "jurisdiction": "Latvia",
-    "countryIso3": "LVA",
-    "mandate": "Latvian national contact listed by the European Commission for AI Act market surveillance implementation.",
+    "jurisdiction": "Cyprus",
+    "countryIso3": "CYP",
+    "mandate": "Cyprus national contact listed by the European Commission for AI Act market surveillance implementation.",
     "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
     "powers": [
       "Listed as national AI Act market-surveillance contact",
@@ -372,60 +337,24 @@
         "label": "EU AI Act"
       }
     ],
-    "contactUrl": "https://www.ptac.gov.lv/",
-    "summary": "Commission-listed Latvian AI Act market-surveillance contact.",
+    "summary": "Commission-listed Cyprus AI Act market-surveillance contact.",
     "caveat": "Commission list confirms the contact; it does not fully describe domestic powers or sectoral enforcement arrangements.",
     "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
     "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
-    "verificationNotes": "Official Commission list names Latvia's Patērētāju tiesību aizsardzības centrs / Consumer Rights Protection Centre.",
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-06-11",
-    "reviewStatus": "editorial_checked"
-  },
-  {
-    "id": "lt-rrt-ai-act-msa",
-    "name": "Communications Regulatory Authority as Lithuania AI Act market-surveillance contact",
-    "institutionType": "other",
-    "jurisdiction": "Lithuania",
-    "countryIso3": "LTU",
-    "mandate": "Lithuanian national contact listed by the European Commission for AI Act market surveillance implementation.",
-    "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
-    "powers": [
-      "Listed as national AI Act market-surveillance contact",
-      "Participates in AI Act market-surveillance architecture"
-    ],
-    "domains": [
-      "public-sector",
-      "enforcement-litigation"
-    ],
-    "relatedRecords": [
-      {
-        "kind": "international_instrument",
-        "id": "eu-ai-act",
-        "label": "EU AI Act"
-      }
-    ],
-    "contactUrl": "https://www.rrt.lt/",
-    "summary": "Commission-listed Lithuanian AI Act market-surveillance contact.",
-    "caveat": "Commission list confirms the contact; it does not fully describe domestic powers or sectoral enforcement arrangements.",
-    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
-    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
-    "verificationNotes": "Official Commission list names Lithuania's Communications Regulatory Authority.",
-    "sourceKind": "official",
-    "verificationStatus": "verified",
-    "confidence": "high",
-    "lastVerified": "2026-06-11",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Official Commission list names Cyprus's Commissioner of Communications.",
     "reviewStatus": "editorial_checked"
   },
   {
     "id": "ie-dete-ai-act-competent-authority",
-    "name": "Ireland Minister for Enterprise, Tourism and Employment AI Act contact",
+    "name": "Minister for Enterprise, Tourism and Employment as Ireland AI Act market-surveillance contact",
     "institutionType": "digital_ministry",
     "jurisdiction": "Ireland",
     "countryIso3": "IRL",
-    "mandate": "Irish national contact listed by the European Commission for AI Act market surveillance implementation.",
+    "mandate": "Ireland national contact listed by the European Commission for AI Act market surveillance implementation.",
     "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
     "powers": [
       "Listed as national AI Act market-surveillance contact",
@@ -447,11 +376,222 @@
     "caveat": "Commission list confirms the contact; it does not fully describe domestic powers or sectoral enforcement arrangements.",
     "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
     "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
-    "verificationNotes": "Official Commission list names Ireland's Minister for Enterprise, Tourism and Employment.",
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-06-11",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Official Commission list names Ireland's Minister for Enterprise, Tourism and Employment.",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "it-acn-ai-act-msa",
+    "name": "National Cybersecurity Agency as Italy AI Act market-surveillance contact",
+    "institutionType": "other",
+    "jurisdiction": "Italy",
+    "countryIso3": "ITA",
+    "mandate": "Italy national contact listed by the European Commission for AI Act market surveillance implementation.",
+    "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
+    "powers": [
+      "Listed as national AI Act market-surveillance contact",
+      "Participates in AI Act market-surveillance architecture"
+    ],
+    "domains": [
+      "cybersecurity-critical-infrastructure",
+      "enforcement-litigation"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "contactUrl": "https://www.acn.gov.it/",
+    "summary": "Commission-listed Italian AI Act market-surveillance contact.",
+    "caveat": "Commission list confirms the contact; it does not fully describe domestic powers or sectoral enforcement arrangements.",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Official Commission list names Italy's National Cybersecurity Agency.",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "lv-crpc-ai-act-msa",
+    "name": "Consumer Rights Protection Centre as Latvia AI Act market-surveillance contact",
+    "institutionType": "consumer_protection_authority",
+    "jurisdiction": "Latvia",
+    "countryIso3": "LVA",
+    "mandate": "Latvia national contact listed by the European Commission for AI Act market surveillance implementation.",
+    "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
+    "powers": [
+      "Listed as national AI Act market-surveillance contact",
+      "Participates in AI Act market-surveillance architecture"
+    ],
+    "domains": [
+      "public-sector",
+      "enforcement-litigation"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "contactUrl": "https://www.ptac.gov.lv/",
+    "summary": "Commission-listed Latvian AI Act market-surveillance contact.",
+    "caveat": "Commission list confirms the contact; it does not fully describe domestic powers or sectoral enforcement arrangements.",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Official Commission list names Latvia's Consumer Rights Protection Centre.",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "lt-rrt-ai-act-msa",
+    "name": "Communications Regulatory Authority of the Republic of Lithuania as Lithuania AI Act market-surveillance contact",
+    "institutionType": "other",
+    "jurisdiction": "Lithuania",
+    "countryIso3": "LTU",
+    "mandate": "Lithuania national contact listed by the European Commission for AI Act market surveillance implementation.",
+    "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
+    "powers": [
+      "Listed as national AI Act market-surveillance contact",
+      "Participates in AI Act market-surveillance architecture"
+    ],
+    "domains": [
+      "public-sector",
+      "enforcement-litigation"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "contactUrl": "https://www.rrt.lt/",
+    "summary": "Commission-listed Lithuanian AI Act market-surveillance contact.",
+    "caveat": "Commission list confirms the contact; it does not fully describe domestic powers or sectoral enforcement arrangements.",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Official Commission list names Lithuania's Communications Regulatory Authority.",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "lu-cnpd-ai-act-pending-msa",
+    "name": "National Commission for Data Protection pending AI Act Single Point of Contact",
+    "institutionType": "data_protection_authority",
+    "jurisdiction": "Luxembourg",
+    "countryIso3": "LUX",
+    "mandate": "Commission-listed pending Single Point of Contact for AI Act market surveillance implementation.",
+    "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
+    "powers": [
+      "Listed as national AI Act market-surveillance contact",
+      "Participates in AI Act market-surveillance architecture"
+    ],
+    "domains": [
+      "public-sector",
+      "enforcement-litigation"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "contactUrl": "https://cnpd.public.lu/",
+    "summary": "Pending Commission-listed Luxembourg AI Act Single Point of Contact.",
+    "caveat": "Commission table marks this row with an asterisk, meaning final national adoption is still pending.",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission marks Luxembourg's National Commission for Data Protection as pending final adoption.",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "si-akos-ai-act-pending-msa",
+    "name": "Agency for Communication Networks and Services of the Republic of Slovenia pending AI Act Single Point of Contact",
+    "institutionType": "other",
+    "jurisdiction": "Slovenia",
+    "countryIso3": "SVN",
+    "mandate": "Commission-listed pending Single Point of Contact for AI Act market surveillance implementation.",
+    "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
+    "powers": [
+      "Listed as national AI Act market-surveillance contact",
+      "Participates in AI Act market-surveillance architecture"
+    ],
+    "domains": [
+      "public-sector",
+      "enforcement-litigation"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "contactUrl": "https://www.akos-rs.si/",
+    "summary": "Pending Commission-listed Slovenian AI Act Single Point of Contact.",
+    "caveat": "Commission table marks this row with an asterisk, meaning final national adoption is still pending.",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission marks Slovenia's Agency for Communication Networks and Services as pending final adoption.",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "es-aesia-ai-act-pending-msa",
+    "name": "Spanish Artificial Intelligence Surveillance Agency pending AI Act Single Point of Contact",
+    "institutionType": "ai_office",
+    "jurisdiction": "Spain",
+    "countryIso3": "ESP",
+    "mandate": "Commission-listed pending Single Point of Contact for AI Act market surveillance implementation.",
+    "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
+    "powers": [
+      "Listed as national AI Act market-surveillance contact",
+      "Participates in AI Act market-surveillance architecture"
+    ],
+    "domains": [
+      "frontier-gpai",
+      "public-sector",
+      "enforcement-litigation"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "contactUrl": "https://aesia.digital.gob.es/",
+    "summary": "Pending Commission-listed Spanish AI Act Single Point of Contact.",
+    "caveat": "Commission table marks this row with an asterisk, meaning final national adoption is still pending.",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission marks Spain's AI supervision agency as pending final adoption.",
     "reviewStatus": "editorial_checked"
   },
   {
@@ -718,112 +858,6 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-06-12",
-    "reviewStatus": "editorial_checked"
-  },
-  {
-    "id": "lu-cnpd-ai-act-pending-msa",
-    "name": "Luxembourg CNPD pending AI Act Single Point of Contact",
-    "institutionType": "data_protection_authority",
-    "jurisdiction": "Luxembourg",
-    "countryIso3": "LUX",
-    "mandate": "Commission-listed pending Single Point of Contact for AI Act market surveillance implementation.",
-    "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
-    "powers": [
-      "Listed as national AI Act market-surveillance contact",
-      "Participates in AI Act market-surveillance architecture"
-    ],
-    "domains": [
-      "public-sector",
-      "enforcement-litigation"
-    ],
-    "relatedRecords": [
-      {
-        "kind": "international_instrument",
-        "id": "eu-ai-act",
-        "label": "EU AI Act"
-      }
-    ],
-    "contactUrl": "https://cnpd.public.lu/",
-    "summary": "Pending Commission-listed Luxembourg AI Act Single Point of Contact.",
-    "caveat": "The Commission list marks this Single Point of Contact with an asterisk, meaning the national designation decision is still pending final adoption.",
-    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
-    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
-    "verificationNotes": "Official Commission list marks Luxembourg's Commission nationale pour la protection des donnees with an asterisk, indicating pending final adoption of the national designation decision.",
-    "sourceKind": "official",
-    "verificationStatus": "likely_correct",
-    "confidence": "medium",
-    "lastVerified": "2026-06-12",
-    "reviewStatus": "editorial_checked"
-  },
-  {
-    "id": "si-akos-ai-act-pending-msa",
-    "name": "Slovenia AKOS pending AI Act Single Point of Contact",
-    "institutionType": "other",
-    "jurisdiction": "Slovenia",
-    "countryIso3": "SVN",
-    "mandate": "Commission-listed pending Single Point of Contact for AI Act market surveillance implementation.",
-    "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
-    "powers": [
-      "Listed as national AI Act market-surveillance contact",
-      "Participates in AI Act market-surveillance architecture"
-    ],
-    "domains": [
-      "public-sector",
-      "enforcement-litigation"
-    ],
-    "relatedRecords": [
-      {
-        "kind": "international_instrument",
-        "id": "eu-ai-act",
-        "label": "EU AI Act"
-      }
-    ],
-    "contactUrl": "https://www.akos-rs.si/",
-    "summary": "Pending Commission-listed Slovenian AI Act Single Point of Contact.",
-    "caveat": "The Commission list marks this Single Point of Contact with an asterisk, meaning the national designation decision is still pending final adoption.",
-    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
-    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
-    "verificationNotes": "Official Commission list marks Slovenia's Agency for Communication Networks and Services with an asterisk, indicating pending final adoption of the national designation decision.",
-    "sourceKind": "official",
-    "verificationStatus": "likely_correct",
-    "confidence": "medium",
-    "lastVerified": "2026-06-12",
-    "reviewStatus": "editorial_checked"
-  },
-  {
-    "id": "es-aesia-ai-act-pending-msa",
-    "name": "Spanish Artificial Intelligence Surveillance Agency pending AI Act Single Point of Contact",
-    "institutionType": "ai_office",
-    "jurisdiction": "Spain",
-    "countryIso3": "ESP",
-    "mandate": "Commission-listed pending Single Point of Contact for AI Act market surveillance implementation.",
-    "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
-    "powers": [
-      "Listed as national AI Act market-surveillance contact",
-      "Participates in AI Act market-surveillance architecture"
-    ],
-    "domains": [
-      "frontier-gpai",
-      "public-sector",
-      "enforcement-litigation"
-    ],
-    "relatedRecords": [
-      {
-        "kind": "international_instrument",
-        "id": "eu-ai-act",
-        "label": "EU AI Act"
-      }
-    ],
-    "contactUrl": "https://aesia.digital.gob.es/",
-    "summary": "Pending Commission-listed Spanish AI Act Single Point of Contact.",
-    "caveat": "The Commission list marks this Single Point of Contact with an asterisk, meaning the national designation decision is still pending final adoption.",
-    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
-    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
-    "verificationNotes": "Official Commission list marks Spain's Agencia Espanola de Supervision de Inteligencia Artificial with an asterisk, indicating pending final adoption of the national designation decision.",
-    "sourceKind": "official",
-    "verificationStatus": "likely_correct",
-    "confidence": "medium",
     "lastVerified": "2026-06-12",
     "reviewStatus": "editorial_checked"
   }

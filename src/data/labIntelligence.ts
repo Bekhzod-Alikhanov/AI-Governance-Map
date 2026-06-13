@@ -17,6 +17,8 @@ const EDITORIAL_REVIEW: ExpertReviewMetadata = {
 
 const PROFILE_CAVEAT = "Research triage layer; not a full entity, product, or liability assessment.";
 const COMPANY_FRAMEWORK_CAVEAT = "Company or issuer-controlled evidence; not public law.";
+const COMPANY_MODEL_EVIDENCE_CAVEAT =
+  "Company or issuer-controlled model evidence; not safety certification, audit evidence, or public law.";
 const EVALUATION_CAVEAT = "Evaluation evidence, not certification or a legal finding.";
 const INSTITUTE_CAVEAT = "Institute-level context; not a lab-specific legal obligation.";
 const COMPUTE_CAVEAT = "Infrastructure context; not AI-specific law or capacity/procurement proof.";
@@ -26,6 +28,22 @@ const OFFICIAL_COMPANY = {
   verificationStatus: "verified",
   confidence: "high",
   lastVerified: "2026-06-07",
+  reviewStatus: "editorial_checked",
+} as const;
+
+const OFFICIAL_COMPANY_2026_06_13 = {
+  sourceKind: "official",
+  verificationStatus: "verified",
+  confidence: "high",
+  lastVerified: "2026-06-13",
+  reviewStatus: "editorial_checked",
+} as const;
+
+const ISSUER_CONTROLLED_CONTEXT_2026_06_13 = {
+  sourceKind: "official",
+  verificationStatus: "likely_correct",
+  confidence: "medium",
+  lastVerified: "2026-06-13",
   reviewStatus: "editorial_checked",
 } as const;
 
@@ -102,7 +120,7 @@ const DEFAULT_MARKETS_BY_LAB: Record<string, string[]> = {
   xai: ["EUU", "USA", "GBR"],
   mistral: ["EUU", "FRA", "GBR", "USA"],
   cohere: ["CAN", "USA", "EUU", "GBR"],
-  deepseek: ["CHN"],
+  deepseek: ["CHN", "KOR"],
   baidu: ["CHN"],
   alibaba: ["CHN", "EUU"],
   tencent: ["CHN"],
@@ -264,6 +282,118 @@ export const MODEL_GOVERNANCE_EVIDENCE: ModelGovernanceEvidence[] = [
     sourceUrl:
       "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024/frontier-ai-safety-commitments-ai-seoul-summit-2024",
     ...OFFICIAL_COMPANY,
+  },
+  {
+    id: "openai-model-catalog-evidence",
+    labIds: ["openai"],
+    evidenceKind: "model_card",
+    title: "OpenAI API model catalog",
+    modelOrSystem: "GPT-5.x and o-series model families",
+    domains: ["frontier-gpai"],
+    summary: "Official OpenAI model catalog used as current model-family evidence.",
+    caveat: COMPANY_MODEL_EVIDENCE_CAVEAT,
+    sourceName: "OpenAI API docs - models",
+    sourceUrl: "https://developers.openai.com/api/docs/models/all",
+    verificationNotes: "Issuer-controlled model catalog; not an external safety audit.",
+    ...OFFICIAL_COMPANY_2026_06_13,
+  },
+  {
+    id: "anthropic-model-overview-evidence",
+    labIds: ["anthropic"],
+    evidenceKind: "model_card",
+    title: "Anthropic Claude model overview",
+    modelOrSystem: "Claude model family",
+    domains: ["frontier-gpai"],
+    summary: "Official Anthropic docs used as Claude model-family evidence.",
+    caveat: COMPANY_MODEL_EVIDENCE_CAVEAT,
+    sourceName: "Anthropic docs - Claude models overview",
+    sourceUrl: "https://docs.anthropic.com/en/docs/about-claude/models/overview",
+    verificationNotes: "Official docs were reachable through the platform redirect; refresh monthly.",
+    ...ISSUER_CONTROLLED_CONTEXT_2026_06_13,
+  },
+  {
+    id: "deepmind-model-cards-evidence",
+    labIds: ["google-deepmind"],
+    evidenceKind: "model_card",
+    title: "Google DeepMind model-card index",
+    modelOrSystem: "Gemini and other DeepMind model families",
+    domains: ["frontier-gpai"],
+    summary: "Official DeepMind model-card page used as model documentation evidence.",
+    caveat: COMPANY_MODEL_EVIDENCE_CAVEAT,
+    sourceName: "Google DeepMind - model cards",
+    sourceUrl: "https://deepmind.google/models/model-cards/",
+    verificationNotes: "Issuer-controlled model-card index; not independent certification.",
+    ...OFFICIAL_COMPANY_2026_06_13,
+  },
+  {
+    id: "meta-llama-model-evidence",
+    labIds: ["meta"],
+    evidenceKind: "model_card",
+    title: "Meta Llama model family page",
+    modelOrSystem: "Llama model family",
+    domains: ["frontier-gpai"],
+    summary: "Official Meta Llama page used as model-family evidence.",
+    caveat: COMPANY_MODEL_EVIDENCE_CAVEAT,
+    sourceName: "Meta AI - Llama",
+    sourceUrl: "https://ai.meta.com/llama/",
+    verificationNotes: "Issuer-controlled model-family evidence; context only.",
+    ...ISSUER_CONTROLLED_CONTEXT_2026_06_13,
+  },
+  {
+    id: "xai-grok-model-docs-evidence",
+    labIds: ["xai"],
+    evidenceKind: "release_note",
+    title: "xAI Grok model documentation",
+    modelOrSystem: "Grok 4.3",
+    domains: ["frontier-gpai"],
+    summary: "Official xAI docs describe Grok 4.3 model-context information.",
+    caveat: COMPANY_MODEL_EVIDENCE_CAVEAT,
+    sourceName: "xAI docs - models",
+    sourceUrl: "https://docs.x.ai/developers/models",
+    verificationNotes: "Official xAI docs listed Grok 4.3 in the 2026-06-13 check.",
+    ...OFFICIAL_COMPANY_2026_06_13,
+  },
+  {
+    id: "mistral-model-portfolio-evidence",
+    labIds: ["mistral"],
+    evidenceKind: "release_note",
+    title: "Mistral model portfolio",
+    modelOrSystem: "Mistral Medium 3.5 and Mistral Large 3",
+    domains: ["frontier-gpai"],
+    summary: "Official Mistral page describes flagship and open-weight model families.",
+    caveat: COMPANY_MODEL_EVIDENCE_CAVEAT,
+    sourceName: "Mistral AI - models",
+    sourceUrl: "https://mistral.ai/models",
+    verificationNotes: "Official page checked for Medium 3.5, Large 3, and open-weight positioning.",
+    ...OFFICIAL_COMPANY_2026_06_13,
+  },
+  {
+    id: "alibaba-qwen-model-family-evidence",
+    labIds: ["alibaba"],
+    evidenceKind: "release_note",
+    title: "Alibaba Qwen model family",
+    modelOrSystem: "Qwen3 and Qwen multimodal family",
+    domains: ["frontier-gpai"],
+    summary: "Official Alibaba Cloud page describes Qwen3 and Qwen model coverage.",
+    caveat: COMPANY_MODEL_EVIDENCE_CAVEAT,
+    sourceName: "Alibaba Cloud - Qwen",
+    sourceUrl: "https://www.alibabacloud.com/en/solutions/generative-ai/qwen",
+    verificationNotes: "Official page checked for Qwen3, multilingual, and multimodal coverage.",
+    ...OFFICIAL_COMPANY_2026_06_13,
+  },
+  {
+    id: "baidu-ernie-5-1-release-evidence",
+    labIds: ["baidu"],
+    evidenceKind: "release_note",
+    title: "Baidu ERNIE 5.1 release",
+    modelOrSystem: "ERNIE 5.1",
+    domains: ["frontier-gpai"],
+    summary: "Official Baidu note describes ERNIE 5.1 release and benchmark positioning.",
+    caveat: COMPANY_MODEL_EVIDENCE_CAVEAT,
+    sourceName: "Baidu ERNIE - ERNIE 5.1 release",
+    sourceUrl: "https://ernie.baidu.com/blog/posts/ernie-5.1-0508-release/",
+    verificationNotes: "Official blog announced ERNIE 5.1 on 2026-05-09.",
+    ...OFFICIAL_COMPANY_2026_06_13,
   },
 ];
 
@@ -614,6 +744,25 @@ export const RECORD_CHANGE_LOG_ENTRIES = [
     date: "2026-06-07",
     summary: "Confirmed lab-intelligence rows do not drive binding-law coloring, summaries, or obligation counts.",
     reviewer: EDITORIAL_REVIEW,
+  },
+  {
+    id: "2026-06-13-frontier-lab-model-evidence-sprint",
+    recordId: "frontier-lab-intelligence",
+    recordKind: "dataset",
+    changeType: "added",
+    date: "2026-06-13",
+    summary:
+      "Added official model catalog/release evidence for OpenAI, Anthropic, DeepMind, Meta, xAI, Mistral, Alibaba/Qwen, and Baidu/ERNIE; Tencent deferred.",
+    reviewer: {
+      ...EDITORIAL_REVIEW,
+      reviewDate: "2026-06-13",
+      reviewScope:
+        "Frontier-lab intelligence sprint for official lab profiles, model-release evidence, and deployment-market context separation.",
+      unresolvedCaveats: [
+        "Company model pages are issuer-controlled context, not safety certification or legal status.",
+        "Tencent Hunyuan evidence was not expanded in this pass because the official page did not expose enough verifiable text in the automated/manual check.",
+      ] as string[],
+    },
   },
   {
     id: "2026-06-10-ftc-operation-ai-comply-corpus",

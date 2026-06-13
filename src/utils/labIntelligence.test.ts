@@ -28,6 +28,18 @@ describe("lab intelligence helpers", () => {
     expect(openAi?.computeDependencyRecords.length).toBeGreaterThan(0);
   });
 
+  it("adds official model-release evidence for priority frontier labs", () => {
+    const evidenceIds = new Set(MODEL_GOVERNANCE_EVIDENCE.map((row) => row.id));
+
+    expect(evidenceIds).toContain("xai-grok-model-docs-evidence");
+    expect(evidenceIds).toContain("mistral-model-portfolio-evidence");
+    expect(evidenceIds).toContain("alibaba-qwen-model-family-evidence");
+    expect(evidenceIds).toContain("baidu-ernie-5-1-release-evidence");
+    expect(MODEL_GOVERNANCE_EVIDENCE.find((row) => row.id === "xai-grok-model-docs-evidence")?.sourceKind).toBe(
+      "official"
+    );
+  });
+
   it("exports Lab Board rows as CSV", () => {
     const rows = buildLabBoardRows().filter((row) => row.labId === "openai");
     const csv = renderLabBoardCsv(rows);

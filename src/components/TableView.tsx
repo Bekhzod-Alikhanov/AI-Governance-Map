@@ -7,6 +7,7 @@ import {
   COUNTRY_READINESS_REPORTS,
   INDICATOR_SOURCE_BY_ID,
 } from "../data/aiAtlas";
+import { EU_AI_ACT_AUTHORITY_MATRIX } from "../data/euAiActAuthorities";
 import { FRONTIER_LABS } from "../data/frontierLabs";
 import { DATASET_RELEASES } from "../data/datasetReleases";
 import { GOVERNANCE_OBLIGATIONS, OBLIGATION_CATEGORY_LABELS } from "../data/governanceObligations";
@@ -57,6 +58,7 @@ type DatasetKey =
   | "obligations"
   | "implementation"
   | "corpus"
+  | "euAiActAuthorities"
   | "indicators"
   | "participation"
   | "sources"
@@ -94,6 +96,7 @@ const DATASETS: Array<{ key: DatasetKey; label: string }> = [
   { key: "obligations", label: "Obligations" },
   { key: "implementation", label: "Implementation" },
   { key: "corpus", label: "Corpus" },
+  { key: "euAiActAuthorities", label: "EU AI Act authorities" },
   { key: "indicators", label: "Indicators" },
   { key: "participation", label: "Participation" },
   { key: "sources", label: "Sources" },
@@ -188,6 +191,16 @@ const COLUMNS: Record<DatasetKey, TableColumn[]> = {
     { key: "domains", label: "Domains" },
     { key: "confidence", label: "Confidence" },
     { key: "lastVerified", label: "Last verified" },
+    { key: "source", label: "Source" },
+  ],
+  euAiActAuthorities: [
+    { key: "country", label: "Country" },
+    { key: "status", label: "Status" },
+    { key: "authority", label: "Authority" },
+    { key: "type", label: "Type" },
+    { key: "confidence", label: "Confidence" },
+    { key: "lastVerified", label: "Last verified" },
+    { key: "caveat", label: "Caveat" },
     { key: "source", label: "Source" },
   ],
   indicators: [
@@ -556,6 +569,29 @@ function buildRows(
     );
   }
 
+  if (dataset === "euAiActAuthorities") {
+    return EU_AI_ACT_AUTHORITY_MATRIX.filter((authority) => {
+      const country = COUNTRY_BY_ISO3[authority.countryIso3];
+      if (filters.selectedRegions.length && country && !filters.selectedRegions.includes(country.region)) return false;
+      return true;
+    }).map((authority) =>
+      row(
+        `eu-ai-act-authority:${authority.id}`,
+        {
+          country: authority.countryName,
+          status: authority.status.replace(/_/g, " "),
+          authority: authority.authorityEnglishName ?? authority.authorityName ?? "",
+          type: authority.institutionType?.replace(/_/g, " ") ?? "",
+          confidence: confidenceLabel(authority),
+          lastVerified: authority.lastVerified ?? "",
+          caveat: authority.caveat,
+          source: authority.sourceName,
+        },
+        authority.countryIso3 ? { label: "Country", onClick: () => onSelectCountry(authority.countryIso3) } : undefined
+      )
+    );
+  }
+
   if (dataset === "indicators") {
     const scoreRows = COUNTRY_INDICATOR_SCORES.filter((score) => {
       const country = COUNTRY_BY_ISO3[score.countryIso3];
@@ -675,6 +711,12 @@ function sourceRows(): TableRow[] {
     ...SAFETY_EVALUATION_RECORDS.map((item) => toSourceEntry("Safety evaluation", { ...item, name: item.evaluationBody })),
     ...INCIDENT_ENFORCEMENT_RECORDS.map((item) => toSourceEntry("Incident/enforcement", { ...item, name: item.title })),
     ...COMPUTE_DEPENDENCY_RECORDS.map((item) => toSourceEntry("Compute dependency", { ...item, name: item.dependencyType })),
+    ...EU_AI_ACT_AUTHORITY_MATRIX.map((item) =>
+      toSourceEntry("EU AI Act authority matrix", {
+        ...item,
+        name: `${item.countryName} AI Act authority status`,
+      })
+    ),
     ...RESEARCH_CORPUS_RECORDS.map((item) =>
       toSourceEntry(corpusKindLabel(item.kind), {
         id: item.id,

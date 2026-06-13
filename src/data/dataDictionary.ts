@@ -122,6 +122,23 @@ export const DATA_DICTIONARY = {
     "Legal records drive legal map modes. Atlas, corpus, process, standards, public-sector, safety, procurement, and infrastructure records drive only context modes unless a separate verified legal record establishes legal effect.",
   collections: [
     {
+      id: "euAiActAuthorityMatrix",
+      label: "EU AI Act authority matrix",
+      purpose:
+        "Track the European Commission's member-state market-surveillance authority / Single Point of Contact listing status for the EU AI Act.",
+      legalEffectCaveat:
+        "The matrix records Commission-list status. It does not fully describe domestic powers, sectoral authority splits, or final member-state implementation.",
+      fields: [
+        { name: "id", type: "string", required: true, definition: "Stable matrix row ID." },
+        { name: "countryIso3", type: "ISO3", required: true, definition: "EU member-state ISO3 code." },
+        { name: "status", type: "listed | pending_final_adoption | not_yet_published", required: true, definition: "Commission-list status as of last verification." },
+        { name: "authorityName", type: "string", required: false, definition: "Authority name where the Commission table lists one." },
+        { name: "authorityEnglishName", type: "string", required: false, definition: "English authority label from or aligned to the Commission list." },
+        { name: "institutionType", type: "InstitutionType", required: false, definition: "App taxonomy used when a listed/pending row is generated into an institution record." },
+        ...sourceMetadataFields,
+      ],
+    },
+    {
       id: "institutionRecords",
       label: "Institution records",
       purpose:

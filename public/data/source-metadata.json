@@ -5124,6 +5124,330 @@
     "verificationNotes": "Parsed from the official UNESCO Global Hub country table/profile cards."
   },
   {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "aut-ai-act-msa-not-yet-published",
+    "name": "aut-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "bel-ai-act-msa-not-yet-published",
+    "name": "bel-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "bgr-ai-act-msa-not-yet-published",
+    "name": "bgr-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "cy-commissioner-communications-ai-act-msa",
+    "name": "cy-commissioner-communications-ai-act-msa",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Official Commission list names Cyprus's Commissioner of Communications."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "cze-ai-act-msa-not-yet-published",
+    "name": "cze-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "deu-ai-act-msa-not-yet-published",
+    "name": "deu-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "dnk-ai-act-msa-not-yet-published",
+    "name": "dnk-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "es-aesia-ai-act-pending-msa",
+    "name": "es-aesia-ai-act-pending-msa",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission marks Spain's AI supervision agency as pending final adoption."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "est-ai-act-msa-not-yet-published",
+    "name": "est-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "fin-ai-act-msa-not-yet-published",
+    "name": "fin-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "fra-ai-act-msa-not-yet-published",
+    "name": "fra-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "grc-ai-act-msa-not-yet-published",
+    "name": "grc-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "hrv-ai-act-msa-not-yet-published",
+    "name": "hrv-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "hun-ai-act-msa-not-yet-published",
+    "name": "hun-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "ie-dete-ai-act-competent-authority",
+    "name": "ie-dete-ai-act-competent-authority",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Official Commission list names Ireland's Minister for Enterprise, Tourism and Employment."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "it-acn-ai-act-msa",
+    "name": "it-acn-ai-act-msa",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Official Commission list names Italy's National Cybersecurity Agency."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "lt-rrt-ai-act-msa",
+    "name": "lt-rrt-ai-act-msa",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Official Commission list names Lithuania's Communications Regulatory Authority."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "lu-cnpd-ai-act-pending-msa",
+    "name": "lu-cnpd-ai-act-pending-msa",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission marks Luxembourg's National Commission for Data Protection as pending final adoption."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "lv-crpc-ai-act-msa",
+    "name": "lv-crpc-ai-act-msa",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Official Commission list names Latvia's Consumer Rights Protection Centre."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "mlt-ai-act-msa-not-yet-published",
+    "name": "mlt-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "nld-ai-act-msa-not-yet-published",
+    "name": "nld-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "pol-ai-act-msa-not-yet-published",
+    "name": "pol-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "prt-ai-act-msa-not-yet-published",
+    "name": "prt-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "rou-ai-act-msa-not-yet-published",
+    "name": "rou-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "si-akos-ai-act-pending-msa",
+    "name": "si-akos-ai-act-pending-msa",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission marks Slovenia's Agency for Communication Networks and Services as pending final adoption."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "svk-ai-act-msa-not-yet-published",
+    "name": "svk-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
+    "collection": "euAiActAuthorityMatrix",
+    "id": "swe-ai-act-msa-not-yet-published",
+    "name": "swe-ai-act-msa-not-yet-published",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission page shows a dash for this member-state row in the 2026-06-13 check; this is list-status context, not a domestic legal conclusion."
+  },
+  {
     "collection": "frontierLabs",
     "id": "alibaba",
     "name": "Alibaba",
@@ -6181,6 +6505,18 @@
   },
   {
     "collection": "institutionRecords",
+    "id": "cy-commissioner-communications-ai-act-msa",
+    "name": "Commissioner of Communications as Cyprus AI Act market-surveillance contact",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Official Commission list names Cyprus's Commissioner of Communications."
+  },
+  {
+    "collection": "institutionRecords",
     "id": "es-aesia-ai-act-pending-msa",
     "name": "Spanish Artificial Intelligence Surveillance Agency pending AI Act Single Point of Contact",
     "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
@@ -6188,8 +6524,8 @@
     "sourceKind": "official",
     "verificationStatus": "likely_correct",
     "confidence": "medium",
-    "lastVerified": "2026-06-12",
-    "verificationNotes": "Official Commission list marks Spain's Agencia Espanola de Supervision de Inteligencia Artificial with an asterisk, indicating pending final adoption of the national designation decision."
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission marks Spain's AI supervision agency as pending final adoption."
   },
   {
     "collection": "institutionRecords",
@@ -6242,26 +6578,26 @@
   {
     "collection": "institutionRecords",
     "id": "ie-dete-ai-act-competent-authority",
-    "name": "Ireland Minister for Enterprise, Tourism and Employment AI Act contact",
+    "name": "Minister for Enterprise, Tourism and Employment as Ireland AI Act market-surveillance contact",
     "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
     "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-06-11",
+    "lastVerified": "2026-06-13",
     "verificationNotes": "Official Commission list names Ireland's Minister for Enterprise, Tourism and Employment."
   },
   {
     "collection": "institutionRecords",
     "id": "it-acn-ai-act-msa",
-    "name": "Agenzia per la cybersicurezza nazionale as Italy AI Act market-surveillance contact",
+    "name": "National Cybersecurity Agency as Italy AI Act market-surveillance contact",
     "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
     "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-06-11",
-    "verificationNotes": "Official Commission list names Italy's Agenzia per la cybersicurezza nazionale / National Cybersecurity Agency."
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Official Commission list names Italy's National Cybersecurity Agency."
   },
   {
     "collection": "institutionRecords",
@@ -6290,26 +6626,26 @@
   {
     "collection": "institutionRecords",
     "id": "lt-rrt-ai-act-msa",
-    "name": "Communications Regulatory Authority as Lithuania AI Act market-surveillance contact",
+    "name": "Communications Regulatory Authority of the Republic of Lithuania as Lithuania AI Act market-surveillance contact",
     "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
     "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-06-11",
+    "lastVerified": "2026-06-13",
     "verificationNotes": "Official Commission list names Lithuania's Communications Regulatory Authority."
   },
   {
     "collection": "institutionRecords",
     "id": "lu-cnpd-ai-act-pending-msa",
-    "name": "Luxembourg CNPD pending AI Act Single Point of Contact",
+    "name": "National Commission for Data Protection pending AI Act Single Point of Contact",
     "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
     "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
     "sourceKind": "official",
     "verificationStatus": "likely_correct",
     "confidence": "medium",
-    "lastVerified": "2026-06-12",
-    "verificationNotes": "Official Commission list marks Luxembourg's Commission nationale pour la protection des donnees with an asterisk, indicating pending final adoption of the national designation decision."
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission marks Luxembourg's National Commission for Data Protection as pending final adoption."
   },
   {
     "collection": "institutionRecords",
@@ -6320,8 +6656,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-06-11",
-    "verificationNotes": "Official Commission list names Latvia's Patērētāju tiesību aizsardzības centrs / Consumer Rights Protection Centre."
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Official Commission list names Latvia's Consumer Rights Protection Centre."
   },
   {
     "collection": "institutionRecords",
@@ -6350,14 +6686,14 @@
   {
     "collection": "institutionRecords",
     "id": "si-akos-ai-act-pending-msa",
-    "name": "Slovenia AKOS pending AI Act Single Point of Contact",
+    "name": "Agency for Communication Networks and Services of the Republic of Slovenia pending AI Act Single Point of Contact",
     "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
     "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
     "sourceKind": "official",
     "verificationStatus": "likely_correct",
     "confidence": "medium",
-    "lastVerified": "2026-06-12",
-    "verificationNotes": "Official Commission list marks Slovenia's Agency for Communication Networks and Services with an asterisk, indicating pending final adoption of the national designation decision."
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Commission marks Slovenia's Agency for Communication Networks and Services as pending final adoption."
   },
   {
     "collection": "institutionRecords",
@@ -25693,6 +26029,18 @@
   },
   {
     "collection": "modelGovernanceEvidence",
+    "id": "alibaba-qwen-model-family-evidence",
+    "name": "Alibaba Qwen model family",
+    "sourceName": "Alibaba Cloud - Qwen",
+    "sourceUrl": "https://www.alibabacloud.com/en/solutions/generative-ai/qwen",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Official page checked for Qwen3, multilingual, and multimodal coverage."
+  },
+  {
+    "collection": "modelGovernanceEvidence",
     "id": "amazon-nova-premier-critical-risk-evidence",
     "name": "Amazon Nova Premier critical-risk evaluation",
     "sourceName": "Amazon Science - Nova Premier critical-risk evaluation",
@@ -25705,6 +26053,18 @@
   },
   {
     "collection": "modelGovernanceEvidence",
+    "id": "anthropic-model-overview-evidence",
+    "name": "Anthropic Claude model overview",
+    "sourceName": "Anthropic docs - Claude models overview",
+    "sourceUrl": "https://docs.anthropic.com/en/docs/about-claude/models/overview",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Official docs were reachable through the platform redirect; refresh monthly."
+  },
+  {
+    "collection": "modelGovernanceEvidence",
     "id": "anthropic-responsible-scaling-policy-evidence",
     "name": "Anthropic Responsible Scaling Policy",
     "sourceName": "Anthropic - Responsible Scaling Policy",
@@ -25714,6 +26074,18 @@
     "confidence": "high",
     "lastVerified": "2026-06-07",
     "verificationNotes": ""
+  },
+  {
+    "collection": "modelGovernanceEvidence",
+    "id": "baidu-ernie-5-1-release-evidence",
+    "name": "Baidu ERNIE 5.1 release",
+    "sourceName": "Baidu ERNIE - ERNIE 5.1 release",
+    "sourceUrl": "https://ernie.baidu.com/blog/posts/ernie-5.1-0508-release/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Official blog announced ERNIE 5.1 on 2026-05-09."
   },
   {
     "collection": "modelGovernanceEvidence",
@@ -25741,6 +26113,18 @@
   },
   {
     "collection": "modelGovernanceEvidence",
+    "id": "deepmind-model-cards-evidence",
+    "name": "Google DeepMind model-card index",
+    "sourceName": "Google DeepMind - model cards",
+    "sourceUrl": "https://deepmind.google/models/model-cards/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Issuer-controlled model-card index; not independent certification."
+  },
+  {
+    "collection": "modelGovernanceEvidence",
     "id": "meta-advanced-ai-scaling-framework-evidence",
     "name": "Meta Advanced AI Scaling Framework",
     "sourceName": "Meta AI - Advanced AI Scaling Framework",
@@ -25753,6 +26137,18 @@
   },
   {
     "collection": "modelGovernanceEvidence",
+    "id": "meta-llama-model-evidence",
+    "name": "Meta Llama model family page",
+    "sourceName": "Meta AI - Llama",
+    "sourceUrl": "https://ai.meta.com/llama/",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Issuer-controlled model-family evidence; context only."
+  },
+  {
+    "collection": "modelGovernanceEvidence",
     "id": "microsoft-frontier-governance-framework-evidence",
     "name": "Microsoft Frontier Governance Framework",
     "sourceName": "Microsoft - Responsible AI transparency report",
@@ -25762,6 +26158,30 @@
     "confidence": "medium",
     "lastVerified": "2026-05-20",
     "verificationNotes": ""
+  },
+  {
+    "collection": "modelGovernanceEvidence",
+    "id": "mistral-model-portfolio-evidence",
+    "name": "Mistral model portfolio",
+    "sourceName": "Mistral AI - models",
+    "sourceUrl": "https://mistral.ai/models",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Official page checked for Medium 3.5, Large 3, and open-weight positioning."
+  },
+  {
+    "collection": "modelGovernanceEvidence",
+    "id": "openai-model-catalog-evidence",
+    "name": "OpenAI API model catalog",
+    "sourceName": "OpenAI API docs - models",
+    "sourceUrl": "https://developers.openai.com/api/docs/models/all",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Issuer-controlled model catalog; not an external safety audit."
   },
   {
     "collection": "modelGovernanceEvidence",
@@ -25786,6 +26206,18 @@
     "confidence": "high",
     "lastVerified": "2026-06-07",
     "verificationNotes": ""
+  },
+  {
+    "collection": "modelGovernanceEvidence",
+    "id": "xai-grok-model-docs-evidence",
+    "name": "xAI Grok model documentation",
+    "sourceName": "xAI docs - models",
+    "sourceUrl": "https://docs.x.ai/developers/models",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-13",
+    "verificationNotes": "Official xAI docs listed Grok 4.3 in the 2026-06-13 check."
   },
   {
     "collection": "nationalAIRegulations",

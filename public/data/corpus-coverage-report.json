@@ -1,7 +1,7 @@
 {
-  "totalRecords": 60,
+  "totalRecords": 61,
   "recordsByKind": {
-    "institution": 22,
+    "institution": 23,
     "policy_process": 10,
     "standards_conformity": 11,
     "public_sector_ai": 10,

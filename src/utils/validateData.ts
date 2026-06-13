@@ -4,6 +4,7 @@ import { INTERNATIONAL_INSTRUMENTS, INSTRUMENT_BY_ID } from "../data/internation
 import { NATIONAL_AI_REGULATIONS, NATIONAL_REG_BY_ID } from "../data/nationalAIRegulations";
 import { INTERNATIONAL_PARTICIPATION } from "../data/participation";
 import { EU_MEMBER_ISO3 } from "../data/euMembers";
+import { EU_AI_ACT_AUTHORITY_MATRIX } from "../data/euAiActAuthorities";
 import { FRONTIER_LABS, LAB_BY_ID } from "../data/frontierLabs";
 import { GOVERNANCE_DOMAINS, GOVERNANCE_DOMAIN_BY_ID } from "../data/governanceDomains";
 import { GOVERNANCE_OBLIGATIONS } from "../data/governanceObligations";
@@ -344,6 +345,41 @@ export function validateData(): ValidationReport {
     validateSource("Compute dependency record", dependency.id, dependency);
     validateDate(`Compute dependency record ${dependency.id} lastVerified`, dependency.lastVerified);
     if (!dependency.caveat) errors.push(`Compute dependency record ${dependency.id} missing caveat`);
+  }
+
+  // EU AI Act authority matrix
+  const euAiActAuthorityIds = new Set<string>();
+  const euAiActAuthorityCountries = new Set<string>();
+  for (const row of EU_AI_ACT_AUTHORITY_MATRIX) {
+    if (!row.id) errors.push("EU AI Act authority matrix row missing id");
+    if (euAiActAuthorityIds.has(row.id)) errors.push(`Duplicate EU AI Act authority matrix row id: ${row.id}`);
+    euAiActAuthorityIds.add(row.id);
+    if (euAiActAuthorityCountries.has(row.countryIso3)) {
+      errors.push(`Duplicate EU AI Act authority matrix country: ${row.countryIso3}`);
+    }
+    euAiActAuthorityCountries.add(row.countryIso3);
+    if (!EU_MEMBER_ISO3.includes(row.countryIso3)) {
+      errors.push(`EU AI Act authority matrix row ${row.id} references non-EU member ${row.countryIso3}`);
+    }
+    if (!COUNTRY_BY_ISO3[row.countryIso3]) {
+      errors.push(`EU AI Act authority matrix row ${row.id} references unknown country ${row.countryIso3}`);
+    }
+    if (row.status !== "not_yet_published" && (!row.authorityName || !row.authorityEnglishName)) {
+      errors.push(`EU AI Act authority matrix row ${row.id} has status ${row.status} but missing authority name`);
+    }
+    for (const domainId of row.domains) {
+      if (!GOVERNANCE_DOMAIN_BY_ID[domainId]) {
+        errors.push(`EU AI Act authority matrix row ${row.id} references unknown domain ${domainId}`);
+      }
+    }
+    validateSource("EU AI Act authority matrix", row.id, row);
+    validateDate(`EU AI Act authority matrix ${row.id} lastVerified`, row.lastVerified);
+    if (!row.caveat) errors.push(`EU AI Act authority matrix row ${row.id} missing caveat`);
+  }
+  if (EU_AI_ACT_AUTHORITY_MATRIX.length !== EU_MEMBER_ISO3.length) {
+    errors.push(
+      `EU AI Act authority matrix has ${EU_AI_ACT_AUTHORITY_MATRIX.length} rows but expected ${EU_MEMBER_ISO3.length} EU members`
+    );
   }
 
   // Research corpus

@@ -1,4 +1,4 @@
-export const DATASET_SCHEMA_VERSION = "2026.06.3";
+export const DATASET_SCHEMA_VERSION = "2026.06.4";
 export const DATASET_SCHEMA_ID = "https://global-ai-governance-map.vercel.app/dataset.schema.json";
 
 const DATA_KEYS = [
@@ -15,6 +15,7 @@ const DATA_KEYS = [
   "policyProcessRecords",
   "standardsConformityRecords",
   "publicSectorAIRecords",
+  "euAiActAuthorityMatrix",
   "internationalInstruments",
   "internationalParticipation",
   "nationalAIRegulations",
@@ -47,6 +48,7 @@ const COUNT_TO_DATA_KEY = {
   policyProcessRecords: "policyProcessRecords",
   standardsConformityRecords: "standardsConformityRecords",
   publicSectorAIRecords: "publicSectorAIRecords",
+  euAiActAuthorityMatrix: "euAiActAuthorityMatrix",
   internationalInstruments: "internationalInstruments",
   internationalParticipationRows: "internationalParticipation",
   nationalAIRegulations: "nationalAIRegulations",

@@ -2,6 +2,7 @@ import { COUNTRIES } from "../data/countries";
 import { AI_ATLAS_SOURCES, COUNTRY_INDICATOR_SCORES, COUNTRY_READINESS_REPORTS } from "../data/aiAtlas";
 import { DATASET_RELEASES } from "../data/datasetReleases";
 import { DEPENDENCY_EDGES } from "../data/dependencies";
+import { EU_AI_ACT_AUTHORITY_MATRIX } from "../data/euAiActAuthorities";
 import { EU_MEMBER_ISO3 } from "../data/euMembers";
 import { FRONTIER_LABS } from "../data/frontierLabs";
 import { GOVERNANCE_DOMAINS } from "../data/governanceDomains";
@@ -66,6 +67,7 @@ export function buildDatasetSnapshot() {
       policyProcessRecords: POLICY_PROCESS_RECORDS.length,
       standardsConformityRecords: STANDARDS_CONFORMITY_RECORDS.length,
       publicSectorAIRecords: PUBLIC_SECTOR_AI_RECORDS.length,
+      euAiActAuthorityMatrix: EU_AI_ACT_AUTHORITY_MATRIX.length,
       internationalInstruments: INTERNATIONAL_INSTRUMENTS.length,
       internationalParticipationRows: INTERNATIONAL_PARTICIPATION.length,
       nationalAIRegulations: NATIONAL_AI_REGULATIONS.length,
@@ -97,6 +99,7 @@ export function buildDatasetSnapshot() {
       policyProcessRecords: POLICY_PROCESS_RECORDS,
       standardsConformityRecords: STANDARDS_CONFORMITY_RECORDS,
       publicSectorAIRecords: PUBLIC_SECTOR_AI_RECORDS,
+      euAiActAuthorityMatrix: EU_AI_ACT_AUTHORITY_MATRIX,
       internationalInstruments: INTERNATIONAL_INSTRUMENTS,
       internationalParticipation: INTERNATIONAL_PARTICIPATION,
       nationalAIRegulations: NATIONAL_AI_REGULATIONS,
@@ -212,6 +215,9 @@ export function buildFilteredDatasetSnapshot(filters: FilterState) {
   const filteredPublicSectorAIRecords = PUBLIC_SECTOR_AI_RECORDS.filter((row) =>
     corpusRecordMatchesExportScope(row.countryIso3, row.domains, countryIso3s, filters)
   );
+  const filteredEuAiActAuthorityMatrix = EU_AI_ACT_AUTHORITY_MATRIX.filter((row) =>
+    countryIso3s.has(row.countryIso3)
+  );
   const filteredObligations = GOVERNANCE_OBLIGATIONS.filter((obligation) =>
     obligationMatchesExportScope(obligation, filters, countryIso3s, filteredLabIds)
   );
@@ -244,6 +250,7 @@ export function buildFilteredDatasetSnapshot(filters: FilterState) {
       policyProcessRecords: filteredPolicyProcessRecords.length,
       standardsConformityRecords: filteredStandardsConformityRecords.length,
       publicSectorAIRecords: filteredPublicSectorAIRecords.length,
+      euAiActAuthorityMatrix: filteredEuAiActAuthorityMatrix.length,
       internationalInstruments: filteredInstruments.length,
       internationalParticipationRows: filteredParticipation.length,
       nationalAIRegulations: filteredNational.length,
@@ -275,6 +282,7 @@ export function buildFilteredDatasetSnapshot(filters: FilterState) {
       policyProcessRecords: filteredPolicyProcessRecords,
       standardsConformityRecords: filteredStandardsConformityRecords,
       publicSectorAIRecords: filteredPublicSectorAIRecords,
+      euAiActAuthorityMatrix: filteredEuAiActAuthorityMatrix,
       internationalInstruments: filteredInstruments,
       internationalParticipation: filteredParticipation,
       nationalAIRegulations: filteredNational,

@@ -527,7 +527,8 @@
       "nist-caisi-deepseek-evaluation"
     ],
     "deploymentMarketIso3s": [
-      "CHN"
+      "CHN",
+      "KOR"
     ],
     "publicGovernanceContactUrl": "https://api-docs.deepseek.com/news/news250120",
     "summary": "DeepSeek profile linking safety, commitment, evaluation, and compute-context rows.",

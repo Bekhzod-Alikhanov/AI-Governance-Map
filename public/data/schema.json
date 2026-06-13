@@ -16,7 +16,7 @@
   ],
   "properties": {
     "schemaVersion": {
-      "const": "2026.06.3"
+      "const": "2026.06.4"
     },
     "snapshotDate": {
       "type": "string",
@@ -34,7 +34,7 @@
           "const": "https://global-ai-governance-map.vercel.app/dataset.schema.json"
         },
         "version": {
-          "const": "2026.06.3"
+          "const": "2026.06.4"
         },
         "format": {
           "const": "json-schema-draft-2020-12"
@@ -100,6 +100,10 @@
           "minimum": 0
         },
         "publicSectorAIRecords": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "euAiActAuthorityMatrix": {
           "type": "integer",
           "minimum": 0
         },
@@ -210,6 +214,9 @@
           "type": "array"
         },
         "publicSectorAIRecords": {
+          "type": "array"
+        },
+        "euAiActAuthorityMatrix": {
           "type": "array"
         },
         "internationalInstruments": {

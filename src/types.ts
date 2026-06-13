@@ -458,6 +458,25 @@ export interface InstitutionRecord extends VerificationMetadata {
   sourceUrl: string;
 }
 
+export type EUAIActAuthorityStatus = "listed" | "pending_final_adoption" | "not_yet_published";
+
+export interface EUAIActAuthorityMatrixRow extends VerificationMetadata {
+  id: string;
+  countryIso3: string;
+  countryName: string;
+  status: EUAIActAuthorityStatus;
+  authorityName?: string;
+  authorityEnglishName?: string;
+  institutionType?: InstitutionType;
+  jurisdiction: string;
+  contactUrl?: string;
+  domains: GovernanceDomainId[];
+  summary: string;
+  caveat: string;
+  sourceName: string;
+  sourceUrl: string;
+}
+
 export type PolicyProcessType =
   | "consultation"
   | "call_for_evidence"
