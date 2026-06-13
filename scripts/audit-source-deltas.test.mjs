@@ -82,6 +82,30 @@ describe("source delta audit", () => {
     expect(result.evidence.join(" ")).toContain("Treaty Office status counts match the app claim");
   });
 
+  it("lets current manual verification supersede stale automated-miss actions", async () => {
+    const result = await runSourceDeltaMonitor(
+      {
+        ...baseMonitor,
+        manualVerification: {
+          status: "unchanged",
+          reviewedAt: "2026-06-05",
+          validUntil: "2026-07-05",
+          recommendedAction: "No repo action needed until the manual verification expires.",
+          evidence: ["Manual check matched the current app claim."],
+        },
+      },
+      {
+        generatedAt: new Date("2026-06-05T12:00:00Z"),
+        knownRecordIds: new Set(["coe-ai-convention"]),
+        fetcher: okFetch("Official source shell without expected text"),
+      }
+    );
+
+    expect(result.status).toBe("unchanged");
+    expect(result.recommendedAction).toBe("No repo action needed until the manual verification expires.");
+    expect(result.recommendedAction).not.toContain("Manually review");
+  });
+
   it("expires manual verification records", async () => {
     const result = await runSourceDeltaMonitor(
       {

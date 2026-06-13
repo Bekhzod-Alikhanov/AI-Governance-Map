@@ -326,5 +326,47 @@
     "confidence": "high",
     "lastVerified": "2026-06-10",
     "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "eu-ai-board-meetings-2026",
+    "title": "European Artificial Intelligence Board meeting and coordination process",
+    "processType": "monitoring_process",
+    "jurisdiction": "European Union",
+    "countryIso3": "EUU",
+    "stage": "AI Board meeting cycle and endorsed-documents monitoring",
+    "status": "ongoing",
+    "conveningBody": "European Artificial Intelligence Board / European AI Office",
+    "relatedRecords": [
+      {
+        "kind": "institution",
+        "id": "eu-ai-board",
+        "label": "European Artificial Intelligence Board"
+      },
+      {
+        "kind": "institution",
+        "id": "eu-ai-office",
+        "label": "European AI Office"
+      },
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "domains": [
+      "frontier-gpai",
+      "public-sector",
+      "enforcement-litigation"
+    ],
+    "summary": "Ongoing EU AI Act coordination process for national competent authorities, Commission guidance, and AI Board endorsed documents.",
+    "caveat": "Board meetings and endorsed documents are implementation and coordination context; they are not standalone binding duties unless adopted through the AI Act or related legal acts.",
+    "sourceName": "European Commission - AI Board",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-board",
+    "verificationNotes": "Official Commission page describes the AI Board as an AI Act body composed of Member State representatives, coordinated by the AI Office secretariat, and lists current meetings and endorsed documents.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "reviewStatus": "editorial_checked"
   }
 ]

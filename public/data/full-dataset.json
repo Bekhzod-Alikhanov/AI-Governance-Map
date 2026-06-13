@@ -16,12 +16,12 @@
     "labIntelligenceProfiles": 13,
     "modelGovernanceEvidence": 8,
     "safetyEvaluationRecords": 4,
-    "incidentEnforcementRecords": 6,
+    "incidentEnforcementRecords": 7,
     "computeDependencyRecords": 4,
-    "institutionRecords": 14,
-    "policyProcessRecords": 9,
-    "standardsConformityRecords": 10,
-    "publicSectorAIRecords": 8,
+    "institutionRecords": 22,
+    "policyProcessRecords": 10,
+    "standardsConformityRecords": 11,
+    "publicSectorAIRecords": 10,
     "internationalInstruments": 37,
     "internationalParticipationRows": 1439,
     "nationalAIRegulations": 75,
@@ -37,7 +37,7 @@
     "outOfScopeItems": 7,
     "sourceNotes": 9,
     "datasetReleases": 2,
-    "recordChangeLogEntries": 47
+    "recordChangeLogEntries": 61
   },
   "data": {
     "countries": [
@@ -5083,6 +5083,34 @@
         "reviewStatus": "editorial_checked"
       },
       {
+        "id": "ftc-rytr-ai-review-generator-2024",
+        "eventType": "enforcement_action",
+        "title": "FTC Rytr AI review-generator proposed order",
+        "jurisdiction": "United States",
+        "countryIso3": "USA",
+        "labIds": [],
+        "date": "2024-09-25",
+        "status": "proposed order announced",
+        "proceduralStage": "FTC administrative complaint and proposed order",
+        "affectedActorClass": "AI writing assistant provider and review/testimonial generation service",
+        "outcomeOrRemedy": "Proposed order would bar offering a service dedicated or promoted for generating consumer reviews or testimonials.",
+        "officialDocketUrl": "https://www.ftc.gov/news-events/news/press-releases/2024/09/ftc-announces-crackdown-deceptive-ai-claims-schemes",
+        "domains": [
+          "synthetic-media",
+          "enforcement-litigation"
+        ],
+        "summary": "FTC Operation AI Comply matter alleging that Rytr's AI writing assistant enabled false and deceptive consumer reviews.",
+        "caveat": "Consumer-protection enforcement context; it is not a frontier-lab matter and does not create a new AI-specific statute.",
+        "sourceName": "FTC - Operation AI Comply / Rytr",
+        "sourceUrl": "https://www.ftc.gov/news-events/news/press-releases/2024/09/ftc-announces-crackdown-deceptive-ai-claims-schemes",
+        "verificationNotes": "Official FTC release identifies Rytr as an AI writing assistant matter, describes alleged fake-review generation, and summarizes the proposed order.",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-12",
+        "reviewStatus": "editorial_checked"
+      },
+      {
         "id": "ftc-rite-aid-facial-recognition-2024",
         "eventType": "enforcement_action",
         "title": "FTC Rite Aid facial-recognition order",
@@ -5850,6 +5878,312 @@
         "confidence": "high",
         "lastVerified": "2026-06-11",
         "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "eu-ai-board",
+        "name": "European Artificial Intelligence Board",
+        "institutionType": "other",
+        "jurisdiction": "European Union",
+        "countryIso3": "EUU",
+        "mandate": "AI Act advisory and coordination body for consistent EU implementation and cooperation among national competent authorities.",
+        "authorityScope": "EU-level governance and coordination body supported by the European AI Office; not a direct national enforcement authority.",
+        "powers": [
+          "Coordinate national competent authorities",
+          "Support consistent AI Act implementation",
+          "Advise on guidelines and implementing or delegated acts"
+        ],
+        "domains": [
+          "frontier-gpai",
+          "public-sector",
+          "enforcement-litigation"
+        ],
+        "relatedRecords": [
+          {
+            "kind": "international_instrument",
+            "id": "eu-ai-act",
+            "label": "EU AI Act"
+          },
+          {
+            "kind": "institution",
+            "id": "eu-ai-office",
+            "label": "European AI Office"
+          }
+        ],
+        "contactUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-board",
+        "summary": "EU AI Act coordination body linking member-state competent authorities, the AI Office, and implementation guidance work.",
+        "caveat": "Coordination and advisory context; this row is not a separate legal obligation or national regulator designation.",
+        "sourceName": "European Commission - AI Board",
+        "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-board",
+        "verificationNotes": "Official Commission page states that the AI Board was created by the AI Act, includes representatives from each Member State, is supported by the AI Office, and helps coordinate national competent authorities.",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-12",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "eu-ai-act-service-desk",
+        "name": "AI Act Service Desk and Single Information Platform",
+        "institutionType": "other",
+        "jurisdiction": "European Union",
+        "countryIso3": "EUU",
+        "mandate": "Commission information hub and interactive support layer for stakeholders navigating EU AI Act requirements.",
+        "authorityScope": "Information, compliance-navigation, and stakeholder-support function working with the EU AI Office; not an adjudicative regulator.",
+        "powers": [
+          "Provide AI Act Explorer and Compliance Checker tools",
+          "Receive stakeholder questions about AI Act application",
+          "Publish FAQs, resources, and implementation information"
+        ],
+        "domains": [
+          "frontier-gpai",
+          "public-sector",
+          "standards-conformity"
+        ],
+        "relatedRecords": [
+          {
+            "kind": "international_instrument",
+            "id": "eu-ai-act",
+            "label": "EU AI Act"
+          },
+          {
+            "kind": "institution",
+            "id": "eu-ai-office",
+            "label": "European AI Office"
+          }
+        ],
+        "contactUrl": "https://ai-act-service-desk.ec.europa.eu/en",
+        "summary": "EU AI Act implementation helpdesk and online platform for browsing the AI Act, checking compliance, and contacting expert support.",
+        "caveat": "Guidance and information hub; users should verify legal obligations against the official AI Act and adopted implementing materials.",
+        "sourceName": "AI Act Service Desk - Single Information Platform",
+        "sourceUrl": "https://ai-act-service-desk.ec.europa.eu/en",
+        "verificationNotes": "Official Service Desk page describes the Single Information Platform, AI Act Explorer, Compliance Checker, and expert-contact function working with the EU AI Office.",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-12",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "ca-caisi",
+        "name": "Canadian Artificial Intelligence Safety Institute",
+        "institutionType": "ai_safety_institute",
+        "jurisdiction": "Canada",
+        "countryIso3": "CAN",
+        "mandate": "Canadian government AI safety institute for research, guidance, international coordination, and advanced-AI risk understanding.",
+        "authorityScope": "Research and government-directed AI safety projects led by ISED with NRC, CIFAR, and research partners; not a private-sector licensing regulator.",
+        "powers": [
+          "Conduct applied and government-directed AI safety research",
+          "Collaborate with the International Network of AI Safety Institutes",
+          "Provide guidance on advanced-AI risks"
+        ],
+        "domains": [
+          "frontier-gpai",
+          "cybersecurity-critical-infrastructure",
+          "synthetic-media"
+        ],
+        "relatedRecords": [
+          {
+            "kind": "institution",
+            "id": "canada-treasury-board-secretariat",
+            "label": "Treasury Board of Canada Secretariat"
+          },
+          {
+            "kind": "national_rule",
+            "id": "ca-voluntary-code-genai",
+            "label": "Canada voluntary code for generative AI"
+          }
+        ],
+        "contactUrl": "https://ised-isde.canada.ca/site/ised/en/canadian-artificial-intelligence-safety-institute",
+        "summary": "Canadian AI safety institute focused on advanced-AI risk science, synthetic-content risk, joint testing, and international coordination.",
+        "caveat": "AI safety research and coordination context; not a binding approval gate for frontier labs.",
+        "sourceName": "ISED - Canadian Artificial Intelligence Safety Institute",
+        "sourceUrl": "https://ised-isde.canada.ca/site/ised/en/canadian-artificial-intelligence-safety-institute",
+        "verificationNotes": "Official ISED page states CAISI is led by ISED, works with NRC/CIFAR, studies advanced-AI risks, and participates as a founding member of the International Network of AI Safety Institutes.",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-12",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "jp-ai-safety-institute",
+        "name": "Japan AI Safety Institute",
+        "institutionType": "ai_safety_institute",
+        "jurisdiction": "Japan",
+        "countryIso3": "JPN",
+        "mandate": "Japanese AI safety institute for evaluating and promoting methods and standards for safe, secure, trustworthy AI.",
+        "authorityScope": "Government-supported evaluation-method, guidance, and international-cooperation context; not represented as a mandatory licensing authority.",
+        "powers": [
+          "Study AI safety evaluation methods and standards",
+          "Support government AI safety guidelines",
+          "Coordinate with foreign AI safety organizations"
+        ],
+        "domains": [
+          "frontier-gpai",
+          "standards-conformity",
+          "cybersecurity-critical-infrastructure"
+        ],
+        "relatedRecords": [
+          {
+            "kind": "national_rule",
+            "id": "jp-ai-guidelines-business",
+            "label": "Japan AI Guidelines for Business"
+          }
+        ],
+        "contactUrl": "https://aisi.go.jp/",
+        "summary": "Japanese technical AI safety institute centered on evaluation methods, standards, guidance support, and international cooperation.",
+        "caveat": "Technical safety and guidance-support context; it should not be read as a binding certification regime.",
+        "sourceName": "Japan AI Safety Institute",
+        "sourceUrl": "https://aisi.go.jp/",
+        "verificationNotes": "Official AISI site states it is an institution for considering and promoting AI safety evaluation methods and standards, supporting government and private-sector safety work, and international cooperation.",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-12",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "sg-ai-safety-institute",
+        "name": "Singapore AI Safety Institute",
+        "institutionType": "ai_safety_institute",
+        "jurisdiction": "Singapore",
+        "countryIso3": "SGP",
+        "mandate": "Singapore AI safety institute focused on policy making, engineering tools, testing, and research for AI safety and governance.",
+        "authorityScope": "Technical and policy research context; not represented as a binding regulator or certification authority.",
+        "powers": [
+          "Support AI safety policy making",
+          "Develop engineering and testing tools",
+          "Participate in international joint testing exercises"
+        ],
+        "domains": [
+          "frontier-gpai",
+          "standards-conformity",
+          "cybersecurity-critical-infrastructure"
+        ],
+        "relatedRecords": [
+          {
+            "kind": "institution",
+            "id": "sg-ai-verify-foundation",
+            "label": "AI Verify Foundation"
+          }
+        ],
+        "contactUrl": "https://sgaisi.sg/",
+        "summary": "Singapore AI safety institute for frontier-AI testing, evaluation methods, policy research, and governance tooling.",
+        "caveat": "Safety research and testing context; it should not imply binding legal duties for all AI systems.",
+        "sourceName": "Singapore AI Safety Institute",
+        "sourceUrl": "https://sgaisi.sg/",
+        "verificationNotes": "Official Singapore AISI site identifies policy making, engineering tools, testing, and research as priority areas and links to joint testing resources.",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-12",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "lu-cnpd-ai-act-pending-msa",
+        "name": "Luxembourg CNPD pending AI Act Single Point of Contact",
+        "institutionType": "data_protection_authority",
+        "jurisdiction": "Luxembourg",
+        "countryIso3": "LUX",
+        "mandate": "Commission-listed pending Single Point of Contact for AI Act market surveillance implementation.",
+        "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
+        "powers": [
+          "Listed as national AI Act market-surveillance contact",
+          "Participates in AI Act market-surveillance architecture"
+        ],
+        "domains": [
+          "public-sector",
+          "enforcement-litigation"
+        ],
+        "relatedRecords": [
+          {
+            "kind": "international_instrument",
+            "id": "eu-ai-act",
+            "label": "EU AI Act"
+          }
+        ],
+        "contactUrl": "https://cnpd.public.lu/",
+        "summary": "Pending Commission-listed Luxembourg AI Act Single Point of Contact.",
+        "caveat": "The Commission list marks this Single Point of Contact with an asterisk, meaning the national designation decision is still pending final adoption.",
+        "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+        "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+        "verificationNotes": "Official Commission list marks Luxembourg's Commission nationale pour la protection des donnees with an asterisk, indicating pending final adoption of the national designation decision.",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-06-12",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "si-akos-ai-act-pending-msa",
+        "name": "Slovenia AKOS pending AI Act Single Point of Contact",
+        "institutionType": "other",
+        "jurisdiction": "Slovenia",
+        "countryIso3": "SVN",
+        "mandate": "Commission-listed pending Single Point of Contact for AI Act market surveillance implementation.",
+        "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
+        "powers": [
+          "Listed as national AI Act market-surveillance contact",
+          "Participates in AI Act market-surveillance architecture"
+        ],
+        "domains": [
+          "public-sector",
+          "enforcement-litigation"
+        ],
+        "relatedRecords": [
+          {
+            "kind": "international_instrument",
+            "id": "eu-ai-act",
+            "label": "EU AI Act"
+          }
+        ],
+        "contactUrl": "https://www.akos-rs.si/",
+        "summary": "Pending Commission-listed Slovenian AI Act Single Point of Contact.",
+        "caveat": "The Commission list marks this Single Point of Contact with an asterisk, meaning the national designation decision is still pending final adoption.",
+        "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+        "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+        "verificationNotes": "Official Commission list marks Slovenia's Agency for Communication Networks and Services with an asterisk, indicating pending final adoption of the national designation decision.",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-06-12",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "es-aesia-ai-act-pending-msa",
+        "name": "Spanish Artificial Intelligence Surveillance Agency pending AI Act Single Point of Contact",
+        "institutionType": "ai_office",
+        "jurisdiction": "Spain",
+        "countryIso3": "ESP",
+        "mandate": "Commission-listed pending Single Point of Contact for AI Act market surveillance implementation.",
+        "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
+        "powers": [
+          "Listed as national AI Act market-surveillance contact",
+          "Participates in AI Act market-surveillance architecture"
+        ],
+        "domains": [
+          "frontier-gpai",
+          "public-sector",
+          "enforcement-litigation"
+        ],
+        "relatedRecords": [
+          {
+            "kind": "international_instrument",
+            "id": "eu-ai-act",
+            "label": "EU AI Act"
+          }
+        ],
+        "contactUrl": "https://aesia.digital.gob.es/",
+        "summary": "Pending Commission-listed Spanish AI Act Single Point of Contact.",
+        "caveat": "The Commission list marks this Single Point of Contact with an asterisk, meaning the national designation decision is still pending final adoption.",
+        "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+        "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+        "verificationNotes": "Official Commission list marks Spain's Agencia Espanola de Supervision de Inteligencia Artificial with an asterisk, indicating pending final adoption of the national designation decision.",
+        "sourceKind": "official",
+        "verificationStatus": "likely_correct",
+        "confidence": "medium",
+        "lastVerified": "2026-06-12",
+        "reviewStatus": "editorial_checked"
       }
     ],
     "policyProcessRecords": [
@@ -6180,6 +6514,48 @@
         "confidence": "high",
         "lastVerified": "2026-06-10",
         "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "eu-ai-board-meetings-2026",
+        "title": "European Artificial Intelligence Board meeting and coordination process",
+        "processType": "monitoring_process",
+        "jurisdiction": "European Union",
+        "countryIso3": "EUU",
+        "stage": "AI Board meeting cycle and endorsed-documents monitoring",
+        "status": "ongoing",
+        "conveningBody": "European Artificial Intelligence Board / European AI Office",
+        "relatedRecords": [
+          {
+            "kind": "institution",
+            "id": "eu-ai-board",
+            "label": "European Artificial Intelligence Board"
+          },
+          {
+            "kind": "institution",
+            "id": "eu-ai-office",
+            "label": "European AI Office"
+          },
+          {
+            "kind": "international_instrument",
+            "id": "eu-ai-act",
+            "label": "EU AI Act"
+          }
+        ],
+        "domains": [
+          "frontier-gpai",
+          "public-sector",
+          "enforcement-litigation"
+        ],
+        "summary": "Ongoing EU AI Act coordination process for national competent authorities, Commission guidance, and AI Board endorsed documents.",
+        "caveat": "Board meetings and endorsed documents are implementation and coordination context; they are not standalone binding duties unless adopted through the AI Act or related legal acts.",
+        "sourceName": "European Commission - AI Board",
+        "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-board",
+        "verificationNotes": "Official Commission page describes the AI Board as an AI Act body composed of Member State representatives, coordinated by the AI Office secretariat, and lists current meetings and endorsed documents.",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-12",
+        "reviewStatus": "editorial_checked"
       }
     ],
     "standardsConformityRecords": [
@@ -6421,6 +6797,47 @@
         "reviewStatus": "editorial_checked"
       },
       {
+        "id": "eu-ai-act-article-43-conformity-assessment",
+        "title": "EU AI Act Article 43 conformity-assessment routes",
+        "standardsBody": "European Commission / AI Act Service Desk",
+        "jurisdiction": "European Union",
+        "countryIso3": "EUU",
+        "status": "conformity_context",
+        "legalRole": "context",
+        "relatedRecords": [
+          {
+            "kind": "international_instrument",
+            "id": "eu-ai-act",
+            "label": "EU AI Act"
+          },
+          {
+            "kind": "standards_conformity",
+            "id": "eu-ai-act-notified-bodies-infrastructure",
+            "label": "AI Act notified bodies"
+          },
+          {
+            "kind": "standards_conformity",
+            "id": "cen-cenelec-ai-act-harmonized-standards",
+            "label": "AI Act harmonized standards work"
+          }
+        ],
+        "domains": [
+          "standards-conformity",
+          "biometric-identification",
+          "public-sector"
+        ],
+        "summary": "AI Act conformity-assessment context for high-risk AI systems, including internal-control and third-party notified-body routes depending on system category and harmonized-standard use.",
+        "caveat": "This is an explanatory conformity-assessment context row. The official AI Act text and any implementing or national designation acts control legal effect.",
+        "sourceName": "AI Act Service Desk - Article 43",
+        "sourceUrl": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-43",
+        "verificationNotes": "Official AI Act Service Desk page reproduces Article 43 and explains conformity-assessment procedure routes, while warning that its explanatory summary is not legally binding.",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-12",
+        "reviewStatus": "editorial_checked"
+      },
+      {
         "id": "nist-ai-rmf-playbook",
         "title": "NIST AI RMF Playbook",
         "standardsBody": "NIST",
@@ -6650,6 +7067,59 @@
         "verificationStatus": "verified",
         "confidence": "high",
         "lastVerified": "2026-06-11",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "uk-ai-procurement-guidelines",
+        "title": "UK guidelines for AI procurement",
+        "recordType": "procurement_guidance",
+        "jurisdiction": "United Kingdom",
+        "countryIso3": "GBR",
+        "legalEffect": "procurement_context",
+        "coveredPublicBodies": "UK public-sector buyers evaluating and procuring AI technologies.",
+        "relatedRecords": [
+          {
+            "kind": "institution",
+            "id": "uk-ai-security-institute",
+            "label": "UK AI Security Institute"
+          }
+        ],
+        "domains": [
+          "public-sector",
+          "public-procurement"
+        ],
+        "summary": "Official UK guidance for public-sector buyers procuring AI technologies responsibly and evaluating AI suppliers.",
+        "caveat": "Procurement guidance and public-sector acquisition context; it is not a general private-sector AI law.",
+        "sourceName": "GOV.UK - Guidelines for AI procurement",
+        "sourceUrl": "https://www.gov.uk/government/publications/guidelines-for-ai-procurement",
+        "verificationNotes": "Official GOV.UK page identifies the guidance for public-sector buyers, states it helps evaluate suppliers, and describes responsible AI procurement practice.",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-12",
+        "reviewStatus": "editorial_checked"
+      },
+      {
+        "id": "nz-algorithm-charter",
+        "title": "Algorithm Charter for Aotearoa New Zealand",
+        "recordType": "algorithmic_impact_assessment",
+        "jurisdiction": "New Zealand",
+        "countryIso3": "NZL",
+        "legalEffect": "guidance",
+        "coveredPublicBodies": "New Zealand public-sector agencies that sign or implement the Algorithm Charter.",
+        "relatedRecords": [],
+        "domains": [
+          "public-sector"
+        ],
+        "summary": "Public-sector algorithm transparency and accountability charter covering higher-risk algorithms and commitments on transparency, partnership, human oversight, privacy, ethics, and human rights.",
+        "caveat": "The charter covers public-sector algorithmic decision-making more broadly than AI and should not be read as a private-sector AI law.",
+        "sourceName": "data.govt.nz - Algorithm Charter",
+        "sourceUrl": "https://www.data.govt.nz/toolkit/data-ethics/government-algorithm-transparency-and-accountability/algorithm-charter",
+        "verificationNotes": "Official New Zealand government page describes the Algorithm Charter purpose, signatories, higher-risk algorithm focus, and public-sector commitments.",
+        "sourceKind": "official",
+        "verificationStatus": "verified",
+        "confidence": "high",
+        "lastVerified": "2026-06-12",
         "reviewStatus": "editorial_checked"
       },
       {
@@ -46885,6 +47355,22 @@
         }
       },
       {
+        "id": "2026-06-12-ftc-rytr-enforcement-corpus",
+        "recordId": "ftc-rytr-ai-review-generator-2024",
+        "recordKind": "incident_enforcement",
+        "changeType": "added",
+        "date": "2026-06-12",
+        "summary": "Added official FTC Rytr AI-review-generator enforcement context row from Operation AI Comply.",
+        "reviewer": {
+          "reviewerRole": "dataset editor",
+          "reviewDate": "2026-06-12",
+          "reviewScope": "Official Corpus Data Expansion Sprint 2 enforcement check; official regulator sources only.",
+          "unresolvedCaveats": [
+            "Refresh markets, evaluation partnerships, and model families monthly."
+          ]
+        }
+      },
+      {
         "id": "2026-06-10-research-corpus-v1",
         "recordId": "research-corpus-v1",
         "recordKind": "dataset",
@@ -46912,6 +47398,23 @@
           "reviewerRole": "editorial source verification",
           "reviewDate": "2026-06-11",
           "reviewScope": "Official Corpus Data Expansion Sprint DOCX triage, direct official-source checks, duplicate removal, and conservative corpus import.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-12-official-corpus-data-expansion-sprint-2",
+        "recordId": "official-corpus-data-expansion-sprint-2",
+        "recordKind": "dataset",
+        "changeType": "added",
+        "date": "2026-06-12",
+        "summary": "Added official-source AI Board, AI Act Service Desk, safety institute, pending AI Act contact, procurement, algorithm-governance, and conformity-assessment context records.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-12",
+          "reviewScope": "Official Corpus Data Expansion Sprint 2: national AI authority, safety institute, public-sector AI, procurement, and conformity context source checks.",
           "unresolvedCaveats": [
             "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
             "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
@@ -47157,6 +47660,142 @@
         }
       },
       {
+        "id": "2026-06-12-institution-eu-ai-board",
+        "recordId": "eu-ai-board",
+        "recordKind": "institution",
+        "changeType": "added",
+        "date": "2026-06-12",
+        "summary": "Added institution corpus record for European Artificial Intelligence Board.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-12-institution-eu-ai-act-service-desk",
+        "recordId": "eu-ai-act-service-desk",
+        "recordKind": "institution",
+        "changeType": "added",
+        "date": "2026-06-12",
+        "summary": "Added institution corpus record for AI Act Service Desk and Single Information Platform.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-12-institution-ca-caisi",
+        "recordId": "ca-caisi",
+        "recordKind": "institution",
+        "changeType": "added",
+        "date": "2026-06-12",
+        "summary": "Added institution corpus record for Canadian Artificial Intelligence Safety Institute.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-12-institution-jp-ai-safety-institute",
+        "recordId": "jp-ai-safety-institute",
+        "recordKind": "institution",
+        "changeType": "added",
+        "date": "2026-06-12",
+        "summary": "Added institution corpus record for Japan AI Safety Institute.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-12-institution-sg-ai-safety-institute",
+        "recordId": "sg-ai-safety-institute",
+        "recordKind": "institution",
+        "changeType": "added",
+        "date": "2026-06-12",
+        "summary": "Added institution corpus record for Singapore AI Safety Institute.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-12-institution-lu-cnpd-ai-act-pending-msa",
+        "recordId": "lu-cnpd-ai-act-pending-msa",
+        "recordKind": "institution",
+        "changeType": "added",
+        "date": "2026-06-12",
+        "summary": "Added institution corpus record for Luxembourg CNPD pending AI Act Single Point of Contact.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-12-institution-si-akos-ai-act-pending-msa",
+        "recordId": "si-akos-ai-act-pending-msa",
+        "recordKind": "institution",
+        "changeType": "added",
+        "date": "2026-06-12",
+        "summary": "Added institution corpus record for Slovenia AKOS pending AI Act Single Point of Contact.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-12-institution-es-aesia-ai-act-pending-msa",
+        "recordId": "es-aesia-ai-act-pending-msa",
+        "recordKind": "institution",
+        "changeType": "added",
+        "date": "2026-06-12",
+        "summary": "Added institution corpus record for Spanish Artificial Intelligence Surveillance Agency pending AI Act Single Point of Contact.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
         "id": "2026-06-11-policy-process-eu-high-risk-ai-guidelines-consultation-2026",
         "recordId": "eu-high-risk-ai-guidelines-consultation-2026",
         "recordKind": "policy_process",
@@ -47310,6 +47949,23 @@
         }
       },
       {
+        "id": "2026-06-12-policy-process-eu-ai-board-meetings-2026",
+        "recordId": "eu-ai-board-meetings-2026",
+        "recordKind": "policy_process",
+        "changeType": "added",
+        "date": "2026-06-12",
+        "summary": "Added policy-process corpus record for European Artificial Intelligence Board meeting and coordination process.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
         "id": "2026-06-10-standard-cen-cenelec-ai-act-harmonized-standards",
         "recordId": "cen-cenelec-ai-act-harmonized-standards",
         "recordKind": "standards_conformity",
@@ -47418,6 +48074,23 @@
         "changeType": "added",
         "date": "2026-06-11",
         "summary": "Added standards/conformity corpus record for EU AI Act notified-body list infrastructure.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-12-standard-eu-ai-act-article-43-conformity-assessment",
+        "recordId": "eu-ai-act-article-43-conformity-assessment",
+        "recordKind": "standards_conformity",
+        "changeType": "added",
+        "date": "2026-06-12",
+        "summary": "Added standards/conformity corpus record for EU AI Act Article 43 conformity-assessment routes.",
         "reviewer": {
           "reviewerRole": "editorial source verification",
           "reviewDate": "2026-06-10",
@@ -47554,6 +48227,40 @@
         "changeType": "added",
         "date": "2026-06-11",
         "summary": "Added public-sector AI corpus record for UK Algorithmic Transparency Recording Standard hub.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-12-public-sector-ai-uk-ai-procurement-guidelines",
+        "recordId": "uk-ai-procurement-guidelines",
+        "recordKind": "public_sector_ai",
+        "changeType": "added",
+        "date": "2026-06-12",
+        "summary": "Added public-sector AI corpus record for UK guidelines for AI procurement.",
+        "reviewer": {
+          "reviewerRole": "editorial source verification",
+          "reviewDate": "2026-06-10",
+          "reviewScope": "Official-first starter corpus records for institutions, policy processes, standards/conformity, public-sector AI, and corpus exports.",
+          "unresolvedCaveats": [
+            "Council of Europe Treaty Office pages can block automated checks and require periodic manual verification.",
+            "Corpus coverage is a curated starter set, not evidence that omitted countries lack relevant institutions or processes."
+          ]
+        }
+      },
+      {
+        "id": "2026-06-12-public-sector-ai-nz-algorithm-charter",
+        "recordId": "nz-algorithm-charter",
+        "recordKind": "public_sector_ai",
+        "changeType": "added",
+        "date": "2026-06-12",
+        "summary": "Added public-sector AI corpus record for Algorithm Charter for Aotearoa New Zealand.",
         "reviewer": {
           "reviewerRole": "editorial source verification",
           "reviewDate": "2026-06-10",

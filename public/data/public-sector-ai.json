@@ -134,6 +134,59 @@
     "reviewStatus": "editorial_checked"
   },
   {
+    "id": "uk-ai-procurement-guidelines",
+    "title": "UK guidelines for AI procurement",
+    "recordType": "procurement_guidance",
+    "jurisdiction": "United Kingdom",
+    "countryIso3": "GBR",
+    "legalEffect": "procurement_context",
+    "coveredPublicBodies": "UK public-sector buyers evaluating and procuring AI technologies.",
+    "relatedRecords": [
+      {
+        "kind": "institution",
+        "id": "uk-ai-security-institute",
+        "label": "UK AI Security Institute"
+      }
+    ],
+    "domains": [
+      "public-sector",
+      "public-procurement"
+    ],
+    "summary": "Official UK guidance for public-sector buyers procuring AI technologies responsibly and evaluating AI suppliers.",
+    "caveat": "Procurement guidance and public-sector acquisition context; it is not a general private-sector AI law.",
+    "sourceName": "GOV.UK - Guidelines for AI procurement",
+    "sourceUrl": "https://www.gov.uk/government/publications/guidelines-for-ai-procurement",
+    "verificationNotes": "Official GOV.UK page identifies the guidance for public-sector buyers, states it helps evaluate suppliers, and describes responsible AI procurement practice.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "nz-algorithm-charter",
+    "title": "Algorithm Charter for Aotearoa New Zealand",
+    "recordType": "algorithmic_impact_assessment",
+    "jurisdiction": "New Zealand",
+    "countryIso3": "NZL",
+    "legalEffect": "guidance",
+    "coveredPublicBodies": "New Zealand public-sector agencies that sign or implement the Algorithm Charter.",
+    "relatedRecords": [],
+    "domains": [
+      "public-sector"
+    ],
+    "summary": "Public-sector algorithm transparency and accountability charter covering higher-risk algorithms and commitments on transparency, partnership, human oversight, privacy, ethics, and human rights.",
+    "caveat": "The charter covers public-sector algorithmic decision-making more broadly than AI and should not be read as a private-sector AI law.",
+    "sourceName": "data.govt.nz - Algorithm Charter",
+    "sourceUrl": "https://www.data.govt.nz/toolkit/data-ethics/government-algorithm-transparency-and-accountability/algorithm-charter",
+    "verificationNotes": "Official New Zealand government page describes the Algorithm Charter purpose, signatories, higher-risk algorithm focus, and public-sector commitments.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "reviewStatus": "editorial_checked"
+  },
+  {
     "id": "us-omb-m25-21-public-ai-inventories",
     "title": "U.S. OMB M-25-21 federal AI use-case inventory requirements",
     "recordType": "ai_use_case_inventory",

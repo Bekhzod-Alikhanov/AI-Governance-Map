@@ -314,7 +314,6 @@ function finalizeManualVerificationResult({
   monitor,
   manualVerification,
   evidence,
-  recommendedActions,
   missingRecordIds,
   checkLinks,
   snapshotDate,
@@ -326,7 +325,7 @@ function finalizeManualVerificationResult({
   const action =
     manualVerification.recommendedAction ??
     "No repo action needed until the manual verification expires or a human reviewer sees a newer official status.";
-  recommendedActions.add(action);
+  const recommendedActions = new Set([action]);
   return finalizeResult({
     monitor,
     status: "unchanged",

@@ -6,11 +6,11 @@ This ledger tracks the research-corpus expansion so new work does not duplicate 
 
 | Category | Status | Notes |
 | --- | --- | --- |
-| AI offices and safety institutes | partial | Starter rows added for the EU AI Office, NIST CAISI, UK AISI, CEN-CENELEC JTC 21, FTC, Canada TBS, and the CoE Treaty Office. More official national authorities can be added over time. |
-| Policy processes and open windows | partial | Starter rows added for EU high-risk guideline feedback, EU GPAI implementation tools, CEN-CENELEC AI Act standards work, and UK AISI monitoring. |
-| Standards and conformity infrastructure | partial | Starter rows added for CEN-CENELEC AI Act work, ISO/IEC 42001, NIST AI RMF context, and NIST GenAI Profile context. |
-| Public-sector AI registries and procurement | partial | Starter rows added for U.S. federal AI use-case inventories and Canada AIA. Public procurement and additional registries remain editorial expansion. |
-| Enforcement and litigation depth | partial | Existing FTC Operation AI Comply row now includes procedural metadata. More official regulator/court records remain editorial expansion. |
+| AI offices and safety institutes | partial | Starter rows now include the EU AI Office, European AI Board, AI Act Service Desk, NIST CAISI, UK AISI, Canada CAISI, Japan AISI, Singapore AISI, CEN-CENELEC JTC 21, FTC, Canada TBS, CoE Treaty Office, and selected pending EU AI Act single points of contact. More official national authorities and regulator-power matrices remain editorial expansion. |
+| Policy processes and open windows | partial | Starter rows now include EU high-risk guideline feedback, Article 50 transparency feedback, Irish/UK/EU parliamentary processes, EU GPAI implementation tools, AI Board coordination monitoring, CEN-CENELEC AI Act standards work, and UK AISI monitoring. More open consultations, hearings, draft guidance, and treaty-update windows remain editorial expansion. |
+| Standards and conformity infrastructure | partial | Starter rows now include CEN-CENELEC AI Act work, ISO/IEC 42001, ISO/IEC 23894, ISO/IEC 42005, NIST AI RMF context, NIST GenAI Profile context, NIST AI RMF Playbook, AI Act notified-body infrastructure, and AI Act Article 43 conformity-assessment routes. More conformity-assessment and certification/assurance infrastructure remains editorial expansion. |
+| Public-sector AI registries and procurement | partial | Starter rows now include U.S. federal AI use-case inventories, Canada AIA, EU high-risk AI database context, Netherlands algorithm register, UK Algorithmic Transparency Recording Standard, U.S. OMB AI acquisition guidance, UK AI procurement guidelines, and New Zealand Algorithm Charter. Additional national registers, procurement rules, and public AI inventories remain editorial expansion. |
+| Enforcement and litigation depth | partial | Official-source rows now include FTC Operation AI Comply, FTC Rytr, FTC Rite Aid, SEC AI-washing settlements, FTC DoNotPay, Dutch DPA Clearview AI, and Korean PIPC DeepSeek status examination. More official regulator/court/docket records remain editorial expansion; media-only allegations stay excluded. |
 | Stable corpus routes | done | Routes are supported for `/institution/:id`, `/policy-process/:id`, `/standard/:id`, `/public-sector-ai/:id`, and `/enforcement/:id`. |
 | Workbench corpus explorer | done | Research Corpus section added inside Workbench with facets, answer cards, context-map shortcuts, source links, dossiers, correction links, and CSV export. |
 | Corpus evidence dossiers | done | Evidence dossiers now support country, lab, instrument, and corpus record types. |
@@ -26,7 +26,9 @@ This ledger tracks the research-corpus expansion so new work does not duplicate 
 ## Next Editorial Expansion
 
 - Add official-source national AI Act authority appointments as they become available.
-- Expand public-sector AI registry coverage beyond the U.S. and Canada.
+- Complete the EU AI Act competent-authority and market-surveillance matrix as member-state designations become final.
+- Expand public-sector AI registry coverage beyond the current U.S., Canada, EU, Netherlands, UK, and New Zealand starter rows.
 - Add procurement-specific AI guidance only where the source is official and clearly AI-specific.
 - Add enforcement/litigation rows only from official regulator releases, court/docket records, or issuer-controlled legal records.
+- Expand safety-institute and technical-evaluation-body rows only where official pages support the mandate, powers, and caveats.
 - Keep standards, process, public-sector, safety, procurement, and enforcement context separate from binding-law coloring.

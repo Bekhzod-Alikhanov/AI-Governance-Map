@@ -53,6 +53,14 @@ const LIKELY_OFFICIAL_ENFORCEMENT_2026_06_11 = {
   reviewStatus: "editorial_checked",
 } as const;
 
+const OFFICIAL_ENFORCEMENT_2026_06_12 = {
+  sourceKind: "official",
+  verificationStatus: "verified",
+  confidence: "high",
+  lastVerified: "2026-06-12",
+  reviewStatus: "editorial_checked",
+} as const;
+
 const SEOUL_COMMITMENT_LABS = [
   "amazon",
   "anthropic",
@@ -351,6 +359,33 @@ export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
     reviewStatus: "editorial_checked",
   },
   {
+    id: "ftc-rytr-ai-review-generator-2024",
+    eventType: "enforcement_action",
+    title: "FTC Rytr AI review-generator proposed order",
+    jurisdiction: "United States",
+    countryIso3: "USA",
+    labIds: [],
+    date: "2024-09-25",
+    status: "proposed order announced",
+    proceduralStage: "FTC administrative complaint and proposed order",
+    affectedActorClass: "AI writing assistant provider and review/testimonial generation service",
+    outcomeOrRemedy:
+      "Proposed order would bar offering a service dedicated or promoted for generating consumer reviews or testimonials.",
+    officialDocketUrl:
+      "https://www.ftc.gov/news-events/news/press-releases/2024/09/ftc-announces-crackdown-deceptive-ai-claims-schemes",
+    domains: ["synthetic-media", "enforcement-litigation"],
+    summary:
+      "FTC Operation AI Comply matter alleging that Rytr's AI writing assistant enabled false and deceptive consumer reviews.",
+    caveat:
+      "Consumer-protection enforcement context; it is not a frontier-lab matter and does not create a new AI-specific statute.",
+    sourceName: "FTC - Operation AI Comply / Rytr",
+    sourceUrl:
+      "https://www.ftc.gov/news-events/news/press-releases/2024/09/ftc-announces-crackdown-deceptive-ai-claims-schemes",
+    verificationNotes:
+      "Official FTC release identifies Rytr as an AI writing assistant matter, describes alleged fake-review generation, and summarizes the proposed order.",
+    ...OFFICIAL_ENFORCEMENT_2026_06_12,
+  },
+  {
     id: "ftc-rite-aid-facial-recognition-2024",
     eventType: "enforcement_action",
     title: "FTC Rite Aid facial-recognition order",
@@ -603,6 +638,21 @@ export const RECORD_CHANGE_LOG_ENTRIES = [
       reviewDate: "2026-06-11",
       reviewScope:
         "Official regulator/court/docket source checks for enforcement records; media-only allegations excluded.",
+    },
+  },
+  {
+    id: "2026-06-12-ftc-rytr-enforcement-corpus",
+    recordId: "ftc-rytr-ai-review-generator-2024",
+    recordKind: "incident_enforcement",
+    changeType: "added",
+    date: "2026-06-12",
+    summary:
+      "Added official FTC Rytr AI-review-generator enforcement context row from Operation AI Comply.",
+    reviewer: {
+      ...EDITORIAL_REVIEW,
+      reviewDate: "2026-06-12",
+      reviewScope:
+        "Official Corpus Data Expansion Sprint 2 enforcement check; official regulator sources only.",
     },
   },
 ] as const;

@@ -310,6 +310,188 @@
       "lastVerified": "2026-06-11"
     },
     {
+      "id": "institution:eu-ai-board",
+      "route": "/institution/eu-ai-board",
+      "kind": "institution",
+      "kindLabel": "Institution",
+      "title": "European Artificial Intelligence Board",
+      "jurisdiction": "European Union",
+      "country": "European Union",
+      "status": "other",
+      "domains": [
+        "frontier-gpai",
+        "public-sector",
+        "enforcement-litigation"
+      ],
+      "summary": "EU AI Act coordination body linking member-state competent authorities, the AI Office, and implementation guidance work.",
+      "caveat": "Coordination and advisory context; this row is not a separate legal obligation or national regulator designation.",
+      "sourceName": "European Commission - AI Board",
+      "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-board",
+      "sourceKind": "official",
+      "verificationStatus": "verified",
+      "confidence": "high",
+      "lastVerified": "2026-06-12"
+    },
+    {
+      "id": "institution:eu-ai-act-service-desk",
+      "route": "/institution/eu-ai-act-service-desk",
+      "kind": "institution",
+      "kindLabel": "Institution",
+      "title": "AI Act Service Desk and Single Information Platform",
+      "jurisdiction": "European Union",
+      "country": "European Union",
+      "status": "other",
+      "domains": [
+        "frontier-gpai",
+        "public-sector",
+        "standards-conformity"
+      ],
+      "summary": "EU AI Act implementation helpdesk and online platform for browsing the AI Act, checking compliance, and contacting expert support.",
+      "caveat": "Guidance and information hub; users should verify legal obligations against the official AI Act and adopted implementing materials.",
+      "sourceName": "AI Act Service Desk - Single Information Platform",
+      "sourceUrl": "https://ai-act-service-desk.ec.europa.eu/en",
+      "sourceKind": "official",
+      "verificationStatus": "verified",
+      "confidence": "high",
+      "lastVerified": "2026-06-12"
+    },
+    {
+      "id": "institution:ca-caisi",
+      "route": "/institution/ca-caisi",
+      "kind": "institution",
+      "kindLabel": "Institution",
+      "title": "Canadian Artificial Intelligence Safety Institute",
+      "jurisdiction": "Canada",
+      "country": "Canada",
+      "status": "ai safety institute",
+      "domains": [
+        "frontier-gpai",
+        "cybersecurity-critical-infrastructure",
+        "synthetic-media"
+      ],
+      "summary": "Canadian AI safety institute focused on advanced-AI risk science, synthetic-content risk, joint testing, and international coordination.",
+      "caveat": "AI safety research and coordination context; not a binding approval gate for frontier labs.",
+      "sourceName": "ISED - Canadian Artificial Intelligence Safety Institute",
+      "sourceUrl": "https://ised-isde.canada.ca/site/ised/en/canadian-artificial-intelligence-safety-institute",
+      "sourceKind": "official",
+      "verificationStatus": "verified",
+      "confidence": "high",
+      "lastVerified": "2026-06-12"
+    },
+    {
+      "id": "institution:jp-ai-safety-institute",
+      "route": "/institution/jp-ai-safety-institute",
+      "kind": "institution",
+      "kindLabel": "Institution",
+      "title": "Japan AI Safety Institute",
+      "jurisdiction": "Japan",
+      "country": "Japan",
+      "status": "ai safety institute",
+      "domains": [
+        "frontier-gpai",
+        "standards-conformity",
+        "cybersecurity-critical-infrastructure"
+      ],
+      "summary": "Japanese technical AI safety institute centered on evaluation methods, standards, guidance support, and international cooperation.",
+      "caveat": "Technical safety and guidance-support context; it should not be read as a binding certification regime.",
+      "sourceName": "Japan AI Safety Institute",
+      "sourceUrl": "https://aisi.go.jp/",
+      "sourceKind": "official",
+      "verificationStatus": "verified",
+      "confidence": "high",
+      "lastVerified": "2026-06-12"
+    },
+    {
+      "id": "institution:sg-ai-safety-institute",
+      "route": "/institution/sg-ai-safety-institute",
+      "kind": "institution",
+      "kindLabel": "Institution",
+      "title": "Singapore AI Safety Institute",
+      "jurisdiction": "Singapore",
+      "country": "Singapore",
+      "status": "ai safety institute",
+      "domains": [
+        "frontier-gpai",
+        "standards-conformity",
+        "cybersecurity-critical-infrastructure"
+      ],
+      "summary": "Singapore AI safety institute for frontier-AI testing, evaluation methods, policy research, and governance tooling.",
+      "caveat": "Safety research and testing context; it should not imply binding legal duties for all AI systems.",
+      "sourceName": "Singapore AI Safety Institute",
+      "sourceUrl": "https://sgaisi.sg/",
+      "sourceKind": "official",
+      "verificationStatus": "verified",
+      "confidence": "high",
+      "lastVerified": "2026-06-12"
+    },
+    {
+      "id": "institution:lu-cnpd-ai-act-pending-msa",
+      "route": "/institution/lu-cnpd-ai-act-pending-msa",
+      "kind": "institution",
+      "kindLabel": "Institution",
+      "title": "Luxembourg CNPD pending AI Act Single Point of Contact",
+      "jurisdiction": "Luxembourg",
+      "country": "Luxembourg",
+      "status": "data protection authority",
+      "domains": [
+        "public-sector",
+        "enforcement-litigation"
+      ],
+      "summary": "Pending Commission-listed Luxembourg AI Act Single Point of Contact.",
+      "caveat": "The Commission list marks this Single Point of Contact with an asterisk, meaning the national designation decision is still pending final adoption.",
+      "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+      "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+      "sourceKind": "official",
+      "verificationStatus": "likely_correct",
+      "confidence": "medium",
+      "lastVerified": "2026-06-12"
+    },
+    {
+      "id": "institution:si-akos-ai-act-pending-msa",
+      "route": "/institution/si-akos-ai-act-pending-msa",
+      "kind": "institution",
+      "kindLabel": "Institution",
+      "title": "Slovenia AKOS pending AI Act Single Point of Contact",
+      "jurisdiction": "Slovenia",
+      "country": "Slovenia",
+      "status": "other",
+      "domains": [
+        "public-sector",
+        "enforcement-litigation"
+      ],
+      "summary": "Pending Commission-listed Slovenian AI Act Single Point of Contact.",
+      "caveat": "The Commission list marks this Single Point of Contact with an asterisk, meaning the national designation decision is still pending final adoption.",
+      "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+      "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+      "sourceKind": "official",
+      "verificationStatus": "likely_correct",
+      "confidence": "medium",
+      "lastVerified": "2026-06-12"
+    },
+    {
+      "id": "institution:es-aesia-ai-act-pending-msa",
+      "route": "/institution/es-aesia-ai-act-pending-msa",
+      "kind": "institution",
+      "kindLabel": "Institution",
+      "title": "Spanish Artificial Intelligence Surveillance Agency pending AI Act Single Point of Contact",
+      "jurisdiction": "Spain",
+      "country": "Spain",
+      "status": "ai office",
+      "domains": [
+        "frontier-gpai",
+        "public-sector",
+        "enforcement-litigation"
+      ],
+      "summary": "Pending Commission-listed Spanish AI Act Single Point of Contact.",
+      "caveat": "The Commission list marks this Single Point of Contact with an asterisk, meaning the national designation decision is still pending final adoption.",
+      "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+      "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+      "sourceKind": "official",
+      "verificationStatus": "likely_correct",
+      "confidence": "medium",
+      "lastVerified": "2026-06-12"
+    },
+    {
       "id": "policy-process:eu-high-risk-ai-guidelines-consultation-2026",
       "route": "/policy-process/eu-high-risk-ai-guidelines-consultation-2026",
       "kind": "policy_process",
@@ -514,6 +696,29 @@
       "lastVerified": "2026-06-10"
     },
     {
+      "id": "policy-process:eu-ai-board-meetings-2026",
+      "route": "/policy-process/eu-ai-board-meetings-2026",
+      "kind": "policy_process",
+      "kindLabel": "Policy process",
+      "title": "European Artificial Intelligence Board meeting and coordination process",
+      "jurisdiction": "European Union",
+      "country": "European Union",
+      "status": "ongoing",
+      "domains": [
+        "frontier-gpai",
+        "public-sector",
+        "enforcement-litigation"
+      ],
+      "summary": "Ongoing EU AI Act coordination process for national competent authorities, Commission guidance, and AI Board endorsed documents.",
+      "caveat": "Board meetings and endorsed documents are implementation and coordination context; they are not standalone binding duties unless adopted through the AI Act or related legal acts.",
+      "sourceName": "European Commission - AI Board",
+      "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-board",
+      "sourceKind": "official",
+      "verificationStatus": "verified",
+      "confidence": "high",
+      "lastVerified": "2026-06-12"
+    },
+    {
       "id": "standard:cen-cenelec-ai-act-harmonized-standards",
       "route": "/standard/cen-cenelec-ai-act-harmonized-standards",
       "kind": "standards_conformity",
@@ -669,6 +874,29 @@
       "verificationStatus": "verified",
       "confidence": "high",
       "lastVerified": "2026-06-11"
+    },
+    {
+      "id": "standard:eu-ai-act-article-43-conformity-assessment",
+      "route": "/standard/eu-ai-act-article-43-conformity-assessment",
+      "kind": "standards_conformity",
+      "kindLabel": "Standards / conformity",
+      "title": "EU AI Act Article 43 conformity-assessment routes",
+      "jurisdiction": "European Union",
+      "country": "European Union",
+      "status": "conformity context",
+      "domains": [
+        "standards-conformity",
+        "biometric-identification",
+        "public-sector"
+      ],
+      "summary": "AI Act conformity-assessment context for high-risk AI systems, including internal-control and third-party notified-body routes depending on system category and harmonized-standard use.",
+      "caveat": "This is an explanatory conformity-assessment context row. The official AI Act text and any implementing or national designation acts control legal effect.",
+      "sourceName": "AI Act Service Desk - Article 43",
+      "sourceUrl": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-43",
+      "sourceKind": "official",
+      "verificationStatus": "verified",
+      "confidence": "high",
+      "lastVerified": "2026-06-12"
     },
     {
       "id": "standard:nist-ai-rmf-playbook",
@@ -846,6 +1074,49 @@
       "lastVerified": "2026-06-11"
     },
     {
+      "id": "public-sector-ai:uk-ai-procurement-guidelines",
+      "route": "/public-sector-ai/uk-ai-procurement-guidelines",
+      "kind": "public_sector_ai",
+      "kindLabel": "Public-sector AI",
+      "title": "UK guidelines for AI procurement",
+      "jurisdiction": "United Kingdom",
+      "country": "United Kingdom",
+      "status": "procurement context",
+      "domains": [
+        "public-sector",
+        "public-procurement"
+      ],
+      "summary": "Official UK guidance for public-sector buyers procuring AI technologies responsibly and evaluating AI suppliers.",
+      "caveat": "Procurement guidance and public-sector acquisition context; it is not a general private-sector AI law.",
+      "sourceName": "GOV.UK - Guidelines for AI procurement",
+      "sourceUrl": "https://www.gov.uk/government/publications/guidelines-for-ai-procurement",
+      "sourceKind": "official",
+      "verificationStatus": "verified",
+      "confidence": "high",
+      "lastVerified": "2026-06-12"
+    },
+    {
+      "id": "public-sector-ai:nz-algorithm-charter",
+      "route": "/public-sector-ai/nz-algorithm-charter",
+      "kind": "public_sector_ai",
+      "kindLabel": "Public-sector AI",
+      "title": "Algorithm Charter for Aotearoa New Zealand",
+      "jurisdiction": "New Zealand",
+      "country": "New Zealand",
+      "status": "guidance",
+      "domains": [
+        "public-sector"
+      ],
+      "summary": "Public-sector algorithm transparency and accountability charter covering higher-risk algorithms and commitments on transparency, partnership, human oversight, privacy, ethics, and human rights.",
+      "caveat": "The charter covers public-sector algorithmic decision-making more broadly than AI and should not be read as a private-sector AI law.",
+      "sourceName": "data.govt.nz - Algorithm Charter",
+      "sourceUrl": "https://www.data.govt.nz/toolkit/data-ethics/government-algorithm-transparency-and-accountability/algorithm-charter",
+      "sourceKind": "official",
+      "verificationStatus": "verified",
+      "confidence": "high",
+      "lastVerified": "2026-06-12"
+    },
+    {
       "id": "public-sector-ai:us-omb-m25-21-public-ai-inventories",
       "route": "/public-sector-ai/us-omb-m25-21-public-ai-inventories",
       "kind": "public_sector_ai",
@@ -930,6 +1201,28 @@
       "verificationStatus": "verified",
       "confidence": "high",
       "lastVerified": "2026-06-10"
+    },
+    {
+      "id": "enforcement:ftc-rytr-ai-review-generator-2024",
+      "route": "/enforcement/ftc-rytr-ai-review-generator-2024",
+      "kind": "enforcement",
+      "kindLabel": "Enforcement / litigation",
+      "title": "FTC Rytr AI review-generator proposed order",
+      "jurisdiction": "United States",
+      "country": "United States",
+      "status": "FTC administrative complaint and proposed order",
+      "domains": [
+        "synthetic-media",
+        "enforcement-litigation"
+      ],
+      "summary": "FTC Operation AI Comply matter alleging that Rytr's AI writing assistant enabled false and deceptive consumer reviews.",
+      "caveat": "Consumer-protection enforcement context; it is not a frontier-lab matter and does not create a new AI-specific statute.",
+      "sourceName": "FTC - Operation AI Comply / Rytr",
+      "sourceUrl": "https://www.ftc.gov/news-events/news/press-releases/2024/09/ftc-announces-crackdown-deceptive-ai-claims-schemes",
+      "sourceKind": "official",
+      "verificationStatus": "verified",
+      "confidence": "high",
+      "lastVerified": "2026-06-12"
     },
     {
       "id": "enforcement:ftc-rite-aid-facial-recognition-2024",
@@ -1042,13 +1335,13 @@
     }
   ],
   "coverageReport": {
-    "totalRecords": 47,
+    "totalRecords": 60,
     "recordsByKind": {
-      "institution": 14,
-      "policy_process": 9,
-      "standards_conformity": 10,
-      "public_sector_ai": 8,
-      "enforcement": 6
+      "institution": 22,
+      "policy_process": 10,
+      "standards_conformity": 11,
+      "public_sector_ai": 10,
+      "enforcement": 7
     },
     "countriesWithInstitutionData": [
       "AUT",
@@ -1082,7 +1375,8 @@
       "GBR",
       "CAN",
       "KOR",
-      "SGP"
+      "SGP",
+      "JPN"
     ],
     "countriesWithNoInstitutionData": [
       "ALB",
@@ -1202,7 +1496,6 @@
       "ZWE",
       "CHN",
       "HKG",
-      "JPN",
       "MAC",
       "MNG",
       "PRK",

@@ -520,5 +520,311 @@
     "confidence": "high",
     "lastVerified": "2026-06-11",
     "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "eu-ai-board",
+    "name": "European Artificial Intelligence Board",
+    "institutionType": "other",
+    "jurisdiction": "European Union",
+    "countryIso3": "EUU",
+    "mandate": "AI Act advisory and coordination body for consistent EU implementation and cooperation among national competent authorities.",
+    "authorityScope": "EU-level governance and coordination body supported by the European AI Office; not a direct national enforcement authority.",
+    "powers": [
+      "Coordinate national competent authorities",
+      "Support consistent AI Act implementation",
+      "Advise on guidelines and implementing or delegated acts"
+    ],
+    "domains": [
+      "frontier-gpai",
+      "public-sector",
+      "enforcement-litigation"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      },
+      {
+        "kind": "institution",
+        "id": "eu-ai-office",
+        "label": "European AI Office"
+      }
+    ],
+    "contactUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-board",
+    "summary": "EU AI Act coordination body linking member-state competent authorities, the AI Office, and implementation guidance work.",
+    "caveat": "Coordination and advisory context; this row is not a separate legal obligation or national regulator designation.",
+    "sourceName": "European Commission - AI Board",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-board",
+    "verificationNotes": "Official Commission page states that the AI Board was created by the AI Act, includes representatives from each Member State, is supported by the AI Office, and helps coordinate national competent authorities.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "eu-ai-act-service-desk",
+    "name": "AI Act Service Desk and Single Information Platform",
+    "institutionType": "other",
+    "jurisdiction": "European Union",
+    "countryIso3": "EUU",
+    "mandate": "Commission information hub and interactive support layer for stakeholders navigating EU AI Act requirements.",
+    "authorityScope": "Information, compliance-navigation, and stakeholder-support function working with the EU AI Office; not an adjudicative regulator.",
+    "powers": [
+      "Provide AI Act Explorer and Compliance Checker tools",
+      "Receive stakeholder questions about AI Act application",
+      "Publish FAQs, resources, and implementation information"
+    ],
+    "domains": [
+      "frontier-gpai",
+      "public-sector",
+      "standards-conformity"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      },
+      {
+        "kind": "institution",
+        "id": "eu-ai-office",
+        "label": "European AI Office"
+      }
+    ],
+    "contactUrl": "https://ai-act-service-desk.ec.europa.eu/en",
+    "summary": "EU AI Act implementation helpdesk and online platform for browsing the AI Act, checking compliance, and contacting expert support.",
+    "caveat": "Guidance and information hub; users should verify legal obligations against the official AI Act and adopted implementing materials.",
+    "sourceName": "AI Act Service Desk - Single Information Platform",
+    "sourceUrl": "https://ai-act-service-desk.ec.europa.eu/en",
+    "verificationNotes": "Official Service Desk page describes the Single Information Platform, AI Act Explorer, Compliance Checker, and expert-contact function working with the EU AI Office.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "ca-caisi",
+    "name": "Canadian Artificial Intelligence Safety Institute",
+    "institutionType": "ai_safety_institute",
+    "jurisdiction": "Canada",
+    "countryIso3": "CAN",
+    "mandate": "Canadian government AI safety institute for research, guidance, international coordination, and advanced-AI risk understanding.",
+    "authorityScope": "Research and government-directed AI safety projects led by ISED with NRC, CIFAR, and research partners; not a private-sector licensing regulator.",
+    "powers": [
+      "Conduct applied and government-directed AI safety research",
+      "Collaborate with the International Network of AI Safety Institutes",
+      "Provide guidance on advanced-AI risks"
+    ],
+    "domains": [
+      "frontier-gpai",
+      "cybersecurity-critical-infrastructure",
+      "synthetic-media"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "institution",
+        "id": "canada-treasury-board-secretariat",
+        "label": "Treasury Board of Canada Secretariat"
+      },
+      {
+        "kind": "national_rule",
+        "id": "ca-voluntary-code-genai",
+        "label": "Canada voluntary code for generative AI"
+      }
+    ],
+    "contactUrl": "https://ised-isde.canada.ca/site/ised/en/canadian-artificial-intelligence-safety-institute",
+    "summary": "Canadian AI safety institute focused on advanced-AI risk science, synthetic-content risk, joint testing, and international coordination.",
+    "caveat": "AI safety research and coordination context; not a binding approval gate for frontier labs.",
+    "sourceName": "ISED - Canadian Artificial Intelligence Safety Institute",
+    "sourceUrl": "https://ised-isde.canada.ca/site/ised/en/canadian-artificial-intelligence-safety-institute",
+    "verificationNotes": "Official ISED page states CAISI is led by ISED, works with NRC/CIFAR, studies advanced-AI risks, and participates as a founding member of the International Network of AI Safety Institutes.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "jp-ai-safety-institute",
+    "name": "Japan AI Safety Institute",
+    "institutionType": "ai_safety_institute",
+    "jurisdiction": "Japan",
+    "countryIso3": "JPN",
+    "mandate": "Japanese AI safety institute for evaluating and promoting methods and standards for safe, secure, trustworthy AI.",
+    "authorityScope": "Government-supported evaluation-method, guidance, and international-cooperation context; not represented as a mandatory licensing authority.",
+    "powers": [
+      "Study AI safety evaluation methods and standards",
+      "Support government AI safety guidelines",
+      "Coordinate with foreign AI safety organizations"
+    ],
+    "domains": [
+      "frontier-gpai",
+      "standards-conformity",
+      "cybersecurity-critical-infrastructure"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "national_rule",
+        "id": "jp-ai-guidelines-business",
+        "label": "Japan AI Guidelines for Business"
+      }
+    ],
+    "contactUrl": "https://aisi.go.jp/",
+    "summary": "Japanese technical AI safety institute centered on evaluation methods, standards, guidance support, and international cooperation.",
+    "caveat": "Technical safety and guidance-support context; it should not be read as a binding certification regime.",
+    "sourceName": "Japan AI Safety Institute",
+    "sourceUrl": "https://aisi.go.jp/",
+    "verificationNotes": "Official AISI site states it is an institution for considering and promoting AI safety evaluation methods and standards, supporting government and private-sector safety work, and international cooperation.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "sg-ai-safety-institute",
+    "name": "Singapore AI Safety Institute",
+    "institutionType": "ai_safety_institute",
+    "jurisdiction": "Singapore",
+    "countryIso3": "SGP",
+    "mandate": "Singapore AI safety institute focused on policy making, engineering tools, testing, and research for AI safety and governance.",
+    "authorityScope": "Technical and policy research context; not represented as a binding regulator or certification authority.",
+    "powers": [
+      "Support AI safety policy making",
+      "Develop engineering and testing tools",
+      "Participate in international joint testing exercises"
+    ],
+    "domains": [
+      "frontier-gpai",
+      "standards-conformity",
+      "cybersecurity-critical-infrastructure"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "institution",
+        "id": "sg-ai-verify-foundation",
+        "label": "AI Verify Foundation"
+      }
+    ],
+    "contactUrl": "https://sgaisi.sg/",
+    "summary": "Singapore AI safety institute for frontier-AI testing, evaluation methods, policy research, and governance tooling.",
+    "caveat": "Safety research and testing context; it should not imply binding legal duties for all AI systems.",
+    "sourceName": "Singapore AI Safety Institute",
+    "sourceUrl": "https://sgaisi.sg/",
+    "verificationNotes": "Official Singapore AISI site identifies policy making, engineering tools, testing, and research as priority areas and links to joint testing resources.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "lu-cnpd-ai-act-pending-msa",
+    "name": "Luxembourg CNPD pending AI Act Single Point of Contact",
+    "institutionType": "data_protection_authority",
+    "jurisdiction": "Luxembourg",
+    "countryIso3": "LUX",
+    "mandate": "Commission-listed pending Single Point of Contact for AI Act market surveillance implementation.",
+    "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
+    "powers": [
+      "Listed as national AI Act market-surveillance contact",
+      "Participates in AI Act market-surveillance architecture"
+    ],
+    "domains": [
+      "public-sector",
+      "enforcement-litigation"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "contactUrl": "https://cnpd.public.lu/",
+    "summary": "Pending Commission-listed Luxembourg AI Act Single Point of Contact.",
+    "caveat": "The Commission list marks this Single Point of Contact with an asterisk, meaning the national designation decision is still pending final adoption.",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "verificationNotes": "Official Commission list marks Luxembourg's Commission nationale pour la protection des donnees with an asterisk, indicating pending final adoption of the national designation decision.",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-12",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "si-akos-ai-act-pending-msa",
+    "name": "Slovenia AKOS pending AI Act Single Point of Contact",
+    "institutionType": "other",
+    "jurisdiction": "Slovenia",
+    "countryIso3": "SVN",
+    "mandate": "Commission-listed pending Single Point of Contact for AI Act market surveillance implementation.",
+    "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
+    "powers": [
+      "Listed as national AI Act market-surveillance contact",
+      "Participates in AI Act market-surveillance architecture"
+    ],
+    "domains": [
+      "public-sector",
+      "enforcement-litigation"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "contactUrl": "https://www.akos-rs.si/",
+    "summary": "Pending Commission-listed Slovenian AI Act Single Point of Contact.",
+    "caveat": "The Commission list marks this Single Point of Contact with an asterisk, meaning the national designation decision is still pending final adoption.",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "verificationNotes": "Official Commission list marks Slovenia's Agency for Communication Networks and Services with an asterisk, indicating pending final adoption of the national designation decision.",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-12",
+    "reviewStatus": "editorial_checked"
+  },
+  {
+    "id": "es-aesia-ai-act-pending-msa",
+    "name": "Spanish Artificial Intelligence Surveillance Agency pending AI Act Single Point of Contact",
+    "institutionType": "ai_office",
+    "jurisdiction": "Spain",
+    "countryIso3": "ESP",
+    "mandate": "Commission-listed pending Single Point of Contact for AI Act market surveillance implementation.",
+    "authorityScope": "Commission-listed AI Act market-surveillance contact; domestic powers require local implementation checks.",
+    "powers": [
+      "Listed as national AI Act market-surveillance contact",
+      "Participates in AI Act market-surveillance architecture"
+    ],
+    "domains": [
+      "frontier-gpai",
+      "public-sector",
+      "enforcement-litigation"
+    ],
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      }
+    ],
+    "contactUrl": "https://aesia.digital.gob.es/",
+    "summary": "Pending Commission-listed Spanish AI Act Single Point of Contact.",
+    "caveat": "The Commission list marks this Single Point of Contact with an asterisk, meaning the national designation decision is still pending final adoption.",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "verificationNotes": "Official Commission list marks Spain's Agencia Espanola de Supervision de Inteligencia Artificial with an asterisk, indicating pending final adoption of the national designation decision.",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-12",
+    "reviewStatus": "editorial_checked"
   }
 ]

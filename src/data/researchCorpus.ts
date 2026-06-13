@@ -40,6 +40,22 @@ const LIKELY_OFFICIAL_2026_06_11 = {
   reviewStatus: "editorial_checked",
 } satisfies VerificationMetadata;
 
+const VERIFIED_OFFICIAL_2026_06_12 = {
+  sourceKind: "official",
+  verificationStatus: "verified",
+  confidence: "high",
+  lastVerified: "2026-06-12",
+  reviewStatus: "editorial_checked",
+} satisfies VerificationMetadata;
+
+const LIKELY_OFFICIAL_2026_06_12 = {
+  sourceKind: "official",
+  verificationStatus: "likely_correct",
+  confidence: "medium",
+  lastVerified: "2026-06-12",
+  reviewStatus: "editorial_checked",
+} satisfies VerificationMetadata;
+
 const STANDARDS_CAVEAT =
   "Standards and conformity-assessment rows are not national law unless a verified legal instrument incorporates them.";
 const MSA_SCOPE =
@@ -47,6 +63,8 @@ const MSA_SCOPE =
 const MSA_POWERS = ["Listed as national AI Act market-surveillance contact", "Participates in AI Act market-surveillance architecture"];
 const MSA_CAVEAT =
   "Commission list confirms the contact; it does not fully describe domestic powers or sectoral enforcement arrangements.";
+const PENDING_MSA_CAVEAT =
+  "The Commission list marks this Single Point of Contact with an asterisk, meaning the national designation decision is still pending final adoption.";
 
 const CORPUS_REVIEWER = {
   reviewerRole: "editorial source verification",
@@ -435,6 +453,218 @@ export const INSTITUTION_RECORDS: InstitutionRecord[] = [
       "Official AI Verify Foundation site describes the foundation as a global open-source community and describes AI Verify, Project Moonshot, sandbox, and accreditation work.",
     ...VERIFIED_OFFICIAL_2026_06_11,
   },
+  {
+    id: "eu-ai-board",
+    name: "European Artificial Intelligence Board",
+    institutionType: "other",
+    jurisdiction: "European Union",
+    countryIso3: "EUU",
+    mandate:
+      "AI Act advisory and coordination body for consistent EU implementation and cooperation among national competent authorities.",
+    authorityScope:
+      "EU-level governance and coordination body supported by the European AI Office; not a direct national enforcement authority.",
+    powers: [
+      "Coordinate national competent authorities",
+      "Support consistent AI Act implementation",
+      "Advise on guidelines and implementing or delegated acts",
+    ],
+    domains: ["frontier-gpai", "public-sector", "enforcement-litigation"],
+    relatedRecords: [
+      { kind: "international_instrument", id: "eu-ai-act", label: "EU AI Act" },
+      { kind: "institution", id: "eu-ai-office", label: "European AI Office" },
+    ],
+    contactUrl: "https://digital-strategy.ec.europa.eu/en/policies/ai-board",
+    summary:
+      "EU AI Act coordination body linking member-state competent authorities, the AI Office, and implementation guidance work.",
+    caveat:
+      "Coordination and advisory context; this row is not a separate legal obligation or national regulator designation.",
+    sourceName: "European Commission - AI Board",
+    sourceUrl: "https://digital-strategy.ec.europa.eu/en/policies/ai-board",
+    verificationNotes:
+      "Official Commission page states that the AI Board was created by the AI Act, includes representatives from each Member State, is supported by the AI Office, and helps coordinate national competent authorities.",
+    ...VERIFIED_OFFICIAL_2026_06_12,
+  },
+  {
+    id: "eu-ai-act-service-desk",
+    name: "AI Act Service Desk and Single Information Platform",
+    institutionType: "other",
+    jurisdiction: "European Union",
+    countryIso3: "EUU",
+    mandate:
+      "Commission information hub and interactive support layer for stakeholders navigating EU AI Act requirements.",
+    authorityScope:
+      "Information, compliance-navigation, and stakeholder-support function working with the EU AI Office; not an adjudicative regulator.",
+    powers: [
+      "Provide AI Act Explorer and Compliance Checker tools",
+      "Receive stakeholder questions about AI Act application",
+      "Publish FAQs, resources, and implementation information",
+    ],
+    domains: ["frontier-gpai", "public-sector", "standards-conformity"],
+    relatedRecords: [
+      { kind: "international_instrument", id: "eu-ai-act", label: "EU AI Act" },
+      { kind: "institution", id: "eu-ai-office", label: "European AI Office" },
+    ],
+    contactUrl: "https://ai-act-service-desk.ec.europa.eu/en",
+    summary:
+      "EU AI Act implementation helpdesk and online platform for browsing the AI Act, checking compliance, and contacting expert support.",
+    caveat:
+      "Guidance and information hub; users should verify legal obligations against the official AI Act and adopted implementing materials.",
+    sourceName: "AI Act Service Desk - Single Information Platform",
+    sourceUrl: "https://ai-act-service-desk.ec.europa.eu/en",
+    verificationNotes:
+      "Official Service Desk page describes the Single Information Platform, AI Act Explorer, Compliance Checker, and expert-contact function working with the EU AI Office.",
+    ...VERIFIED_OFFICIAL_2026_06_12,
+  },
+  {
+    id: "ca-caisi",
+    name: "Canadian Artificial Intelligence Safety Institute",
+    institutionType: "ai_safety_institute",
+    jurisdiction: "Canada",
+    countryIso3: "CAN",
+    mandate:
+      "Canadian government AI safety institute for research, guidance, international coordination, and advanced-AI risk understanding.",
+    authorityScope:
+      "Research and government-directed AI safety projects led by ISED with NRC, CIFAR, and research partners; not a private-sector licensing regulator.",
+    powers: [
+      "Conduct applied and government-directed AI safety research",
+      "Collaborate with the International Network of AI Safety Institutes",
+      "Provide guidance on advanced-AI risks",
+    ],
+    domains: ["frontier-gpai", "cybersecurity-critical-infrastructure", "synthetic-media"],
+    relatedRecords: [
+      { kind: "institution", id: "canada-treasury-board-secretariat", label: "Treasury Board of Canada Secretariat" },
+      { kind: "national_rule", id: "ca-voluntary-code-genai", label: "Canada voluntary code for generative AI" },
+    ],
+    contactUrl: "https://ised-isde.canada.ca/site/ised/en/canadian-artificial-intelligence-safety-institute",
+    summary:
+      "Canadian AI safety institute focused on advanced-AI risk science, synthetic-content risk, joint testing, and international coordination.",
+    caveat:
+      "AI safety research and coordination context; not a binding approval gate for frontier labs.",
+    sourceName: "ISED - Canadian Artificial Intelligence Safety Institute",
+    sourceUrl: "https://ised-isde.canada.ca/site/ised/en/canadian-artificial-intelligence-safety-institute",
+    verificationNotes:
+      "Official ISED page states CAISI is led by ISED, works with NRC/CIFAR, studies advanced-AI risks, and participates as a founding member of the International Network of AI Safety Institutes.",
+    ...VERIFIED_OFFICIAL_2026_06_12,
+  },
+  {
+    id: "jp-ai-safety-institute",
+    name: "Japan AI Safety Institute",
+    institutionType: "ai_safety_institute",
+    jurisdiction: "Japan",
+    countryIso3: "JPN",
+    mandate:
+      "Japanese AI safety institute for evaluating and promoting methods and standards for safe, secure, trustworthy AI.",
+    authorityScope:
+      "Government-supported evaluation-method, guidance, and international-cooperation context; not represented as a mandatory licensing authority.",
+    powers: [
+      "Study AI safety evaluation methods and standards",
+      "Support government AI safety guidelines",
+      "Coordinate with foreign AI safety organizations",
+    ],
+    domains: ["frontier-gpai", "standards-conformity", "cybersecurity-critical-infrastructure"],
+    relatedRecords: [{ kind: "national_rule", id: "jp-ai-guidelines-business", label: "Japan AI Guidelines for Business" }],
+    contactUrl: "https://aisi.go.jp/",
+    summary:
+      "Japanese technical AI safety institute centered on evaluation methods, standards, guidance support, and international cooperation.",
+    caveat:
+      "Technical safety and guidance-support context; it should not be read as a binding certification regime.",
+    sourceName: "Japan AI Safety Institute",
+    sourceUrl: "https://aisi.go.jp/",
+    verificationNotes:
+      "Official AISI site states it is an institution for considering and promoting AI safety evaluation methods and standards, supporting government and private-sector safety work, and international cooperation.",
+    ...VERIFIED_OFFICIAL_2026_06_12,
+  },
+  {
+    id: "sg-ai-safety-institute",
+    name: "Singapore AI Safety Institute",
+    institutionType: "ai_safety_institute",
+    jurisdiction: "Singapore",
+    countryIso3: "SGP",
+    mandate:
+      "Singapore AI safety institute focused on policy making, engineering tools, testing, and research for AI safety and governance.",
+    authorityScope:
+      "Technical and policy research context; not represented as a binding regulator or certification authority.",
+    powers: [
+      "Support AI safety policy making",
+      "Develop engineering and testing tools",
+      "Participate in international joint testing exercises",
+    ],
+    domains: ["frontier-gpai", "standards-conformity", "cybersecurity-critical-infrastructure"],
+    relatedRecords: [{ kind: "institution", id: "sg-ai-verify-foundation", label: "AI Verify Foundation" }],
+    contactUrl: "https://sgaisi.sg/",
+    summary:
+      "Singapore AI safety institute for frontier-AI testing, evaluation methods, policy research, and governance tooling.",
+    caveat:
+      "Safety research and testing context; it should not imply binding legal duties for all AI systems.",
+    sourceName: "Singapore AI Safety Institute",
+    sourceUrl: "https://sgaisi.sg/",
+    verificationNotes:
+      "Official Singapore AISI site identifies policy making, engineering tools, testing, and research as priority areas and links to joint testing resources.",
+    ...VERIFIED_OFFICIAL_2026_06_12,
+  },
+  {
+    id: "lu-cnpd-ai-act-pending-msa",
+    name: "Luxembourg CNPD pending AI Act Single Point of Contact",
+    institutionType: "data_protection_authority",
+    jurisdiction: "Luxembourg",
+    countryIso3: "LUX",
+    mandate:
+      "Commission-listed pending Single Point of Contact for AI Act market surveillance implementation.",
+    authorityScope: MSA_SCOPE,
+    powers: MSA_POWERS,
+    domains: ["public-sector", "enforcement-litigation"],
+    relatedRecords: [{ kind: "international_instrument", id: "eu-ai-act", label: "EU AI Act" }],
+    contactUrl: "https://cnpd.public.lu/",
+    summary: "Pending Commission-listed Luxembourg AI Act Single Point of Contact.",
+    caveat: PENDING_MSA_CAVEAT,
+    sourceName: "European Commission - Market Surveillance Authorities under the AI Act",
+    sourceUrl: "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    verificationNotes:
+      "Official Commission list marks Luxembourg's Commission nationale pour la protection des donnees with an asterisk, indicating pending final adoption of the national designation decision.",
+    ...LIKELY_OFFICIAL_2026_06_12,
+  },
+  {
+    id: "si-akos-ai-act-pending-msa",
+    name: "Slovenia AKOS pending AI Act Single Point of Contact",
+    institutionType: "other",
+    jurisdiction: "Slovenia",
+    countryIso3: "SVN",
+    mandate:
+      "Commission-listed pending Single Point of Contact for AI Act market surveillance implementation.",
+    authorityScope: MSA_SCOPE,
+    powers: MSA_POWERS,
+    domains: ["public-sector", "enforcement-litigation"],
+    relatedRecords: [{ kind: "international_instrument", id: "eu-ai-act", label: "EU AI Act" }],
+    contactUrl: "https://www.akos-rs.si/",
+    summary: "Pending Commission-listed Slovenian AI Act Single Point of Contact.",
+    caveat: PENDING_MSA_CAVEAT,
+    sourceName: "European Commission - Market Surveillance Authorities under the AI Act",
+    sourceUrl: "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    verificationNotes:
+      "Official Commission list marks Slovenia's Agency for Communication Networks and Services with an asterisk, indicating pending final adoption of the national designation decision.",
+    ...LIKELY_OFFICIAL_2026_06_12,
+  },
+  {
+    id: "es-aesia-ai-act-pending-msa",
+    name: "Spanish Artificial Intelligence Surveillance Agency pending AI Act Single Point of Contact",
+    institutionType: "ai_office",
+    jurisdiction: "Spain",
+    countryIso3: "ESP",
+    mandate:
+      "Commission-listed pending Single Point of Contact for AI Act market surveillance implementation.",
+    authorityScope: MSA_SCOPE,
+    powers: MSA_POWERS,
+    domains: ["frontier-gpai", "public-sector", "enforcement-litigation"],
+    relatedRecords: [{ kind: "international_instrument", id: "eu-ai-act", label: "EU AI Act" }],
+    contactUrl: "https://aesia.digital.gob.es/",
+    summary: "Pending Commission-listed Spanish AI Act Single Point of Contact.",
+    caveat: PENDING_MSA_CAVEAT,
+    sourceName: "European Commission - Market Surveillance Authorities under the AI Act",
+    sourceUrl: "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    verificationNotes:
+      "Official Commission list marks Spain's Agencia Espanola de Supervision de Inteligencia Artificial with an asterisk, indicating pending final adoption of the national designation decision.",
+    ...LIKELY_OFFICIAL_2026_06_12,
+  },
 ];
 
 export const POLICY_PROCESS_RECORDS: PolicyProcessRecord[] = [
@@ -657,6 +887,31 @@ export const POLICY_PROCESS_RECORDS: PolicyProcessRecord[] = [
       "Official AISI site describes frontier model testing, the Frontier AI Trends Report, and advanced-AI risk research.",
     ...VERIFIED_OFFICIAL,
   },
+  {
+    id: "eu-ai-board-meetings-2026",
+    title: "European Artificial Intelligence Board meeting and coordination process",
+    processType: "monitoring_process",
+    jurisdiction: "European Union",
+    countryIso3: "EUU",
+    stage: "AI Board meeting cycle and endorsed-documents monitoring",
+    status: "ongoing",
+    conveningBody: "European Artificial Intelligence Board / European AI Office",
+    relatedRecords: [
+      { kind: "institution", id: "eu-ai-board", label: "European Artificial Intelligence Board" },
+      { kind: "institution", id: "eu-ai-office", label: "European AI Office" },
+      { kind: "international_instrument", id: "eu-ai-act", label: "EU AI Act" },
+    ],
+    domains: ["frontier-gpai", "public-sector", "enforcement-litigation"],
+    summary:
+      "Ongoing EU AI Act coordination process for national competent authorities, Commission guidance, and AI Board endorsed documents.",
+    caveat:
+      "Board meetings and endorsed documents are implementation and coordination context; they are not standalone binding duties unless adopted through the AI Act or related legal acts.",
+    sourceName: "European Commission - AI Board",
+    sourceUrl: "https://digital-strategy.ec.europa.eu/en/policies/ai-board",
+    verificationNotes:
+      "Official Commission page describes the AI Board as an AI Act body composed of Member State representatives, coordinated by the AI Office secretariat, and lists current meetings and endorsed documents.",
+    ...VERIFIED_OFFICIAL_2026_06_12,
+  },
 ];
 
 export const STANDARDS_CONFORMITY_RECORDS: StandardsConformityRecord[] = [
@@ -804,6 +1059,30 @@ export const STANDARDS_CONFORMITY_RECORDS: StandardsConformityRecord[] = [
     verificationNotes:
       "Official AI Act Service Desk text for Article 35 states that the Commission shall assign identification numbers and make the list of notified bodies publicly available and up to date.",
     ...VERIFIED_OFFICIAL_2026_06_11,
+  },
+  {
+    id: "eu-ai-act-article-43-conformity-assessment",
+    title: "EU AI Act Article 43 conformity-assessment routes",
+    standardsBody: "European Commission / AI Act Service Desk",
+    jurisdiction: "European Union",
+    countryIso3: "EUU",
+    status: "conformity_context",
+    legalRole: "context",
+    relatedRecords: [
+      { kind: "international_instrument", id: "eu-ai-act", label: "EU AI Act" },
+      { kind: "standards_conformity", id: "eu-ai-act-notified-bodies-infrastructure", label: "AI Act notified bodies" },
+      { kind: "standards_conformity", id: "cen-cenelec-ai-act-harmonized-standards", label: "AI Act harmonized standards work" },
+    ],
+    domains: ["standards-conformity", "biometric-identification", "public-sector"],
+    summary:
+      "AI Act conformity-assessment context for high-risk AI systems, including internal-control and third-party notified-body routes depending on system category and harmonized-standard use.",
+    caveat:
+      "This is an explanatory conformity-assessment context row. The official AI Act text and any implementing or national designation acts control legal effect.",
+    sourceName: "AI Act Service Desk - Article 43",
+    sourceUrl: "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-43",
+    verificationNotes:
+      "Official AI Act Service Desk page reproduces Article 43 and explains conformity-assessment procedure routes, while warning that its explanatory summary is not legally binding.",
+    ...VERIFIED_OFFICIAL_2026_06_12,
   },
   {
     id: "nist-ai-rmf-playbook",
@@ -974,6 +1253,47 @@ export const PUBLIC_SECTOR_AI_RECORDS: PublicSectorAIRecord[] = [
     ...VERIFIED_OFFICIAL_2026_06_11,
   },
   {
+    id: "uk-ai-procurement-guidelines",
+    title: "UK guidelines for AI procurement",
+    recordType: "procurement_guidance",
+    jurisdiction: "United Kingdom",
+    countryIso3: "GBR",
+    legalEffect: "procurement_context",
+    coveredPublicBodies: "UK public-sector buyers evaluating and procuring AI technologies.",
+    relatedRecords: [{ kind: "institution", id: "uk-ai-security-institute", label: "UK AI Security Institute" }],
+    domains: ["public-sector", "public-procurement"],
+    summary:
+      "Official UK guidance for public-sector buyers procuring AI technologies responsibly and evaluating AI suppliers.",
+    caveat:
+      "Procurement guidance and public-sector acquisition context; it is not a general private-sector AI law.",
+    sourceName: "GOV.UK - Guidelines for AI procurement",
+    sourceUrl: "https://www.gov.uk/government/publications/guidelines-for-ai-procurement",
+    verificationNotes:
+      "Official GOV.UK page identifies the guidance for public-sector buyers, states it helps evaluate suppliers, and describes responsible AI procurement practice.",
+    ...VERIFIED_OFFICIAL_2026_06_12,
+  },
+  {
+    id: "nz-algorithm-charter",
+    title: "Algorithm Charter for Aotearoa New Zealand",
+    recordType: "algorithmic_impact_assessment",
+    jurisdiction: "New Zealand",
+    countryIso3: "NZL",
+    legalEffect: "guidance",
+    coveredPublicBodies: "New Zealand public-sector agencies that sign or implement the Algorithm Charter.",
+    relatedRecords: [],
+    domains: ["public-sector"],
+    summary:
+      "Public-sector algorithm transparency and accountability charter covering higher-risk algorithms and commitments on transparency, partnership, human oversight, privacy, ethics, and human rights.",
+    caveat:
+      "The charter covers public-sector algorithmic decision-making more broadly than AI and should not be read as a private-sector AI law.",
+    sourceName: "data.govt.nz - Algorithm Charter",
+    sourceUrl:
+      "https://www.data.govt.nz/toolkit/data-ethics/government-algorithm-transparency-and-accountability/algorithm-charter",
+    verificationNotes:
+      "Official New Zealand government page describes the Algorithm Charter purpose, signatories, higher-risk algorithm focus, and public-sector commitments.",
+    ...VERIFIED_OFFICIAL_2026_06_12,
+  },
+  {
     id: "us-omb-m25-21-public-ai-inventories",
     title: "U.S. OMB M-25-21 federal AI use-case inventory requirements",
     recordType: "ai_use_case_inventory",
@@ -1070,6 +1390,21 @@ export const RESEARCH_CORPUS_CHANGELOG = [
       reviewDate: "2026-06-11",
       reviewScope:
         "Official Corpus Data Expansion Sprint DOCX triage, direct official-source checks, duplicate removal, and conservative corpus import.",
+    },
+  },
+  {
+    id: "2026-06-12-official-corpus-data-expansion-sprint-2",
+    recordId: "official-corpus-data-expansion-sprint-2",
+    recordKind: "dataset",
+    changeType: "added",
+    date: "2026-06-12",
+    summary:
+      "Added official-source AI Board, AI Act Service Desk, safety institute, pending AI Act contact, procurement, algorithm-governance, and conformity-assessment context records.",
+    reviewer: {
+      ...CORPUS_REVIEWER,
+      reviewDate: "2026-06-12",
+      reviewScope:
+        "Official Corpus Data Expansion Sprint 2: national AI authority, safety institute, public-sector AI, procurement, and conformity context source checks.",
     },
   },
   ...INSTITUTION_RECORDS.map((record) => ({

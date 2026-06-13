@@ -41,13 +41,30 @@ describe("research corpus helpers", () => {
   it("keeps new corpus context records separate from binding-law rollups", () => {
     const italyRows = getCorpusRecordsForCountry("ITA");
     const netherlandsRows = getCorpusRecordsForCountry("NLD");
+    const spainRows = getCorpusRecordsForCountry("ESP");
     const italySummary = getCountryGovernanceSummary("ITA");
     const netherlandsSummary = getCountryGovernanceSummary("NLD");
+    const spainSummary = getCountryGovernanceSummary("ESP");
 
     expect(italyRows.some((row) => row.id === "it-acn-ai-act-msa")).toBe(true);
     expect(netherlandsRows.some((row) => row.id === "nl-algorithm-register")).toBe(true);
+    expect(spainRows.some((row) => row.id === "es-aesia-ai-act-pending-msa")).toBe(true);
     expect(italySummary.nationalRegulations.some((record) => record.id === "it-acn-ai-act-msa")).toBe(false);
     expect(netherlandsSummary.nationalRegulations.some((record) => record.id === "nl-algorithm-register")).toBe(false);
+    expect(spainSummary.nationalRegulations.some((record) => record.id === "es-aesia-ai-act-pending-msa")).toBe(false);
+  });
+
+  it("surfaces Sprint 2 safety, procurement, conformity, and enforcement records", () => {
+    const canadaRows = getCorpusRecordsForCountry("CAN");
+    const ukRows = getCorpusRecordsForCountry("GBR");
+    const newZealandRows = getCorpusRecordsForCountry("NZL");
+    const germanyRows = getCorpusRecordsForCountry("DEU");
+
+    expect(canadaRows.some((row) => row.id === "ca-caisi")).toBe(true);
+    expect(ukRows.some((row) => row.id === "uk-ai-procurement-guidelines")).toBe(true);
+    expect(newZealandRows.some((row) => row.id === "nz-algorithm-charter")).toBe(true);
+    expect(germanyRows.some((row) => row.id === "eu-ai-act-article-43-conformity-assessment")).toBe(true);
+    expect(getCorpusRecord("enforcement", "ftc-rytr-ai-review-generator-2024")?.metadata.sourceKind).toBe("official");
   });
 
   it("builds an editorial coverage report", () => {

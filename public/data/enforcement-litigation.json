@@ -27,6 +27,34 @@
     "reviewStatus": "editorial_checked"
   },
   {
+    "id": "ftc-rytr-ai-review-generator-2024",
+    "eventType": "enforcement_action",
+    "title": "FTC Rytr AI review-generator proposed order",
+    "jurisdiction": "United States",
+    "countryIso3": "USA",
+    "labIds": [],
+    "date": "2024-09-25",
+    "status": "proposed order announced",
+    "proceduralStage": "FTC administrative complaint and proposed order",
+    "affectedActorClass": "AI writing assistant provider and review/testimonial generation service",
+    "outcomeOrRemedy": "Proposed order would bar offering a service dedicated or promoted for generating consumer reviews or testimonials.",
+    "officialDocketUrl": "https://www.ftc.gov/news-events/news/press-releases/2024/09/ftc-announces-crackdown-deceptive-ai-claims-schemes",
+    "domains": [
+      "synthetic-media",
+      "enforcement-litigation"
+    ],
+    "summary": "FTC Operation AI Comply matter alleging that Rytr's AI writing assistant enabled false and deceptive consumer reviews.",
+    "caveat": "Consumer-protection enforcement context; it is not a frontier-lab matter and does not create a new AI-specific statute.",
+    "sourceName": "FTC - Operation AI Comply / Rytr",
+    "sourceUrl": "https://www.ftc.gov/news-events/news/press-releases/2024/09/ftc-announces-crackdown-deceptive-ai-claims-schemes",
+    "verificationNotes": "Official FTC release identifies Rytr as an AI writing assistant matter, describes alleged fake-review generation, and summarizes the proposed order.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "reviewStatus": "editorial_checked"
+  },
+  {
     "id": "ftc-rite-aid-facial-recognition-2024",
     "eventType": "enforcement_action",
     "title": "FTC Rite Aid facial-recognition order",

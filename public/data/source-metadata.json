@@ -5809,6 +5809,18 @@
   },
   {
     "collection": "incidentEnforcementRecords",
+    "id": "ftc-rytr-ai-review-generator-2024",
+    "name": "FTC Rytr AI review-generator proposed order",
+    "sourceName": "FTC - Operation AI Comply / Rytr",
+    "sourceUrl": "https://www.ftc.gov/news-events/news/press-releases/2024/09/ftc-announces-crackdown-deceptive-ai-claims-schemes",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "verificationNotes": "Official FTC release identifies Rytr as an AI writing assistant matter, describes alleged fake-review generation, and summarizes the proposed order."
+  },
+  {
+    "collection": "incidentEnforcementRecords",
     "id": "kr-pipc-deepseek-status-examination-2025",
     "name": "Korean PIPC DeepSeek status examination",
     "sourceName": "PIPC - DeepSeek status examination results",
@@ -6121,6 +6133,18 @@
   },
   {
     "collection": "institutionRecords",
+    "id": "ca-caisi",
+    "name": "Canadian Artificial Intelligence Safety Institute",
+    "sourceName": "ISED - Canadian Artificial Intelligence Safety Institute",
+    "sourceUrl": "https://ised-isde.canada.ca/site/ised/en/canadian-artificial-intelligence-safety-institute",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "verificationNotes": "Official ISED page states CAISI is led by ISED, works with NRC/CIFAR, studies advanced-AI risks, and participates as a founding member of the International Network of AI Safety Institutes."
+  },
+  {
+    "collection": "institutionRecords",
     "id": "canada-treasury-board-secretariat",
     "name": "Treasury Board of Canada Secretariat",
     "sourceName": "Canada.ca - Algorithmic Impact Assessment tool",
@@ -6154,6 +6178,42 @@
     "confidence": "medium",
     "lastVerified": "2026-06-10",
     "verificationNotes": "Official Treaty Office page may block automated checks; manual verification remains required for time-sensitive treaty status."
+  },
+  {
+    "collection": "institutionRecords",
+    "id": "es-aesia-ai-act-pending-msa",
+    "name": "Spanish Artificial Intelligence Surveillance Agency pending AI Act Single Point of Contact",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-12",
+    "verificationNotes": "Official Commission list marks Spain's Agencia Espanola de Supervision de Inteligencia Artificial with an asterisk, indicating pending final adoption of the national designation decision."
+  },
+  {
+    "collection": "institutionRecords",
+    "id": "eu-ai-act-service-desk",
+    "name": "AI Act Service Desk and Single Information Platform",
+    "sourceName": "AI Act Service Desk - Single Information Platform",
+    "sourceUrl": "https://ai-act-service-desk.ec.europa.eu/en",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "verificationNotes": "Official Service Desk page describes the Single Information Platform, AI Act Explorer, Compliance Checker, and expert-contact function working with the EU AI Office."
+  },
+  {
+    "collection": "institutionRecords",
+    "id": "eu-ai-board",
+    "name": "European Artificial Intelligence Board",
+    "sourceName": "European Commission - AI Board",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-board",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "verificationNotes": "Official Commission page states that the AI Board was created by the AI Act, includes representatives from each Member State, is supported by the AI Office, and helps coordinate national competent authorities."
   },
   {
     "collection": "institutionRecords",
@@ -6205,6 +6265,18 @@
   },
   {
     "collection": "institutionRecords",
+    "id": "jp-ai-safety-institute",
+    "name": "Japan AI Safety Institute",
+    "sourceName": "Japan AI Safety Institute",
+    "sourceUrl": "https://aisi.go.jp/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "verificationNotes": "Official AISI site states it is an institution for considering and promoting AI safety evaluation methods and standards, supporting government and private-sector safety work, and international cooperation."
+  },
+  {
+    "collection": "institutionRecords",
     "id": "kr-ai-safety-institute",
     "name": "Korea AI Safety Institute",
     "sourceName": "MSIT - Korea participates in International Network of AI Safety Institutes",
@@ -6229,6 +6301,18 @@
   },
   {
     "collection": "institutionRecords",
+    "id": "lu-cnpd-ai-act-pending-msa",
+    "name": "Luxembourg CNPD pending AI Act Single Point of Contact",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-12",
+    "verificationNotes": "Official Commission list marks Luxembourg's Commission nationale pour la protection des donnees with an asterisk, indicating pending final adoption of the national designation decision."
+  },
+  {
+    "collection": "institutionRecords",
     "id": "lv-crpc-ai-act-msa",
     "name": "Consumer Rights Protection Centre as Latvia AI Act market-surveillance contact",
     "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
@@ -6241,6 +6325,18 @@
   },
   {
     "collection": "institutionRecords",
+    "id": "sg-ai-safety-institute",
+    "name": "Singapore AI Safety Institute",
+    "sourceName": "Singapore AI Safety Institute",
+    "sourceUrl": "https://sgaisi.sg/",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "verificationNotes": "Official Singapore AISI site identifies policy making, engineering tools, testing, and research as priority areas and links to joint testing resources."
+  },
+  {
+    "collection": "institutionRecords",
     "id": "sg-ai-verify-foundation",
     "name": "AI Verify Foundation",
     "sourceName": "AI Verify Foundation",
@@ -6250,6 +6346,18 @@
     "confidence": "high",
     "lastVerified": "2026-06-11",
     "verificationNotes": "Official AI Verify Foundation site describes the foundation as a global open-source community and describes AI Verify, Project Moonshot, sandbox, and accreditation work."
+  },
+  {
+    "collection": "institutionRecords",
+    "id": "si-akos-ai-act-pending-msa",
+    "name": "Slovenia AKOS pending AI Act Single Point of Contact",
+    "sourceName": "European Commission - Market Surveillance Authorities under the AI Act",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "medium",
+    "lastVerified": "2026-06-12",
+    "verificationNotes": "Official Commission list marks Slovenia's Agency for Communication Networks and Services with an asterisk, indicating pending final adoption of the national designation decision."
   },
   {
     "collection": "institutionRecords",
@@ -26605,6 +26713,18 @@
   },
   {
     "collection": "policyProcessRecords",
+    "id": "eu-ai-board-meetings-2026",
+    "name": "European Artificial Intelligence Board meeting and coordination process",
+    "sourceName": "European Commission - AI Board",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/policies/ai-board",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "verificationNotes": "Official Commission page describes the AI Board as an AI Act body composed of Member State representatives, coordinated by the AI Office secretariat, and lists current meetings and endorsed documents."
+  },
+  {
+    "collection": "policyProcessRecords",
     "id": "eu-ai-office-gpai-tools-process",
     "name": "EU AI Office GPAI implementation tools and code-of-practice process",
     "sourceName": "European Commission - European AI Office",
@@ -26725,6 +26845,30 @@
   },
   {
     "collection": "publicSectorAIRecords",
+    "id": "nz-algorithm-charter",
+    "name": "Algorithm Charter for Aotearoa New Zealand",
+    "sourceName": "data.govt.nz - Algorithm Charter",
+    "sourceUrl": "https://www.data.govt.nz/toolkit/data-ethics/government-algorithm-transparency-and-accountability/algorithm-charter",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "verificationNotes": "Official New Zealand government page describes the Algorithm Charter purpose, signatories, higher-risk algorithm focus, and public-sector commitments."
+  },
+  {
+    "collection": "publicSectorAIRecords",
+    "id": "uk-ai-procurement-guidelines",
+    "name": "UK guidelines for AI procurement",
+    "sourceName": "GOV.UK - Guidelines for AI procurement",
+    "sourceUrl": "https://www.gov.uk/government/publications/guidelines-for-ai-procurement",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "verificationNotes": "Official GOV.UK page identifies the guidance for public-sector buyers, states it helps evaluate suppliers, and describes responsible AI procurement practice."
+  },
+  {
+    "collection": "publicSectorAIRecords",
     "id": "uk-algorithmic-transparency-recording-standard",
     "name": "UK Algorithmic Transparency Recording Standard hub",
     "sourceName": "GOV.UK - Algorithmic Transparency Recording Standard Hub",
@@ -26842,6 +26986,18 @@
     "confidence": "high",
     "lastVerified": "2026-06-10",
     "verificationNotes": "Official page states that standards, once published in the OJEU, can provide legal presumption of conformity."
+  },
+  {
+    "collection": "standardsConformityRecords",
+    "id": "eu-ai-act-article-43-conformity-assessment",
+    "name": "EU AI Act Article 43 conformity-assessment routes",
+    "sourceName": "AI Act Service Desk - Article 43",
+    "sourceUrl": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-43",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "verificationNotes": "Official AI Act Service Desk page reproduces Article 43 and explains conformity-assessment procedure routes, while warning that its explanatory summary is not legally binding."
   },
   {
     "collection": "standardsConformityRecords",

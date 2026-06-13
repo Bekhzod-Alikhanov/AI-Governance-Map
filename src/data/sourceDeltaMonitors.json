@@ -77,7 +77,21 @@
           "pattern": "repealed|no longer in force|end of validity",
           "recommendedAction": "Review EU AI Act status and update binding-law summaries only if EUR-Lex confirms a legal-status change."
         }
-      ]
+      ],
+      "manualVerification": {
+        "status": "unchanged",
+        "reviewedAt": "2026-06-13",
+        "validUntil": "2026-07-13",
+        "reviewer": "Codex manual source check",
+        "observedStatus": "Manual review of the official EUR-Lex Regulation (EU) 2024/1689 page confirms the current app claim: the document is Regulation (EU) 2024/1689, the Artificial Intelligence Act, published in OJ L 2024/1689 on 12 July 2024, and marked in force.",
+        "evidence": [
+          "EUR-Lex page identifies Document 32024R1689 and Regulation (EU) 2024/1689 of 13 June 2024 laying down harmonised rules on artificial intelligence.",
+          "EUR-Lex page title includes Artificial Intelligence Act.",
+          "EUR-Lex page shows OJ L, 2024/1689, 12.7.2024, with ELI http://data.europa.eu/eli/reg/2024/1689/oj.",
+          "EUR-Lex page legal-status display says In force."
+        ],
+        "recommendedAction": "No repo action needed until 2026-07-13 unless EUR-Lex shows a newer consolidation, corrigendum, or legal-status change."
+      }
     },
     {
       "id": "oecd-ai-principles-legal-instrument",

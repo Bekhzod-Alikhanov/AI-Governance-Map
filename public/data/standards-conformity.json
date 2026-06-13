@@ -237,6 +237,47 @@
     "reviewStatus": "editorial_checked"
   },
   {
+    "id": "eu-ai-act-article-43-conformity-assessment",
+    "title": "EU AI Act Article 43 conformity-assessment routes",
+    "standardsBody": "European Commission / AI Act Service Desk",
+    "jurisdiction": "European Union",
+    "countryIso3": "EUU",
+    "status": "conformity_context",
+    "legalRole": "context",
+    "relatedRecords": [
+      {
+        "kind": "international_instrument",
+        "id": "eu-ai-act",
+        "label": "EU AI Act"
+      },
+      {
+        "kind": "standards_conformity",
+        "id": "eu-ai-act-notified-bodies-infrastructure",
+        "label": "AI Act notified bodies"
+      },
+      {
+        "kind": "standards_conformity",
+        "id": "cen-cenelec-ai-act-harmonized-standards",
+        "label": "AI Act harmonized standards work"
+      }
+    ],
+    "domains": [
+      "standards-conformity",
+      "biometric-identification",
+      "public-sector"
+    ],
+    "summary": "AI Act conformity-assessment context for high-risk AI systems, including internal-control and third-party notified-body routes depending on system category and harmonized-standard use.",
+    "caveat": "This is an explanatory conformity-assessment context row. The official AI Act text and any implementing or national designation acts control legal effect.",
+    "sourceName": "AI Act Service Desk - Article 43",
+    "sourceUrl": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-43",
+    "verificationNotes": "Official AI Act Service Desk page reproduces Article 43 and explains conformity-assessment procedure routes, while warning that its explanatory summary is not legally binding.",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-12",
+    "reviewStatus": "editorial_checked"
+  },
+  {
     "id": "nist-ai-rmf-playbook",
     "title": "NIST AI RMF Playbook",
     "standardsBody": "NIST",

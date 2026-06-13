@@ -1171,6 +1171,12 @@
   },
   {
     "kind": "enforcement",
+    "id": "ftc-rytr-ai-review-generator-2024",
+    "name": "FTC Rytr AI review-generator proposed order",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/ftc-rytr-ai-review-generator-2024"
+  },
+  {
+    "kind": "enforcement",
     "id": "kr-pipc-deepseek-status-examination-2025",
     "name": "Korean PIPC DeepSeek status examination",
     "url": "https://global-ai-governance-map.vercel.app/enforcement/kr-pipc-deepseek-status-examination-2025"
@@ -1825,6 +1831,12 @@
   },
   {
     "kind": "institution",
+    "id": "ca-caisi",
+    "name": "Canadian Artificial Intelligence Safety Institute",
+    "url": "https://global-ai-governance-map.vercel.app/institution/ca-caisi"
+  },
+  {
+    "kind": "institution",
     "id": "canada-treasury-board-secretariat",
     "name": "Treasury Board of Canada Secretariat",
     "url": "https://global-ai-governance-map.vercel.app/institution/canada-treasury-board-secretariat"
@@ -1840,6 +1852,24 @@
     "id": "coe-treaty-office",
     "name": "Council of Europe Treaty Office",
     "url": "https://global-ai-governance-map.vercel.app/institution/coe-treaty-office"
+  },
+  {
+    "kind": "institution",
+    "id": "es-aesia-ai-act-pending-msa",
+    "name": "Spanish Artificial Intelligence Surveillance Agency pending AI Act Single Point of Contact",
+    "url": "https://global-ai-governance-map.vercel.app/institution/es-aesia-ai-act-pending-msa"
+  },
+  {
+    "kind": "institution",
+    "id": "eu-ai-act-service-desk",
+    "name": "AI Act Service Desk and Single Information Platform",
+    "url": "https://global-ai-governance-map.vercel.app/institution/eu-ai-act-service-desk"
+  },
+  {
+    "kind": "institution",
+    "id": "eu-ai-board",
+    "name": "European Artificial Intelligence Board",
+    "url": "https://global-ai-governance-map.vercel.app/institution/eu-ai-board"
   },
   {
     "kind": "institution",
@@ -1867,6 +1897,12 @@
   },
   {
     "kind": "institution",
+    "id": "jp-ai-safety-institute",
+    "name": "Japan AI Safety Institute",
+    "url": "https://global-ai-governance-map.vercel.app/institution/jp-ai-safety-institute"
+  },
+  {
+    "kind": "institution",
     "id": "kr-ai-safety-institute",
     "name": "Korea AI Safety Institute",
     "url": "https://global-ai-governance-map.vercel.app/institution/kr-ai-safety-institute"
@@ -1879,15 +1915,33 @@
   },
   {
     "kind": "institution",
+    "id": "lu-cnpd-ai-act-pending-msa",
+    "name": "Luxembourg CNPD pending AI Act Single Point of Contact",
+    "url": "https://global-ai-governance-map.vercel.app/institution/lu-cnpd-ai-act-pending-msa"
+  },
+  {
+    "kind": "institution",
     "id": "lv-crpc-ai-act-msa",
     "name": "Consumer Rights Protection Centre as Latvia AI Act market-surveillance contact",
     "url": "https://global-ai-governance-map.vercel.app/institution/lv-crpc-ai-act-msa"
   },
   {
     "kind": "institution",
+    "id": "sg-ai-safety-institute",
+    "name": "Singapore AI Safety Institute",
+    "url": "https://global-ai-governance-map.vercel.app/institution/sg-ai-safety-institute"
+  },
+  {
+    "kind": "institution",
     "id": "sg-ai-verify-foundation",
     "name": "AI Verify Foundation",
     "url": "https://global-ai-governance-map.vercel.app/institution/sg-ai-verify-foundation"
+  },
+  {
+    "kind": "institution",
+    "id": "si-akos-ai-act-pending-msa",
+    "name": "Slovenia AKOS pending AI Act Single Point of Contact",
+    "url": "https://global-ai-governance-map.vercel.app/institution/si-akos-ai-act-pending-msa"
   },
   {
     "kind": "institution",
@@ -2347,6 +2401,12 @@
   },
   {
     "kind": "policy-process",
+    "id": "eu-ai-board-meetings-2026",
+    "name": "European Artificial Intelligence Board meeting and coordination process",
+    "url": "https://global-ai-governance-map.vercel.app/policy-process/eu-ai-board-meetings-2026"
+  },
+  {
+    "kind": "policy-process",
     "id": "eu-ai-office-gpai-tools-process",
     "name": "EU AI Office GPAI implementation tools and code-of-practice process",
     "url": "https://global-ai-governance-map.vercel.app/policy-process/eu-ai-office-gpai-tools-process"
@@ -2404,6 +2464,18 @@
     "id": "nl-algorithm-register",
     "name": "Netherlands government Algorithm Register",
     "url": "https://global-ai-governance-map.vercel.app/public-sector-ai/nl-algorithm-register"
+  },
+  {
+    "kind": "public-sector-ai",
+    "id": "nz-algorithm-charter",
+    "name": "Algorithm Charter for Aotearoa New Zealand",
+    "url": "https://global-ai-governance-map.vercel.app/public-sector-ai/nz-algorithm-charter"
+  },
+  {
+    "kind": "public-sector-ai",
+    "id": "uk-ai-procurement-guidelines",
+    "name": "UK guidelines for AI procurement",
+    "url": "https://global-ai-governance-map.vercel.app/public-sector-ai/uk-ai-procurement-guidelines"
   },
   {
     "kind": "public-sector-ai",
@@ -2932,6 +3004,12 @@
     "id": "cen-cenelec-ai-act-harmonized-standards",
     "name": "CEN-CENELEC AI Act harmonized-standardization work",
     "url": "https://global-ai-governance-map.vercel.app/standard/cen-cenelec-ai-act-harmonized-standards"
+  },
+  {
+    "kind": "standard",
+    "id": "eu-ai-act-article-43-conformity-assessment",
+    "name": "EU AI Act Article 43 conformity-assessment routes",
+    "url": "https://global-ai-governance-map.vercel.app/standard/eu-ai-act-article-43-conformity-assessment"
   },
   {
     "kind": "standard",
