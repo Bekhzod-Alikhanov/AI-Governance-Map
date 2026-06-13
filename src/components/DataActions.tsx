@@ -103,12 +103,12 @@ export function DataActions({ onOpenMethodology, filters }: Props) {
             Methodology
           </button>
           <a
-            href="https://github.com/Bekhzod-Alikhanov/global-ai-governance-map/blob/main/docs/SOURCE_VERIFICATION_2026-05-20.md"
+            href="https://github.com/Bekhzod-Alikhanov/AI-Governance-Map/blob/main/docs/SOURCE_AUDIT_CURRENT.md"
             target="_blank"
             rel="noopener noreferrer"
             className="block rounded-md px-2.5 py-2 font-medium text-ink-800 hover:bg-canvas"
           >
-            Source verification notes
+            Source audit notes
           </a>
           <p className="border-t border-canvas-line px-2.5 pt-2 text-[10px] leading-snug text-ink-500">
             Static May 2026 research snapshot. Verify time-sensitive legal status against official sources.

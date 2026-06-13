@@ -1,3 +1,4 @@
+import { DATASET_COVERAGE_STATS } from "../data/datasetCoverageStats";
 import { DATA_SNAPSHOT_DATE } from "../utils/governanceTaxonomy";
 import { useDialogFocus } from "../utils/useDialogFocus";
 
@@ -43,6 +44,24 @@ const SECTIONS = [
   },
 ];
 
+const COUNT_FORMATTER = new Intl.NumberFormat("en-US");
+const formatCount = (value: number) => COUNT_FORMATTER.format(value);
+
+const COVERAGE_STATS = [
+  { label: "Countries", value: DATASET_COVERAGE_STATS.countries },
+  { label: "Frontier labs", value: DATASET_COVERAGE_STATS.frontierLabs },
+  { label: "Instruments", value: DATASET_COVERAGE_STATS.internationalInstruments },
+  { label: "National AI rules", value: DATASET_COVERAGE_STATS.nationalRegulations },
+  { label: "Edges", value: DATASET_COVERAGE_STATS.dependencyEdges },
+  { label: "Participation", value: DATASET_COVERAGE_STATS.internationalParticipationRows },
+  { label: "Lab exposures", value: DATASET_COVERAGE_STATS.labRegulatoryExposures },
+  { label: "Obligations", value: DATASET_COVERAGE_STATS.governanceObligations },
+  { label: "EU authorities", value: DATASET_COVERAGE_STATS.euAiActAuthorityMatrix },
+  { label: "Corpus records", value: DATASET_COVERAGE_STATS.researchCorpusRecords },
+  { label: "Atlas scores", value: DATASET_COVERAGE_STATS.countryIndicatorScores },
+  { label: "Data endpoints", value: DATASET_COVERAGE_STATS.publicDataEndpoints },
+];
+
 export function MethodologyPanel({ onClose }: Props) {
   const dialogRef = useDialogFocus<HTMLDivElement>(onClose);
 
@@ -82,6 +101,21 @@ export function MethodologyPanel({ onClose }: Props) {
         </header>
 
         <div className="px-5 py-4">
+          <section className="mb-4 rounded-lg border border-canvas-line bg-canvas/40 px-3 py-3">
+            <h3 className="text-sm font-semibold text-ink-900">Current coverage</h3>
+            <p className="mt-1 text-xs leading-relaxed text-ink-600">
+              Counts come from map data and public JSON exports. Context and Atlas rows do not drive binding-law coloring.
+            </p>
+            <div className="mt-3 grid gap-2 sm:grid-cols-3">
+              {COVERAGE_STATS.map((item) => (
+                <div key={item.label} className="rounded-md border border-canvas-line bg-white px-2.5 py-2">
+                  <p className="text-base font-semibold leading-none text-ink-900">{formatCount(item.value)}</p>
+                  <p className="mt-1 text-[11px] leading-tight text-ink-500">{item.label}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
           <div className="grid gap-3 sm:grid-cols-2">
             {SECTIONS.map((section) => (
               <section key={section.title} className="rounded-lg border border-canvas-line bg-canvas/40 px-3 py-3">

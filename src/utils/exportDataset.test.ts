@@ -76,7 +76,9 @@ describe("dataset export helpers", () => {
     const citation = buildCitationText();
 
     expect(citation).toContain(DATA_SNAPSHOT_DATE);
-    expect(citation).toContain("https://github.com/Bekhzod-Alikhanov/global-ai-governance-map");
+    expect(citation).toContain("192 countries");
+    expect(citation).toContain("37 international instruments");
+    expect(citation).toContain("https://github.com/Bekhzod-Alikhanov/AI-Governance-Map");
     expect(citation).toContain("not legal advice");
   });
 

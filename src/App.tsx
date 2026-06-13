@@ -1,5 +1,4 @@
 import { lazy, Suspense, useEffect, useMemo, useReducer, useState } from "react";
-import { SpeedInsights } from "@vercel/speed-insights/react";
 import {
   DEFAULT_FILTER_STATE,
   type CompareItem,
@@ -924,7 +923,6 @@ export default function App() {
         </Suspense>
       )}
 
-      <SpeedInsights />
     </div>
   );
 }

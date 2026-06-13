@@ -121,11 +121,12 @@ export function buildDatasetSnapshot() {
 }
 
 export function buildCitationText(): string {
+  const { counts } = buildDatasetSnapshot();
   return [
     `Global AI Governance Map dataset, snapshot ${DATA_SNAPSHOT_DATE}.`,
-    "Coverage: frontier-AI governance actors, instruments, national AI-specific rules, participation rows, labs, structured obligations, lab-intelligence evidence, implementation milestones, AI Atlas context indicators, research-corpus records, infrastructure, dependency links, and source metadata.",
+    `Coverage: ${counts.countries} countries; ${counts.frontierLabs} frontier labs; ${counts.internationalInstruments} international instruments; ${counts.nationalAIRegulations} national AI rules; ${counts.dependencyEdges} edges; ${counts.governanceObligations} obligations; ${counts.labRegulatoryExposures} lab exposures; ${counts.internationalParticipationRows} participation rows; ${counts.euAiActAuthorityMatrix} EU authority rows; ${counts.countryIndicatorScores} AI Atlas rows; ${counts.institutionRecords + counts.policyProcessRecords + counts.standardsConformityRecords + counts.publicSectorAIRecords + counts.incidentEnforcementRecords} corpus records.`,
     "Use with source verification. This dataset is a research aid and is not legal advice.",
-    "Repository: https://github.com/Bekhzod-Alikhanov/global-ai-governance-map",
+    "Repository: https://github.com/Bekhzod-Alikhanov/AI-Governance-Map",
     "Live app: https://global-ai-governance-map.vercel.app/",
   ].join("\n");
 }
