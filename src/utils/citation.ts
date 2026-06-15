@@ -1,6 +1,13 @@
 import { DATA_SNAPSHOT_DATE } from "./governanceTaxonomy";
 import type { VerificationMetadata } from "../types";
 
+/**
+ * Canonical author attribution, reused wherever a record, country, or the full
+ * dataset is cited or exported, so the work is properly attributable.
+ */
+export const DATASET_AUTHOR = "Bekhzodkhon (Beck) Alikhanov";
+export const DATASET_CITATION_TITLE = `Alikhanov, B. (2026). Global AI Governance Map [dataset], snapshot ${DATA_SNAPSHOT_DATE}.`;
+
 interface CitationInput extends VerificationMetadata {
   recordKind: string;
   recordId: string;
@@ -13,7 +20,7 @@ interface CitationInput extends VerificationMetadata {
 export function buildRecordCitation(input: CitationInput): string {
   const lines = [
     `${input.recordName} (${input.recordKind}, ${input.recordId}).`,
-    `Global AI Governance Map, dataset snapshot ${DATA_SNAPSHOT_DATE}.`,
+    DATASET_CITATION_TITLE,
   ];
 
   if (input.claim) lines.push(`Claim or summary: ${input.claim}`);
@@ -45,7 +52,7 @@ export function buildCountryCitation(input: {
 }): string {
   return [
     `${input.name} (${input.iso3}) country profile.`,
-    `Global AI Governance Map, dataset snapshot ${DATA_SNAPSHOT_DATE}.`,
+    DATASET_CITATION_TITLE,
     input.summary,
     "Research aid only; not legal advice. Verify time-sensitive status against linked official sources.",
     `Live app: https://global-ai-governance-map.vercel.app/?country=${encodeURIComponent(input.iso3)}`,

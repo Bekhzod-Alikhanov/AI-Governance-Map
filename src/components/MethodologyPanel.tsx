@@ -131,6 +131,13 @@ export function MethodologyPanel({ onClose }: Props) {
               The dataset should be updated with official sources, last-verified dates, and caveats when legal status is ambiguous. Time-sensitive treaty status, national enactment, and source URLs should be checked before publication.
             </p>
           </section>
+
+          <p className="mt-5 border-t border-canvas-line pt-3 text-center text-[11px] leading-relaxed text-ink-500">
+            Built and maintained by Bekhzodkhon (Beck) Alikhanov.
+            <br />
+            Cite as: Alikhanov, B. (2026). <span className="italic">Global AI Governance Map</span> [dataset].
+            MIT-licensed code; dataset under CC BY 4.0.
+          </p>
         </div>
       </div>
     </div>

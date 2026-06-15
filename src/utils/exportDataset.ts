@@ -33,6 +33,7 @@ import { SOURCE_NOTES } from "../data/sourceNotes";
 import { SUBNATIONAL_AI_RULES } from "../data/subnationalRules";
 import { DATA_SNAPSHOT_DATE } from "./governanceTaxonomy";
 import { DATASET_SCHEMA_ID, DATASET_SCHEMA_VERSION } from "./datasetSchema";
+import { DATASET_CITATION_TITLE } from "./citation";
 import { DEFAULT_FILTER_STATE, type FilterState, type GovernanceDomainId, type LabRegulatoryExposure } from "../types";
 import { countActiveFilters, filterCountries } from "./filterCountries";
 import { downloadTextFile } from "./downloadTextFile";
@@ -123,7 +124,7 @@ export function buildDatasetSnapshot() {
 export function buildCitationText(): string {
   const { counts } = buildDatasetSnapshot();
   return [
-    `Global AI Governance Map dataset, snapshot ${DATA_SNAPSHOT_DATE}.`,
+    DATASET_CITATION_TITLE,
     `Coverage: ${counts.countries} countries; ${counts.frontierLabs} frontier labs; ${counts.internationalInstruments} international instruments; ${counts.nationalAIRegulations} national AI rules; ${counts.dependencyEdges} edges; ${counts.governanceObligations} obligations; ${counts.labRegulatoryExposures} lab exposures; ${counts.internationalParticipationRows} participation rows; ${counts.euAiActAuthorityMatrix} EU authority rows; ${counts.countryIndicatorScores} AI Atlas rows; ${counts.institutionRecords + counts.policyProcessRecords + counts.standardsConformityRecords + counts.publicSectorAIRecords + counts.incidentEnforcementRecords} corpus records.`,
     "Use with source verification. This dataset is a research aid and is not legal advice.",
     "Repository: https://github.com/Bekhzod-Alikhanov/AI-Governance-Map",
