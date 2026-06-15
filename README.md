@@ -633,9 +633,9 @@ legal-effect claims that deserve human attention before public citation.
 
 ## License & credits
 
-**Code**: MIT. See [`LICENSE`](LICENSE) if present, otherwise the MIT text in `package.json` applies.
+**Code**: MIT. See [`LICENSE`](LICENSE).
 
-**Dataset**: compiled from the official sources listed under [Source rules](#source-rules) and cross-checked against the **CAIDP Index 2026** ("Artificial Intelligence and Democratic Values 2026", Center for AI and Digital Policy). Always verify time-sensitive details against the linked sources before relying on the map for policy or legal decisions.
+**Dataset**: licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Compiled from the official sources listed under [Source rules](#source-rules) and cross-checked against the **CAIDP Index 2026** ("Artificial Intelligence and Democratic Values 2026", Center for AI and Digital Policy). Always verify time-sensitive details against the linked sources before relying on the map for policy or legal decisions.
 
 **Seed briefs**: two internal product briefs (one Russian-language broader-AI brief, one English-language international-instruments register) seeded the initial dataset. Both have been translated and normalised; the app ships in English only.
 

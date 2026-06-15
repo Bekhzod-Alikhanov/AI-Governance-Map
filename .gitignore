@@ -12,3 +12,6 @@ data-review-report.*
 *.local
 *.tsbuildinfo
 tmp/
+
+# Internal seed briefs — kept locally, not published
+*.docx

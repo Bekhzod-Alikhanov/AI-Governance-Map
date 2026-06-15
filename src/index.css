@@ -1,8 +1,15 @@
-/* Self-hosted Inter (replaces the Google Fonts CDN request) */
-@import '@fontsource/inter/400.css' layer(base);
-@import '@fontsource/inter/500.css' layer(base);
-@import '@fontsource/inter/600.css' layer(base);
-@import '@fontsource/inter/700.css' layer(base);
+/* Self-hosted Inter (replaces the Google Fonts CDN request).
+   English-only UI: load only the Latin + Latin-Extended subsets (the latter
+   keeps European diacritics in country / regulator names). Dropping the
+   Cyrillic, Greek, and Vietnamese subsets removes ~14 unused font files. */
+@import '@fontsource/inter/latin-400.css' layer(base);
+@import '@fontsource/inter/latin-500.css' layer(base);
+@import '@fontsource/inter/latin-600.css' layer(base);
+@import '@fontsource/inter/latin-700.css' layer(base);
+@import '@fontsource/inter/latin-ext-400.css' layer(base);
+@import '@fontsource/inter/latin-ext-500.css' layer(base);
+@import '@fontsource/inter/latin-ext-600.css' layer(base);
+@import '@fontsource/inter/latin-ext-700.css' layer(base);
 
 @import 'tailwindcss';
 
