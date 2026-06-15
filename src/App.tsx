@@ -821,6 +821,9 @@ export default function App() {
             <p className="pointer-events-auto inline-block rounded-md bg-white/85 px-2.5 py-1 text-[10px] text-ink-500 shadow-panel backdrop-blur">
               Sources: EUR-Lex · OECD · UNESCO · CoE · ISO · GOV.UK · NIST · CAC · MSIT · IMDA · MeitY · AU · ASEAN · APEC · Oxford Insights · CAIDP · Stanford HAI
             </p>
+            <p className="pointer-events-auto mt-1 inline-block rounded-md bg-white/85 px-2.5 py-0.5 text-[10px] text-ink-400 shadow-panel backdrop-blur">
+              Built &amp; maintained by Bekhzodkhon (Beck) Alikhanov
+            </p>
           </div>
         )}
 
