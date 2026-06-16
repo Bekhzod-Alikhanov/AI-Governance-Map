@@ -1479,13 +1479,13 @@
         "enforcement-litigation"
       ],
       "summary": "The flagship news-copyright case over training and outputs of OpenAI GPT models (and Microsoft products using them). In April 2025 the court allowed core claims to proceed.",
-      "caveat": "Litigation status changes; party labeling here uses 'OpenAI' broadly rather than each named entity, and this is a motion-to-dismiss posture, not a final ruling. Flagged for maintainer review.",
+      "caveat": "Reflects the last officially verified posture (2025-04-04 SDNY opinion), not a live-docket refresh; later docket events were not verified.",
       "sourceName": "SDNY - NYT v. Microsoft/OpenAI MTD opinion",
       "sourceUrl": "https://nysd.uscourts.gov/sites/default/files/2025-04/yf%2023cv11195%20OpenAI%20MTD%20opinion%20april%204%202025.pdf",
       "sourceKind": "official",
-      "verificationStatus": "uncertain",
+      "verificationStatus": "likely_correct",
       "confidence": "medium",
-      "lastVerified": "2026-06-15"
+      "lastVerified": "2026-06-16"
     },
     {
       "id": "enforcement:andersen-v-stability-ai-2024",
@@ -1501,7 +1501,7 @@
         "enforcement-litigation"
       ],
       "summary": "Artists' class action alleging Stable Diffusion and related AI image tools were trained on their works and infringe copyright and right of publicity.",
-      "caveat": "Litigation status changes; the cited order supports the anti-SLAPP ruling but the broader procedural detail should be re-verified by a maintainer.",
+      "caveat": "Held for human review: the cited GovInfo PDF was not confirmed to be the specific February 2024 order described. Do not rely on the procedural detail until a PACER/RECAP docket-authenticated order is obtained.",
       "sourceName": "GovInfo - Andersen v. Stability AI order",
       "sourceUrl": "https://www.govinfo.gov/content/pkg/USCOURTS-cand-3_23-cv-00201/pdf/USCOURTS-cand-3_23-cv-00201-1.pdf",
       "sourceKind": "official",
@@ -1562,19 +1562,19 @@
       "title": "ICO enforcement against Clearview AI Inc.",
       "jurisdiction": "United Kingdom (Information Commissioner's Office)",
       "country": "United Kingdom",
-      "status": "Monetary penalty and enforcement notice; subsequent tribunal proceedings",
+      "status": "Monetary penalty + enforcement notice (2022); remitted to First-tier Tribunal after Upper Tribunal appeal",
       "domains": [
         "biometric-identification",
         "enforcement-litigation"
       ],
-      "summary": "ICO fined Clearview AI £7.55m and ordered it to delete UK data over scraping facial images into a searchable database; the penalty was later contested in tribunal proceedings.",
-      "caveat": "Status-sensitive: later FTT/UT proceedings affected jurisdiction and enforceability — current legal effect should be verified by a maintainer.",
-      "sourceName": "ICO - Clearview AI penalty material",
-      "sourceUrl": "https://ico.org.uk/media2/migrated/4026612/ic-237191-g0t9.pdf",
+      "summary": "ICO fined Clearview AI £7.55m and ordered it to delete UK data over scraping facial images into a searchable database. After tribunal proceedings, the Upper Tribunal restored the ICO's jurisdiction and remitted the appeal to the First-tier Tribunal.",
+      "caveat": "Do not treat the 2022 penalty as either finally enforceable or finally quashed: the verified status is remittal after the Upper Tribunal restored ICO jurisdiction.",
+      "sourceName": "ICO / Upper Tribunal - Clearview AI appeal judgment [2025] UKUT 319 (AAC)",
+      "sourceUrl": "https://ico.org.uk/media2/mc5bjzsg/ua-2024-001563-gia.pdf",
       "sourceKind": "official",
-      "verificationStatus": "uncertain",
-      "confidence": "medium",
-      "lastVerified": "2026-06-15"
+      "verificationStatus": "verified",
+      "confidence": "high",
+      "lastVerified": "2026-06-16"
     },
     {
       "id": "enforcement:garante-openai-provisional-limitation-2023",
@@ -1606,19 +1606,19 @@
       "title": "Garante sanction against OpenAI (ChatGPT), Decision No. 755/2024",
       "jurisdiction": "Italy (Garante / Court of Rome)",
       "country": "Italy",
-      "status": "Agency sanction followed by successful opposition in court",
+      "status": "Agency sanction; opposition upheld at first instance; decision removed from publication",
       "domains": [
         "frontier-gpai",
         "enforcement-litigation"
       ],
-      "summary": "The Italian Garante fined OpenAI €15m over ChatGPT data processing (Decision 755/2024); a 2026 Rome court judgment upheld OpenAI's opposition and the decision was temporarily removed.",
-      "caveat": "Status-sensitive: post-judgment status is not final without the full Rome court decision and any appeal — flagged for maintainer review.",
-      "sourceName": "Garante - ChatGPT sanction against OpenAI",
+      "summary": "The Italian Garante fined OpenAI €15m over ChatGPT data processing (Decision 755/2024); a 2026 Rome court judgment upheld OpenAI's opposition and the decision was removed from publication.",
+      "caveat": "Do not state 'pending appeal' as fact: primary sources confirm only the first-instance reversal / removal from publication, not the appeal posture.",
+      "sourceName": "Garante - decision page (Decision 755 removed after Rome judgment)",
       "sourceUrl": "https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/10085432",
       "sourceKind": "official",
-      "verificationStatus": "uncertain",
+      "verificationStatus": "likely_correct",
       "confidence": "medium",
-      "lastVerified": "2026-06-15"
+      "lastVerified": "2026-06-16"
     },
     {
       "id": "enforcement:opc-canada-openai-investigation-2026",
@@ -1634,13 +1634,13 @@
         "enforcement-litigation"
       ],
       "summary": "Canada's federal and three provincial privacy regulators jointly investigated ChatGPT and issued findings in 2026 on consent, transparency, accuracy, and data-handling.",
-      "caveat": "Status-sensitive: exact investigation launch day not confirmed; treat the 2026-05-06 findings date as the anchor.",
+      "caveat": "Launch month (April 2023) is officially confirmed but not the exact day; the 2026-05-06 findings date is the anchor.",
       "sourceName": "OPC Canada - PIPEDA Findings #2026-002",
       "sourceUrl": "https://www.priv.gc.ca/en/opc-actions-and-decisions/investigations/investigations-into-businesses/2026/pipeda-2026-002/",
       "sourceKind": "official",
-      "verificationStatus": "uncertain",
+      "verificationStatus": "likely_correct",
       "confidence": "medium",
-      "lastVerified": "2026-06-15"
+      "lastVerified": "2026-06-16"
     },
     {
       "id": "enforcement:opc-canada-clearview-investigation-2021",
@@ -1743,14 +1743,14 @@
         "frontier-gpai",
         "enforcement-litigation"
       ],
-      "summary": "Brazil's ANPD ordered Meta to stop using Brazilians' data to train generative AI over fundamental-rights risk, then permitted a restricted resumption after a compliance plan.",
-      "caveat": "Status-sensitive: the currently-operative compliance scope may have evolved and should be re-checked by a maintainer.",
-      "sourceName": "ANPD - preventive measure against Meta",
-      "sourceUrl": "https://www.gov.br/anpd/pt-br/assuntos/noticias/apos-pedido-de-reconsideracao-anpd-mantem-medida-preventiva-aplicada-a-meta",
+      "summary": "Brazil's ANPD ordered Meta to stop using Brazilians' data to train generative AI over fundamental-rights risk, then permitted a restricted resumption after approving a compliance plan (no under-18 data, 30-day notice, opt-out, ongoing monitoring).",
+      "caveat": "Latest officially verified ANPD position; restrictions could be amended by a later decision.",
+      "sourceName": "ANPD - Meta may resume AI training with restrictions",
+      "sourceUrl": "https://www.gov.br/anpd/pt-br/assuntos/noticias/meta-cumpre-exigencias-da-anpd-e-podera-retomar-com-restricoes-o-uso-de-dados-pessoais-para-treinamento-de-inteligencia-artificial",
       "sourceKind": "official",
-      "verificationStatus": "uncertain",
-      "confidence": "medium",
-      "lastVerified": "2026-06-15"
+      "verificationStatus": "verified",
+      "confidence": "high",
+      "lastVerified": "2026-06-16"
     },
     {
       "id": "enforcement:ppc-japan-openai-warning-2023",
@@ -1788,13 +1788,13 @@
         "enforcement-litigation"
       ],
       "summary": "India's flagship news-publisher AI copyright case: ANI's claim against OpenAI over use of its content; the Delhi High Court reserved judgment on the interim application in March 2026.",
-      "caveat": "Status-sensitive: no final merits judgment confirmed after the 27 March 2026 reservation — maintainer should check for later orders.",
+      "caveat": "No post-27-March-2026 dispositive order was verified; the Delhi High Court case-history portal is captcha-gated and could not be exhaustively checked.",
       "sourceName": "High Court of Delhi - ANI v OpenAI order",
       "sourceUrl": "https://delhihighcourt.nic.in/app/showlogo/1774860273_80fd976677186e44_abl_10282024.pdf/2026",
       "sourceKind": "official",
-      "verificationStatus": "uncertain",
+      "verificationStatus": "likely_correct",
       "confidence": "medium",
-      "lastVerified": "2026-06-15"
+      "lastVerified": "2026-06-16"
     }
   ],
   "coverageReport": {

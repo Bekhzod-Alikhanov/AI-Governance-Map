@@ -80,7 +80,7 @@ const MAP_MODE_OPTIONS: Array<{ id: MapModeId; label: string }> = [
   { id: "ai-institutions", label: "AI institutions" },
   { id: "policy-windows", label: "Policy windows" },
   { id: "public-sector-ai", label: "Public-sector AI" },
-  { id: "enforcement-activity", label: "Enforcement" },
+  { id: "enforcement-activity", label: "Enforcement & litigation" },
   { id: "standards-conformity", label: "Standards" },
   { id: "gov-ai-readiness", label: "Gov readiness" },
   { id: "democratic-values", label: "Democratic values" },
@@ -642,8 +642,11 @@ export default function App() {
                 </option>
               ))}
             </select>
-            <label htmlFor="map-mode-select" className="sr-only">
-              Map color mode
+            <label
+              htmlFor="map-mode-select"
+              className="hidden shrink-0 text-[11px] font-medium text-ink-500 sm:inline"
+            >
+              Color by:
             </label>
             <select
               id="map-mode-select"

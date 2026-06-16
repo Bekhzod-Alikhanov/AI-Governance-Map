@@ -37,7 +37,7 @@ const CORPUS_MAP_MODES: Array<{ id: MapModeId; label: string; detail: string }> 
   { id: "ai-institutions", label: "Institution map", detail: "AI offices, safety institutes, standards bodies, and governance authorities." },
   { id: "policy-windows", label: "Policy windows", detail: "Open or ongoing consultations, guidance processes, and standards work." },
   { id: "public-sector-ai", label: "Public-sector AI", detail: "Registries, public-sector assessments, and procurement/public-use context." },
-  { id: "enforcement-activity", label: "Enforcement", detail: "Official enforcement, litigation, or regulator activity records." },
+  { id: "enforcement-activity", label: "Enforcement & litigation", detail: "Official enforcement, litigation, or regulator activity records." },
   { id: "standards-conformity", label: "Standards", detail: "Standards and conformity infrastructure context." },
 ];
 

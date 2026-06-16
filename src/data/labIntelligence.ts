@@ -480,6 +480,26 @@ const LITIGATION_UNCERTAIN_2026_06_15 = {
   reviewStatus: "needs_review",
 } as const;
 
+// Targeted re-verification pass (2026-06-16): volatile fields re-checked against
+// primary sources and editorially confirmed.
+const RECHECK_VERIFIED_2026_06_16 = {
+  sourceKind: "official",
+  verificationStatus: "verified",
+  confidence: "high",
+  lastVerified: "2026-06-16",
+  reviewStatus: "editorial_checked",
+} as const;
+
+// Core matter verified, but a later docket/appeal milestone could not be fully
+// confirmed from accessible official sources — strong but not fully complete.
+const RECHECK_LIKELY_2026_06_16 = {
+  sourceKind: "official",
+  verificationStatus: "likely_correct",
+  confidence: "medium",
+  lastVerified: "2026-06-16",
+  reviewStatus: "editorial_checked",
+} as const;
+
 export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
   {
     id: "ftc-operation-ai-comply-2024",
@@ -794,20 +814,20 @@ export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
     proceduralStage: "Opinion on motions to dismiss (coordinated news-publisher actions)",
     affectedActorClass: "Frontier model provider and deployer (training + outputs)",
     outcomeOrRemedy:
-      "Court granted and denied different parts of defendants' motions to dismiss across the NYT, Daily News, and CIR actions; core copyright claims proceed.",
+      "As of the last officially verified opinion (2025-04-04), the case remained pending after the partial motion-to-dismiss ruling: some claims survived, some were dismissed with prejudice, and some DMCA claims were dismissed without prejudice.",
     officialDocketUrl:
       "https://nysd.uscourts.gov/sites/default/files/2025-04/yf%2023cv11195%20OpenAI%20MTD%20opinion%20april%204%202025.pdf",
     domains: ["frontier-gpai", "enforcement-litigation"],
     summary:
       "The flagship news-copyright case over training and outputs of OpenAI GPT models (and Microsoft products using them). In April 2025 the court allowed core claims to proceed.",
     caveat:
-      "Litigation status changes; party labeling here uses 'OpenAI' broadly rather than each named entity, and this is a motion-to-dismiss posture, not a final ruling. Flagged for maintainer review.",
+      "Reflects the last officially verified posture (2025-04-04 SDNY opinion), not a live-docket refresh; later docket events were not verified.",
     sourceName: "SDNY - NYT v. Microsoft/OpenAI MTD opinion",
     sourceUrl:
       "https://nysd.uscourts.gov/sites/default/files/2025-04/yf%2023cv11195%20OpenAI%20MTD%20opinion%20april%204%202025.pdf",
     verificationNotes:
-      "Official SDNY opinion confirms parties, case numbers, and April 2025 posture; exact named-defendant list and original filing date not fully normalized.",
-    ...LITIGATION_UNCERTAIN_2026_06_15,
+      "Official SDNY opinion normalizes the Times-action defendants (Microsoft Corporation; OpenAI, Inc.; OpenAI LP; OpenAI GP, LLC; OpenAI, LLC; OpenAI OpCo LLC; OpenAI Global LLC; OAI Corporation, LLC; OpenAI Holdings, LLC) and confirms the post-MTD posture. No later official docket development verified beyond this opinion.",
+    ...RECHECK_LIKELY_2026_06_16,
   },
   {
     id: "andersen-v-stability-ai-2024",
@@ -826,11 +846,11 @@ export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
     summary:
       "Artists' class action alleging Stable Diffusion and related AI image tools were trained on their works and infringe copyright and right of publicity.",
     caveat:
-      "Litigation status changes; the cited order supports the anti-SLAPP ruling but the broader procedural detail should be re-verified by a maintainer.",
+      "Held for human review: the cited GovInfo PDF was not confirmed to be the specific February 2024 order described. Do not rely on the procedural detail until a PACER/RECAP docket-authenticated order is obtained.",
     sourceName: "GovInfo - Andersen v. Stability AI order",
     sourceUrl: "https://www.govinfo.gov/content/pkg/USCOURTS-cand-3_23-cv-00201/pdf/USCOURTS-cand-3_23-cv-00201-1.pdf",
     verificationNotes:
-      "Official order confirms case number and the anti-SLAPP ruling; full claim-by-claim posture not reconstructed. Audit flagged source relevance as weak for the specific Feb 2024 description.",
+      "Re-verification (2026-06-16) could not confirm the specific February 2024 order from the named docket source chain. sourceUrl/proceduralStage left unchanged pending a PACER/RECAP docket-authenticated document; this record stays in the human-review lane.",
     ...LITIGATION_UNCERTAIN_2026_06_15,
   },
   {
@@ -890,22 +910,22 @@ export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
     countryIso3: "GBR",
     labIds: [],
     date: "2022-05-23",
-    status: "fine + enforcement notice issued (2022); appeal posture uncertain as of 2026",
-    proceduralStage: "Monetary penalty and enforcement notice; subsequent tribunal proceedings",
+    status: "on remand after Upper Tribunal restored ICO jurisdiction; substantive FtT appeal not verified as resolved",
+    proceduralStage: "Monetary penalty + enforcement notice (2022); remitted to First-tier Tribunal after Upper Tribunal appeal",
     affectedActorClass: "Facial-recognition service provider (web scraping)",
     outcomeOrRemedy:
-      "£7,552,800 monetary penalty and an enforcement notice over facial-image scraping and biometric processing; later tribunal proceedings affected enforceability.",
-    officialDocketUrl: "https://ico.org.uk/media2/migrated/4026612/ic-237191-g0t9.pdf",
+      "The 2022 enforcement notice and £7,552,800 monetary penalty were not finally quashed. In [2025] UKUT 319 (AAC) the Upper Tribunal allowed the ICO's appeal, set aside the First-tier Tribunal's 17 October 2023 jurisdiction ruling, and remitted the substantive appeal on the basis that the ICO had jurisdiction to issue the notices. No later merits disposition verified.",
+    officialDocketUrl: "https://ico.org.uk/media2/mc5bjzsg/ua-2024-001563-gia.pdf",
     domains: ["biometric-identification", "enforcement-litigation"],
     summary:
-      "ICO fined Clearview AI £7.55m and ordered it to delete UK data over scraping facial images into a searchable database; the penalty was later contested in tribunal proceedings.",
+      "ICO fined Clearview AI £7.55m and ordered it to delete UK data over scraping facial images into a searchable database. After tribunal proceedings, the Upper Tribunal restored the ICO's jurisdiction and remitted the appeal to the First-tier Tribunal.",
     caveat:
-      "Status-sensitive: later FTT/UT proceedings affected jurisdiction and enforceability — current legal effect should be verified by a maintainer.",
-    sourceName: "ICO - Clearview AI penalty material",
-    sourceUrl: "https://ico.org.uk/media2/migrated/4026612/ic-237191-g0t9.pdf",
+      "Do not treat the 2022 penalty as either finally enforceable or finally quashed: the verified status is remittal after the Upper Tribunal restored ICO jurisdiction.",
+    sourceName: "ICO / Upper Tribunal - Clearview AI appeal judgment [2025] UKUT 319 (AAC)",
+    sourceUrl: "https://ico.org.uk/media2/mc5bjzsg/ua-2024-001563-gia.pdf",
     verificationNotes:
-      "Official ICO material confirms the 23 May 2022 fine and enforcement notice; appeal history means present enforceability needs human verification.",
-    ...LITIGATION_UNCERTAIN_2026_06_15,
+      "Upper Tribunal judgment (re-verified 2026-06-16) confirms jurisdiction was restored and the appeal remitted to the FtT. No later FtT merits judgment or proof of collection verified. Historical ICO FOIA response (ic-237191-g0t9.pdf) confirms payment of the penalty was stayed pending appeal as of 2023-06-27.",
+    ...RECHECK_VERIFIED_2026_06_16,
   },
   {
     id: "garante-openai-provisional-limitation-2023",
@@ -939,22 +959,22 @@ export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
     countryIso3: "ITA",
     labIds: ["openai"],
     date: "2024-11-02",
-    status: "€15m sanction; decision temporarily removed after Court of Rome judgment (2026)",
-    proceduralStage: "Agency sanction followed by successful opposition in court",
+    status: "decision set aside at first instance after Court of Rome judgment (2026-03-18); appeal not verified",
+    proceduralStage: "Agency sanction; opposition upheld at first instance; decision removed from publication",
     affectedActorClass: "Frontier model provider (ChatGPT)",
     outcomeOrRemedy:
-      "€15 million sanction and a six-month information campaign; the decision was later temporarily removed following Rome court judgment No. 4153/2026 upholding OpenAI's opposition.",
+      "Garante announced a €15,000,000 sanction and a six-month information campaign in December 2024. The official decision page now states that Decision No. 755 of 2 November 2024 was temporarily removed after Court of Rome judgment No. 4153/2026 (published 2026-03-18) upheld the opposition against the Garante decision. No appeal could be verified from accessible primary sources.",
     officialDocketUrl: "https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/10085432",
     domains: ["frontier-gpai", "enforcement-litigation"],
     summary:
-      "The Italian Garante fined OpenAI €15m over ChatGPT data processing (Decision 755/2024); a 2026 Rome court judgment upheld OpenAI's opposition and the decision was temporarily removed.",
+      "The Italian Garante fined OpenAI €15m over ChatGPT data processing (Decision 755/2024); a 2026 Rome court judgment upheld OpenAI's opposition and the decision was removed from publication.",
     caveat:
-      "Status-sensitive: post-judgment status is not final without the full Rome court decision and any appeal — flagged for maintainer review.",
-    sourceName: "Garante - ChatGPT sanction against OpenAI",
-    sourceUrl: "https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/10085432",
+      "Do not state 'pending appeal' as fact: primary sources confirm only the first-instance reversal / removal from publication, not the appeal posture.",
+    sourceName: "Garante - decision page (Decision 755 removed after Rome judgment)",
+    sourceUrl: "https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/10085455",
     verificationNotes:
-      "Official press release confirms the sanction and campaign; the decision page notes Decision 755 was temporarily removed after Rome judgment 4153/2026. Full judgment should be verified.",
-    ...LITIGATION_UNCERTAIN_2026_06_15,
+      "Re-verified 2026-06-16: primary sources confirm the 2024 sanction and that the decision remains removed from publication after Rome judgment 4153/2026 (2026-03-18). No appeal stage could be verified from accessible official sources. Press release (docweb 10085432) supports the fine amount and campaign.",
+    ...RECHECK_LIKELY_2026_06_16,
   },
   {
     id: "opc-canada-openai-investigation-2026",
@@ -974,13 +994,13 @@ export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
     domains: ["frontier-gpai", "enforcement-litigation"],
     summary:
       "Canada's federal and three provincial privacy regulators jointly investigated ChatGPT and issued findings in 2026 on consent, transparency, accuracy, and data-handling.",
-    caveat: "Status-sensitive: exact investigation launch day not confirmed; treat the 2026-05-06 findings date as the anchor.",
+    caveat: "Launch month (April 2023) is officially confirmed but not the exact day; the 2026-05-06 findings date is the anchor.",
     sourceName: "OPC Canada - PIPEDA Findings #2026-002",
     sourceUrl:
       "https://www.priv.gc.ca/en/opc-actions-and-decisions/investigations/investigations-into-businesses/2026/pipeda-2026-002/",
     verificationNotes:
-      "Findings page confirms joint investigation scope and 2026 findings; exact day-level launch date was a placeholder and was removed.",
-    ...LITIGATION_UNCERTAIN_2026_06_15,
+      "Re-verified 2026-06-16: official findings state the OPC launched the complaint-based investigation in April 2023 and the joint investigations were initiated in May 2023, with no exact day given. The prior 2023-04-01 placeholder is not an exact date.",
+    ...RECHECK_LIKELY_2026_06_16,
   },
   {
     id: "opc-canada-clearview-investigation-2021",
@@ -1084,24 +1104,24 @@ export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
     countryIso3: "BRA",
     labIds: ["meta"],
     date: "2024-07-01",
-    status: "preventive measure maintained, then restrictions modified after compliance plan",
+    status: "processing resumed subject to restrictions and ongoing ANPD monitoring",
     proceduralStage: "Preventive measure, reconsideration, then compliance-based modification",
     affectedActorClass: "Frontier model provider / platform (training data)",
     outcomeOrRemedy:
-      "ANPD suspended Meta's use of Brazilian personal data for generative-AI training (daily fine BRL 50,000); later allowed resumption with restrictions after a compliance plan.",
+      "ANPD suspended the prohibition after approving Meta's compliance plan. Currently-operative restrictions: no use of personal data from accounts of users under 18 for generative-AI training; clear email and in-app notices; updated privacy disclosures; simplified objection rights for users and non-users; at least 30 days between notifications and the start of processing of public account data; and ongoing ANPD monitoring.",
     officialDocketUrl:
-      "https://www.gov.br/anpd/pt-br/assuntos/noticias/apos-pedido-de-reconsideracao-anpd-mantem-medida-preventiva-aplicada-a-meta",
+      "https://www.gov.br/anpd/pt-br/assuntos/noticias/meta-cumpre-exigencias-da-anpd-e-podera-retomar-com-restricoes-o-uso-de-dados-pessoais-para-treinamento-de-inteligencia-artificial",
     domains: ["frontier-gpai", "enforcement-litigation"],
     summary:
-      "Brazil's ANPD ordered Meta to stop using Brazilians' data to train generative AI over fundamental-rights risk, then permitted a restricted resumption after a compliance plan.",
+      "Brazil's ANPD ordered Meta to stop using Brazilians' data to train generative AI over fundamental-rights risk, then permitted a restricted resumption after approving a compliance plan (no under-18 data, 30-day notice, opt-out, ongoing monitoring).",
     caveat:
-      "Status-sensitive: the currently-operative compliance scope may have evolved and should be re-checked by a maintainer.",
-    sourceName: "ANPD - preventive measure against Meta",
+      "Latest officially verified ANPD position; restrictions could be amended by a later decision.",
+    sourceName: "ANPD - Meta may resume AI training with restrictions",
     sourceUrl:
-      "https://www.gov.br/anpd/pt-br/assuntos/noticias/apos-pedido-de-reconsideracao-anpd-mantem-medida-preventiva-aplicada-a-meta",
+      "https://www.gov.br/anpd/pt-br/assuntos/noticias/meta-cumpre-exigencias-da-anpd-e-podera-retomar-com-restricoes-o-uso-de-dados-pessoais-para-treinamento-de-inteligencia-artificial",
     verificationNotes:
-      "Official ANPD materials confirm the preventive measure, daily fine, reconsideration, and later restricted resumption; exact current scope is status-sensitive.",
-    ...LITIGATION_UNCERTAIN_2026_06_15,
+      "Re-verified 2026-06-16 against the ANPD news page and the Director's vote (Voto nº 23/2024/DIR-JR/CD): they specify the currently-operative restrictions. No later official amendment identified.",
+    ...RECHECK_VERIFIED_2026_06_16,
   },
   {
     id: "ppc-japan-openai-warning-2023",
@@ -1144,12 +1164,12 @@ export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
     summary:
       "India's flagship news-publisher AI copyright case: ANI's claim against OpenAI over use of its content; the Delhi High Court reserved judgment on the interim application in March 2026.",
     caveat:
-      "Status-sensitive: no final merits judgment confirmed after the 27 March 2026 reservation — maintainer should check for later orders.",
+      "No post-27-March-2026 dispositive order was verified; the Delhi High Court case-history portal is captcha-gated and could not be exhaustively checked.",
     sourceName: "High Court of Delhi - ANI v OpenAI order",
     sourceUrl: "https://delhihighcourt.nic.in/app/showlogo/1774860273_80fd976677186e44_abl_10282024.pdf/2026",
     verificationNotes:
-      "Official Delhi High Court orders confirm case number, parties, and that judgment was reserved on 27 March 2026; no final merits judgment confirmed.",
-    ...LITIGATION_UNCERTAIN_2026_06_15,
+      "Re-verified 2026-06-16: the official 2026-03-27 order confirms judgment was reserved on the interim application (I.A. 45300/2024). Post-order docket activity could not be exhaustively verified because the official Delhi High Court case-history interfaces require captcha.",
+    ...RECHECK_LIKELY_2026_06_16,
   },
 ];
 

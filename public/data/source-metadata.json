@@ -6105,7 +6105,7 @@
     "verificationStatus": "uncertain",
     "confidence": "medium",
     "lastVerified": "2026-06-15",
-    "verificationNotes": "Official order confirms case number and the anti-SLAPP ruling; full claim-by-claim posture not reconstructed. Audit flagged source relevance as weak for the specific Feb 2024 description."
+    "verificationNotes": "Re-verification (2026-06-16) could not confirm the specific February 2024 order from the named docket source chain. sourceUrl/proceduralStage left unchanged pending a PACER/RECAP docket-authenticated document; this record stays in the human-review lane."
   },
   {
     "collection": "incidentEnforcementRecords",
@@ -6114,22 +6114,22 @@
     "sourceName": "High Court of Delhi - ANI v OpenAI order",
     "sourceUrl": "https://delhihighcourt.nic.in/app/showlogo/1774860273_80fd976677186e44_abl_10282024.pdf/2026",
     "sourceKind": "official",
-    "verificationStatus": "uncertain",
+    "verificationStatus": "likely_correct",
     "confidence": "medium",
-    "lastVerified": "2026-06-15",
-    "verificationNotes": "Official Delhi High Court orders confirm case number, parties, and that judgment was reserved on 27 March 2026; no final merits judgment confirmed."
+    "lastVerified": "2026-06-16",
+    "verificationNotes": "Re-verified 2026-06-16: the official 2026-03-27 order confirms judgment was reserved on the interim application (I.A. 45300/2024). Post-order docket activity could not be exhaustively verified because the official Delhi High Court case-history interfaces require captcha."
   },
   {
     "collection": "incidentEnforcementRecords",
     "id": "anpd-meta-ai-training-2024",
     "name": "ANPD preventive measure against Meta (generative-AI training)",
-    "sourceName": "ANPD - preventive measure against Meta",
-    "sourceUrl": "https://www.gov.br/anpd/pt-br/assuntos/noticias/apos-pedido-de-reconsideracao-anpd-mantem-medida-preventiva-aplicada-a-meta",
+    "sourceName": "ANPD - Meta may resume AI training with restrictions",
+    "sourceUrl": "https://www.gov.br/anpd/pt-br/assuntos/noticias/meta-cumpre-exigencias-da-anpd-e-podera-retomar-com-restricoes-o-uso-de-dados-pessoais-para-treinamento-de-inteligencia-artificial",
     "sourceKind": "official",
-    "verificationStatus": "uncertain",
-    "confidence": "medium",
-    "lastVerified": "2026-06-15",
-    "verificationNotes": "Official ANPD materials confirm the preventive measure, daily fine, reconsideration, and later restricted resumption; exact current scope is status-sensitive."
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-16",
+    "verificationNotes": "Re-verified 2026-06-16 against the ANPD news page and the Director's vote (Voto nº 23/2024/DIR-JR/CD): they specify the currently-operative restrictions. No later official amendment identified."
   },
   {
     "collection": "incidentEnforcementRecords",
@@ -6231,13 +6231,13 @@
     "collection": "incidentEnforcementRecords",
     "id": "garante-openai-sanction-2024",
     "name": "Garante sanction against OpenAI (ChatGPT), Decision No. 755/2024",
-    "sourceName": "Garante - ChatGPT sanction against OpenAI",
-    "sourceUrl": "https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/10085432",
+    "sourceName": "Garante - decision page (Decision 755 removed after Rome judgment)",
+    "sourceUrl": "https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/10085455",
     "sourceKind": "official",
-    "verificationStatus": "uncertain",
+    "verificationStatus": "likely_correct",
     "confidence": "medium",
-    "lastVerified": "2026-06-15",
-    "verificationNotes": "Official press release confirms the sanction and campaign; the decision page notes Decision 755 was temporarily removed after Rome judgment 4153/2026. Full judgment should be verified."
+    "lastVerified": "2026-06-16",
+    "verificationNotes": "Re-verified 2026-06-16: primary sources confirm the 2024 sanction and that the decision remains removed from publication after Rome judgment 4153/2026 (2026-03-18). No appeal stage could be verified from accessible official sources. Press release (docweb 10085432) supports the fine amount and campaign."
   },
   {
     "collection": "incidentEnforcementRecords",
@@ -6255,13 +6255,13 @@
     "collection": "incidentEnforcementRecords",
     "id": "ico-clearview-ai-fine-2022",
     "name": "ICO enforcement against Clearview AI Inc.",
-    "sourceName": "ICO - Clearview AI penalty material",
-    "sourceUrl": "https://ico.org.uk/media2/migrated/4026612/ic-237191-g0t9.pdf",
+    "sourceName": "ICO / Upper Tribunal - Clearview AI appeal judgment [2025] UKUT 319 (AAC)",
+    "sourceUrl": "https://ico.org.uk/media2/mc5bjzsg/ua-2024-001563-gia.pdf",
     "sourceKind": "official",
-    "verificationStatus": "uncertain",
-    "confidence": "medium",
-    "lastVerified": "2026-06-15",
-    "verificationNotes": "Official ICO material confirms the 23 May 2022 fine and enforcement notice; appeal history means present enforceability needs human verification."
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-06-16",
+    "verificationNotes": "Upper Tribunal judgment (re-verified 2026-06-16) confirms jurisdiction was restored and the appeal remitted to the FtT. No later FtT merits judgment or proof of collection verified. Historical ICO FOIA response (ic-237191-g0t9.pdf) confirms payment of the penalty was stayed pending appeal as of 2023-06-27."
   },
   {
     "collection": "incidentEnforcementRecords",
@@ -6318,10 +6318,10 @@
     "sourceName": "SDNY - NYT v. Microsoft/OpenAI MTD opinion",
     "sourceUrl": "https://nysd.uscourts.gov/sites/default/files/2025-04/yf%2023cv11195%20OpenAI%20MTD%20opinion%20april%204%202025.pdf",
     "sourceKind": "official",
-    "verificationStatus": "uncertain",
+    "verificationStatus": "likely_correct",
     "confidence": "medium",
-    "lastVerified": "2026-06-15",
-    "verificationNotes": "Official SDNY opinion confirms parties, case numbers, and April 2025 posture; exact named-defendant list and original filing date not fully normalized."
+    "lastVerified": "2026-06-16",
+    "verificationNotes": "Official SDNY opinion normalizes the Times-action defendants (Microsoft Corporation; OpenAI, Inc.; OpenAI LP; OpenAI GP, LLC; OpenAI, LLC; OpenAI OpCo LLC; OpenAI Global LLC; OAI Corporation, LLC; OpenAI Holdings, LLC) and confirms the post-MTD posture. No later official docket development verified beyond this opinion."
   },
   {
     "collection": "incidentEnforcementRecords",
@@ -6378,10 +6378,10 @@
     "sourceName": "OPC Canada - PIPEDA Findings #2026-002",
     "sourceUrl": "https://www.priv.gc.ca/en/opc-actions-and-decisions/investigations/investigations-into-businesses/2026/pipeda-2026-002/",
     "sourceKind": "official",
-    "verificationStatus": "uncertain",
+    "verificationStatus": "likely_correct",
     "confidence": "medium",
-    "lastVerified": "2026-06-15",
-    "verificationNotes": "Findings page confirms joint investigation scope and 2026 findings; exact day-level launch date was a placeholder and was removed."
+    "lastVerified": "2026-06-16",
+    "verificationNotes": "Re-verified 2026-06-16: official findings state the OPC launched the complaint-based investigation in April 2023 and the joint investigations were initiated in May 2023, with no exact day given. The prior 2023-04-01 placeholder is not an exact date."
   },
   {
     "collection": "incidentEnforcementRecords",
