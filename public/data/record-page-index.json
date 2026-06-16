@@ -1153,9 +1153,45 @@
   },
   {
     "kind": "enforcement",
+    "id": "andersen-v-stability-ai-2024",
+    "name": "Andersen v. Stability AI Ltd.",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/andersen-v-stability-ai-2024"
+  },
+  {
+    "kind": "enforcement",
+    "id": "ani-media-v-openai-india-2024",
+    "name": "ANI Media Pvt. Ltd. v. OpenAI OpCo LLC",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/ani-media-v-openai-india-2024"
+  },
+  {
+    "kind": "enforcement",
+    "id": "anpd-meta-ai-training-2024",
+    "name": "ANPD preventive measure against Meta (generative-AI training)",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/anpd-meta-ai-training-2024"
+  },
+  {
+    "kind": "enforcement",
+    "id": "eeoc-itutorgroup-algorithmic-hiring-2023",
+    "name": "EEOC v. iTutorGroup, Inc.",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/eeoc-itutorgroup-algorithmic-hiring-2023"
+  },
+  {
+    "kind": "enforcement",
     "id": "ftc-donotpay-ai-lawyer-2025",
     "name": "FTC DoNotPay AI-lawyer deceptive-claims order",
     "url": "https://global-ai-governance-map.vercel.app/enforcement/ftc-donotpay-ai-lawyer-2025"
+  },
+  {
+    "kind": "enforcement",
+    "id": "ftc-everalbum-facial-recognition-2021",
+    "name": "FTC In the Matter of Everalbum, Inc.",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/ftc-everalbum-facial-recognition-2021"
+  },
+  {
+    "kind": "enforcement",
+    "id": "ftc-genai-investments-inquiry-2024",
+    "name": "FTC 6(b) inquiry into generative-AI investments and partnerships",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/ftc-genai-investments-inquiry-2024"
   },
   {
     "kind": "enforcement",
@@ -1177,9 +1213,45 @@
   },
   {
     "kind": "enforcement",
+    "id": "garante-openai-provisional-limitation-2023",
+    "name": "Garante provisional limitation on ChatGPT (OpenAI)",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/garante-openai-provisional-limitation-2023"
+  },
+  {
+    "kind": "enforcement",
+    "id": "garante-openai-sanction-2024",
+    "name": "Garante sanction against OpenAI (ChatGPT), Decision No. 755/2024",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/garante-openai-sanction-2024"
+  },
+  {
+    "kind": "enforcement",
+    "id": "getty-v-stability-ai-uk-2025",
+    "name": "Getty Images v. Stability AI Ltd",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/getty-v-stability-ai-uk-2025"
+  },
+  {
+    "kind": "enforcement",
+    "id": "ico-clearview-ai-fine-2022",
+    "name": "ICO enforcement against Clearview AI Inc.",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/ico-clearview-ai-fine-2022"
+  },
+  {
+    "kind": "enforcement",
+    "id": "ico-snap-my-ai-2024",
+    "name": "ICO investigation into Snap 'My AI'",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/ico-snap-my-ai-2024"
+  },
+  {
+    "kind": "enforcement",
     "id": "kr-pipc-deepseek-status-examination-2025",
     "name": "Korean PIPC DeepSeek status examination",
     "url": "https://global-ai-governance-map.vercel.app/enforcement/kr-pipc-deepseek-status-examination-2025"
+  },
+  {
+    "kind": "enforcement",
+    "id": "mobley-v-workday-algorithmic-hiring-2026",
+    "name": "Mobley v. Workday, Inc.",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/mobley-v-workday-algorithmic-hiring-2026"
   },
   {
     "kind": "enforcement",
@@ -1189,9 +1261,57 @@
   },
   {
     "kind": "enforcement",
+    "id": "nyt-v-microsoft-openai-copyright-2025",
+    "name": "The New York Times Co. v. Microsoft Corp. & OpenAI",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/nyt-v-microsoft-openai-copyright-2025"
+  },
+  {
+    "kind": "enforcement",
+    "id": "oaic-bunnings-facial-recognition-2024",
+    "name": "OAIC determination on Bunnings Group Limited",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/oaic-bunnings-facial-recognition-2024"
+  },
+  {
+    "kind": "enforcement",
+    "id": "oaic-clearview-determination-2021",
+    "name": "OAIC determination on Clearview AI Inc.",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/oaic-clearview-determination-2021"
+  },
+  {
+    "kind": "enforcement",
+    "id": "oaic-kmart-facial-recognition-2025",
+    "name": "OAIC determination on Kmart Australia Limited",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/oaic-kmart-facial-recognition-2025"
+  },
+  {
+    "kind": "enforcement",
+    "id": "opc-canada-clearview-investigation-2021",
+    "name": "Joint investigation of Clearview AI (PIPEDA Findings #2021-001)",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/opc-canada-clearview-investigation-2021"
+  },
+  {
+    "kind": "enforcement",
+    "id": "opc-canada-openai-investigation-2026",
+    "name": "Joint investigation of OpenAI (PIPEDA Findings #2026-002)",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/opc-canada-openai-investigation-2026"
+  },
+  {
+    "kind": "enforcement",
+    "id": "ppc-japan-openai-warning-2023",
+    "name": "Japan PPC warning to OpenAI on ChatGPT",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/ppc-japan-openai-warning-2023"
+  },
+  {
+    "kind": "enforcement",
     "id": "sec-ai-washing-investment-advisers-2024",
     "name": "SEC AI-washing settlements with investment advisers",
     "url": "https://global-ai-governance-map.vercel.app/enforcement/sec-ai-washing-investment-advisers-2024"
+  },
+  {
+    "kind": "enforcement",
+    "id": "thomson-reuters-v-ross-copyright-2025",
+    "name": "Thomson Reuters v. ROSS Intelligence Inc.",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/thomson-reuters-v-ross-copyright-2025"
   },
   {
     "kind": "exposure",
