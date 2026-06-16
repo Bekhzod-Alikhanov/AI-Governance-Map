@@ -818,10 +818,10 @@ export default function App() {
         {/* Floating source badge */}
         {showsMap && !mapChromeHidden && (
           <div className="pointer-events-none absolute bottom-4 right-4 z-10 max-w-md text-right">
-            <p className="pointer-events-auto inline-block rounded-md bg-white/85 px-2.5 py-1 text-[10px] text-ink-500 shadow-panel backdrop-blur">
+            <p className="inline-block rounded-md bg-white/85 px-2.5 py-1 text-[10px] text-ink-500 shadow-panel backdrop-blur">
               Sources: EUR-Lex · OECD · UNESCO · CoE · ISO · GOV.UK · NIST · CAC · MSIT · IMDA · MeitY · AU · ASEAN · APEC · Oxford Insights · CAIDP · Stanford HAI
             </p>
-            <p className="pointer-events-auto mt-1 inline-block rounded-md bg-white/85 px-2 py-0.5 text-[9px] text-ink-400 shadow-panel backdrop-blur">
+            <p className="mt-1 inline-block rounded-md bg-white/85 px-2 py-0.5 text-[9px] text-ink-400 shadow-panel backdrop-blur">
               Built &amp; maintained by Bekhzodkhon (Beck) Alikhanov
             </p>
           </div>

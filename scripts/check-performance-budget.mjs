@@ -13,7 +13,9 @@ const budgets = {
   maxCorpusGzipBytes: 20_000,
   // Total JS includes optional lazy research-workbench, Atlas, dossier, and corpus modules.
   // Keep initial-load budgets strict; allow a narrow ceiling for richer lazy research tools.
-  maxTotalJsBytes: 1_550_000,
+  // Raised 1_550_000 -> 1_600_000 for the AI litigation/enforcement corpus expansion
+  // (lazy chunk only; initial-load budgets above are unchanged).
+  maxTotalJsBytes: 1_600_000,
 };
 
 const files = await readdir(distAssets);
