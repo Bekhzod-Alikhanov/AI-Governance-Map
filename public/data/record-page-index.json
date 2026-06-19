@@ -1153,6 +1153,12 @@
   },
   {
     "kind": "enforcement",
+    "id": "aepd-worldcoin-2024",
+    "name": "AEPD precautionary measure against Worldcoin / Tools for Humanity",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/aepd-worldcoin-2024"
+  },
+  {
+    "kind": "enforcement",
     "id": "andersen-v-stability-ai-2024",
     "name": "Andersen v. Stability AI Ltd.",
     "url": "https://global-ai-governance-map.vercel.app/enforcement/andersen-v-stability-ai-2024"
@@ -1168,6 +1174,12 @@
     "id": "anpd-meta-ai-training-2024",
     "name": "ANPD preventive measure against Meta (generative-AI training)",
     "url": "https://global-ai-governance-map.vercel.app/enforcement/anpd-meta-ai-training-2024"
+  },
+  {
+    "kind": "enforcement",
+    "id": "cnil-clearview-ai-2022",
+    "name": "CNIL sanction against Clearview AI (€20M, SAN-2022-019)",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/cnil-clearview-ai-2022"
   },
   {
     "kind": "enforcement",
@@ -1234,6 +1246,12 @@
     "id": "garante-openai-sanction-2024",
     "name": "Garante sanction against OpenAI (ChatGPT), Decision No. 755/2024",
     "url": "https://global-ai-governance-map.vercel.app/enforcement/garante-openai-sanction-2024"
+  },
+  {
+    "kind": "enforcement",
+    "id": "garante-replika-luka-2025",
+    "name": "Garante fine against Luka Inc. (Replika chatbot), €5M",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/garante-replika-luka-2025"
   },
   {
     "kind": "enforcement",

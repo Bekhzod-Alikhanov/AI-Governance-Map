@@ -6097,6 +6097,18 @@
   },
   {
     "collection": "incidentEnforcementRecords",
+    "id": "aepd-worldcoin-2024",
+    "name": "AEPD precautionary measure against Worldcoin / Tools for Humanity",
+    "sourceName": "AEPD - Worldcoin precautionary measure",
+    "sourceUrl": "https://www.aepd.es/en/press-and-communication/press-releases/agency-orders-precautionary-measure-which-prevents-Worldcoin-from-continuing-toprocess-personal-data-in-spain",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "high",
+    "lastVerified": "2026-06-18",
+    "verificationNotes": "Source-checked 2026-06-18 against the AEPD press release: 2024-03-06 Article 66(1) GDPR precautionary measure halting Worldcoin iris-data collection in Spain; upheld by the National Court. Flagged needs_review."
+  },
+  {
+    "collection": "incidentEnforcementRecords",
     "id": "andersen-v-stability-ai-2024",
     "name": "Andersen v. Stability AI Ltd.",
     "sourceName": "GovInfo - Andersen v. Stability AI order",
@@ -6130,6 +6142,18 @@
     "confidence": "high",
     "lastVerified": "2026-06-16",
     "verificationNotes": "Re-verified 2026-06-16 against the ANPD news page and the Director's vote (Voto nº 23/2024/DIR-JR/CD): they specify the currently-operative restrictions. No later official amendment identified."
+  },
+  {
+    "collection": "incidentEnforcementRecords",
+    "id": "cnil-clearview-ai-2022",
+    "name": "CNIL sanction against Clearview AI (€20M, SAN-2022-019)",
+    "sourceName": "CNIL - €20M penalty against Clearview AI",
+    "sourceUrl": "https://www.cnil.fr/en/facial-recognition-20-million-euros-penalty-against-clearview-ai",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "high",
+    "lastVerified": "2026-06-18",
+    "verificationNotes": "Source-checked 2026-06-18 against the CNIL press release: SAN-2022-019 (2022-10-17), €20M + deletion order; €5.2M overdue penalty 2023-04-13. Flagged needs_review."
   },
   {
     "collection": "incidentEnforcementRecords",
@@ -6262,6 +6286,18 @@
     "confidence": "medium",
     "lastVerified": "2026-06-16",
     "verificationNotes": "Re-verified 2026-06-16: primary sources confirm the 2024 sanction and removal from publication after Rome judgment 4153/2026 (2026-03-18). A second research pass identifies the judgment as Sentenza n. 4153/2026 (R.G. 4785/2025) annulling on one-stop-shop competence grounds without reaching the merits. No appeal stage verified. Press release (docweb 10085432) supports the fine amount and campaign."
+  },
+  {
+    "collection": "incidentEnforcementRecords",
+    "id": "garante-replika-luka-2025",
+    "name": "Garante fine against Luka Inc. (Replika chatbot), €5M",
+    "sourceName": "Garante - Replika (Luka Inc.) €5M sanction",
+    "sourceUrl": "https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/10132048",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "high",
+    "lastVerified": "2026-06-18",
+    "verificationNotes": "Source-checked 2026-06-18 against the Garante press release (docweb 10132048): order No. 10130115 of 2025-04-10, €5M, no legal basis + no age verification, follows the Feb 2023 suspension. Flagged needs_review."
   },
   {
     "collection": "incidentEnforcementRecords",

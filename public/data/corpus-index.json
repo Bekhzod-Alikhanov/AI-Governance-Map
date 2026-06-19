@@ -1859,16 +1859,83 @@
       "verificationStatus": "likely_correct",
       "confidence": "high",
       "lastVerified": "2026-06-18"
+    },
+    {
+      "id": "enforcement:cnil-clearview-ai-2022",
+      "route": "/enforcement/cnil-clearview-ai-2022",
+      "kind": "enforcement",
+      "kindLabel": "Enforcement / litigation",
+      "title": "CNIL sanction against Clearview AI (€20M, SAN-2022-019)",
+      "jurisdiction": "France (CNIL)",
+      "country": "France",
+      "status": "Restricted-committee deliberation, then penalty-payment decision",
+      "domains": [
+        "biometric-identification",
+        "enforcement-litigation"
+      ],
+      "summary": "France's CNIL fined Clearview AI €20m (Deliberation SAN-2022-019) for scraping facial images and processing biometric data without a legal basis, later adding a €5.2m penalty payment for non-compliance.",
+      "caveat": "GDPR enforcement on biometric AI; needs maintainer review against the CNIL deliberation text.",
+      "sourceName": "CNIL - €20M penalty against Clearview AI",
+      "sourceUrl": "https://www.cnil.fr/en/facial-recognition-20-million-euros-penalty-against-clearview-ai",
+      "sourceKind": "official",
+      "verificationStatus": "likely_correct",
+      "confidence": "high",
+      "lastVerified": "2026-06-18"
+    },
+    {
+      "id": "enforcement:garante-replika-luka-2025",
+      "route": "/enforcement/garante-replika-luka-2025",
+      "kind": "enforcement",
+      "kindLabel": "Enforcement / litigation",
+      "title": "Garante fine against Luka Inc. (Replika chatbot), €5M",
+      "jurisdiction": "Italy (Garante per la protezione dei dati personali)",
+      "country": "Italy",
+      "status": "Garante sanctioning decision (order No. 10130115)",
+      "domains": [
+        "frontier-gpai",
+        "education-children",
+        "enforcement-litigation"
+      ],
+      "summary": "Italy's Garante fined Luka Inc., maker of the Replika companion chatbot, €5m for processing user data without a legal basis and failing to prevent minors' access.",
+      "caveat": "GDPR enforcement on a generative-AI companion app; needs maintainer review against the Garante decision.",
+      "sourceName": "Garante - Replika (Luka Inc.) €5M sanction",
+      "sourceUrl": "https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/10132048",
+      "sourceKind": "official",
+      "verificationStatus": "likely_correct",
+      "confidence": "high",
+      "lastVerified": "2026-06-18"
+    },
+    {
+      "id": "enforcement:aepd-worldcoin-2024",
+      "route": "/enforcement/aepd-worldcoin-2024",
+      "kind": "enforcement",
+      "kindLabel": "Enforcement / litigation",
+      "title": "AEPD precautionary measure against Worldcoin / Tools for Humanity",
+      "jurisdiction": "Spain (AEPD)",
+      "country": "Spain",
+      "status": "Provisional measure under Article 66(1) GDPR",
+      "domains": [
+        "biometric-identification",
+        "enforcement-litigation"
+      ],
+      "summary": "Spain's AEPD ordered Worldcoin (Tools for Humanity) to stop collecting iris-biometric data in Spain over consent, minors, and consent-withdrawal concerns; a provisional GDPR measure upheld by the National Court.",
+      "caveat": "Provisional (3-month) GDPR measure, not a final sanction; needs maintainer review against the AEPD resolution.",
+      "sourceName": "AEPD - Worldcoin precautionary measure",
+      "sourceUrl": "https://www.aepd.es/en/press-and-communication/press-releases/agency-orders-precautionary-measure-which-prevents-Worldcoin-from-continuing-toprocess-personal-data-in-spain",
+      "sourceKind": "official",
+      "verificationStatus": "likely_correct",
+      "confidence": "high",
+      "lastVerified": "2026-06-18"
     }
   ],
   "coverageReport": {
-    "totalRecords": 84,
+    "totalRecords": 87,
     "recordsByKind": {
       "institution": 23,
       "policy_process": 10,
       "standards_conformity": 11,
       "public_sector_ai": 10,
-      "enforcement": 30
+      "enforcement": 33
     },
     "countriesWithInstitutionData": [
       "AUT",
