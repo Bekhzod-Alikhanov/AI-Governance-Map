@@ -6105,7 +6105,7 @@
     "verificationStatus": "uncertain",
     "confidence": "medium",
     "lastVerified": "2026-06-15",
-    "verificationNotes": "Re-verification (2026-06-16) could not confirm the specific February 2024 order from the named docket source chain. sourceUrl/proceduralStage left unchanged pending a PACER/RECAP docket-authenticated document; this record stays in the human-review lane."
+    "verificationNotes": "Re-verification (2026-06-16) could not confirm the specific February 2024 order from the named docket source chain; sourceUrl/proceduralStage left unchanged pending a PACER/RECAP-authenticated document. A second research pass adds live defendants (Stability, Midjourney, DeviantArt, Runway) and 2026-11-04 hearing / 2027-04-05 trial dates — not primary-verified here. Stays in the human-review lane."
   },
   {
     "collection": "incidentEnforcementRecords",
@@ -6237,7 +6237,7 @@
     "verificationStatus": "likely_correct",
     "confidence": "medium",
     "lastVerified": "2026-06-16",
-    "verificationNotes": "Re-verified 2026-06-16: primary sources confirm the 2024 sanction and that the decision remains removed from publication after Rome judgment 4153/2026 (2026-03-18). No appeal stage could be verified from accessible official sources. Press release (docweb 10085432) supports the fine amount and campaign."
+    "verificationNotes": "Re-verified 2026-06-16: primary sources confirm the 2024 sanction and removal from publication after Rome judgment 4153/2026 (2026-03-18). A second research pass identifies the judgment as Sentenza n. 4153/2026 (R.G. 4785/2025) annulling on one-stop-shop competence grounds without reaching the merits. No appeal stage verified. Press release (docweb 10085432) supports the fine amount and campaign."
   },
   {
     "collection": "incidentEnforcementRecords",
@@ -6261,7 +6261,7 @@
     "verificationStatus": "verified",
     "confidence": "high",
     "lastVerified": "2026-06-16",
-    "verificationNotes": "Upper Tribunal judgment (re-verified 2026-06-16) confirms jurisdiction was restored and the appeal remitted to the FtT. No later FtT merits judgment or proof of collection verified. Historical ICO FOIA response (ic-237191-g0t9.pdf) confirms payment of the penalty was stayed pending appeal as of 2023-06-27."
+    "verificationNotes": "Upper Tribunal judgment (re-verified 2026-06-16) confirms jurisdiction was restored and the appeal remitted to the FtT. A second research pass reports Court of Appeal permission granted 2025-12-19 (not primary-verified here). No later FtT merits judgment or proof of collection verified; historical ICO FOIA response (ic-237191-g0t9.pdf) confirms payment was stayed pending appeal as of 2023-06-27."
   },
   {
     "collection": "incidentEnforcementRecords",
@@ -6321,7 +6321,7 @@
     "verificationStatus": "likely_correct",
     "confidence": "medium",
     "lastVerified": "2026-06-16",
-    "verificationNotes": "Official SDNY opinion normalizes the Times-action defendants (Microsoft Corporation; OpenAI, Inc.; OpenAI LP; OpenAI GP, LLC; OpenAI, LLC; OpenAI OpCo LLC; OpenAI Global LLC; OAI Corporation, LLC; OpenAI Holdings, LLC) and confirms the post-MTD posture. No later official docket development verified beyond this opinion."
+    "verificationNotes": "Official SDNY opinion normalizes the Times-action defendants (Microsoft Corporation; OpenAI, Inc.; OpenAI LP; OpenAI GP, LLC; OpenAI, LLC; OpenAI OpCo LLC; OpenAI Global LLC; OAI Corporation, LLC; OpenAI Holdings, LLC) and confirms the post-MTD posture. Second research pass (2026-06-16) reports MDL 3143 centralization, a 2025-10-27 consolidated MTD ruling (ECF 701), and a 2026-01-05 production order — not individually primary-verified here."
   },
   {
     "collection": "incidentEnforcementRecords",
@@ -6381,7 +6381,7 @@
     "verificationStatus": "likely_correct",
     "confidence": "medium",
     "lastVerified": "2026-06-16",
-    "verificationNotes": "Re-verified 2026-06-16: official findings state the OPC launched the complaint-based investigation in April 2023 and the joint investigations were initiated in May 2023, with no exact day given. The prior 2023-04-01 placeholder is not an exact date."
+    "verificationNotes": "Re-verified 2026-06-16: official findings confirm the April 2023 complaint-based launch and May 2023 joint initiation. A second research pass dates the joint launch to 2023-05-25 and notes BC/AB found the matter 'well-founded but unresolved.'"
   },
   {
     "collection": "incidentEnforcementRecords",
