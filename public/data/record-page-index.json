@@ -1177,6 +1177,12 @@
   },
   {
     "kind": "enforcement",
+    "id": "ftc-accessibe-ai-accessibility-2025",
+    "name": "FTC order against accessiBe ($1M, AI accessibility-widget claims)",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/ftc-accessibe-ai-accessibility-2025"
+  },
+  {
+    "kind": "enforcement",
     "id": "ftc-donotpay-ai-lawyer-2025",
     "name": "FTC DoNotPay AI-lawyer deceptive-claims order",
     "url": "https://global-ai-governance-map.vercel.app/enforcement/ftc-donotpay-ai-lawyer-2025"
@@ -1186,6 +1192,12 @@
     "id": "ftc-everalbum-facial-recognition-2021",
     "name": "FTC In the Matter of Everalbum, Inc.",
     "url": "https://global-ai-governance-map.vercel.app/enforcement/ftc-everalbum-facial-recognition-2021"
+  },
+  {
+    "kind": "enforcement",
+    "id": "ftc-evolv-weapons-detection-2024",
+    "name": "FTC action against Evolv Technologies (AI weapons-screening claims)",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/ftc-evolv-weapons-detection-2024"
   },
   {
     "kind": "enforcement",
@@ -1306,6 +1318,12 @@
     "id": "sec-ai-washing-investment-advisers-2024",
     "name": "SEC AI-washing settlements with investment advisers",
     "url": "https://global-ai-governance-map.vercel.app/enforcement/sec-ai-washing-investment-advisers-2024"
+  },
+  {
+    "kind": "enforcement",
+    "id": "texas-ag-pieces-healthcare-ai-2024",
+    "name": "Texas AG settlement with Pieces Technologies (healthcare generative AI)",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/texas-ag-pieces-healthcare-ai-2024"
   },
   {
     "kind": "enforcement",

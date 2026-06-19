@@ -1795,16 +1795,80 @@
       "verificationStatus": "likely_correct",
       "confidence": "medium",
       "lastVerified": "2026-06-16"
+    },
+    {
+      "id": "enforcement:ftc-evolv-weapons-detection-2024",
+      "route": "/enforcement/ftc-evolv-weapons-detection-2024",
+      "kind": "enforcement",
+      "kindLabel": "Enforcement / litigation",
+      "title": "FTC action against Evolv Technologies (AI weapons-screening claims)",
+      "jurisdiction": "United States (Federal Trade Commission / D. Mass.)",
+      "country": "United States",
+      "status": "FTC complaint and proposed/stipulated order",
+      "domains": [
+        "enforcement-litigation"
+      ],
+      "summary": "FTC alleged Evolv Technologies deceptively advertised that its AI-powered weapons-detection scanners (used in 800+ schools) could detect all weapons; settled by a stipulated order restricting such claims.",
+      "caveat": "Consumer-protection enforcement over AI marketing claims; needs maintainer review against the FTC order PDF.",
+      "sourceName": "FTC - Evolv Technologies",
+      "sourceUrl": "https://www.ftc.gov/legal-library/browse/cases-proceedings/evolv-technologies",
+      "sourceKind": "official",
+      "verificationStatus": "likely_correct",
+      "confidence": "high",
+      "lastVerified": "2026-06-18"
+    },
+    {
+      "id": "enforcement:ftc-accessibe-ai-accessibility-2025",
+      "route": "/enforcement/ftc-accessibe-ai-accessibility-2025",
+      "kind": "enforcement",
+      "kindLabel": "Enforcement / litigation",
+      "title": "FTC order against accessiBe ($1M, AI accessibility-widget claims)",
+      "jurisdiction": "United States (Federal Trade Commission)",
+      "country": "United States",
+      "status": "FTC complaint, proposed order, then final order",
+      "domains": [
+        "enforcement-litigation"
+      ],
+      "summary": "FTC required accessiBe to pay $1M to settle allegations it misrepresented that its AI accessibility widget could make websites WCAG-compliant, and that it used undisclosed paid reviews.",
+      "caveat": "Consumer-protection enforcement over AI marketing claims; needs maintainer review against the FTC order.",
+      "sourceName": "FTC - accessiBe $1M order",
+      "sourceUrl": "https://www.ftc.gov/news-events/news/press-releases/2025/04/ftc-approves-final-order-requiring-accessibe-pay-1-million",
+      "sourceKind": "official",
+      "verificationStatus": "likely_correct",
+      "confidence": "high",
+      "lastVerified": "2026-06-18"
+    },
+    {
+      "id": "enforcement:texas-ag-pieces-healthcare-ai-2024",
+      "route": "/enforcement/texas-ag-pieces-healthcare-ai-2024",
+      "kind": "enforcement",
+      "kindLabel": "Enforcement / litigation",
+      "title": "Texas AG settlement with Pieces Technologies (healthcare generative AI)",
+      "jurisdiction": "United States (Texas Attorney General)",
+      "country": "United States",
+      "status": "State-AG investigation and settlement",
+      "domains": [
+        "healthcare",
+        "enforcement-litigation"
+      ],
+      "summary": "The first U.S. state-attorney-general settlement over deceptive generative-AI marketing: Texas alleged Pieces' clinical-AI accuracy metrics were likely inaccurate and could mislead hospitals.",
+      "caveat": "State-AG consumer-protection settlement; needs maintainer review against the assurance of voluntary compliance.",
+      "sourceName": "Texas Attorney General - Pieces Technologies settlement",
+      "sourceUrl": "https://www.texasattorneygeneral.gov/news/releases/attorney-general-ken-paxton-reaches-settlement-first-its-kind-healthcare-generative-ai-investigation",
+      "sourceKind": "official",
+      "verificationStatus": "likely_correct",
+      "confidence": "high",
+      "lastVerified": "2026-06-18"
     }
   ],
   "coverageReport": {
-    "totalRecords": 81,
+    "totalRecords": 84,
     "recordsByKind": {
       "institution": 23,
       "policy_process": 10,
       "standards_conformity": 11,
       "public_sector_ai": 10,
-      "enforcement": 27
+      "enforcement": 30
     },
     "countriesWithInstitutionData": [
       "AUT",

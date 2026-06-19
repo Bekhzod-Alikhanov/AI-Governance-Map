@@ -500,6 +500,18 @@ const RECHECK_LIKELY_2026_06_16 = {
   reviewStatus: "editorial_checked",
 } as const;
 
+// Batch-1 ingest (2026-06-18) of net-new candidates: official-agency-sourced
+// enforcement actions, source-checked but not a full primary-document read —
+// all carry reviewStatus "needs_review". (Litigation court cases are deferred to
+// a later pass that pulls each official court-docket URL.)
+const INGEST_ENFORCEMENT_2026_06_18 = {
+  sourceKind: "official",
+  verificationStatus: "likely_correct",
+  confidence: "high",
+  lastVerified: "2026-06-18",
+  reviewStatus: "needs_review",
+} as const;
+
 export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
   {
     id: "ftc-operation-ai-comply-2024",
@@ -1171,6 +1183,84 @@ export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
     verificationNotes:
       "Re-verified 2026-06-16: the official 2026-03-27 order confirms judgment was reserved on the interim application (I.A. 45300/2024). Post-order docket activity could not be exhaustively verified because the official Delhi High Court case-history interfaces require captcha.",
     ...RECHECK_LIKELY_2026_06_16,
+  },
+
+  // ===== Batch-1 net-new ingest (2026-06-18) — source-checked, needs_review =====
+  {
+    id: "ftc-evolv-weapons-detection-2024",
+    eventType: "enforcement_action",
+    title: "FTC action against Evolv Technologies (AI weapons-screening claims)",
+    jurisdiction: "United States (Federal Trade Commission / D. Mass.)",
+    countryIso3: "USA",
+    labIds: [],
+    date: "2024-11-26",
+    status: "stipulated order announced",
+    proceduralStage: "FTC complaint and proposed/stipulated order",
+    affectedActorClass: "AI security-screening vendor (schools, stadiums, hospitals)",
+    outcomeOrRemedy:
+      "Proposed order bars Evolv from making unsupported claims that its AI-powered Express scanners detect all weapons and ignore harmless items, and lets certain K-12 school customers cancel contracts.",
+    officialDocketUrl: "https://www.ftc.gov/legal-library/browse/cases-proceedings/evolv-technologies",
+    domains: ["enforcement-litigation"],
+    summary:
+      "FTC alleged Evolv Technologies deceptively advertised that its AI-powered weapons-detection scanners (used in 800+ schools) could detect all weapons; settled by a stipulated order restricting such claims.",
+    caveat: "Consumer-protection enforcement over AI marketing claims; needs maintainer review against the FTC order PDF.",
+    sourceName: "FTC - Evolv Technologies",
+    sourceUrl:
+      "https://www.ftc.gov/news-events/news/press-releases/2024/11/ftc-takes-action-against-evolv-technologies-deceiving-users-about-its-ai-powered-security-screening",
+    verificationNotes:
+      "Source-checked 2026-06-18 against the FTC press release and case page (filed in D. Mass., action dated 2024-11-26). Not a full primary-order read; flagged needs_review.",
+    ...INGEST_ENFORCEMENT_2026_06_18,
+  },
+  {
+    id: "ftc-accessibe-ai-accessibility-2025",
+    eventType: "enforcement_action",
+    title: "FTC order against accessiBe ($1M, AI accessibility-widget claims)",
+    jurisdiction: "United States (Federal Trade Commission)",
+    countryIso3: "USA",
+    labIds: [],
+    date: "2025-01-03",
+    status: "$1,000,000 settlement; final order approved April 2025",
+    proceduralStage: "FTC complaint, proposed order, then final order",
+    affectedActorClass: "AI website-accessibility software vendor",
+    outcomeOrRemedy:
+      "$1,000,000 and an order barring claims that accessWidget's AI can make any website WCAG-compliant without supporting evidence; also requires disclosure of material connections to endorsers.",
+    officialDocketUrl: "https://www.ftc.gov/news-events/news/press-releases/2025/04/ftc-approves-final-order-requiring-accessibe-pay-1-million",
+    domains: ["enforcement-litigation"],
+    summary:
+      "FTC required accessiBe to pay $1M to settle allegations it misrepresented that its AI accessibility widget could make websites WCAG-compliant, and that it used undisclosed paid reviews.",
+    caveat: "Consumer-protection enforcement over AI marketing claims; needs maintainer review against the FTC order.",
+    sourceName: "FTC - accessiBe $1M order",
+    sourceUrl:
+      "https://www.ftc.gov/news-events/news/press-releases/2025/01/ftc-order-requires-online-marketer-pay-1-million-deceptive-claims-its-ai-product-could-make-websites",
+    verificationNotes:
+      "Source-checked 2026-06-18: FTC announced the $1M settlement 2025-01-03 and approved the final order in April 2025. Not a full primary-order read; flagged needs_review.",
+    ...INGEST_ENFORCEMENT_2026_06_18,
+  },
+  {
+    id: "texas-ag-pieces-healthcare-ai-2024",
+    eventType: "enforcement_action",
+    title: "Texas AG settlement with Pieces Technologies (healthcare generative AI)",
+    jurisdiction: "United States (Texas Attorney General)",
+    countryIso3: "USA",
+    labIds: [],
+    date: "2024-09-18",
+    status: "settled (assurance of voluntary compliance); no monetary penalty",
+    proceduralStage: "State-AG investigation and settlement",
+    affectedActorClass: "Healthcare generative-AI vendor (clinical summarization/charting)",
+    outcomeOrRemedy:
+      "No monetary payment; Pieces must accurately disclose the accuracy/limits of its generative-AI products and ensure hospital staff understand how much to rely on them.",
+    officialDocketUrl:
+      "https://www.texasattorneygeneral.gov/news/releases/attorney-general-ken-paxton-reaches-settlement-first-its-kind-healthcare-generative-ai-investigation",
+    domains: ["healthcare", "enforcement-litigation"],
+    summary:
+      "The first U.S. state-attorney-general settlement over deceptive generative-AI marketing: Texas alleged Pieces' clinical-AI accuracy metrics were likely inaccurate and could mislead hospitals.",
+    caveat: "State-AG consumer-protection settlement; needs maintainer review against the assurance of voluntary compliance.",
+    sourceName: "Texas Attorney General - Pieces Technologies settlement",
+    sourceUrl:
+      "https://www.texasattorneygeneral.gov/news/releases/attorney-general-ken-paxton-reaches-settlement-first-its-kind-healthcare-generative-ai-investigation",
+    verificationNotes:
+      "Source-checked 2026-06-18 against the Texas AG press release (settlement 2024-09-18, no monetary payment). Flagged needs_review.",
+    ...INGEST_ENFORCEMENT_2026_06_18,
   },
 ];
 
