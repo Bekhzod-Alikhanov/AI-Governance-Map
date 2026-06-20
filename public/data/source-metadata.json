@@ -6265,6 +6265,18 @@
   },
   {
     "collection": "incidentEnforcementRecords",
+    "id": "garante-deepseek-limitation-2025",
+    "name": "Garante limitation on DeepSeek (Italian users' data)",
+    "sourceName": "Garante - English press room (DeepSeek limitation)",
+    "sourceUrl": "https://www.garanteprivacy.it/web/garante-privacy-en/press-room",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "high",
+    "lastVerified": "2026-06-18",
+    "verificationNotes": "Source-checked 2026-06-18: Garante (issuer) and reputable coverage confirm the 2025-01-30 definitive limitation on DeepSeek and the block in Italy after an Altroconsumo complaint. The specific provvedimento docweb URL was not located; linked to the official Garante press room pending confirmation. Flagged needs_review."
+  },
+  {
+    "collection": "incidentEnforcementRecords",
     "id": "garante-openai-provisional-limitation-2023",
     "name": "Garante provisional limitation on ChatGPT (OpenAI)",
     "sourceName": "Garante - provisional limitation on ChatGPT",
@@ -6310,6 +6322,18 @@
     "confidence": "high",
     "lastVerified": "2026-06-15",
     "verificationNotes": "Official judiciary page confirms neutral citation, case number, parties, and claim nature."
+  },
+  {
+    "collection": "incidentEnforcementRecords",
+    "id": "hellenic-dpa-clearview-ai-2022",
+    "name": "Hellenic DPA sanction against Clearview AI (€20M, Decision 35/2022)",
+    "sourceName": "EDPB - Hellenic DPA fines Clearview AI €20M",
+    "sourceUrl": "https://www.edpb.europa.eu/news/national-news/2022/hellenic-dpa-fines-clearview-ai-20-million-euros_en",
+    "sourceKind": "official",
+    "verificationStatus": "likely_correct",
+    "confidence": "high",
+    "lastVerified": "2026-06-18",
+    "verificationNotes": "Source-checked 2026-06-18 against the EDPB national-news page: Decision 35/2022 (2022-07-13), €20M + ban + deletion order. Flagged needs_review."
   },
   {
     "collection": "incidentEnforcementRecords",

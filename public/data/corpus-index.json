@@ -1926,16 +1926,60 @@
       "verificationStatus": "likely_correct",
       "confidence": "high",
       "lastVerified": "2026-06-18"
+    },
+    {
+      "id": "enforcement:hellenic-dpa-clearview-ai-2022",
+      "route": "/enforcement/hellenic-dpa-clearview-ai-2022",
+      "kind": "enforcement",
+      "kindLabel": "Enforcement / litigation",
+      "title": "Hellenic DPA sanction against Clearview AI (€20M, Decision 35/2022)",
+      "jurisdiction": "Greece (Hellenic Data Protection Authority)",
+      "country": "Greece",
+      "status": "Hellenic DPA decision (No. 35/2022)",
+      "domains": [
+        "biometric-identification",
+        "enforcement-litigation"
+      ],
+      "summary": "Greece's Hellenic DPA fined Clearview AI €20m (Decision 35/2022) for unlawful facial-recognition processing and ordered it to stop and delete data on people in Greece.",
+      "caveat": "GDPR enforcement on biometric AI; needs maintainer review against the Hellenic DPA decision text.",
+      "sourceName": "EDPB - Hellenic DPA fines Clearview AI €20M",
+      "sourceUrl": "https://www.edpb.europa.eu/news/national-news/2022/hellenic-dpa-fines-clearview-ai-20-million-euros_en",
+      "sourceKind": "official",
+      "verificationStatus": "likely_correct",
+      "confidence": "high",
+      "lastVerified": "2026-06-18"
+    },
+    {
+      "id": "enforcement:garante-deepseek-limitation-2025",
+      "route": "/enforcement/garante-deepseek-limitation-2025",
+      "kind": "enforcement",
+      "kindLabel": "Enforcement / litigation",
+      "title": "Garante limitation on DeepSeek (Italian users' data)",
+      "jurisdiction": "Italy (Garante per la protezione dei dati personali)",
+      "country": "Italy",
+      "status": "Garante urgent limitation decision",
+      "domains": [
+        "frontier-gpai",
+        "enforcement-litigation"
+      ],
+      "summary": "Italy's Garante imposed a definitive limitation on DeepSeek's processing of Italian users' personal data (2025-01-30) and the service was blocked in Italy pending answers on its data handling.",
+      "caveat": "GDPR enforcement on a foreign frontier-AI provider; needs maintainer review — the exact official provvedimento docweb URL should replace the general Garante press-room link.",
+      "sourceName": "Garante - English press room (DeepSeek limitation)",
+      "sourceUrl": "https://www.garanteprivacy.it/web/garante-privacy-en/press-room",
+      "sourceKind": "official",
+      "verificationStatus": "likely_correct",
+      "confidence": "high",
+      "lastVerified": "2026-06-18"
     }
   ],
   "coverageReport": {
-    "totalRecords": 87,
+    "totalRecords": 89,
     "recordsByKind": {
       "institution": 23,
       "policy_process": 10,
       "standards_conformity": 11,
       "public_sector_ai": 10,
-      "enforcement": 33
+      "enforcement": 35
     },
     "countriesWithInstitutionData": [
       "AUT",

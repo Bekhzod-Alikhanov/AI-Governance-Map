@@ -1336,6 +1336,55 @@ export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
       "Source-checked 2026-06-18 against the AEPD press release: 2024-03-06 Article 66(1) GDPR precautionary measure halting Worldcoin iris-data collection in Spain; upheld by the National Court. Flagged needs_review.",
     ...INGEST_ENFORCEMENT_2026_06_18,
   },
+  {
+    id: "hellenic-dpa-clearview-ai-2022",
+    eventType: "enforcement_action",
+    title: "Hellenic DPA sanction against Clearview AI (€20M, Decision 35/2022)",
+    jurisdiction: "Greece (Hellenic Data Protection Authority)",
+    countryIso3: "GRC",
+    labIds: [],
+    date: "2022-07-13",
+    status: "€20M fine + processing ban and deletion order",
+    proceduralStage: "Hellenic DPA decision (No. 35/2022)",
+    affectedActorClass: "Facial-recognition service provider (web scraping)",
+    outcomeOrRemedy:
+      "€20,000,000 fine — the highest ever imposed by the Hellenic DPA — plus a ban on collecting and processing the data of people in Greece via facial recognition and an order to delete data already collected. Followed civil-society complaints (Homo Digitalis, Privacy International, noyb, Hermes Center).",
+    officialDocketUrl: "https://www.edpb.europa.eu/news/national-news/2022/hellenic-dpa-fines-clearview-ai-20-million-euros_en",
+    domains: ["biometric-identification", "enforcement-litigation"],
+    summary:
+      "Greece's Hellenic DPA fined Clearview AI €20m (Decision 35/2022) for unlawful facial-recognition processing and ordered it to stop and delete data on people in Greece.",
+    caveat: "GDPR enforcement on biometric AI; needs maintainer review against the Hellenic DPA decision text.",
+    sourceName: "EDPB - Hellenic DPA fines Clearview AI €20M",
+    sourceUrl: "https://www.edpb.europa.eu/news/national-news/2022/hellenic-dpa-fines-clearview-ai-20-million-euros_en",
+    verificationNotes:
+      "Source-checked 2026-06-18 against the EDPB national-news page: Decision 35/2022 (2022-07-13), €20M + ban + deletion order. Flagged needs_review.",
+    ...INGEST_ENFORCEMENT_2026_06_18,
+  },
+  {
+    id: "garante-deepseek-limitation-2025",
+    eventType: "enforcement_action",
+    title: "Garante limitation on DeepSeek (Italian users' data)",
+    jurisdiction: "Italy (Garante per la protezione dei dati personali)",
+    countryIso3: "ITA",
+    labIds: ["deepseek"],
+    date: "2025-01-30",
+    status: "definitive limitation on processing; DeepSeek blocked in Italy",
+    proceduralStage: "Garante urgent limitation decision",
+    affectedActorClass: "Frontier model provider (foreign chatbot)",
+    outcomeOrRemedy:
+      "After a complaint from Altroconsumo and an information request, the Garante imposed a definitive limitation on the processing of Italian users' data by Hangzhou DeepSeek and Beijing DeepSeek, and the DeepSeek app was blocked in Italy, on the basis that the companies' claim of falling outside EU law was not accepted.",
+    officialDocketUrl: "https://www.garanteprivacy.it/web/garante-privacy-en/press-room",
+    domains: ["frontier-gpai", "enforcement-litigation"],
+    summary:
+      "Italy's Garante imposed a definitive limitation on DeepSeek's processing of Italian users' personal data (2025-01-30) and the service was blocked in Italy pending answers on its data handling.",
+    caveat:
+      "GDPR enforcement on a foreign frontier-AI provider; needs maintainer review — the exact official provvedimento docweb URL should replace the general Garante press-room link.",
+    sourceName: "Garante - English press room (DeepSeek limitation)",
+    sourceUrl: "https://www.garanteprivacy.it/web/garante-privacy-en/press-room",
+    verificationNotes:
+      "Source-checked 2026-06-18: Garante (issuer) and reputable coverage confirm the 2025-01-30 definitive limitation on DeepSeek and the block in Italy after an Altroconsumo complaint. The specific provvedimento docweb URL was not located; linked to the official Garante press room pending confirmation. Flagged needs_review.",
+    ...INGEST_ENFORCEMENT_2026_06_18,
+  },
 ];
 
 export const COMPUTE_DEPENDENCY_RECORDS: ComputeDependencyRecord[] = [

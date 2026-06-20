@@ -1237,6 +1237,12 @@
   },
   {
     "kind": "enforcement",
+    "id": "garante-deepseek-limitation-2025",
+    "name": "Garante limitation on DeepSeek (Italian users' data)",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/garante-deepseek-limitation-2025"
+  },
+  {
+    "kind": "enforcement",
     "id": "garante-openai-provisional-limitation-2023",
     "name": "Garante provisional limitation on ChatGPT (OpenAI)",
     "url": "https://global-ai-governance-map.vercel.app/enforcement/garante-openai-provisional-limitation-2023"
@@ -1258,6 +1264,12 @@
     "id": "getty-v-stability-ai-uk-2025",
     "name": "Getty Images v. Stability AI Ltd",
     "url": "https://global-ai-governance-map.vercel.app/enforcement/getty-v-stability-ai-uk-2025"
+  },
+  {
+    "kind": "enforcement",
+    "id": "hellenic-dpa-clearview-ai-2022",
+    "name": "Hellenic DPA sanction against Clearview AI (€20M, Decision 35/2022)",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/hellenic-dpa-clearview-ai-2022"
   },
   {
     "kind": "enforcement",
