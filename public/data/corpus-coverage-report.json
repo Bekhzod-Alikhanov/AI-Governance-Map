@@ -1,11 +1,11 @@
 {
-  "totalRecords": 89,
+  "totalRecords": 92,
   "recordsByKind": {
     "institution": 23,
     "policy_process": 10,
     "standards_conformity": 11,
     "public_sector_ai": 10,
-    "enforcement": 35
+    "enforcement": 38
   },
   "countriesWithInstitutionData": [
     "AUT",

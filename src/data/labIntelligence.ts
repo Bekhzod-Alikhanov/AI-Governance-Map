@@ -512,6 +512,17 @@ const INGEST_ENFORCEMENT_2026_06_18 = {
   reviewStatus: "needs_review",
 } as const;
 
+// Litigation pass (2026-06-19): federal court cases sourced to the official
+// govinfo US-Courts case page. Posture is volatile and the specific document was
+// not individually read, so verificationStatus is "uncertain" + needs_review.
+const INGEST_LITIGATION_OFFICIAL_2026_06_19 = {
+  sourceKind: "official",
+  verificationStatus: "uncertain",
+  confidence: "medium",
+  lastVerified: "2026-06-19",
+  reviewStatus: "needs_review",
+} as const;
+
 export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
   {
     id: "ftc-operation-ai-comply-2024",
@@ -1384,6 +1395,83 @@ export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
     verificationNotes:
       "Source-checked 2026-06-18: Garante (issuer) and reputable coverage confirm the 2025-01-30 definitive limitation on DeepSeek and the block in Italy after an Altroconsumo complaint. The specific provvedimento docweb URL was not located; linked to the official Garante press room pending confirmation. Flagged needs_review.",
     ...INGEST_ENFORCEMENT_2026_06_18,
+  },
+
+  // ===== Litigation pass (2026-06-19) — federal court cases via govinfo =====
+  {
+    id: "bartz-v-anthropic-copyright-2025",
+    eventType: "litigation",
+    title: "Bartz v. Anthropic (authors' copyright class action)",
+    jurisdiction: "United States (N.D. Cal., 3:24-cv-05417)",
+    countryIso3: "USA",
+    labIds: ["anthropic"],
+    date: "2025-09-05",
+    status: "~$1.5B preliminary settlement after a split fair-use ruling",
+    proceduralStage: "Summary-judgment ruling (June 2025); preliminary settlement (Sept 2025)",
+    affectedActorClass: "Frontier model provider (training data)",
+    outcomeOrRemedy:
+      "Judge Alsup ruled in June 2025 that training on lawfully-acquired books was fair use, but that building a library from pirated copies was not. The parties then announced a ~$1.5 billion settlement on 2025-09-05 — widely reported as the largest U.S. copyright settlement.",
+    officialDocketUrl: "https://www.govinfo.gov/app/details/USCOURTS-cand-3_24-cv-05417",
+    domains: ["frontier-gpai", "enforcement-litigation"],
+    summary:
+      "Authors (Andrea Bartz, Charles Graeber, Kirk Wallace Johnson) sued Anthropic over training Claude on their books; a landmark ruling split training (fair use) from piracy (not), followed by a ~$1.5B settlement.",
+    caveat:
+      "Litigation status is volatile (settlement approval was under review); confirm against the docket. The govinfo case page is the official record; the specific order was not individually read here.",
+    sourceName: "GovInfo - Bartz v. Anthropic (USCOURTS-cand-3_24-cv-05417)",
+    sourceUrl: "https://www.govinfo.gov/app/details/USCOURTS-cand-3_24-cv-05417",
+    verificationNotes:
+      "Source-checked 2026-06-19: N.D. Cal. 3:24-cv-05417, Judge Alsup; June 2025 fair-use ruling; ~$1.5B settlement announced 2025-09-05 (widely reported). Official govinfo case page used; flagged needs_review.",
+    ...INGEST_LITIGATION_OFFICIAL_2026_06_19,
+  },
+  {
+    id: "kadrey-v-meta-copyright-2025",
+    eventType: "litigation",
+    title: "Kadrey v. Meta Platforms (authors' copyright)",
+    jurisdiction: "United States (N.D. Cal., 3:23-cv-03417)",
+    countryIso3: "USA",
+    labIds: ["meta"],
+    date: "2025-06-25",
+    status: "summary judgment for Meta on fair use (with a 'market dilution' caveat); ongoing",
+    proceduralStage: "Order on summary judgment (2025-06-25, Judge Chhabria)",
+    affectedActorClass: "Frontier model provider (training data)",
+    outcomeOrRemedy:
+      "Judge Chhabria granted Meta summary judgment on the fair-use question for training Llama on the plaintiffs' books, calling the use highly transformative — but warned that a 'market dilution' theory (not properly developed on this record) could let future plaintiffs win.",
+    officialDocketUrl: "https://www.govinfo.gov/app/details/USCOURTS-cand-3_23-cv-03417",
+    domains: ["frontier-gpai", "enforcement-litigation"],
+    summary:
+      "Thirteen authors (incl. Richard Kadrey, Sarah Silverman) sued Meta over training Llama on their books; the court found fair use on the record but expressly flagged 'market dilution' as a live future theory.",
+    caveat:
+      "The fair-use win was on the specific record; the court left 'market dilution' open. Confirm current posture against the docket.",
+    sourceName: "GovInfo - Kadrey v. Meta Platforms (USCOURTS-cand-3_23-cv-03417)",
+    sourceUrl: "https://www.govinfo.gov/app/details/USCOURTS-cand-3_23-cv-03417",
+    verificationNotes:
+      "Source-checked 2026-06-19: N.D. Cal. 3:23-cv-03417, Judge Chhabria, 2025-06-25 fair-use summary judgment for Meta with 'market dilution' dicta; official govinfo case page confirmed in search results. Flagged needs_review.",
+    ...INGEST_LITIGATION_OFFICIAL_2026_06_19,
+  },
+  {
+    id: "garcia-v-character-ai-wrongful-death-2024",
+    eventType: "litigation",
+    title: "Garcia v. Character Technologies (and Google) — AI-chatbot wrongful death",
+    jurisdiction: "United States (M.D. Fla., 6:24-cv-01903)",
+    countryIso3: "USA",
+    labIds: ["google-deepmind"],
+    date: "2024-10-22",
+    status: "pending; court allowed key claims to proceed (May 2025)",
+    proceduralStage: "Motion to dismiss largely denied; ongoing",
+    affectedActorClass: "AI companion-chatbot provider + co-defendant platform",
+    outcomeOrRemedy:
+      "The first wrongful-death suit against an AI-chatbot company (death of 14-year-old Sewell Setzer III). In May 2025 the court rejected a blanket First Amendment defense and let product-liability, wrongful-death, and Florida UDTPA claims proceed.",
+    officialDocketUrl: "https://www.govinfo.gov/app/details/USCOURTS-flmd-6_24-cv-01903",
+    domains: ["education-children", "frontier-gpai", "enforcement-litigation"],
+    summary:
+      "Megan Garcia sued Character.AI, its founders, and Google after her son's suicide following interactions with a Character.AI persona — a landmark AI product-liability / wrongful-death case.",
+    caveat:
+      "Volatile and high-profile; Google's exact role and the current posture should be confirmed against the docket. The govinfo M.D. Fla. case page should be verified to resolve to the right documents.",
+    sourceName: "GovInfo - Garcia v. Character Technologies (USCOURTS-flmd-6_24-cv-01903)",
+    sourceUrl: "https://www.govinfo.gov/app/details/USCOURTS-flmd-6_24-cv-01903",
+    verificationNotes:
+      "Source-checked 2026-06-19: M.D. Fla. 6:24-cv-01903; filed Oct 2024; May 2025 ruling allowing claims to proceed. govinfo case-page URL constructed from the docket (M.D. Fla. coverage not individually confirmed); flagged needs_review.",
+    ...INGEST_LITIGATION_OFFICIAL_2026_06_19,
   },
 ];
 

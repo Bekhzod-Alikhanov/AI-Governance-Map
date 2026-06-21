@@ -1970,16 +1970,83 @@
       "verificationStatus": "likely_correct",
       "confidence": "high",
       "lastVerified": "2026-06-18"
+    },
+    {
+      "id": "enforcement:bartz-v-anthropic-copyright-2025",
+      "route": "/enforcement/bartz-v-anthropic-copyright-2025",
+      "kind": "enforcement",
+      "kindLabel": "Enforcement / litigation",
+      "title": "Bartz v. Anthropic (authors' copyright class action)",
+      "jurisdiction": "United States (N.D. Cal., 3:24-cv-05417)",
+      "country": "United States",
+      "status": "Summary-judgment ruling (June 2025); preliminary settlement (Sept 2025)",
+      "domains": [
+        "frontier-gpai",
+        "enforcement-litigation"
+      ],
+      "summary": "Authors (Andrea Bartz, Charles Graeber, Kirk Wallace Johnson) sued Anthropic over training Claude on their books; a landmark ruling split training (fair use) from piracy (not), followed by a ~$1.5B settlement.",
+      "caveat": "Litigation status is volatile (settlement approval was under review); confirm against the docket. The govinfo case page is the official record; the specific order was not individually read here.",
+      "sourceName": "GovInfo - Bartz v. Anthropic (USCOURTS-cand-3_24-cv-05417)",
+      "sourceUrl": "https://www.govinfo.gov/app/details/USCOURTS-cand-3_24-cv-05417",
+      "sourceKind": "official",
+      "verificationStatus": "uncertain",
+      "confidence": "medium",
+      "lastVerified": "2026-06-19"
+    },
+    {
+      "id": "enforcement:kadrey-v-meta-copyright-2025",
+      "route": "/enforcement/kadrey-v-meta-copyright-2025",
+      "kind": "enforcement",
+      "kindLabel": "Enforcement / litigation",
+      "title": "Kadrey v. Meta Platforms (authors' copyright)",
+      "jurisdiction": "United States (N.D. Cal., 3:23-cv-03417)",
+      "country": "United States",
+      "status": "Order on summary judgment (2025-06-25, Judge Chhabria)",
+      "domains": [
+        "frontier-gpai",
+        "enforcement-litigation"
+      ],
+      "summary": "Thirteen authors (incl. Richard Kadrey, Sarah Silverman) sued Meta over training Llama on their books; the court found fair use on the record but expressly flagged 'market dilution' as a live future theory.",
+      "caveat": "The fair-use win was on the specific record; the court left 'market dilution' open. Confirm current posture against the docket.",
+      "sourceName": "GovInfo - Kadrey v. Meta Platforms (USCOURTS-cand-3_23-cv-03417)",
+      "sourceUrl": "https://www.govinfo.gov/app/details/USCOURTS-cand-3_23-cv-03417",
+      "sourceKind": "official",
+      "verificationStatus": "uncertain",
+      "confidence": "medium",
+      "lastVerified": "2026-06-19"
+    },
+    {
+      "id": "enforcement:garcia-v-character-ai-wrongful-death-2024",
+      "route": "/enforcement/garcia-v-character-ai-wrongful-death-2024",
+      "kind": "enforcement",
+      "kindLabel": "Enforcement / litigation",
+      "title": "Garcia v. Character Technologies (and Google) — AI-chatbot wrongful death",
+      "jurisdiction": "United States (M.D. Fla., 6:24-cv-01903)",
+      "country": "United States",
+      "status": "Motion to dismiss largely denied; ongoing",
+      "domains": [
+        "education-children",
+        "frontier-gpai",
+        "enforcement-litigation"
+      ],
+      "summary": "Megan Garcia sued Character.AI, its founders, and Google after her son's suicide following interactions with a Character.AI persona — a landmark AI product-liability / wrongful-death case.",
+      "caveat": "Volatile and high-profile; Google's exact role and the current posture should be confirmed against the docket. The govinfo M.D. Fla. case page should be verified to resolve to the right documents.",
+      "sourceName": "GovInfo - Garcia v. Character Technologies (USCOURTS-flmd-6_24-cv-01903)",
+      "sourceUrl": "https://www.govinfo.gov/app/details/USCOURTS-flmd-6_24-cv-01903",
+      "sourceKind": "official",
+      "verificationStatus": "uncertain",
+      "confidence": "medium",
+      "lastVerified": "2026-06-19"
     }
   ],
   "coverageReport": {
-    "totalRecords": 89,
+    "totalRecords": 92,
     "recordsByKind": {
       "institution": 23,
       "policy_process": 10,
       "standards_conformity": 11,
       "public_sector_ai": 10,
-      "enforcement": 35
+      "enforcement": 38
     },
     "countriesWithInstitutionData": [
       "AUT",

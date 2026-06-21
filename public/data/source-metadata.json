@@ -6145,6 +6145,18 @@
   },
   {
     "collection": "incidentEnforcementRecords",
+    "id": "bartz-v-anthropic-copyright-2025",
+    "name": "Bartz v. Anthropic (authors' copyright class action)",
+    "sourceName": "GovInfo - Bartz v. Anthropic (USCOURTS-cand-3_24-cv-05417)",
+    "sourceUrl": "https://www.govinfo.gov/app/details/USCOURTS-cand-3_24-cv-05417",
+    "sourceKind": "official",
+    "verificationStatus": "uncertain",
+    "confidence": "medium",
+    "lastVerified": "2026-06-19",
+    "verificationNotes": "Source-checked 2026-06-19: N.D. Cal. 3:24-cv-05417, Judge Alsup; June 2025 fair-use ruling; ~$1.5B settlement announced 2025-09-05 (widely reported). Official govinfo case page used; flagged needs_review."
+  },
+  {
+    "collection": "incidentEnforcementRecords",
     "id": "cnil-clearview-ai-2022",
     "name": "CNIL sanction against Clearview AI (€20M, SAN-2022-019)",
     "sourceName": "CNIL - €20M penalty against Clearview AI",
@@ -6313,6 +6325,18 @@
   },
   {
     "collection": "incidentEnforcementRecords",
+    "id": "garcia-v-character-ai-wrongful-death-2024",
+    "name": "Garcia v. Character Technologies (and Google) — AI-chatbot wrongful death",
+    "sourceName": "GovInfo - Garcia v. Character Technologies (USCOURTS-flmd-6_24-cv-01903)",
+    "sourceUrl": "https://www.govinfo.gov/app/details/USCOURTS-flmd-6_24-cv-01903",
+    "sourceKind": "official",
+    "verificationStatus": "uncertain",
+    "confidence": "medium",
+    "lastVerified": "2026-06-19",
+    "verificationNotes": "Source-checked 2026-06-19: M.D. Fla. 6:24-cv-01903; filed Oct 2024; May 2025 ruling allowing claims to proceed. govinfo case-page URL constructed from the docket (M.D. Fla. coverage not individually confirmed); flagged needs_review."
+  },
+  {
+    "collection": "incidentEnforcementRecords",
     "id": "getty-v-stability-ai-uk-2025",
     "name": "Getty Images v. Stability AI Ltd",
     "sourceName": "Courts and Tribunals Judiciary - Getty v Stability AI",
@@ -6358,6 +6382,18 @@
     "confidence": "high",
     "lastVerified": "2026-06-15",
     "verificationNotes": "Official ICO decision confirms the 6 Oct 2023 PEN, the revised DPIA, and the 19 June 2024 decision not to issue an enforcement notice."
+  },
+  {
+    "collection": "incidentEnforcementRecords",
+    "id": "kadrey-v-meta-copyright-2025",
+    "name": "Kadrey v. Meta Platforms (authors' copyright)",
+    "sourceName": "GovInfo - Kadrey v. Meta Platforms (USCOURTS-cand-3_23-cv-03417)",
+    "sourceUrl": "https://www.govinfo.gov/app/details/USCOURTS-cand-3_23-cv-03417",
+    "sourceKind": "official",
+    "verificationStatus": "uncertain",
+    "confidence": "medium",
+    "lastVerified": "2026-06-19",
+    "verificationNotes": "Source-checked 2026-06-19: N.D. Cal. 3:23-cv-03417, Judge Chhabria, 2025-06-25 fair-use summary judgment for Meta with 'market dilution' dicta; official govinfo case page confirmed in search results. Flagged needs_review."
   },
   {
     "collection": "incidentEnforcementRecords",

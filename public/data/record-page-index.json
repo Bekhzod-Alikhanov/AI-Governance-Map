@@ -1177,6 +1177,12 @@
   },
   {
     "kind": "enforcement",
+    "id": "bartz-v-anthropic-copyright-2025",
+    "name": "Bartz v. Anthropic (authors' copyright class action)",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/bartz-v-anthropic-copyright-2025"
+  },
+  {
+    "kind": "enforcement",
     "id": "cnil-clearview-ai-2022",
     "name": "CNIL sanction against Clearview AI (€20M, SAN-2022-019)",
     "url": "https://global-ai-governance-map.vercel.app/enforcement/cnil-clearview-ai-2022"
@@ -1261,6 +1267,12 @@
   },
   {
     "kind": "enforcement",
+    "id": "garcia-v-character-ai-wrongful-death-2024",
+    "name": "Garcia v. Character Technologies (and Google) — AI-chatbot wrongful death",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/garcia-v-character-ai-wrongful-death-2024"
+  },
+  {
+    "kind": "enforcement",
     "id": "getty-v-stability-ai-uk-2025",
     "name": "Getty Images v. Stability AI Ltd",
     "url": "https://global-ai-governance-map.vercel.app/enforcement/getty-v-stability-ai-uk-2025"
@@ -1282,6 +1294,12 @@
     "id": "ico-snap-my-ai-2024",
     "name": "ICO investigation into Snap 'My AI'",
     "url": "https://global-ai-governance-map.vercel.app/enforcement/ico-snap-my-ai-2024"
+  },
+  {
+    "kind": "enforcement",
+    "id": "kadrey-v-meta-copyright-2025",
+    "name": "Kadrey v. Meta Platforms (authors' copyright)",
+    "url": "https://global-ai-governance-map.vercel.app/enforcement/kadrey-v-meta-copyright-2025"
   },
   {
     "kind": "enforcement",
