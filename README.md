@@ -1,6 +1,6 @@
 # AI Governance Map
 
-> Research-grade global AI governance and AI Atlas workbench for mapping laws, institutions, frontier labs, obligations, implementation milestones, AI readiness indicators, public-sector AI systems, enforcement evidence, standards infrastructure, and the dependencies between them.
+> Research-grade global AI governance and AI Atlas workbench for mapping laws, institutions, frontier labs, obligations, implementation milestones, AI readiness indicators, public-sector AI systems, enforcement and litigation evidence, standards infrastructure, and the dependencies between them.
 
 <p>
   <a href="https://global-ai-governance-map.vercel.app">
@@ -16,7 +16,7 @@
   <img alt="ESLint" src="https://img.shields.io/badge/ESLint-10-4B32C3?style=flat-square&logo=eslint" />
   <img alt="License" src="https://img.shields.io/badge/license-MIT-555?style=flat-square" />
   <img alt="Snapshot" src="https://img.shields.io/badge/dataset_snapshot-19_May_2026-B45309?style=flat-square" />
-  <img alt="Codebase size" src="https://img.shields.io/badge/source%20%2B%20data-47%2C991%20lines-0F766E?style=flat-square" />
+  <img alt="Codebase size" src="https://img.shields.io/badge/source%20%2B%20data-51%2C596%20lines-0F766E?style=flat-square" />
 </p>
 
 **Live demo:** <https://global-ai-governance-map.vercel.app>
@@ -62,9 +62,9 @@ A guided **"Take the tour"** walkthrough introduces the frontier-AI governance s
 
 ## Codebase size
 
-The project currently contains **47,991 tracked source/data/config lines** across **157 files**, excluding generated `public/data/*` exports, Playwright screenshots, and `package-lock.json`.
+The project currently contains **51,596 tracked source/data/config lines** across **187 files**, excluding generated `public/data/*` exports, Playwright screenshots, and `package-lock.json`.
 
-Including generated public JSON exports and the lockfile, the repository has **247,647 tracked source/data/config lines** across **188 files**. The smaller 47,991-line figure is the better indicator of maintainable application and dataset source size.
+Including generated public JSON exports and the lockfile, the repository has **256,403 tracked source/data/config lines** across **218 files**. The smaller 51,596-line figure is the better indicator of maintainable application and dataset source size.
 
 ## What's on the map
 
@@ -75,6 +75,7 @@ Including generated public JSON exports and the lockfile, the repository has **2
 - **7 subnational rules** — California SB 53 + 13-bill 2025 package, NYC Local Law 144, NY surveillance-pricing law, Illinois AIVIA, plus draft France/Germany EU AI Act implementations.
 - **27-row EU AI Act authority matrix** distinguishing Commission-listed market-surveillance authorities, pending national designations, and member states where the Commission list has not yet published an authority.
 - **3 infrastructure choke-points** and **4 compute-dependency records** — advanced AI chips, hyperscale cloud, U.S. BIS export controls, cloud/provider dependencies, and national compute signals — flagged as context rather than AI law.
+- **38 enforcement & litigation records** — civil/regulatory enforcement actions, regulator investigations, policy warnings, and **9 court litigation cases**, including landmark AI copyright suits (*Bartz v. Anthropic*, *Kadrey v. Meta*) and the first AI-chatbot wrongful-death case (*Garcia v. Character.AI / Google*), each sourced to an official regulator notice or federal court-docket page (govinfo.gov).
 - **99 dependency edges** typed as `regulates / depends_on / constrains / influences / coordinates / participates_in`.
 - A **participation matrix** that distinguishes `signed`, `ratified`, `endorsed`, `adopted`, `adherent`, `member`, `participant`, `applicable_via_eu`, and `covered_by_membership (indirect)`.
 - A structured **obligation matrix** for risk assessment, transparency/disclosure, incident reporting, model evaluation, registration/filing, conformity assessment, watermarking/content labeling, bias audit, cybersecurity, data governance, prohibited practices, compute reporting, and safety-framework publication.
@@ -443,6 +444,7 @@ Stable SPA routes are supported for major records:
 - `/standard/iso-iec-42001-ai-management-system`
 - `/public-sector-ai/us-federal-ai-use-case-inventory`
 - `/enforcement/ftc-operation-ai-comply-2024`
+- `/enforcement/bartz-v-anthropic-copyright-2025`
 
 Compact embeddable routes are also supported for cards such as `/embed/country/USA`, `/embed/instrument/eu-ai-act`, `/embed/obligation/ca-sb-53-incident-reporting`, and `/embed/atlas/oxford-gov-ai-readiness-2025`.
 
