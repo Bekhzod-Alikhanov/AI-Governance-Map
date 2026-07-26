@@ -133,6 +133,7 @@ const TIMELINE_LANES = new Set<TimelineLane>([
   "international",
   "national_binding",
   "national_proposed",
+  "subnational",
   "standards",
   "labs_infrastructure",
 ]);

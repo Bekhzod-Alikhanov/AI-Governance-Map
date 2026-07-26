@@ -381,7 +381,7 @@ export function NetworkView({
                 type="button"
                 onClick={() => onPresetChange(option.id)}
                 className={clsx(
-                  "whitespace-nowrap px-2 py-1 text-[11px] font-medium",
+                  "min-h-6 whitespace-nowrap px-2 py-1.5 text-[11px] font-medium",
                   preset === option.id ? "bg-accent text-white" : "bg-white text-ink-700 hover:bg-canvas"
                 )}
               >
@@ -396,7 +396,7 @@ export function NetworkView({
                 type="button"
                 onClick={() => onDensityChange(option.id)}
                 className={clsx(
-                  "whitespace-nowrap px-2 py-1 text-[11px] font-medium",
+                  "min-h-6 whitespace-nowrap px-2 py-1.5 text-[11px] font-medium",
                   density === option.id ? "bg-ink-800 text-white" : "bg-white text-ink-700 hover:bg-canvas"
                 )}
               >

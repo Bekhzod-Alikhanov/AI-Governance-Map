@@ -120,6 +120,18 @@ describe("shareable URL state", () => {
     expect(parseShareableState("?mapMode=not-a-real-mode").mapMode).toBe("binding-law");
   });
 
+  it("carries the subnational timeline lane so it is shareable", () => {
+    // Subnational milestones used to be reachable only through a second,
+    // unserialised filter row. They are now a lane like every other cut.
+    const serialized = serializeShareableState({
+      ...DEFAULT_SHAREABLE_STATE,
+      timelineLane: "subnational",
+    });
+
+    expect(serialized).toContain("timeline=subnational");
+    expect(parseShareableState(serialized).timelineLane).toBe("subnational");
+  });
+
   it("resolves retired ?lens=layer links to the geography map", () => {
     // The Layers lens was merged into Geography as a colour mode. Links shared
     // before the merge must still land somewhere sensible rather than breaking.

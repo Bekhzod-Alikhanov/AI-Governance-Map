@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import clsx from "clsx";
 import { FRONTIER_LABS } from "../data/frontierLabs";
 import { INFRASTRUCTURE_NODES } from "../data/infrastructure";
@@ -30,11 +30,16 @@ interface Props {
   onFrontierOnlyChange: (frontierOnly: boolean) => void;
 }
 
+// One taxonomy, not two. This view previously stacked a second, unserialised
+// filter row (all/international/national/subnational) over the same items, so
+// two controls both starting with "All" cut the same 135 milestones along
+// overlapping axes and some combinations returned nothing.
 const LANES: Array<{ id: TimelineLane; label: string }> = [
   { id: "all", label: "All" },
   { id: "international", label: "International" },
   { id: "national_binding", label: "National binding" },
   { id: "national_proposed", label: "National proposed" },
+  { id: "subnational", label: "Subnational" },
   { id: "standards", label: "Standards" },
   { id: "labs_infrastructure", label: "Labs/infrastructure" },
 ];
@@ -91,7 +96,7 @@ export function TimelineView({ lane, onLaneChange, frontierOnly, onFrontierOnlyC
         date: d,
         year: Number(d.slice(0, 4)),
         category: "subnational",
-        lane: sub.bindingStatus === "proposed" || sub.type === "proposed_law" ? "national_proposed" : "national_binding",
+        lane: "subnational",
         title: sub.name,
         jurisdiction: `${sub.jurisdictionName} (${sub.countryIso3})`,
         bindingHint: sub.bindingStatus,
@@ -133,9 +138,7 @@ export function TimelineView({ lane, onLaneChange, frontierOnly, onFrontierOnlyC
     return rows.sort((a, b) => a.date.localeCompare(b.date));
   }, []);
 
-  const [categoryFilter, setCategoryFilter] = useState<"all" | TimelineItem["category"]>("all");
   const visible = items.filter((item) => {
-    if (categoryFilter !== "all" && item.category !== categoryFilter) return false;
     if (lane !== "all" && item.lane !== lane) return false;
     if (frontierOnly && !item.frontierAIRelevant) return false;
     return true;
@@ -161,26 +164,11 @@ export function TimelineView({ lane, onLaneChange, frontierOnly, onFrontierOnlyC
               type="button"
               onClick={() => onLaneChange(item.id)}
               className={clsx(
-                "whitespace-nowrap px-2.5 py-1 text-[11px] font-medium transition-colors",
+                "min-h-6 whitespace-nowrap px-2.5 py-1.5 text-[11px] font-medium transition-colors",
                 lane === item.id ? "bg-accent text-white" : "bg-white text-ink-700 hover:bg-canvas"
               )}
             >
               {item.label}
-            </button>
-          ))}
-        </div>
-        <div className="inline-flex overflow-hidden rounded-lg border border-canvas-line">
-          {(["all", "international", "national", "subnational"] as const).map((c) => (
-            <button
-              key={c}
-              type="button"
-              onClick={() => setCategoryFilter(c)}
-              className={clsx(
-                "px-2.5 py-1 text-[11px] font-medium capitalize transition-colors",
-                categoryFilter === c ? "bg-ink-800 text-white" : "bg-white text-ink-700 hover:bg-canvas"
-              )}
-            >
-              {c}
             </button>
           ))}
         </div>
