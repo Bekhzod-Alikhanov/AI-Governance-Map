@@ -28,6 +28,7 @@ import { COUNTRY_BY_ISO3 } from "./data/countries";
 import { LAB_BY_ID } from "./data/frontierLabs";
 import { DATASET_STATS } from "./data/datasetStats";
 import { getMapFitScope } from "./utils/mapFitTarget";
+import { countActiveFilters } from "./utils/filterCountries";
 import { parseRecordRoute, type RecordRoute } from "./utils/recordRoutes";
 import { parseEmbedRoute } from "./utils/embedRoutes";
 
@@ -166,6 +167,7 @@ export default function App() {
   const [showMethodology, setShowMethodology] = useState(false);
   const [isMapMaximized, setIsMapMaximized] = useState(false);
   const [showCountryList, setShowCountryList] = useState(false);
+  const [showFiltersOnMobile, setShowFiltersOnMobile] = useState(false);
   const [mapMode, setMapMode] = useState<MapModeId>(initialUrlState.mapMode);
   const [contextFillState, setContextFillState] = useState<{
     mapMode: MapModeId;
@@ -300,6 +302,7 @@ export default function App() {
   );
 
   const showsMap = lens === "geography";
+  const activeFilterCount = countActiveFilters(filters);
   const mapChromeHidden = showsMap && isMapMaximized;
   const contextFillByIso3 = contextFillState?.mapMode === mapMode ? contextFillState.fills : null;
   const contextReasonByIso3 = contextFillState?.mapMode === mapMode ? contextFillState.reasons : null;
@@ -558,11 +561,46 @@ export default function App() {
       {/* Filter toolbar */}
       {!mapChromeHidden && (
         <div data-filter-toolbar className="relative z-30 shrink-0 border-b border-canvas-line bg-canvas-surface px-4 py-1">
-          <Filters
-            filters={filters}
-            onChange={handleFilterChange}
-            onReset={handleFilterReset}
-          />
+          {/* On a phone the header plus this toolbar ate a third of the viewport
+              before any content. Below md it collapses behind one control, so
+              the map gets the screen and filters stay one tap away. */}
+          <button
+            type="button"
+            onClick={() => setShowFiltersOnMobile((open) => !open)}
+            aria-expanded={showFiltersOnMobile}
+            aria-controls="filter-toolbar-panel"
+            className="my-0.5 inline-flex min-h-6 w-full items-center justify-between rounded-md border border-canvas-line bg-white px-2.5 py-1.5 text-xs font-semibold text-ink-800 md:hidden"
+          >
+            <span>
+              Filters
+              {activeFilterCount > 0 && (
+                <span className="ml-1.5 rounded-full bg-accent px-1.5 py-0.5 text-[10px] font-semibold text-white">
+                  {activeFilterCount}
+                </span>
+              )}
+            </span>
+            <svg
+              aria-hidden="true"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={showFiltersOnMobile ? "rotate-180" : ""}
+            >
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </button>
+          <div id="filter-toolbar-panel" className={showFiltersOnMobile ? "block" : "hidden md:block"}>
+            <Filters
+              filters={filters}
+              onChange={handleFilterChange}
+              onReset={handleFilterReset}
+            />
+          </div>
         </div>
       )}
 
