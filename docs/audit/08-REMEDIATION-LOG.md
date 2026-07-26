@@ -69,20 +69,64 @@ The card now shows the actual map with its legend, so the link communicates what
 
 ---
 
+---
+
+# Second tier — F-11, F-13, F-19, F-21, F-22
+
+## 4 · The lens switcher's ARIA tab pattern — F-13
+
+`role="tablist"` with six `role="tab"` children, but no tabpanel, no `aria-controls`, no roving tabindex and no key handling. Now complete: `<main>` carries `role="tabpanel"`, only the selected tab is in the tab order, and Left/Right/Up/Down/Home/End move selection with focus following.
+
+The handler sits on the tabs rather than the tablist — both because that is what the ARIA practices describe, and because a handler on the tablist trips `jsx-a11y/interactive-supports-focus`, since the tablist itself must not be focusable.
+
+**Worth noting:** axe reported zero violations before this change and reports zero after. Automated checks cannot see a broken interaction contract, which is why the README's "no automated violations" claim was always weaker evidence than it looked. An e2e test now covers what axe cannot.
+
+## 5 · Visual baselines that actually fail — F-22
+
+Tightened the map to `threshold: 0.1` / `maxDiffPixelRatio: 0.01` (from 0.25 / 0.04) and the embed card to 0.15 / 0.02.
+
+**Verified rather than assumed.** Reverting only the colour logic, against the current baseline at identical dimensions, produces 48,287 differing pixels (ratio 0.07) and the test fails — where the same change previously passed. An earlier attempt at this proof was confounded: removing the forced viewport changed the image height (684→604 px), so the failure was a size mismatch rather than a colour difference. The clean run isolates the colour.
+
+Both tests also stopped skipping on `mobile-chromium` and no longer force a viewport, so each project captures its own device (Desktop Chrome, Pixel 7). Four baselines, none skipped.
+
+## 6 · A link check that can fail — F-11
+
+The check treated HTTP 403 as healthy outright, and a successful HEAD ended it without ever seeing a body. Now a successful HEAD is confirmed with a bounded GET (16 KB, so multi-megabyte legal PDFs are not pulled in full), and HTML responses are scanned for a narrow set of interstitial markers.
+
+**This surfaced more than expected.** Link warnings went from 2 to 26, of which **24 are official sources behind anti-bot walls that were previously reported as healthy** — ISO, MOFA for both Hiroshima documents, the Council of the EU, OECD iLibrary among them. The original finding said the checker missed *content*; it also explicitly whitelisted 403. These 24 need human verification and manual-check entries — not a code fix — and the audit stays warning-only in CI.
+
+Manual overrides may now carry an `expiresOn` date; once past, the override stops excusing the failure. The CoE Treaty Office override expired 5 July 2026 with nothing surfacing it.
+
+A bug I introduced and caught: `BLOCKED_CONTENT_MARKERS` was declared after the module's top-level CLI entry point, putting it in the temporal dead zone and producing 187 false `ReferenceError` failures on the first live run. Exit code was 0; only reading the report revealed it.
+
+## 7 · Advisories and README accuracy — F-19, F-21
+
+`npm audit fix` cleared the undici advisories (TLS validation bypass, header injection, response-queue poisoning) and the postcss path traversal.
+
+**Three high-severity advisories remain, deliberately.** All one chain: `brace-expansion` → `minimatch` → `eslint-plugin-jsx-a11y`. The only fix is `--force`, which downgrades the lint plugin from 6.10.2 to 6.4.1. A DoS in a glob expander, inside a lint plugin, that never runs on untrusted input and never ships, is not worth a six-version downgrade of an accessibility linter.
+
+README figures corrected: 135 timeline milestones (not "115+"), 136 unit tests (not 118), Playwright 1.61.
+
+---
+
 ## Verification
 
 | Gate | Result |
 |---|---|
 | `npm run lint` | exit 0 |
 | `npm run typecheck` | exit 0 |
-| `npm test` | **130 passed** (31 files) — was 119 |
+| `npm test` | **136 passed** (31 files) — was 119 |
 | `npm run build` | exit 0 |
 | `npm run check:performance` | `"ok": true, "issues": []` |
 | `npm run validate:data` | 10 passed |
-| `npm run test:e2e` | **36 passed, 2 skipped** |
+| `npm run test:e2e` | **40 passed, 0 skipped** — was 36 passed, 2 skipped |
 
 One existing e2e assertion was updated rather than weakened: `smoke.spec.ts` assumed the legend started closed, so it now asserts `aria-expanded="true"` on arrival and still exercises the toggle in both directions.
 
 ## Not addressed
 
-These remain open from [01-FINDINGS](01-FINDINGS.md): F-04 (371 snapshot-date warnings), F-07 (focus order), F-08 (Workbench), F-09 (Network edge types, `powerScore`), F-11 (block-page false pass), F-13 (ARIA tabs), F-14 through F-21, F-23. Per-record OG tags still require prerendering — every route continues to share one preview image, which is now at least a good one.
+Open from [01-FINDINGS](01-FINDINGS.md): F-04 (371 snapshot-date warnings), F-07 (focus order), F-08 (Workbench), F-09 (Network edge types, `powerScore`), F-12 partially, F-14 through F-18, F-20, F-21 partially, F-23.
+
+**F-04 is deliberately untouched.** Whether this dataset is "maintained" or "an archived snapshot" is a claim only the maintainer can make — it is [Q3 in the open questions](07-OPEN-QUESTIONS.md), and changing `DATA_SNAPSHOT_DATE` would be asserting something about the data on their behalf.
+
+Per-record OG tags still require prerendering, so every route shares one preview image — now a good one.
