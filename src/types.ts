@@ -753,24 +753,30 @@ export type WorkbenchWorkflowId =
   | "implementation-status"
   | "scenario-simulator";
 
-export type MapModeId =
-  | "binding-law"
-  | "proposed-law"
-  | "treaty-participation"
-  | "lab-hq"
-  | "obligation-type"
-  | "implementation-deadline"
-  | "source-confidence"
-  | "frontier-relevance"
-  | "ai-institutions"
-  | "policy-windows"
-  | "public-sector-ai"
-  | "enforcement-activity"
-  | "standards-conformity"
-  | "gov-ai-readiness"
-  | "democratic-values"
-  | "unesco-ram-status"
-  | "ai-vibrancy";
+// Single source of truth for the map colour modes: the picker options, the
+// MapModeId union, and the URL-state validator are all derived from this list
+// so they cannot drift apart.
+export const MAP_MODE_OPTIONS = [
+  { id: "binding-law", label: "Binding law" },
+  { id: "proposed-law", label: "Proposed law" },
+  { id: "treaty-participation", label: "Treaty participation" },
+  { id: "lab-hq", label: "Lab HQ" },
+  { id: "obligation-type", label: "Obligations" },
+  { id: "implementation-deadline", label: "Implementation" },
+  { id: "source-confidence", label: "Source confidence" },
+  { id: "frontier-relevance", label: "Frontier relevance" },
+  { id: "ai-institutions", label: "AI institutions" },
+  { id: "policy-windows", label: "Policy windows" },
+  { id: "public-sector-ai", label: "Public-sector AI" },
+  { id: "enforcement-activity", label: "Enforcement & litigation" },
+  { id: "standards-conformity", label: "Standards" },
+  { id: "gov-ai-readiness", label: "Gov readiness" },
+  { id: "democratic-values", label: "Democratic values" },
+  { id: "unesco-ram-status", label: "UNESCO RAM" },
+  { id: "ai-vibrancy", label: "AI vibrancy" },
+] as const;
+
+export type MapModeId = (typeof MAP_MODE_OPTIONS)[number]["id"];
 
 // ===== Infrastructure layer (Tier 1.B) =====
 export type InfrastructureType = "chips" | "cloud" | "export_control";
