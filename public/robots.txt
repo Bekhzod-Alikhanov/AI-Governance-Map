@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /embed/
+
+Sitemap: https://global-ai-governance-map.vercel.app/sitemap.xml

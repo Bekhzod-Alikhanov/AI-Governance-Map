@@ -329,15 +329,17 @@ See [`docs/DATA_GOVERNANCE.md`](docs/DATA_GOVERNANCE.md), [`docs/EDITORIAL_WORKF
 
 | Metric | Current | Budget |
 |---|---:|---:|
-| Initial JS | 656,925 bytes | 725,000 bytes |
-| Initial JS gzip | 194,426 bytes | 220,000 bytes |
+| Initial JS | 655,454 bytes | 725,000 bytes |
+| Initial JS gzip | 193,792 bytes | 220,000 bytes |
 | Atlas lazy chunk | 417,656 bytes | 430,000 bytes |
-| Corpus gzip | 19,892 bytes | 20,000 bytes |
-| Total JS | 1,549,981 bytes | 1,550,000 bytes |
+| Corpus gzip | 19,887 bytes | 20,000 bytes |
+| Total JS | 1,600,508 bytes | 1,610,000 bytes |
+
+Figures are the measured output of `npm run check:performance` against the current build. Every change to a budget ceiling is recorded in the comments at the top of [`scripts/check-performance-budget.mjs`](scripts/check-performance-budget.mjs).
 
 The default map path is kept lean by using compact country map summaries instead of importing every national-regulation row on first load. Heavy Atlas, corpus, lab-intelligence, dossier, policy-brief, Workbench, Table, Network, and Timeline code paths are lazy-loaded by feature area.
 
-The budget is intentionally strict and currently tight: `totalJsBytes` is only 19 bytes under the ceiling. The next large data expansion should first move more corpus/table-only data into generated JSON or deeper lazy chunks.
+The budget is tight by design, and the total-JS ceiling has been raised twice (1,550,000 → 1,600,000 for the enforcement/litigation corpus; 1,600,000 → 1,610,000 for shareable map-mode URL state and browser-history navigation). Initial-load budgets have not moved. Corpus gzip is the binding constraint with roughly 100 bytes of headroom, so the next data expansion should move corpus/table-only rows into generated JSON or deeper lazy chunks before adding records.
 
 ## Testing & CI
 

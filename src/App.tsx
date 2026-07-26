@@ -1,6 +1,7 @@
-import { lazy, Suspense, useEffect, useMemo, useReducer, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import {
   DEFAULT_FILTER_STATE,
+  MAP_MODE_OPTIONS,
   type CompareItem,
   type CompareItemKind,
   type FilterState,
@@ -67,25 +68,6 @@ const MAP_FOCUS_OPTIONS: Array<{
   { id: "europe", label: "Europe", center: [15, 53], zoom: 3 },
   { id: "africa_mena", label: "Africa/MENA", center: [22, 13], zoom: 2.15 },
   { id: "asia_pacific", label: "Asia-Pacific", center: [108, 18], zoom: 2.05 },
-];
-const MAP_MODE_OPTIONS: Array<{ id: MapModeId; label: string }> = [
-  { id: "binding-law", label: "Binding law" },
-  { id: "proposed-law", label: "Proposed law" },
-  { id: "treaty-participation", label: "Treaty participation" },
-  { id: "lab-hq", label: "Lab HQ" },
-  { id: "obligation-type", label: "Obligations" },
-  { id: "implementation-deadline", label: "Implementation" },
-  { id: "source-confidence", label: "Source confidence" },
-  { id: "frontier-relevance", label: "Frontier relevance" },
-  { id: "ai-institutions", label: "AI institutions" },
-  { id: "policy-windows", label: "Policy windows" },
-  { id: "public-sector-ai", label: "Public-sector AI" },
-  { id: "enforcement-activity", label: "Enforcement & litigation" },
-  { id: "standards-conformity", label: "Standards" },
-  { id: "gov-ai-readiness", label: "Gov readiness" },
-  { id: "democratic-values", label: "Democratic values" },
-  { id: "unesco-ram-status", label: "UNESCO RAM" },
-  { id: "ai-vibrancy", label: "AI vibrancy" },
 ];
 const ATLAS_MAP_MODES = new Set<MapModeId>([
   "gov-ai-readiness",
@@ -161,7 +143,7 @@ export default function App() {
     y: number;
   } | null>(null);
   const [hoverLab, setHoverLab] = useState<{ lab: FrontierLab; x: number; y: number } | null>(null);
-  const [showLabs, setShowLabs] = useState(true);
+  const [showLabs, setShowLabs] = useState(initialUrlState.showLabs);
   const [lens, setLens] = useState<LensKind>(
     initialRouteRecord && typeof window !== "undefined" && !new URLSearchParams(window.location.search).has("lens")
       ? "workbench"
@@ -180,7 +162,7 @@ export default function App() {
   const [showMethodology, setShowMethodology] = useState(false);
   const [isMapMaximized, setIsMapMaximized] = useState(false);
   const [showCountryList, setShowCountryList] = useState(false);
-  const [mapMode, setMapMode] = useState<MapModeId>("binding-law");
+  const [mapMode, setMapMode] = useState<MapModeId>(initialUrlState.mapMode);
   const [contextFillState, setContextFillState] = useState<{
     mapMode: MapModeId;
     fills: Record<string, string>;
@@ -188,6 +170,13 @@ export default function App() {
   } | null>(null);
   const [mapView, setMapView] = useState<MapViewState>(DEFAULT_MAP_VIEW);
   const [compareItems, setCompareItems] = useState<CompareItem[]>([]);
+  // Set by discrete navigation handlers to make the next URL write a history
+  // entry instead of replacing the current one.
+  const pushNextUrlRef = useRef(false);
+
+  function markNavigation() {
+    pushNextUrlRef.current = true;
+  }
 
   useEffect(() => {
     if (!import.meta.env.DEV || import.meta.env.VITE_SKIP_DEV_VALIDATION === "1") return;
@@ -232,6 +221,8 @@ export default function App() {
       setLens(next.lens);
       setSelectedIso3(next.selectedIso3);
       setSelectedLabId(next.selectedLabId);
+      setMapMode(next.mapMode);
+      setShowLabs(next.showLabs);
       setNetworkSelection(next.networkSelection);
       setNetworkPreset(next.networkPreset);
       setNetworkDensity(next.networkDensity);
@@ -255,6 +246,8 @@ export default function App() {
       filters,
       selectedIso3,
       selectedLabId,
+      mapMode,
+      showLabs,
       networkSelection,
       networkPreset,
       networkDensity,
@@ -263,18 +256,30 @@ export default function App() {
       workbench: workbenchState,
     });
     const nextUrl = `${window.location.pathname}${query}${window.location.hash}`;
-    if (nextUrl !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
+    if (nextUrl === `${window.location.pathname}${window.location.search}${window.location.hash}`) {
+      return;
+    }
+    // Discrete navigation (changing view, picking a country or lab, applying a
+    // preset) gets its own history entry so Back means "undo" rather than
+    // "leave the site". Continuous edits — typing in search, dragging filters —
+    // keep replacing the current entry so they don't flood history.
+    if (pushNextUrlRef.current) {
+      pushNextUrlRef.current = false;
+      window.history.pushState(null, "", nextUrl);
+    } else {
       window.history.replaceState(null, "", nextUrl);
     }
   }, [
     filters,
     lens,
+    mapMode,
     networkDensity,
     networkFrontierOnly,
     networkPreset,
     networkSelection,
     selectedIso3,
     selectedLabId,
+    showLabs,
     timelineLane,
     workbenchState,
   ]);
@@ -335,6 +340,7 @@ export default function App() {
       : `${lens} view active`;
 
   function handleSelectCountry(iso3: string) {
+    markNavigation();
     setSelectedLabId(null);
     setSelectedIso3(iso3);
     setActivePresetId(null);
@@ -343,6 +349,7 @@ export default function App() {
   }
 
   function handleSelectLab(id: string) {
+    markNavigation();
     setSelectedIso3(null);
     setSelectedLabId(id);
     setActivePresetId(null);
@@ -356,15 +363,15 @@ export default function App() {
     else if (kind === "lab") handleSelectLab(id);
   }
 
+  // The selected country or lab is the user's subject, and it survives a change
+  // of view — otherwise the six lenses are six separate apps rather than six
+  // views of the same data. Only transient hover state is cleared.
   function handleLensChange(nextLens: LensKind) {
+    markNavigation();
     setLens(nextLens);
     setIsMapMaximized(false);
     setHover(null);
     setHoverLab(null);
-    setSelectedIso3(null);
-    setSelectedLabId(null);
-    setNetworkSelection(null);
-    setActivePresetId(null);
   }
 
   function handleWalkthroughApply(patch: Partial<FilterState>, nextLens: LensKind) {
@@ -380,6 +387,7 @@ export default function App() {
   }
 
   function handleApplyPreset(preset: ResearchPreset) {
+    markNavigation();
     const nextFilters = { ...DEFAULT_FILTER_STATE, ...(preset.filterPatch ?? {}) };
     const nextSelectedIso3 = preset.selectedIso3 ?? null;
     const nextSelectedLabId = preset.selectedLabId ?? null;

@@ -9,6 +9,7 @@ import type {
   ImplementationStatus,
   InstrumentBindingStatus,
   LensKind,
+  MapModeId,
   NetworkDensity,
   NetworkPresetId,
   ObligationCategory,
@@ -20,13 +21,15 @@ import type {
   WorkbenchCompareItem,
   WorkbenchState,
 } from "../types";
-import { DEFAULT_FILTER_STATE, DEFAULT_WORKBENCH_STATE } from "../types";
+import { DEFAULT_FILTER_STATE, DEFAULT_WORKBENCH_STATE, MAP_MODE_OPTIONS } from "../types";
 
 export interface ShareableAppState {
   lens: LensKind;
   filters: FilterState;
   selectedIso3: string | null;
   selectedLabId: string | null;
+  mapMode: MapModeId;
+  showLabs: boolean;
   networkSelection: string | null;
   networkPreset: NetworkPresetId;
   networkDensity: NetworkDensity;
@@ -116,6 +119,7 @@ const IMPLEMENTATION_STATUSES = new Set<ImplementationStatus>([
   "guidance_issued",
   "enforcement_activity_observed",
 ]);
+const MAP_MODES = new Set<MapModeId>(MAP_MODE_OPTIONS.map((option) => option.id));
 const NETWORK_PRESETS = new Set<NetworkPresetId>([
   "all",
   "labs-laws",
@@ -152,6 +156,8 @@ export const DEFAULT_SHAREABLE_STATE: ShareableAppState = {
   filters: DEFAULT_FILTER_STATE,
   selectedIso3: null,
   selectedLabId: null,
+  mapMode: "binding-law",
+  showLabs: true,
   networkSelection: null,
   networkPreset: "all",
   networkDensity: "all",
@@ -207,6 +213,8 @@ export function parseShareableState(search: string): ShareableAppState {
     filters,
     selectedIso3,
     selectedLabId,
+    mapMode: enumValue(params.get("mapMode"), MAP_MODES, DEFAULT_SHAREABLE_STATE.mapMode),
+    showLabs: params.get("labs") !== "0",
     networkSelection,
     networkPreset: enumValue(params.get("network"), NETWORK_PRESETS, "all"),
     networkDensity: enumValue(params.get("density"), NETWORK_DENSITIES, "all"),
@@ -245,6 +253,8 @@ export function serializeShareableState(state: ShareableAppState): string {
   if (state.filters.searchQuery.trim()) params.set("q", state.filters.searchQuery.trim());
   if (state.selectedIso3) params.set("country", state.selectedIso3);
   if (state.selectedLabId) params.set("lab", state.selectedLabId);
+  if (state.mapMode !== DEFAULT_SHAREABLE_STATE.mapMode) params.set("mapMode", state.mapMode);
+  if (!state.showLabs) params.set("labs", "0");
   if (state.networkSelection) params.set("node", state.networkSelection);
   if (state.networkPreset !== "all") params.set("network", state.networkPreset);
   if (state.networkDensity !== "all") params.set("density", state.networkDensity);

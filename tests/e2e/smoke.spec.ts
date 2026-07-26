@@ -7,9 +7,12 @@ test.describe("governance map smoke flows", () => {
     await expect(page.getByRole("heading", { name: "AI Governance Map" })).toBeVisible();
     await expect(page.getByRole("note")).toHaveCount(0);
     await expect(page.getByLabel("Map scope: World overview")).toBeVisible();
+    // The legend is open on arrival so the choropleth always ships with its key.
+    await expect(page.getByRole("button", { name: "Legend" })).toHaveAttribute("aria-expanded", "true");
     await page.getByLabel("Map color mode").selectOption("gov-ai-readiness");
-    await page.getByRole("button", { name: "Legend" }).click();
     await expect(page.getByText(/AI Atlas colors show contextual/)).toBeVisible();
+    await page.getByRole("button", { name: "Legend" }).click();
+    await expect(page.getByText(/AI Atlas colors show contextual/)).toBeHidden();
     await page.getByRole("button", { name: "Legend" }).click();
 
     await page.getByRole("button", { name: "Data", exact: true }).click();

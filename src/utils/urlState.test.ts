@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parseShareableState, serializeShareableState } from "./urlState";
+import { DEFAULT_SHAREABLE_STATE, parseShareableState, serializeShareableState } from "./urlState";
 import { DEFAULT_FILTER_STATE, DEFAULT_WORKBENCH_STATE } from "../types";
 
 describe("shareable URL state", () => {
@@ -19,6 +19,8 @@ describe("shareable URL state", () => {
       },
       selectedIso3: "GBR",
       selectedLabId: null,
+      mapMode: "binding-law",
+      showLabs: true,
       networkSelection: "coe-ai-convention",
       networkPreset: "summit-process",
       networkDensity: "core",
@@ -59,6 +61,8 @@ describe("shareable URL state", () => {
       filters: DEFAULT_FILTER_STATE,
       selectedIso3: null,
       selectedLabId: null,
+      mapMode: "binding-law",
+      showLabs: true,
       networkSelection: null,
       networkPreset: "all",
       networkDensity: "all",
@@ -93,5 +97,34 @@ describe("shareable URL state", () => {
     expect(parsed.workbench.atlasPresetId).toBe("ram-activity");
     expect(parsed.workbench.activeQuestionId).toBe("incident-reporting");
     expect(parsed.workbench.activeAnswerCardId).toBe("binding-obligations");
+  });
+
+  it("round-trips the map colour mode so a recoloured map can be cited", () => {
+    const serialized = serializeShareableState({
+      ...DEFAULT_SHAREABLE_STATE,
+      lens: "geography",
+      mapMode: "enforcement-activity",
+    });
+
+    expect(serialized).toContain("mapMode=enforcement-activity");
+    expect(parseShareableState(serialized).mapMode).toBe("enforcement-activity");
+  });
+
+  it("omits the map colour mode when it is the default", () => {
+    const serialized = serializeShareableState({ ...DEFAULT_SHAREABLE_STATE, mapMode: "binding-law" });
+    expect(serialized).not.toContain("mapMode");
+    expect(parseShareableState(serialized).mapMode).toBe("binding-law");
+  });
+
+  it("falls back to the default map mode for an unknown value", () => {
+    expect(parseShareableState("?mapMode=not-a-real-mode").mapMode).toBe("binding-law");
+  });
+
+  it("round-trips the frontier-lab pin toggle", () => {
+    const serialized = serializeShareableState({ ...DEFAULT_SHAREABLE_STATE, showLabs: false });
+    expect(parseShareableState(serialized).showLabs).toBe(false);
+    // Labs are shown by default, so the default state stays out of the URL.
+    expect(serializeShareableState(DEFAULT_SHAREABLE_STATE)).not.toContain("labs=");
+    expect(parseShareableState("").showLabs).toBe(true);
   });
 });

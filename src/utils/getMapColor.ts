@@ -22,16 +22,20 @@ export const LAYER_LABEL: Record<string, string> = {
 
 const LAYER_CACHE = new Map<string, keyof typeof LAYER_FILL>();
 
+// Legal status outranks corporate presence: a country's governance layer is what
+// binds it, not which companies happen to be headquartered there. Frontier-lab
+// HQs are already shown as map pins, so "corporate" is only the primary layer
+// when there is no AI-specific rule and no international participation to report.
 function pickPrimaryLayer(iso3: string): keyof typeof LAYER_FILL {
   const cached = LAYER_CACHE.get(iso3);
   if (cached) return cached;
   const s = getCountryMapSummary(iso3);
   let layer: keyof typeof LAYER_FILL;
-  if (s.hqLabCount > 0) layer = "corporate";
-  else if (s.hasBindingNationalLaw) layer = "national_binding";
+  if (s.hasBindingNationalLaw) layer = "national_binding";
   else if (s.proposedNationalRuleCount > 0) layer = "national_proposed";
   else if (s.hasAnyAIRule) layer = "voluntary";
   else if (s.internationalParticipationCount > 0) layer = "international";
+  else if (s.hqLabCount > 0) layer = "corporate";
   else layer = "empty";
   LAYER_CACHE.set(iso3, layer);
   return layer;
@@ -47,6 +51,7 @@ export interface MapStyle {
 
 const FILL = {
   empty: "#E5E7EB",
+  international: "#C4B5FD",
   guidance: "#BFDBFE",
   mixed: "#60A5FA",
   binding: "#1D4ED8",
@@ -75,9 +80,14 @@ export function getMapStyle(
   }
   const summary = getCountryMapSummary(iso3);
 
+  // "No AI-specific rule" and "no data at all" are different claims, so they get
+  // different fills. Most countries without a national rule are still covered by
+  // international instruments; painting them the same grey as an empty record
+  // understates both the dataset and the state of global AI governance.
   let fill: string;
-  if (!summary.hasAnyAIRule) fill = FILL.empty;
-  else if (summary.hasBindingNationalLaw) fill = FILL.binding;
+  if (!summary.hasAnyAIRule) {
+    fill = summary.internationalParticipationCount > 0 ? FILL.international : FILL.empty;
+  } else if (summary.hasBindingNationalLaw) fill = FILL.binding;
   else fill = summary.proposedNationalRuleCount > 0 ? FILL.mixed : FILL.guidance;
 
   let outline = OUTLINE.base;

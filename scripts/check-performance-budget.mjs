@@ -15,7 +15,12 @@ const budgets = {
   // Keep initial-load budgets strict; allow a narrow ceiling for richer lazy research tools.
   // Raised 1_550_000 -> 1_600_000 for the AI litigation/enforcement corpus expansion
   // (lazy chunk only; initial-load budgets above are unchanged).
-  maxTotalJsBytes: 1_600_000,
+  // Raised 1_600_000 -> 1_610_000 for shareable map-mode URL state, browser-history
+  // navigation, and the international-participation map tier. Initial-load budgets
+  // above are unchanged; ~500 B of this lands in the initial chunk.
+  // NOTE: every change to this number must be recorded here and reflected in the
+  // README performance table, which is generated from `--json` output.
+  maxTotalJsBytes: 1_610_000,
 };
 
 const files = await readdir(distAssets);
