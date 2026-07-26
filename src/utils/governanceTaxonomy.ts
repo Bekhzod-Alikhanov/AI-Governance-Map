@@ -7,7 +7,13 @@ import type {
 } from "../types";
 import sourceHosts from "../data/sourceHosts.json";
 
-export const DATA_SNAPSHOT_DATE = "2026-05-19";
+/**
+ * The date the dataset is current to: the most recent `lastVerified` across the
+ * corpus. Enforced by `snapshotDate.test.ts`, so re-verifying a record past this
+ * date fails the build rather than silently making the published badge, the
+ * citations and every downstream date check wrong.
+ */
+export const DATA_SNAPSHOT_DATE = "2026-06-19";
 
 export type NationalEntryClass =
   | "binding_ai_law"
@@ -198,6 +204,13 @@ export function classifyParticipation(type: ParticipationType): {
   }
 }
 
+/**
+ * True when a record carries *any* verification field. This is a weak signal: a
+ * record declaring only `sourceKind: "official"` satisfies it while telling the
+ * reader nothing about whether anyone checked the claim. Kept for the existing
+ * "has some metadata" report; use `hasCompleteVerificationMetadata` to ask
+ * whether a record is actually accounted for.
+ */
 export function hasVerificationMetadata(item: VerificationMetadata): boolean {
   return Boolean(
     item.sourceKind ||
@@ -206,6 +219,20 @@ export function hasVerificationMetadata(item: VerificationMetadata): boolean {
       item.lastVerified ||
       item.verificationNotes
   );
+}
+
+/**
+ * True when a record says who the source is, what its verification state is, and
+ * when that was last established. Anything less cannot support a claim about
+ * currency or reliability.
+ */
+export function hasCompleteVerificationMetadata(item: VerificationMetadata): boolean {
+  return Boolean(item.sourceKind && item.verificationStatus && item.lastVerified);
+}
+
+/** A record with no explicit status is unverified, not implicitly fine. */
+export function effectiveVerificationStatus(item: VerificationMetadata) {
+  return item.verificationStatus ?? "unverified";
 }
 
 export function assessSourceUrl(sourceUrl: string | undefined): SourceAssessment {

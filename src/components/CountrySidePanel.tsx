@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import type { MapModeId } from "../types";
 import { getCountryGovernanceSummary } from "../utils/getCountryGovernanceSummary";
-import { getSubnationalRulesByCountry } from "../data/subnationalRules";
+import { getSubnationalRulesByCountry, jurisdictionLevel } from "../data/subnationalRules";
 import { InstrumentList } from "./InstrumentList";
 import { NationalRegulationList } from "./NationalRegulationList";
 import { ConnectionsSection } from "./ConnectionsSection";
@@ -312,7 +312,10 @@ export function CountrySidePanel({
         {subnationalRules.length > 0 && (
           <section className="mt-6">
             <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">
-              Subnational AI rules ({subnationalRules.length})
+              {subnationalRules.every((rule) => jurisdictionLevel(rule.jurisdictionType) === "national_implementation")
+                ? "National implementation activity"
+                : "Subnational AI rules"}{" "}
+              ({subnationalRules.length})
             </h3>
             <ul className="space-y-1.5">
               {subnationalRules.map((rule) => (

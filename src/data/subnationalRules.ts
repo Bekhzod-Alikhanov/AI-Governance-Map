@@ -172,3 +172,27 @@ export const SUBNATIONAL_BY_ID: Record<string, SubnationalAIRule> =
 export function getSubnationalRulesByCountry(iso3: string): SubnationalAIRule[] {
   return SUBNATIONAL_AI_RULES.filter((r) => r.countryIso3 === iso3);
 }
+
+/**
+ * "Subnational" has a precise meaning to this audience, and an EU member state
+ * implementing the AI Act is not one. These rows live in the same module because
+ * they share a shape — a rule below the level of a distinct national AI statute —
+ * but they are counted and labelled separately.
+ */
+export type JurisdictionLevel = "subnational" | "national_implementation";
+
+export function jurisdictionLevel(
+  jurisdictionType: SubnationalAIRule["jurisdictionType"]
+): JurisdictionLevel {
+  return jurisdictionType === "eu_member" ? "national_implementation" : "subnational";
+}
+
+/** Genuine subnational rules: US states, cities, provinces. */
+export const SUBNATIONAL_ONLY_RULES: SubnationalAIRule[] = SUBNATIONAL_AI_RULES.filter(
+  (rule) => jurisdictionLevel(rule.jurisdictionType) === "subnational"
+);
+
+/** National-level implementation activity, tracked separately from subnational rules. */
+export const NATIONAL_IMPLEMENTATION_RULES: SubnationalAIRule[] = SUBNATIONAL_AI_RULES.filter(
+  (rule) => jurisdictionLevel(rule.jurisdictionType) === "national_implementation"
+);

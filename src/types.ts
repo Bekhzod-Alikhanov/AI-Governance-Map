@@ -41,11 +41,18 @@ export type NationalBindingStatus =
   | "mixed";
 
 export type SourceKind = "official" | "secondary" | "mixed" | "unknown";
+/**
+ * The scale must be able to express a negative. Without `unverified` and
+ * `superseded` the worst a record can say about itself is "someone should look
+ * at this", which makes an unchecked claim indistinguishable from a checked one.
+ */
 export type VerificationStatus =
   | "verified"
   | "likely_correct"
   | "uncertain"
-  | "needs_external_check";
+  | "needs_external_check"
+  | "unverified"
+  | "superseded";
 export type DataConfidence = "high" | "medium" | "low";
 export type ExpertReviewStatus =
   | "unreviewed"
