@@ -3,6 +3,7 @@ import type { MapModeId } from "../types";
 
 const FILLS = [
   { color: "#E5E7EB", label: "No included AI-specific entry" },
+  { color: "#C4B5FD", label: "International participation only; no national rule" },
   { color: "#BFDBFE", label: "Guidance, strategy, or voluntary framework only" },
   { color: "#60A5FA", label: "Proposed law or mixed legal effect" },
   { color: "#1D4ED8", label: "Binding AI-specific law applies" },
@@ -34,7 +35,9 @@ interface Props {
 }
 
 export function Legend({ mapMode = "binding-law" }: Props) {
-  const [open, setOpen] = useState(false);
+  // Open by default: a choropleth whose key is hidden on arrival gives the
+  // reader colour without meaning.
+  const [open, setOpen] = useState(true);
   const isAtlasMode = ATLAS_MODES.includes(mapMode);
   const isCorpusMode = CORPUS_MODES.includes(mapMode);
   const fills = isAtlasMode ? atlasFillsForMode(mapMode) : isCorpusMode ? corpusFillsForMode(mapMode) : FILLS;
