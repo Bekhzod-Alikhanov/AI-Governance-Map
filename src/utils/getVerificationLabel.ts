@@ -12,6 +12,8 @@ export const VERIFICATION_STATUS_LABELS: Record<VerificationStatus, string> = {
   likely_correct: "Likely correct",
   uncertain: "Uncertain",
   needs_external_check: "Needs external check",
+  unverified: "Not independently verified",
+  superseded: "Superseded — source moved or claim overtaken",
 };
 
 export const DATA_CONFIDENCE_LABELS: Record<DataConfidence, string> = {

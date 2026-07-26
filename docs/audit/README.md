@@ -13,11 +13,17 @@ A three-perspective review — staff frontend engineer, information architect, w
 | [04-VIEW-PORTFOLIO.md](04-VIEW-PORTFOLIO.md) | The four persona click-paths, then a keep/kill/merge memo per view (counterargument first), then the proposed navigation model. |
 | [05-DATA-MODEL-REVIEW.md](05-DATA-MODEL-REVIEW.md) | Taxonomy critique, the 15-record live source spot-check with per-record verdicts, the `powerScore` verdict, a staleness strategy, and a proposed schema. |
 | [07-OPEN-QUESTIONS.md](07-OPEN-QUESTIONS.md) | 8 decisions only the owner can make, each with a recommendation and the evidence that would settle it. |
-| [08-REMEDIATION-LOG.md](08-REMEDIATION-LOG.md) | What was actually fixed on 25 July 2026 (the three day-one changes), with before/after measurements and what the fixes surfaced. |
+| [02-WORKBENCH-REDESIGN.md](02-WORKBENCH-REDESIGN.md) | Purpose statement, wireframe, control inventory, progressive-disclosure strategy, microcopy, empty states, and five worked question→answer examples. |
+| [06-ROADMAP.md](06-ROADMAP.md) | Now / Next / Later / Never, each with acceptance criteria. |
+| [08-REMEDIATION-LOG.md](08-REMEDIATION-LOG.md) | What was actually fixed across four tiers, with before/after measurements — including a correction to F-15, whose headline number was wrong. |
 
-## Deferred to pass 2
+## Status
 
-`02-WORKBENCH-REDESIGN.md`, `03-LAYERS-DECISION.md`, `06-ROADMAP.md`, plus the filter × lens interaction matrix, React Profiler measurements, the full UI copy audit, and the competitor benchmark. The structural verdict in 00 and 04 is the input to those specs, which is why it was produced first.
+**21 of 23 findings closed** across four remediation tiers, all test-first. Remaining: **F-04** is deliberately open (it is Q3 — a claim only the maintainer can make) and **F-23** (`App.tsx` state sprawl) is taste, scheduled as L2 in the roadmap.
+
+`03-LAYERS-DECISION.md` was never written and never will be: [04-VIEW-PORTFOLIO](04-VIEW-PORTFOLIO.md) argued the merge and the merge shipped, so a second document re-arguing a settled decision would be waste.
+
+Still not done: the filter × lens interaction matrix, React Profiler measurements, the full UI-copy audit, and the competitor benchmark against OECD.AI / Stanford AI Index / IAPP / GIRAI.
 
 ---
 

@@ -1,4 +1,4 @@
-import type { LensKind, MapModeId } from "../types";
+import type { MapModeId } from "../types";
 import type { CountryMapSummaryResult } from "./getCountryMapSummary";
 
 export interface MapColorReason {
@@ -8,7 +8,6 @@ export interface MapColorReason {
 
 export function buildGovernanceColorReason(
   summary: CountryMapSummaryResult,
-  lens: LensKind,
   mapMode: MapModeId
 ): MapColorReason {
   if (!summary.country) {
@@ -32,7 +31,7 @@ export function buildGovernanceColorReason(
       };
     }
     return {
-      label: lens === "layer" ? "No layer color trigger" : "No confirmed binding AI law",
+      label: "No confirmed binding AI law",
       detail: "No confirmed binding AI-specific national law is counted for map coloring in this snapshot.",
     };
   }

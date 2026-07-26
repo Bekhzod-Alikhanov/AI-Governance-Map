@@ -1,4 +1,4 @@
-import type { LensKind, MapModeId } from "../types";
+import type { MapModeId } from "../types";
 import { INSTRUMENT_BY_ID } from "../data/internationalInstruments";
 import { PARTICIPATION_BY_COUNTRY } from "../data/participation";
 import { getCountryMapSummary } from "../utils/getCountryMapSummary";
@@ -11,7 +11,6 @@ interface Props {
   x: number;
   y: number;
   activeFilterInstrumentIds: string[];
-  lens: LensKind;
   mapMode: MapModeId;
   contextReason?: {
     label: string;
@@ -25,7 +24,6 @@ export function CountryTooltip({
   x,
   y,
   activeFilterInstrumentIds,
-  lens,
   mapMode,
   contextReason,
 }: Props) {
@@ -33,7 +31,7 @@ export function CountryTooltip({
   const participations = PARTICIPATION_BY_COUNTRY[iso3] ?? [];
   const nationalCount = summary.nationalRuleCount;
   const intlCount = summary.internationalParticipationCount;
-  const colorReason = contextReason ?? buildGovernanceColorReason(summary, lens, mapMode);
+  const colorReason = contextReason ?? buildGovernanceColorReason(summary, mapMode);
 
   const style: React.CSSProperties = {
     left: x + 14,

@@ -12,10 +12,10 @@
   <img alt="Vite"    src="https://img.shields.io/badge/Vite-8.0-646CFF?style=flat-square&logo=vite" />
   <img alt="Tailwind" src="https://img.shields.io/badge/Tailwind-4.3-38BDF8?style=flat-square&logo=tailwindcss" />
   <img alt="Vitest"  src="https://img.shields.io/badge/Vitest-4.1-6E9F18?style=flat-square&logo=vitest" />
-  <img alt="Playwright" src="https://img.shields.io/badge/Playwright-1.60-2EAD33?style=flat-square&logo=playwright" />
+  <img alt="Playwright" src="https://img.shields.io/badge/Playwright-1.61-2EAD33?style=flat-square&logo=playwright" />
   <img alt="ESLint" src="https://img.shields.io/badge/ESLint-10-4B32C3?style=flat-square&logo=eslint" />
   <img alt="License" src="https://img.shields.io/badge/license-MIT-555?style=flat-square" />
-  <img alt="Snapshot" src="https://img.shields.io/badge/dataset_snapshot-19_May_2026-B45309?style=flat-square" />
+  <img alt="Snapshot" src="https://img.shields.io/badge/dataset_snapshot-19_June_2026-B45309?style=flat-square" />
   <img alt="Codebase size" src="https://img.shields.io/badge/source%20%2B%20data-51%2C596%20lines-0F766E?style=flat-square" />
 </p>
 
@@ -28,7 +28,7 @@
 - [Overview](#overview)
 - [Codebase size](#codebase-size)
 - [What's on the map](#whats-on-the-map)
-- [Six lenses](#six-lenses-on-the-same-data)
+- [Five lenses](#five-lenses-on-the-same-data)
 - [Architecture](#architecture)
 - [Frontend stack](#frontend-stack)
 - [Backend / API](#backend--api)
@@ -52,11 +52,11 @@
 
 ## Overview
 
-The dashboard answers a deceptively simple question — *"how is AI actually governed, measured, implemented, and institutionally overseen right now?"* — and gives a research-grade answer across six lenses on the same dataset, with a task-first Research Workbench, stable record URLs, source metadata, evidence dossiers, policy briefs, public JSON endpoints, and exportable table workflows.
+The dashboard answers a deceptively simple question — *"how is AI actually governed, measured, implemented, and institutionally overseen right now?"* — and gives a research-grade answer across five lenses on the same dataset, with a task-first Research Workbench, stable record URLs, source metadata, evidence dossiers, policy briefs, public JSON endpoints, and exportable table workflows.
 
 It is **client-only**: a static Vite build, no backend, no paid APIs, no user accounts. Everything ships as JavaScript + JSON + an SVG world map. Deployment is a single `vercel deploy` from the project root, and the live site auto-rebuilds on every push to `main`.
 
-The Geography and Layers maps support in-page maximize mode, region focus presets, zoom, pan, reset controls, result-fit status, country-list alternatives, and context-only Atlas/corpus map modes so researchers can move from a full-world overview to source-backed details without leaving the dashboard.
+The Geography map supports in-page maximize mode, region focus presets, zoom, pan, reset controls, result-fit status, country-list alternatives, and context-only Atlas/corpus map modes so researchers can move from a full-world overview to source-backed details without leaving the dashboard.
 
 A guided **"Take the tour"** walkthrough introduces the frontier-AI governance story: who builds frontier AI, who can regulate them, which international coordinators matter, how evaluations and standards fit in, and where compute/chip dependencies shape the real governance environment.
 
@@ -72,7 +72,7 @@ Including generated public JSON exports and the lockfile, the repository has **2
 - **13 frontier-AI labs** pinned to their HQ cities — OpenAI, Anthropic, Google DeepMind, Meta, Microsoft, Amazon, xAI, Mistral, Cohere, DeepSeek, Baidu, Alibaba, Tencent — each with lab intelligence profiles, official/issuer-backed model-governance evidence, safety-framework references, typed regulatory exposure, and deployment-market context.
 - **37 international AI instruments** — UNESCO Recommendation, UNGA 78/265 + 78/311 + 79/325, Global Digital Compact, OECD AI Principles, G20 AI Principles, the G7 Hiroshima trio + reporting framework, EU AI Act, Council of Europe Framework Convention on AI, ISO/IEC 42001 / 23894 / 38507 / 22989 / 42005, the Bletchley → Seoul → Paris summit chain, INASI, ASEAN guides, AU Continental AI Strategy, APEC instruments, NIST AI RMF / GenAI Profile, GPAI statements, CEN-CENELEC AI Act standardization work, and key bilaterals.
 - **75+ national AI-specific rules** across China, the EU, South Korea, UK, US, Japan, Singapore, Canada, Australia, India, plus binding statutes in **Kazakhstan, Vietnam, Taiwan, Italy, Slovenia**, draft bills in **Brazil, Türkiye, Mexico, Bahrain, Costa Rica, Dominican Republic, Poland, Norway, Spain**, and 30+ formal national AI strategies.
-- **7 subnational rules** — California SB 53 + 13-bill 2025 package, NYC Local Law 144, NY surveillance-pricing law, Illinois AIVIA, plus draft France/Germany EU AI Act implementations.
+- **5 subnational rules** — California SB 53 + 13-bill 2025 package, NYC Local Law 144, NY surveillance-pricing law, Illinois AIVIA — plus **2 national implementation records** for draft France/Germany EU AI Act implementation, counted separately because an EU member state is not a subnational jurisdiction.
 - **27-row EU AI Act authority matrix** distinguishing Commission-listed market-surveillance authorities, pending national designations, and member states where the Commission list has not yet published an authority.
 - **3 infrastructure choke-points** and **4 compute-dependency records** — advanced AI chips, hyperscale cloud, U.S. BIS export controls, cloud/provider dependencies, and national compute signals — flagged as context rather than AI law.
 - **38 enforcement & litigation records** — 22 regulatory enforcement actions, 6 regulator investigations, 1 policy warning, and 9 court litigation cases, including landmark AI copyright suits (*Bartz v. Anthropic*, *Kadrey v. Meta*) and the first AI-chatbot wrongful-death case (*Garcia v. Character.AI / Google*). Each is sourced to an official regulator notice or federal court-docket page (govinfo.gov) and surfaced together under the map's "Enforcement & litigation" color mode and the research corpus's "Enforcement / litigation" category.
@@ -86,15 +86,14 @@ Including generated public JSON exports and the lockfile, the repository has **2
 
 Out-of-scope items (GDPR, DPDP, generic cybersecurity, BIS/Wassenaar/JP-NL-US export controls, generic digital strategies) are catalogued in [`src/data/outOfScope.ts`](src/data/outOfScope.ts) with explicit `reasonExcluded` text.
 
-## Six lenses on the same data
+## Five lenses on the same data
 
 | Lens | What it does | Implementation |
 |---|---|---|
 | **Workbench** | Task-first research workbench with workflow presets, answer cards, side-by-side comparison, Lab Board, Research Corpus explorer, policy briefs, stable record summaries, public endpoint links, and a conservative lab/market scenario simulator. | `WorkbenchView.tsx` + `researchWorkbench.ts` |
-| **Geography** | Default world map. Country fill = binding status of national AI rule. Frontier-lab HQ pins overlaid, sized by power score. Includes maximize, zoom/pan, and regional focus controls. | `WorldMap.tsx` + `LabPin.tsx`, Equal Earth projection via `react-simple-maps` |
-| **Layers** | Recolours countries by the highest governance layer present (corporate / national binding / proposed / voluntary / international only). Map modes can also show treaty participation, lab HQs, obligations, implementation deadlines, source confidence, frontier relevance, AI Atlas indicators, and context-only corpus modes. | `getMapColor.ts → pickPrimaryLayer` (cached) |
+| **Geography** | Default world map with 17 colour modes. Default fill = binding status of national AI rule, with countries covered only by international instruments shown as their own tier. Frontier-lab HQ pins overlaid, sized by power score. Includes maximize, zoom/pan, and regional focus controls. | `WorldMap.tsx` + `LabPin.tsx`, Equal Earth projection via `react-simple-maps` |
 | **Network** | Force-directed graph of every actor and edge. Lab exposure edges are generated from the typed exposure dataset so binding, voluntary, standards, and infrastructure relationships stay distinct. | `NetworkView.tsx`, `d3-force` 300-tick static layout |
-| **Timeline** | 115+ AI governance milestones plotted from 2017 (Finland AI Programme) → 2026 (Kazakhstan AI Law, Taiwan AI Basic Act, Vietnam AI Law). Filterable by international / national / subnational. | `TimelineView.tsx` |
+| **Timeline** | 135 AI governance milestones plotted from 2017 (Finland AI Programme) → 2026 (Kazakhstan AI Law, Taiwan AI Basic Act, Vietnam AI Law). Filterable by international / national / subnational. | `TimelineView.tsx` |
 | **Table** | Sortable, filterable research table for countries, instruments, national rules, labs, lab exposure rows, EU AI Act authorities, obligations, implementation milestones, corpus records, AI Atlas indicators, participation rows, releases, and source metadata; supports CSV export. | `TableView.tsx` |
 
 ## Architecture
@@ -113,7 +112,6 @@ Out-of-scope items (GDPR, DPDP, generic cybersecurity, BIS/Wassenaar/JP-NL-US ex
 │  │  │  ┌──────────────────────────────────────────────────┐    │    │    │
 │  │  │  │  <main>:                                         │    │    │    │
 │  │  │  │    Geography lens → WorldMap + LabPin (eager)    │    │    │    │
-│  │  │  │    Layers lens    → WorldMap (recolored)         │    │    │    │
 │  │  │  │    Workbench      → WorkbenchView    (lazy)      │    │    │    │
 │  │  │  │    Network lens   → NetworkView      (lazy)      │    │    │    │
 │  │  │  │    Timeline lens  → TimelineView     (lazy)      │    │    │    │
@@ -343,16 +341,17 @@ The budget is tight by design, and the total-JS ceiling has been raised twice (1
 
 ## Testing & CI
 
-- **Unit / selector tests** — **Vitest 4** with `jsdom`. 118 tests across filters, map summaries, governance taxonomy, export/schema checks, evidence dossiers, policy briefs, record routes, Workbench helpers, corpus validation, Atlas parsing, lab exposure, and keyboard helpers. Run with `npm test` or `npm run test:watch`.
-- **End-to-end + accessibility** — **Playwright 1.60** (`tests/e2e/smoke.spec.ts`, `tests/e2e/a11y.spec.ts`). Run with `npm run test:e2e` (full suite) or `npm run test:a11y` (a11y only). The a11y suite covers keyboard navigation, dialog focus traps, and `prefers-reduced-motion` honouring.
-- **Visual regression** — Playwright pixel baselines cover the main map SVG and a compact country embed card. Update intentionally changed baselines with `npm run test:e2e -- tests/e2e/visual-regression.spec.ts --update-snapshots`.
+- **Unit / selector tests** — **Vitest 4** with `jsdom`. 136 tests across filters, map summaries, map colour semantics, governance taxonomy, export/schema checks, evidence dossiers, policy briefs, record routes, Workbench helpers, corpus validation, Atlas parsing, lab exposure, source-audit helpers, and keyboard helpers. Run with `npm test` or `npm run test:watch`.
+- **End-to-end + accessibility** — **Playwright 1.61** (`tests/e2e/smoke.spec.ts`, `tests/e2e/a11y.spec.ts`). Run with `npm run test:e2e` (full suite) or `npm run test:a11y` (a11y only). The a11y suite covers keyboard navigation, the lens-switcher tab pattern (roving tabindex and arrow keys), dialog focus traps, and `prefers-reduced-motion` honouring.
+- **Visual regression** — Playwright pixel baselines cover the main map SVG and a compact country embed card, on both the desktop and mobile projects. Tolerances are deliberately tight (`threshold: 0.1`), because looser settings let a change that recoloured 101 of 167 countries pass unnoticed. Update intentionally changed baselines with `npm run test:e2e -- tests/e2e/visual-regression.spec.ts --update-snapshots`.
 - **Linting** — **ESLint 10** with `eslint-plugin-react-hooks` and `eslint-plugin-jsx-a11y`. Run with `npm run lint`.
 - **Type checking** — `npm run typecheck` runs `tsc -b --noEmit` against strict TypeScript.
 - **Dataset checks** — `npm run validate:data` and `npm run validate:export` run the relevant vitest files in isolation, for quick pre-commit dataset sanity checks.
 - **Editorial data review** — `npm run audit:data-review` produces Markdown/JSON review artifacts for stale, uncertain, low-confidence, or strong legal-effect records needing human review.
 - **Official-source delta monitor** — `npm run audit:deltas` checks a small set of legally consequential official sources for changes; `npm run audit:deltas:write` refreshes `docs/SOURCE_DELTA_REPORT.md`.
 - **Performance budget** — `npm run check:performance` fails if initial JS, Atlas chunk, corpus chunk, or total JS exceed the published budget.
-- **Manual-source overrides** — Some official treaty/legal sites block static fetches. The CoE Treaty Office monitor has a time-limited manual verification record documented in `docs/SOURCE_VERIFICATION_2026-06-05.md`; it expires on 5 July 2026.
+- **Manual-source overrides** — Some official treaty/legal sites block static fetches, so `src/data/sourceLinkManualChecks.json` records human verification the automation cannot repeat. Entries may carry an `expiresOn` date; once it passes, the override stops excusing the automated failure and the record is reported as a link warning until someone re-verifies it. The CoE Treaty Office monitor has a manual verification record documented in `docs/SOURCE_VERIFICATION_2026-06-05.md`, which expired on 5 July 2026.
+- **Content-aware link checks** — `npm run audit:source-links` inspects response bodies, not just status codes. Anti-bot systems routinely answer with an interstitial page, so a reachable URL is not evidence that the source is readable; the audit currently reports 24 official sources sitting behind such walls (ISO, MOFA, Council of the EU, OECD iLibrary among them). These need human verification and a manual-check entry, not a code fix.
 - **GitHub Actions** (`.github/workflows/ci.yml`) runs ESLint, `tsc -b`, `vitest run`, and `vite build` on every push and PR.
 - **Dependabot** (`.github/dependabot.yml`) opens a PR each week for npm minor/patch updates.
 - A dev-mode runtime validator (`validateData.ts`) prints a green-bold summary line if the dataset is clean and checks countries, EU AI Act authority rows, national rules, international instruments, participation rows, lab exposure, corpus records, Atlas metadata, source classification, duplicate IDs, snapshot dates, and Cyrillic leakage.

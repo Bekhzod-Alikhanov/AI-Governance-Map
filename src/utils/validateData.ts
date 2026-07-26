@@ -36,6 +36,7 @@ import {
   classifyNationalEntry,
   classifyParticipation,
   DATA_SNAPSHOT_DATE,
+  hasCompleteVerificationMetadata,
   hasVerificationMetadata,
 } from "./governanceTaxonomy";
 import type { VerificationMetadata } from "../types";
@@ -44,6 +45,8 @@ interface ValidationReport {
   ok: boolean;
   errors: string[];
   warnings: string[];
+  /** Deliberate disclosures, not defects. Reported so the balance stays visible. */
+  notes: string[];
 }
 
 export function validateData(): ValidationReport {
@@ -52,6 +55,9 @@ export function validateData(): ValidationReport {
   const sourceMetadataMissing = new Map<string, number>();
   const sourceHostCounts = new Map<string, { sourceKind: string; count: number }>();
   const sourceIssueCounts = new Map<string, number>();
+  const notes: string[] = [];
+  let sourcedRecordCount = 0;
+  let completeVerificationCount = 0;
   const indirectParticipationWithoutNote = new Map<string, number>();
   const corpusReferences: Array<{ owner: string; kind: string; id: string }> = [];
 
@@ -59,13 +65,19 @@ export function validateData(): ValidationReport {
     map.set(key, (map.get(key) ?? 0) + 1);
   }
 
-  function validateDate(label: string, value: string | undefined) {
+  /**
+   * The snapshot ceiling applies to backward-looking dates only — things that
+   * must already have happened by the time the corpus was cut. Deadlines and
+   * scheduled application dates are supposed to be in the future, so checking
+   * them against the snapshot flags correct data as an error.
+   */
+  function validateDate(label: string, value: string | undefined, { allowFuture = false } = {}) {
     if (!value) return;
     if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
       warnings.push(`${label} has non-ISO date: ${value}`);
       return;
     }
-    if (value > DATA_SNAPSHOT_DATE) {
+    if (!allowFuture && value > DATA_SNAPSHOT_DATE) {
       warnings.push(`${label} is after snapshot date ${DATA_SNAPSHOT_DATE}: ${value}`);
     }
   }
@@ -88,6 +100,8 @@ export function validateData(): ValidationReport {
       });
     }
     if (!hasVerificationMetadata(item)) addCount(sourceMetadataMissing, recordKind);
+    sourcedRecordCount += 1;
+    if (hasCompleteVerificationMetadata(item)) completeVerificationCount += 1;
   }
 
   // Countries
@@ -413,7 +427,7 @@ export function validateData(): ValidationReport {
     }
     corpusReferences.push(...process.relatedRecords.map((ref) => ({ owner: `Policy process ${process.id}`, kind: ref.kind, id: ref.id })));
     validateSource("Policy process", process.id, process);
-    validateDate(`Policy process ${process.id} deadline`, process.deadline);
+    validateDate(`Policy process ${process.id} deadline`, process.deadline, { allowFuture: true });
     validateDate(`Policy process ${process.id} lastVerified`, process.lastVerified);
     if (process.status === "open" && !process.deadline) warnings.push(`Open policy process ${process.id} has no deadline`);
     if (!process.caveat) errors.push(`Policy process ${process.id} missing caveat`);
@@ -521,7 +535,7 @@ export function validateData(): ValidationReport {
     milestoneIds.add(milestone.id);
     validateSource("Implementation milestone", milestone.id, milestone);
     validateDate(`Implementation milestone ${milestone.id} date`, milestone.date);
-    validateDate(`Implementation milestone ${milestone.id} nextDeadline`, milestone.nextDeadline);
+    validateDate(`Implementation milestone ${milestone.id} nextDeadline`, milestone.nextDeadline, { allowFuture: true });
     validateDate(`Implementation milestone ${milestone.id} lastVerified`, milestone.lastVerified);
     if (!parentReferenceExists(milestone.parentType, milestone.parentId, labExposureIds)) {
       errors.push(
@@ -578,7 +592,7 @@ export function validateData(): ValidationReport {
   for (const release of DATASET_RELEASES) {
     if (releaseIds.has(release.id)) errors.push(`Duplicate dataset release id: ${release.id}`);
     releaseIds.add(release.id);
-    validateDate(`Dataset release ${release.id} snapshotDate`, release.snapshotDate);
+    validateDate(`Dataset release ${release.id} snapshotDate`, release.snapshotDate, { allowFuture: true });
     if (release.status === "published" && release.snapshotDate > DATA_SNAPSHOT_DATE) {
       errors.push(`Published dataset release ${release.id} is after snapshot date ${DATA_SNAPSHOT_DATE}`);
     }
@@ -630,19 +644,28 @@ export function validateData(): ValidationReport {
   for (const [kind, count] of sourceMetadataMissing) {
     warnings.push(`${count} ${kind} records lack explicit verification metadata`);
   }
+  // Non-official hosts are a disclosure, not a defect: the research indices this
+  // dataset draws Atlas context from are deliberately cited and named in the UI.
+  // They belong in the report so the balance is visible, but a warning readers
+  // are meant to ignore is how 378 of them accumulated unnoticed.
   for (const [host, { sourceKind, count }] of sourceHostCounts) {
-    warnings.push(`${count} source URL(s) use ${sourceKind} host ${host}`);
+    notes.push(`${count} source URL(s) use ${sourceKind} host ${host}`);
   }
   for (const [issue, count] of sourceIssueCounts) {
     warnings.push(`${count} source URL(s): ${issue}`);
   }
+  // State the real verification coverage rather than letting a weak "has some
+  // metadata" check imply the whole corpus is accounted for.
+  notes.push(
+    `${completeVerificationCount} of ${sourcedRecordCount} sourced records carry a complete verification triple (sourceKind + verificationStatus + lastVerified)`
+  );
   for (const [instrumentId, count] of indirectParticipationWithoutNote) {
     warnings.push(
       `${count} covered_by_membership participation row(s) for ${instrumentId} lack an explicit caveat note`
     );
   }
 
-  return { ok: errors.length === 0, errors, warnings };
+  return { ok: errors.length === 0, errors, warnings, notes };
 }
 
 function parentReferenceExists(parentType: string, parentId: string, labExposureIds: Set<string>): boolean {

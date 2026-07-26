@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
-import type { LensKind, MapModeId } from "../types";
+import type { MapModeId } from "../types";
 import { getCountryGovernanceSummary } from "../utils/getCountryGovernanceSummary";
-import { getSubnationalRulesByCountry } from "../data/subnationalRules";
+import { getSubnationalRulesByCountry, jurisdictionLevel } from "../data/subnationalRules";
 import { InstrumentList } from "./InstrumentList";
 import { NationalRegulationList } from "./NationalRegulationList";
 import { ConnectionsSection } from "./ConnectionsSection";
@@ -37,7 +37,6 @@ interface Props {
   isLabPinned: (labId: string) => boolean;
   onPinInstrument: (instrumentId: string) => void;
   isInstrumentPinned: (instrumentId: string) => boolean;
-  lens: LensKind;
   mapMode: MapModeId;
   contextReason?: MapColorReason;
 }
@@ -52,7 +51,6 @@ export function CountrySidePanel({
   isLabPinned,
   onPinInstrument,
   isInstrumentPinned,
-  lens,
   mapMode,
   contextReason,
 }: Props) {
@@ -77,7 +75,7 @@ export function CountrySidePanel({
   const obligations = getCountryObligations(country.iso3);
   const implementation = getCountryImplementationMilestones(country.iso3);
   const subnationalRules = getSubnationalRulesByCountry(country.iso3);
-  const colorReason = contextReason ?? buildGovernanceColorReason(getCountryMapSummary(iso3), lens, mapMode);
+  const colorReason = contextReason ?? buildGovernanceColorReason(getCountryMapSummary(iso3), mapMode);
   const corpusRecords = getCorpusRecordsForCountry(country.iso3);
 
   return (
@@ -314,7 +312,10 @@ export function CountrySidePanel({
         {subnationalRules.length > 0 && (
           <section className="mt-6">
             <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">
-              Subnational AI rules ({subnationalRules.length})
+              {subnationalRules.every((rule) => jurisdictionLevel(rule.jurisdictionType) === "national_implementation")
+                ? "National implementation activity"
+                : "Subnational AI rules"}{" "}
+              ({subnationalRules.length})
             </h3>
             <ul className="space-y-1.5">
               {subnationalRules.map((rule) => (

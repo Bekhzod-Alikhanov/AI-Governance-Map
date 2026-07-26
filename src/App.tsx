@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { lazy, Suspense, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import {
   DEFAULT_FILTER_STATE,
@@ -20,13 +21,14 @@ import { Filters } from "./components/Filters";
 import { DataActions } from "./components/DataActions";
 import { SearchBox } from "./components/SearchBox";
 import { Legend } from "./components/Legend";
-import { LensSwitch } from "./components/LensSwitch";
+import { LENS_PANEL_ID, LensSwitch } from "./components/LensSwitch";
 import { ResearchQuestionsPanel } from "./components/ResearchQuestionsPanel";
 import { DEFAULT_SHAREABLE_STATE, parseShareableState, serializeShareableState } from "./utils/urlState";
 import { COUNTRY_BY_ISO3 } from "./data/countries";
 import { LAB_BY_ID } from "./data/frontierLabs";
 import { DATASET_STATS } from "./data/datasetStats";
 import { getMapFitScope } from "./utils/mapFitTarget";
+import { countActiveFilters } from "./utils/filterCountries";
 import { parseRecordRoute, type RecordRoute } from "./utils/recordRoutes";
 import { parseEmbedRoute } from "./utils/embedRoutes";
 
@@ -69,6 +71,9 @@ const MAP_FOCUS_OPTIONS: Array<{
   { id: "africa_mena", label: "Africa/MENA", center: [22, 13], zoom: 2.15 },
   { id: "asia_pacific", label: "Asia-Pacific", center: [108, 18], zoom: 2.05 },
 ];
+// Kept visible beside the "Color by" dropdown: the modes that answer the
+// questions visitors actually arrive with.
+const PROMOTED_MAP_MODES: MapModeId[] = ["binding-law", "treaty-participation", "enforcement-activity"];
 const ATLAS_MAP_MODES = new Set<MapModeId>([
   "gov-ai-readiness",
   "democratic-values",
@@ -162,6 +167,7 @@ export default function App() {
   const [showMethodology, setShowMethodology] = useState(false);
   const [isMapMaximized, setIsMapMaximized] = useState(false);
   const [showCountryList, setShowCountryList] = useState(false);
+  const [showFiltersOnMobile, setShowFiltersOnMobile] = useState(false);
   const [mapMode, setMapMode] = useState<MapModeId>(initialUrlState.mapMode);
   const [contextFillState, setContextFillState] = useState<{
     mapMode: MapModeId;
@@ -295,7 +301,8 @@ export default function App() {
     []
   );
 
-  const showsMap = lens === "geography" || lens === "layer";
+  const showsMap = lens === "geography";
+  const activeFilterCount = countActiveFilters(filters);
   const mapChromeHidden = showsMap && isMapMaximized;
   const contextFillByIso3 = contextFillState?.mapMode === mapMode ? contextFillState.fills : null;
   const contextReasonByIso3 = contextFillState?.mapMode === mapMode ? contextFillState.reasons : null;
@@ -380,7 +387,7 @@ export default function App() {
     setLens(nextLens);
     setIsMapMaximized(false);
     setActivePresetId(null);
-    if (nextLens === "geography" || nextLens === "layer") {
+    if (nextLens === "geography") {
       const target = getMapFitScope(nextFilters, null, null).target;
       if (target) setMapView(createFitMapView(target));
     }
@@ -393,6 +400,10 @@ export default function App() {
     const nextSelectedLabId = preset.selectedLabId ?? null;
     dispatch({ type: "patch", patch: preset.filterPatch ?? {} });
     setLens(preset.lens);
+    // A preset describes a whole view, so it owns the colour mode too. Without
+    // this, applying one while an unrelated mode is active silently answers a
+    // different question than the preset's title promises.
+    setMapMode(preset.mapMode ?? DEFAULT_SHAREABLE_STATE.mapMode);
     setIsMapMaximized(false);
     setSelectedIso3(nextSelectedIso3);
     setSelectedLabId(nextSelectedLabId);
@@ -400,7 +411,7 @@ export default function App() {
     setNetworkPreset(preset.networkPreset ?? "all");
     setTimelineLane(preset.timelineLane ?? "all");
     setActivePresetId(preset.id);
-    if (preset.lens === "geography" || preset.lens === "layer") {
+    if (preset.lens === "geography") {
       const target = getMapFitScope(nextFilters, nextSelectedIso3, nextSelectedLabId).target;
       if (target) setMapView(createFitMapView(target));
     }
@@ -550,86 +561,59 @@ export default function App() {
       {/* Filter toolbar */}
       {!mapChromeHidden && (
         <div data-filter-toolbar className="relative z-30 shrink-0 border-b border-canvas-line bg-canvas-surface px-4 py-1">
-          <Filters
-            filters={filters}
-            onChange={handleFilterChange}
-            onReset={handleFilterReset}
-          />
+          {/* On a phone the header plus this toolbar ate a third of the viewport
+              before any content. Below md it collapses behind one control, so
+              the map gets the screen and filters stay one tap away. */}
+          <button
+            type="button"
+            onClick={() => setShowFiltersOnMobile((open) => !open)}
+            aria-expanded={showFiltersOnMobile}
+            aria-controls="filter-toolbar-panel"
+            className="my-0.5 inline-flex min-h-6 w-full items-center justify-between rounded-md border border-canvas-line bg-white px-2.5 py-1.5 text-xs font-semibold text-ink-800 md:hidden"
+          >
+            <span>
+              Filters
+              {activeFilterCount > 0 && (
+                <span className="ml-1.5 rounded-full bg-accent px-1.5 py-0.5 text-[10px] font-semibold text-white">
+                  {activeFilterCount}
+                </span>
+              )}
+            </span>
+            <svg
+              aria-hidden="true"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={showFiltersOnMobile ? "rotate-180" : ""}
+            >
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </button>
+          <div id="filter-toolbar-panel" className={showFiltersOnMobile ? "block" : "hidden md:block"}>
+            <Filters
+              filters={filters}
+              onChange={handleFilterChange}
+              onReset={handleFilterReset}
+            />
+          </div>
         </div>
       )}
 
       {/* Main canvas — switches between Map / Network / Timeline lenses */}
-      <main id="main-content" tabIndex={-1} className="relative z-0 flex-1 overflow-hidden">
-        {showsMap && (
-          <WorldMap
-            filters={filters}
-            selectedIso3={selectedIso3}
-            selectedLabId={selectedLabId}
-            onSelectCountry={handleSelectCountry}
-            onSelectLab={handleSelectLab}
-            onHover={(data) => setHover(data)}
-            onHoverLab={(data) => setHoverLab(data)}
-            showLabs={showLabs}
-            lens={lens}
-            scaleBoost={mapChromeHidden ? 1.08 : 1}
-            mapCenter={mapView.center}
-            mapZoom={mapView.zoom}
-            mapFitTarget={mapView.fitTarget}
-            mapMode={mapMode}
-            contextFillByIso3={contextFillByIso3}
-          />
-        )}
-        {lens === "workbench" && (
-          <Suspense fallback={<LensFallback />}>
-            <WorkbenchView
-              filters={filters}
-              onFiltersChange={handleFilterChange}
-              onSelectCountry={handleSelectCountry}
-              onSelectLab={handleSelectLab}
-              onSelectInstrument={handleSelectInstrument}
-              onOpenMethodology={() => setShowMethodology(true)}
-              onOpenAtlasMapMode={handleOpenAtlasMapMode}
-              workbenchState={workbenchState}
-              onWorkbenchStateChange={setWorkbenchState}
-              routeRecord={routeRecord}
-            />
-          </Suspense>
-        )}
-        {lens === "network" && (
-          <Suspense fallback={<LensFallback />}>
-            <NetworkView
-              selectedNodeId={networkSelection}
-              onSelectNode={handleNetworkSelect}
-              preset={networkPreset}
-              onPresetChange={setNetworkPreset}
-              density={networkDensity}
-              onDensityChange={setNetworkDensity}
-              frontierOnly={networkFrontierOnly}
-              onFrontierOnlyChange={setNetworkFrontierOnly}
-            />
-          </Suspense>
-        )}
-        {lens === "timeline" && (
-          <Suspense fallback={<LensFallback />}>
-            <TimelineView
-              lane={timelineLane}
-              onLaneChange={setTimelineLane}
-              frontierOnly={timelineFrontierOnly}
-              onFrontierOnlyChange={setTimelineFrontierOnly}
-            />
-          </Suspense>
-        )}
-        {lens === "table" && (
-          <Suspense fallback={<LensFallback />}>
-            <TableView
-              filters={filters}
-              onSelectCountry={handleSelectCountry}
-              onSelectLab={handleSelectLab}
-              onSelectInstrument={(id) => dispatch({ type: "select-instrument", id })}
-            />
-          </Suspense>
-        )}
-
+      <main
+        id={LENS_PANEL_ID}
+        tabIndex={-1}
+        role="tabpanel"
+        aria-label={`${lens} view`}
+        className="relative z-0 flex-1 overflow-hidden"
+      >
+        {/* Map controls render before the geographies so keyboard focus reaches
+            them first. They are absolutely positioned, so DOM order is free. */}
         {showsMap && (
           <div className="absolute left-2 top-2 z-20 flex max-w-[calc(100%-8.5rem)] flex-wrap items-center gap-0.5 rounded-lg border border-canvas-line bg-white/90 p-0.5 shadow-panel backdrop-blur sm:left-4 sm:top-3 sm:max-w-none">
             <label htmlFor="map-focus-select" className="sr-only">
@@ -656,6 +640,30 @@ export default function App() {
             >
               Color by:
             </label>
+            {/* The retired Layers tab advertised that the map could be recoloured.
+                A 17-option dropdown hides that, so the highest-value modes stay
+                visible and the dropdown carries the rest. */}
+            <div className="hidden items-center overflow-hidden rounded-md border border-canvas-line lg:inline-flex">
+              {PROMOTED_MAP_MODES.map((id) => {
+                const option = MAP_MODE_OPTIONS.find((entry) => entry.id === id);
+                if (!option) return null;
+                const active = mapMode === id;
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => setMapMode(id)}
+                    aria-pressed={active}
+                    className={clsx(
+                      "whitespace-nowrap px-2 py-1 text-[11px] font-medium transition-colors",
+                      active ? "bg-accent text-white" : "bg-white text-ink-700 hover:bg-canvas"
+                    )}
+                  >
+                    {option.label}
+                  </button>
+                );
+              })}
+            </div>
             <select
               id="map-mode-select"
               aria-label="Map color mode"
@@ -755,11 +763,80 @@ export default function App() {
           </div>
         )}
 
+        {showsMap && (
+          <WorldMap
+            filters={filters}
+            selectedIso3={selectedIso3}
+            selectedLabId={selectedLabId}
+            onSelectCountry={handleSelectCountry}
+            onSelectLab={handleSelectLab}
+            onHover={(data) => setHover(data)}
+            onHoverLab={(data) => setHoverLab(data)}
+            showLabs={showLabs}
+            scaleBoost={mapChromeHidden ? 1.08 : 1}
+            mapCenter={mapView.center}
+            mapZoom={mapView.zoom}
+            mapFitTarget={mapView.fitTarget}
+            mapMode={mapMode}
+            contextFillByIso3={contextFillByIso3}
+          />
+        )}
+        {lens === "workbench" && (
+          <Suspense fallback={<LensFallback />}>
+            <WorkbenchView
+              filters={filters}
+              onFiltersChange={handleFilterChange}
+              onSelectCountry={handleSelectCountry}
+              onSelectLab={handleSelectLab}
+              onSelectInstrument={handleSelectInstrument}
+              onOpenMethodology={() => setShowMethodology(true)}
+              onOpenAtlasMapMode={handleOpenAtlasMapMode}
+              workbenchState={workbenchState}
+              onWorkbenchStateChange={setWorkbenchState}
+              routeRecord={routeRecord}
+            />
+          </Suspense>
+        )}
+        {lens === "network" && (
+          <Suspense fallback={<LensFallback />}>
+            <NetworkView
+              selectedNodeId={networkSelection}
+              onSelectNode={handleNetworkSelect}
+              preset={networkPreset}
+              onPresetChange={setNetworkPreset}
+              density={networkDensity}
+              onDensityChange={setNetworkDensity}
+              frontierOnly={networkFrontierOnly}
+              onFrontierOnlyChange={setNetworkFrontierOnly}
+            />
+          </Suspense>
+        )}
+        {lens === "timeline" && (
+          <Suspense fallback={<LensFallback />}>
+            <TimelineView
+              lane={timelineLane}
+              onLaneChange={setTimelineLane}
+              frontierOnly={timelineFrontierOnly}
+              onFrontierOnlyChange={setTimelineFrontierOnly}
+            />
+          </Suspense>
+        )}
+        {lens === "table" && (
+          <Suspense fallback={<LensFallback />}>
+            <TableView
+              filters={filters}
+              onSelectCountry={handleSelectCountry}
+              onSelectLab={handleSelectLab}
+              onSelectInstrument={(id) => dispatch({ type: "select-instrument", id })}
+            />
+          </Suspense>
+        )}
+
+
         {showsMap && showCountryList && (
           <Suspense fallback={null}>
             <MapCountryList
               filters={filters}
-              lens={lens}
               mapMode={mapMode}
               contextReasonByIso3={contextReasonByIso3}
               onSelectCountry={handleSelectCountry}
@@ -850,7 +927,6 @@ export default function App() {
               isLabPinned={(labId) => isComparePinned("lab", labId)}
               onPinInstrument={(instrumentId) => toggleCompareItem({ kind: "instrument", id: instrumentId })}
               isInstrumentPinned={(instrumentId) => isComparePinned("instrument", instrumentId)}
-              lens={lens}
               mapMode={mapMode}
               contextReason={contextReasonByIso3?.[selectedIso3]}
             />
@@ -891,7 +967,6 @@ export default function App() {
             x={hover.x}
             y={hover.y}
             activeFilterInstrumentIds={filters.selectedInstrumentIds}
-            lens={lens}
             mapMode={mapMode}
             contextReason={contextReasonByIso3?.[hover.iso3]}
           />

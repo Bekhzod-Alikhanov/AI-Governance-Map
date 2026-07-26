@@ -41,11 +41,18 @@ export type NationalBindingStatus =
   | "mixed";
 
 export type SourceKind = "official" | "secondary" | "mixed" | "unknown";
+/**
+ * The scale must be able to express a negative. Without `unverified` and
+ * `superseded` the worst a record can say about itself is "someone should look
+ * at this", which makes an unchecked claim indistinguishable from a checked one.
+ */
 export type VerificationStatus =
   | "verified"
   | "likely_correct"
   | "uncertain"
-  | "needs_external_check";
+  | "needs_external_check"
+  | "unverified"
+  | "superseded";
 export type DataConfidence = "high" | "medium" | "low";
 export type ExpertReviewStatus =
   | "unreviewed"
@@ -840,7 +847,10 @@ export interface SubnationalAIRule extends VerificationMetadata {
 }
 
 // ===== Guided walkthrough (Tier 2.F) =====
-export type LensKind = "workbench" | "geography" | "layer" | "network" | "timeline" | "table";
+// "layer" was retired: it was a colour mode wearing a lens's clothes. Its one
+// unique contribution — the international-participation tier — now lives in the
+// default Geography map, and the rest is served by the map's colour modes.
+export type LensKind = "workbench" | "geography" | "network" | "timeline" | "table";
 export type NetworkPresetId =
   | "all"
   | "labs-laws"
@@ -853,6 +863,7 @@ export type TimelineLane =
   | "international"
   | "national_binding"
   | "national_proposed"
+  | "subnational"
   | "standards"
   | "labs_infrastructure";
 
@@ -870,6 +881,8 @@ export interface ResearchPreset {
   title: string;
   description: string;
   lens: LensKind;
+  /** Map colour mode the preset needs. Defaults to binding law when omitted. */
+  mapMode?: MapModeId;
   filterPatch?: Partial<FilterState>;
   selectedIso3?: string;
   selectedLabId?: string;

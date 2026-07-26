@@ -30,6 +30,26 @@ interface SimNode extends SimulationNodeDatum {
   label: string;
   size: number;
   color: string;
+  degree?: number;
+}
+
+/**
+ * The dataset types every edge as one of six relationships, and the README sells
+ * that typing — but the view drew all of them as the same slate line, so the one
+ * thing this graph exists to show was invisible. Colour carries the kind;
+ * stroke width stays with edge strength.
+ */
+const RELATIONSHIP_STYLE: Record<string, { color: string; dash?: string; label: string }> = {
+  regulates: { color: "#1D4ED8", label: "regulates" },
+  constrains: { color: "#DC2626", label: "constrains" },
+  depends_on: { color: "#B45309", dash: "4 3", label: "depends on" },
+  participates_in: { color: "#7C3AED", dash: "2 3", label: "participates in" },
+  coordinates: { color: "#0F766E", label: "coordinates" },
+  influences: { color: "#94A3B8", dash: "1 4", label: "influences" },
+};
+
+function relationshipStyle(relationship: string) {
+  return RELATIONSHIP_STYLE[relationship] ?? { color: "#94A3B8", label: relationship };
 }
 
 interface SimLink extends SimulationLinkDatum<SimNode> {
@@ -171,6 +191,22 @@ export function NetworkView({
         relationship: edge.relationship,
       });
     }
+
+    // Size by degree, not by powerScore. Area is the most salient variable in
+    // this view, and powerScore is a hand-assigned 1-5 constant with no
+    // published derivation - the least defensible number in the dataset doing
+    // the most visual work. Degree is computed from the edges on screen, so the
+    // reader can count it themselves.
+    const degree = new Map<string, number>();
+    for (const link of links) {
+      degree.set(link.source as string, (degree.get(link.source as string) ?? 0) + 1);
+      degree.set(link.target as string, (degree.get(link.target as string) ?? 0) + 1);
+    }
+    for (const node of nodes) {
+      node.degree = degree.get(node.id) ?? 0;
+      node.size = 5 + Math.sqrt(node.degree) * 2.6;
+    }
+
     return { nodes, links };
   }, [density, frontierOnly, preset]);
 
@@ -254,6 +290,7 @@ export function NetworkView({
             const isHighlighted =
               highlightSet?.has(srcId) && highlightSet?.has(tgtId);
             const dim = highlightSet && !isHighlighted;
+            const style = relationshipStyle(l.relationship);
             return (
               <line
                 key={i}
@@ -261,10 +298,13 @@ export function NetworkView({
                 y1={src.y}
                 x2={tgt.x}
                 y2={tgt.y}
-                stroke="#94A3B8"
-                strokeOpacity={dim ? 0.08 : 0.35}
-                strokeWidth={Math.max(0.5, l.strength * 0.5)}
-              />
+                stroke={style.color}
+                strokeDasharray={style.dash}
+                strokeOpacity={dim ? 0.08 : 0.55}
+                strokeWidth={Math.max(0.6, l.strength * 0.55)}
+              >
+                <title>{`${srcId} ${style.label} ${tgtId}`}</title>
+              </line>
             );
           })}
         </g>
@@ -381,7 +421,7 @@ export function NetworkView({
                 type="button"
                 onClick={() => onPresetChange(option.id)}
                 className={clsx(
-                  "whitespace-nowrap px-2 py-1 text-[11px] font-medium",
+                  "min-h-6 whitespace-nowrap px-2 py-1.5 text-[11px] font-medium",
                   preset === option.id ? "bg-accent text-white" : "bg-white text-ink-700 hover:bg-canvas"
                 )}
               >
@@ -396,7 +436,7 @@ export function NetworkView({
                 type="button"
                 onClick={() => onDensityChange(option.id)}
                 className={clsx(
-                  "whitespace-nowrap px-2 py-1 text-[11px] font-medium",
+                  "min-h-6 whitespace-nowrap px-2 py-1.5 text-[11px] font-medium",
                   density === option.id ? "bg-ink-800 text-white" : "bg-white text-ink-700 hover:bg-canvas"
                 )}
               >
@@ -433,8 +473,30 @@ export function NetworkView({
             </li>
           ))}
         </ul>
+        <p className="mt-3 text-[10px] font-semibold uppercase tracking-wide text-ink-500">
+          Relationship
+        </p>
+        <ul className="mt-1.5 grid grid-cols-2 gap-x-3 gap-y-1">
+          {Object.entries(RELATIONSHIP_STYLE).map(([kind, style]) => (
+            <li key={kind} className="flex items-center gap-1.5 text-[10px] text-ink-700">
+              <svg width="18" height="6" aria-hidden="true" className="shrink-0">
+                <line
+                  x1="0"
+                  y1="3"
+                  x2="18"
+                  y2="3"
+                  stroke={style.color}
+                  strokeDasharray={style.dash}
+                  strokeWidth="2"
+                />
+              </svg>
+              {style.label}
+            </li>
+          ))}
+        </ul>
         <p className="mt-2 text-[10px] text-ink-500">
-          Size = power score · Stroke thickness = edge strength · Click a node to highlight its 1-hop neighbours.
+          Node size = number of connections shown · Line thickness = edge strength · Click a node to
+          highlight its 1-hop neighbours. Position carries no meaning: the layout is force-directed.
         </p>
       </div>
     </div>

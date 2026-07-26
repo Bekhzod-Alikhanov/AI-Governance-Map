@@ -48,9 +48,9 @@ describe("AI Atlas indicators", () => {
   });
 
   it("keeps Atlas map coloring separate from binding-law coloring", () => {
-    const legalStyle = getMapStyle("USA", DEFAULT_FILTER_STATE, true, "geography", "binding-law");
-    const readinessStyle = getMapStyle("USA", DEFAULT_FILTER_STATE, true, "geography", "gov-ai-readiness");
-    const caidpStyle = getMapStyle("USA", DEFAULT_FILTER_STATE, true, "geography", "democratic-values");
+    const legalStyle = getMapStyle("USA", DEFAULT_FILTER_STATE, true, "binding-law");
+    const readinessStyle = getMapStyle("USA", DEFAULT_FILTER_STATE, true, "gov-ai-readiness");
+    const caidpStyle = getMapStyle("USA", DEFAULT_FILTER_STATE, true, "democratic-values");
 
     expect(readinessStyle.fill).not.toBe(legalStyle.fill);
     expect(caidpStyle.fill).not.toBe(legalStyle.fill);

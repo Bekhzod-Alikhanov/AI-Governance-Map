@@ -255,16 +255,20 @@ The French entry is additionally not a rule: `name: "France - EU AI Act implemen
 
 ### F-15 · Track D · `[risk]` · Confidence: High · Effort: S
 
-**The verification vocabulary cannot express a negative, and the test that guards it is near-vacuous.**
+> **⚠️ Corrected 26 July 2026 — this finding's headline number was wrong.** The original claimed "85 values for 762 sourced records (11%)", inferred from grepping literal `verificationStatus:` occurrences. That grep undercounted badly: most records inherit verification metadata from shared spread constants (`...OFFICIAL_VERIFIED`, `...REVIEWED_OFFICIAL_SOURCE`), and the 85 literals are per-record *overrides*. Measured properly by evaluating the data, coverage is **100%**: across 1,558 core records (national rules, instruments, participation, subnational), **1,094 `verified` and 464 `likely_correct`, none missing**. The coverage complaint is withdrawn. What follows is what survives.
+
+**The verification vocabulary cannot express a negative, and the guard that enforces it is near-vacuous.**
 
 Evidence:
-- `VerificationStatus` ([`types.ts:44-48`](../../src/types.ts)) = `verified | likely_correct | uncertain | needs_external_check`. There is no `unverified`, `disputed`, `superseded` or `incorrect`.
-- Distribution across `src/data/*.ts`: 44 `verified`, 38 `likely_correct`, 2 `uncertain`, 1 `needs_external_check` — **85 values for 762 sourced records** (11%).
-- `hasVerificationMetadata()` ([`governanceTaxonomy.ts:201-209`](../../src/utils/governanceTaxonomy.ts)) returns true if *any one* of `sourceKind`, `verificationStatus`, `confidence`, `lastVerified`, `verificationNotes` is set. The test asserting "no records lack explicit verification metadata" is therefore satisfied by a record that only declares `sourceKind: "official"` and has never been checked by anyone.
+- `VerificationStatus` ([`types.ts:44-48`](../../src/types.ts)) was `verified | likely_correct | uncertain | needs_external_check`. There was no `unverified`, `disputed`, `superseded` or `incorrect` — the worst thing the schema could say about a claim was "someone should look at this."
+- `hasVerificationMetadata()` ([`governanceTaxonomy.ts`](../../src/utils/governanceTaxonomy.ts)) returns true if *any one* of `sourceKind`, `verificationStatus`, `confidence`, `lastVerified`, `verificationNotes` is set. The test asserting "no records lack explicit verification metadata" is therefore satisfied by a record declaring only `sourceKind: "official"`.
+- The effective distribution is still notably optimistic: **zero** core records are `uncertain` or `needs_external_check`. The four `uncertain` flags all sit on litigation records outside the core set.
 
-**Why it matters.** The scale is optimistic by construction: the worst thing the schema can say about a claim is "someone should look at this." A researcher evaluating whether to trust the corpus cannot distinguish "checked and correct" from "never checked" for the 89% of records carrying no status at all.
+**Why it matters.** A scale with no negative value cannot record a mistake. When a source moves or a claim is overtaken by events — which is routine in this domain — there is no way to say so, so the record silently keeps asserting its last state.
 
-**Recommendation.** Add a genuinely negative value, make `verificationStatus` required rather than optional, and tighten `hasVerificationMetadata` to require `lastVerified` **and** `verificationStatus`. Expect the pass rate to drop sharply — that is the point.
+**Recommendation.** Add genuinely negative values and tighten the guard to require the full triple. Do **not** attempt to reassign statuses in bulk: that would be inventing verification nobody performed.
+
+**Status: fixed.** `unverified` and `superseded` added; `hasCompleteVerificationMetadata` requires `sourceKind` + `verificationStatus` + `lastVerified`; the validator now reports real coverage as a note (currently 2,320 of 2,320).
 
 ### F-16 · Track D · `[risk]` · Confidence: High · Effort: S
 

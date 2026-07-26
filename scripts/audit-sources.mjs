@@ -18,6 +18,21 @@ const sourceLinkManualCheckConfig = JSON.parse(await fs.readFile(sourceLinkManua
 const OFFICIAL_HOSTS = new Set(sourceHostConfig.officialHosts);
 const OFFICIAL_SUFFIXES = sourceHostConfig.officialHostSuffixes;
 const MANUAL_LINK_CHECKS = sourceLinkManualCheckConfig.manualChecks ?? [];
+const MAX_BODY_SCAN_BYTES = 16_384;
+// Anti-bot systems commonly answer with HTTP 200 and an interstitial body, so a
+// status code alone cannot tell a live source from a wall. These markers are
+// deliberately narrow: they appear in block pages and effectively never in the
+// official legal texts, standards pages and court dockets this dataset cites.
+// Declared above the CLI entry point below, which runs at module evaluation.
+const BLOCKED_CONTENT_MARKERS = [
+  "you have been blocked",
+  "attention required! | cloudflare",
+  "access denied",
+  "verify you are a human",
+  "just a moment...",
+  "checking your browser before accessing",
+  "enable javascript and cookies to continue",
+];
 const MANUAL_LINK_CHECKS_BY_RECORD_AND_URL = new Map(
   MANUAL_LINK_CHECKS.map((check) => [`${check.recordId}::${check.sourceUrl}`, check])
 );
@@ -311,8 +326,17 @@ async function checkLinksForRecords(sourceRecords) {
       const result = await checkLink(record.sourceUrl);
       if (!result) continue;
       const manualCheck = getManualLinkCheck(record);
-      if (manualCheck) {
+      if (manualCheck && !isManualCheckExpired(manualCheck)) {
         manualChecks.push(manualLinkCheck(record, manualCheck, result));
+      } else if (manualCheck) {
+        // The override has outlived its expiry date, so it no longer excuses the
+        // automated failure and the record needs re-verifying by a human.
+        warnings.push(
+          warn(
+            record,
+            `${result} (manual verification override expired on ${manualCheck.expiresOn}; re-verify and update src/data/sourceLinkManualChecks.json)`
+          )
+        );
       } else {
         warnings.push(warn(record, result));
       }
@@ -342,9 +366,27 @@ function isCli() {
   return process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
 }
 
+export function detectBlockedContent(bodyText) {
+  if (!bodyText || typeof bodyText !== "string") return false;
+  const haystack = bodyText.slice(0, MAX_BODY_SCAN_BYTES).toLowerCase();
+  return BLOCKED_CONTENT_MARKERS.some((marker) => haystack.includes(marker));
+}
+
+/**
+ * Manual verification overrides record a human check that automation cannot
+ * repeat. A time-boxed override that quietly outlives its expiry date is worse
+ * than no override, because the record keeps reporting as verified.
+ */
+export function isManualCheckExpired(check, today = new Date().toISOString().slice(0, 10)) {
+  if (!check?.expiresOn) return false;
+  return today > check.expiresOn;
+}
+
 async function checkLink(sourceUrl) {
   const headResult = await requestUrl(sourceUrl, "HEAD");
-  if (headResult === null) return null;
+  // A successful HEAD proves reachability but never shows a body, so confirm
+  // with a bounded GET that the response is the source and not an interstitial.
+  if (headResult === null) return (await requestUrl(sourceUrl, "GET")) ?? null;
   if (headResult === "retry") return (await requestUrl(sourceUrl, "GET")) ?? null;
   return headResult;
 }
@@ -363,7 +405,15 @@ async function requestUrl(sourceUrl, method) {
       redirect: "follow",
       signal: controller.signal,
     });
-    if (response.status < 400 || response.status === 405 || response.status === 403) return null;
+    if (response.status < 400 || response.status === 405 || response.status === 403) {
+      if (method === "GET" && isHtmlResponse(response)) {
+        const body = await readBoundedText(response);
+        if (detectBlockedContent(body)) {
+          return `source URL returned HTTP ${response.status} but served an anti-bot or access-denied page rather than the source: ${sourceUrl}`;
+        }
+      }
+      return null;
+    }
     if (method === "HEAD") return "retry";
     return `source URL returned HTTP ${response.status} after ${method} request: ${sourceUrl}`;
   } catch (error) {
@@ -372,6 +422,30 @@ async function requestUrl(sourceUrl, method) {
   } finally {
     clearTimeout(timeout);
   }
+}
+
+function isHtmlResponse(response) {
+  return (response.headers.get("content-type") ?? "").toLowerCase().includes("html");
+}
+
+// Read only enough of the body to recognise an interstitial. Some sources are
+// multi-megabyte PDFs or consolidated legal texts, and downloading them in full
+// would make the audit unusable.
+async function readBoundedText(response) {
+  if (!response.body) return await response.text();
+  const decoder = new TextDecoder("utf-8", { fatal: false });
+  const reader = response.body.getReader();
+  let text = "";
+  try {
+    while (text.length < MAX_BODY_SCAN_BYTES) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      text += decoder.decode(value, { stream: true });
+    }
+  } finally {
+    await reader.cancel().catch(() => {});
+  }
+  return text;
 }
 
 function getManualLinkCheck(record) {
