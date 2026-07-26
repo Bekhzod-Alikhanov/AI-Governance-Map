@@ -6,6 +6,13 @@ interface Props {
   onChange: (next: LensKind) => void;
 }
 
+/** Id of the element the lens tabs control. Applied to <main> in App.tsx. */
+export const LENS_PANEL_ID = "main-content";
+
+function tabId(lens: LensKind) {
+  return `lens-tab-${lens}`;
+}
+
 const LENSES: Array<{ id: LensKind; label: string; icon: React.ReactNode }> = [
   {
     id: "workbench",
@@ -81,6 +88,35 @@ const LENSES: Array<{ id: LensKind; label: string; icon: React.ReactNode }> = [
 ];
 
 export function LensSwitch({ value, onChange }: Props) {
+  // role="tab" is a promise about keyboard behaviour: arrow keys move between
+  // tabs, only the selected tab is in the tab order, and each tab points at the
+  // panel it controls. Declaring the roles without these is worse than using
+  // plain buttons, because a screen reader announces navigation that isn't there.
+  function handleKeyDown(event: React.KeyboardEvent<HTMLButtonElement>) {
+    const currentIndex = LENSES.findIndex((lens) => lens.id === value);
+    if (currentIndex < 0) return;
+
+    let nextIndex: number | null = null;
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+      nextIndex = (currentIndex + 1) % LENSES.length;
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+      nextIndex = (currentIndex - 1 + LENSES.length) % LENSES.length;
+    } else if (event.key === "Home") {
+      nextIndex = 0;
+    } else if (event.key === "End") {
+      nextIndex = LENSES.length - 1;
+    }
+    if (nextIndex === null) return;
+
+    event.preventDefault();
+    const nextLens = LENSES[nextIndex];
+    onChange(nextLens.id);
+    // Focus follows selection, per the ARIA tabs pattern.
+    event.currentTarget.parentElement
+      ?.querySelector<HTMLButtonElement>(`#${tabId(nextLens.id)}`)
+      ?.focus();
+  }
+
   return (
     <div
       role="tablist"
@@ -92,9 +128,13 @@ export function LensSwitch({ value, onChange }: Props) {
         return (
           <button
             key={lens.id}
+            id={tabId(lens.id)}
             type="button"
             role="tab"
             aria-selected={active}
+            aria-controls={LENS_PANEL_ID}
+            tabIndex={active ? 0 : -1}
+            onKeyDown={handleKeyDown}
             onClick={() => onChange(lens.id)}
             className={clsx(
               "flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium transition-colors",

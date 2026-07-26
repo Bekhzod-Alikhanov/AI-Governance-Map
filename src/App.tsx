@@ -20,7 +20,7 @@ import { Filters } from "./components/Filters";
 import { DataActions } from "./components/DataActions";
 import { SearchBox } from "./components/SearchBox";
 import { Legend } from "./components/Legend";
-import { LensSwitch } from "./components/LensSwitch";
+import { LENS_PANEL_ID, LensSwitch } from "./components/LensSwitch";
 import { ResearchQuestionsPanel } from "./components/ResearchQuestionsPanel";
 import { DEFAULT_SHAREABLE_STATE, parseShareableState, serializeShareableState } from "./utils/urlState";
 import { COUNTRY_BY_ISO3 } from "./data/countries";
@@ -559,7 +559,13 @@ export default function App() {
       )}
 
       {/* Main canvas — switches between Map / Network / Timeline lenses */}
-      <main id="main-content" tabIndex={-1} className="relative z-0 flex-1 overflow-hidden">
+      <main
+        id={LENS_PANEL_ID}
+        tabIndex={-1}
+        role="tabpanel"
+        aria-label={`${lens} view`}
+        className="relative z-0 flex-1 overflow-hidden"
+      >
         {showsMap && (
           <WorldMap
             filters={filters}
