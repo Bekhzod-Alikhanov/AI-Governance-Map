@@ -71,7 +71,7 @@ All four personas arrive with a **subject** (a country, a lab, a peer group). Th
 3. *Cost:* highest in the bundle; moderate code surface (`WorldMap.tsx` 431 lines); low cognitive load.
 4. *If deleted:* the artifact stops being a map. Not recoverable elsewhere.
 
-### Layers — **MERGE into Geography** · Confidence: High
+### Layers — **MERGE into Geography** · Confidence: High · ✅ **Executed 26 July 2026**
 
 **Counterargument for keeping it as a top-level view — and it is a real one:** Layers is not cosmetic. Enumerating all 193 entities through both code paths, **126 fills differ** between the lenses. It rescues **122 countries** from undifferentiated grey into "international participation only" (`#C4B5FD`), which is genuinely the most under-communicated fact in the dataset — that the governance floor is near-universal even where national law is absent. Killing the tier would destroy real information. Anyone arguing "it's just a colour mode" has not measured it.
 
@@ -86,10 +86,14 @@ So the entire marginal value of a top-level nav slot is one tier that should be 
 
 **What would be lost:** a discoverable name. "Layers" in the nav advertises that the map can be recoloured; a 17-option dropdown labelled "Color by" hides it. Mitigate by promoting the 3–4 most useful modes to visible segmented controls beside the dropdown, rather than burying all 17.
 
-**Concrete merge design:**
+**Concrete merge design — all of this shipped:**
 - Fold the violet "international participation only" tier into the default `binding-law` mode — it is a real category, not a separate lens.
-- Retire `lens === "layer"` and `getLayerStyle()`; the `corporate` tier is deleted (lab HQs are already shown as pins, sized and toggleable).
+- Retire `lens === "layer"` and `getLayerStyle()`; the `corporate` tier is deleted (lab HQs are already shown as pins, sized and toggleable, and have their own "Lab HQ" colour mode).
 - Nav drops from 6 to 5. `mapMode` goes into the URL (F-05), which makes all 17 modes citable — a net *gain* in shareable views versus today's one unshareable lens.
+
+**Outcome.** Nav is now Workbench · Geography · Network · Timeline · Table. `LensKind`, the URL validator, `getLayerStyle`, `pickPrimaryLayer`, `LAYER_FILL`, `LAYER_LABEL`, `LAYER_CACHE` and the `lens` parameter threaded through `getMapStyle`, `buildGovernanceColorReason`, `WorldMap`, `CountrySidePanel`, `CountryTooltip` and `MapCountryList` are all gone. Total JS fell from 1,600,508 to 1,600,420 bytes.
+
+The predicted discoverability loss was mitigated as specified: binding law, treaty participation and enforcement are now visible segmented controls beside the "Color by" dropdown, and `ResearchPreset` gained an optional `mapMode` so a preset lands on the colouring its title promises. Old `?lens=layer` links resolve to Geography rather than breaking, covered by a test.
 
 ### Workbench — **KEEP, rebuild** · Confidence: High
 

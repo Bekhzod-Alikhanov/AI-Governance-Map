@@ -123,9 +123,54 @@ README figures corrected: 135 timeline milestones (not "115+"), 136 unit tests (
 
 One existing e2e assertion was updated rather than weakened: `smoke.spec.ts` assumed the legend started closed, so it now asserts `aria-expanded="true"` on arrival and still exercises the toggle in both directions.
 
+---
+
+# Third tier — the Layers merge and the polish set
+
+## 8 · Layers retired into the map's colour modes
+
+Executes the verdict argued in [04-VIEW-PORTFOLIO](04-VIEW-PORTFOLIO.md#layers--merge-into-geography--confidence-high---executed-26-july-2026). Nav goes from six lenses to five: **Workbench · Geography · Network · Timeline · Table**.
+
+Removed: `"layer"` from `LensKind` and the URL validator, the tab, `getLayerStyle`, `pickPrimaryLayer`, `LAYER_FILL`, `LAYER_LABEL`, `LAYER_CACHE`, and the now-unused `lens` parameter threaded through `getMapStyle`, `buildGovernanceColorReason`, `WorldMap`, `CountrySidePanel`, `CountryTooltip` and `MapCountryList`.
+
+The predicted loss was discoverability — a named tab advertised that the map could be recoloured, and a 17-option dropdown does not. Mitigated as the memo specified: **binding law, treaty participation and enforcement are now visible segmented controls**. `ResearchPreset` gained an optional `mapMode`, and applying a preset now sets the colour mode; without it, a preset applied while an unrelated mode was active would silently answer a different question than its title promises.
+
+Old `?lens=layer` links resolve to Geography (verified live: `?lens=layer&country=UZB` → `?country=UZB`, Geography active, selection intact). **Total JS fell 1,600,508 → 1,600,420 bytes** — the deletion paid for itself, as predicted.
+
+**The tightened baseline earned its keep immediately.** Moving the control cluster ahead of the map in DOM order (for F-07) meant the test's `#main-content svg` locator captured a control-button icon instead of the projection. The suite failed; the locator is now explicit about targeting `svg.rsm-svg`. Two tiers earlier this would have passed silently.
+
+## 9 · Polish set — F-07, F-17, F-18, F-20
+
+| Finding | Before | After |
+|---|---|---|
+| **F-07** focus order | "Color by" at focus position ~198, behind 189 map elements | **position 25**, ahead of the first country at 30 |
+| **F-17** tap targets | 8 controls at 23 px, under WCAG 2.2 AA | **0 sub-minimum** across Geography, Network, Timeline at 390 px |
+| **F-18** headers | `vercel.json` had rewrites, no headers | nosniff · Referrer-Policy · Permissions-Policy · CSP, with `frame-ancestors` open only on `/embed/*` |
+| **F-20** timeline | two unsynchronised filter rows, both starting "All" | one shareable lane taxonomy, with `subnational` promoted to a lane |
+
+F-07 was free: the control cluster is absolutely positioned, so DOM order carries no visual cost.
+
+F-20's two filters cut the same 135 milestones along overlapping axes, and combinations like `standards` + `subnational` returned nothing. Subnational items previously folded into the `national_*` lanes; they now have their own lane, so one URL-serialised taxonomy carries everything the two rows did. `category` survives as data for the timeline dot colours.
+
+The CSP is safe to ship: the app loads no cross-origin resources (the external URLs in the bundle are link targets, which CSP does not govern) and contains no `<form>`, so `form-action 'none'` costs nothing. **It cannot be verified locally** — `vercel.json` headers only apply on Vercel — so confirm with `curl -I` against the preview deployment.
+
+## Verification (third tier)
+
+| Gate | Result |
+|---|---|
+| `npm run lint` / `npm run typecheck` | exit 0 |
+| `npm test` | **136 passed** (31 files) |
+| `npm run build` | exit 0 |
+| `npm run check:performance` | `"ok": true` — total JS **down** to 1,600,420 |
+| `npm run test:e2e` | **40 passed, 0 skipped** |
+
+Browser-verified at 1440 and 390 px: five tabs, `?lens=layer` resolves to Geography, the promoted controls set `mapMode` and serialise to the URL, the Timeline shows a single filter row, zero console errors.
+
 ## Not addressed
 
-Open from [01-FINDINGS](01-FINDINGS.md): F-04 (371 snapshot-date warnings), F-07 (focus order), F-08 (Workbench), F-09 (Network edge types, `powerScore`), F-12 partially, F-14 through F-18, F-20, F-21 partially, F-23.
+Open from [01-FINDINGS](01-FINDINGS.md): **F-04** (371 snapshot-date warnings), **F-08** (Workbench), **F-09** (Network edge types, `powerScore`), **F-14** (France and Germany filed as subnational rules), **F-15** (verification vocabulary cannot express a negative; 89% of records carry no status), **F-16** (343 unclassified source hosts, 2 `http://` sources), **F-23** (`App.tsx` state sprawl).
+
+Also open, surfaced by this work rather than the original audit: **the 24 official sources behind anti-bot walls** that the content-aware link checker now reports. They need human verification and manual-check entries, not code. And **33% of a 390 px viewport is still header plus filter toolbar** — F-17's tap targets are fixed, its chrome budget is not.
 
 **F-04 is deliberately untouched.** Whether this dataset is "maintained" or "an archived snapshot" is a claim only the maintainer can make — it is [Q3 in the open questions](07-OPEN-QUESTIONS.md), and changing `DATA_SNAPSHOT_DATE` would be asserting something about the data on their behalf.
 
