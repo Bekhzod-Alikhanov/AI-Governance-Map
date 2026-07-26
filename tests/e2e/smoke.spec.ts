@@ -1,4 +1,15 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
+
+/**
+ * Below md the filter toolbar collapses behind one control so the map gets the
+ * screen. Desktop renders it inline, so this is a no-op there.
+ */
+async function revealFilters(page: Page) {
+  const toggle = page.getByRole("button", { name: /^Filters/ });
+  if (await toggle.isVisible()) {
+    if ((await toggle.getAttribute("aria-expanded")) === "false") await toggle.click();
+  }
+}
 
 test.describe("governance map smoke flows", () => {
   test("opens data exports and map details", async ({ page }) => {
@@ -145,6 +156,7 @@ test.describe("governance map smoke flows", () => {
     await expect(page.getByLabel("Map focus")).toHaveValue("results");
     await expect(page.getByLabel(/Map scope: Fitted:/)).toBeVisible();
     await page.reload();
+    await revealFilters(page);
     await expect(page.getByText(/Instrument: Council of Europe Framework Convention/)).toBeVisible();
 
     await page.getByRole("button", { name: "Data", exact: true }).click();
@@ -204,6 +216,9 @@ test.describe("governance map smoke flows", () => {
 
     await page.goto("/lab/openai");
     await expect(page.getByRole("heading", { name: "OpenAI", level: 3 })).toBeVisible();
+    // Secondary Workbench sections are collapsed by default so the question and
+    // its answer own the fold; the content is one click away, not gone.
+    await page.locator("summary", { hasText: "Comparison builder and scenario simulator" }).click();
     await expect(page.getByText("Regulatory scenario")).toBeVisible();
 
     await page.goto("/instrument/eu-ai-act");
@@ -223,7 +238,9 @@ test.describe("governance map smoke flows", () => {
     await page.goto("/?lens=workbench");
 
     await expect(page.getByRole("heading", { name: "Answer concrete AI-governance questions" })).toBeVisible();
-    const labBoard = page.locator("section", { has: page.getByRole("heading", { name: "Frontier lab intelligence board" }) });
+    // The question selector leads; the lab board is behind a disclosure.
+    await page.locator("summary", { hasText: "Frontier lab intelligence board" }).click();
+    const labBoard = page.locator("details", { has: page.locator("summary", { hasText: "Frontier lab intelligence board" }) });
     await expect(labBoard).toBeVisible();
     await expect(labBoard.getByText("Preparedness Framework").first()).toBeVisible();
     const labBoardDownloadPromise = page.waitForEvent("download");
@@ -232,6 +249,7 @@ test.describe("governance map smoke flows", () => {
     expect(labBoardDownload.suggestedFilename()).toBe("global-ai-governance-map-lab-intelligence.csv");
     await page.getByRole("button", { name: /Who requires incident reporting/ }).click();
     await expect(page).toHaveURL(/wbQuestion=incident-reporting/);
+    await page.locator("summary", { hasText: "Comparison builder and scenario simulator" }).click();
     await expect(page.getByRole("heading", { name: "Incident reporting" }).first()).toBeVisible();
     const comparisonDownloadPromise = page.waitForEvent("download");
     await page.getByRole("button", { name: "Export comparison CSV" }).click();
@@ -250,6 +268,7 @@ test.describe("governance map smoke flows", () => {
   test("supports research corpus routes, exports, briefs, and context map modes", async ({ page }) => {
     await page.goto("/?lens=workbench");
 
+    await page.locator("summary", { hasText: "Research corpus" }).click();
     const corpus = page.locator("section", { has: page.getByRole("heading", { name: /Find institutions/ }) });
     await expect(corpus).toBeVisible();
     await expect(corpus.getByText("European AI Office", { exact: true }).first()).toBeVisible();
@@ -305,6 +324,7 @@ test.describe("governance map smoke flows", () => {
     await page.keyboard.press("Escape");
     await page.getByRole("button", { name: "Reset map view" }).click();
 
+    await revealFilters(page);
     await page.getByRole("button", { name: /^Instrument/ }).click();
     await page.getByLabel(/Bletchley Declaration/).check();
     await page.keyboard.press("Escape");

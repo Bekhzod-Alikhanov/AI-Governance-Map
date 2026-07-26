@@ -561,47 +561,6 @@ export function WorkbenchView({
           </section>
         )}
 
-        <section className="mt-4 grid gap-3 lg:grid-cols-[1.1fr_1fr]">
-          <div className="rounded-lg border border-canvas-line bg-white p-3">
-            <h3 className="text-sm font-semibold text-ink-900">Research workflows</h3>
-            <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
-              {WORKFLOWS.map((workflow) => (
-                <button
-                  key={workflow.id}
-                  type="button"
-                  onClick={() => applyWorkflow(workflow)}
-                  className={clsx(
-                    "rounded-lg border px-3 py-2 text-left hover:border-accent hover:bg-accent/5",
-                    workbenchState.activeWorkflowId === workflow.id
-                      ? "border-accent bg-accent/10"
-                      : "border-canvas-line bg-canvas/40"
-                  )}
-                >
-                  <span className="block text-xs font-semibold text-ink-900">{workflow.title}</span>
-                  <span className="mt-1 block text-[11px] leading-relaxed text-ink-600">{workflow.detail}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-lg border border-canvas-line bg-white p-3">
-            <h3 className="text-sm font-semibold text-ink-900">Answer cards</h3>
-            <div className="mt-3 grid gap-2 sm:grid-cols-2">
-              {answerCards.map((card) => (
-                <div key={card.id} className="rounded-lg border border-canvas-line bg-canvas/40 px-3 py-2">
-                  <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-500">{card.label}</p>
-                  <p className="mt-1 text-lg font-semibold text-ink-900">{card.value}</p>
-                  <p className="mt-1 text-[11px] leading-relaxed text-ink-600">{card.detail}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <LabIntelligenceBoard onSelectLab={onSelectLab} />
-
-        <ResearchCorpusPanel onOpenMapMode={onOpenAtlasMapMode} />
-
         <section className="mt-4 rounded-lg border border-canvas-line bg-white p-3">
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div>
@@ -640,236 +599,287 @@ export function WorkbenchView({
           </div>
         </section>
 
-        <section className="mt-4 rounded-lg border border-canvas-line bg-white p-3">
-          <div className="flex flex-wrap items-start justify-between gap-2">
-            <div>
-              <h3 className="text-sm font-semibold text-ink-900">AI Atlas presets</h3>
-              <p className="text-xs text-ink-600">
-                Context indicators only. These scores do not change legal-status summaries.
-              </p>
-            </div>
-            <div className="inline-flex max-w-full overflow-x-auto rounded-lg border border-canvas-line">
-              {ATLAS_PRESETS.map((preset) => (
+        <section className="mt-4 grid gap-3 lg:grid-cols-[1.1fr_1fr]">
+          <div className="rounded-lg border border-canvas-line bg-white p-3">
+            <h3 className="text-sm font-semibold text-ink-900">Research workflows</h3>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+              {WORKFLOWS.map((workflow) => (
                 <button
-                  key={preset.id}
+                  key={workflow.id}
                   type="button"
-                  onClick={() => updateWorkbenchState({ atlasPresetId: preset.id })}
-                  title={preset.detail}
+                  onClick={() => applyWorkflow(workflow)}
                   className={clsx(
-                    "whitespace-nowrap px-2.5 py-1 text-[11px] font-medium transition-colors",
-                    atlasPresetId === preset.id ? "bg-accent text-white" : "bg-white text-ink-700 hover:bg-canvas"
+                    "rounded-lg border px-3 py-2 text-left hover:border-accent hover:bg-accent/5",
+                    workbenchState.activeWorkflowId === workflow.id
+                      ? "border-accent bg-accent/10"
+                      : "border-canvas-line bg-canvas/40"
                   )}
                 >
-                  {preset.title}
+                  <span className="block text-xs font-semibold text-ink-900">{workflow.title}</span>
+                  <span className="mt-1 block text-[11px] leading-relaxed text-ink-600">{workflow.detail}</span>
                 </button>
               ))}
             </div>
           </div>
-          <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
-            {ATLAS_COMPARISON_MAPS.map((item) => (
-              <AtlasMapCard
-                key={item.id}
-                item={item}
-                onOpenAtlasMapMode={onOpenAtlasMapMode}
-                onSelectCountry={onSelectCountry}
-              />
-            ))}
-          </div>
-          <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
-            {atlasRows.map((row) => (
-              <button
-                key={`${atlasPresetId}:${row.iso3}`}
-                type="button"
-                onClick={() => onSelectCountry(row.iso3)}
-                className="rounded-lg border border-canvas-line bg-canvas/40 px-3 py-2 text-left hover:border-accent hover:bg-accent/5"
-              >
-                <span className="block text-xs font-semibold text-ink-900">{row.countryName}</span>
-                <span className="mt-1 block text-[11px] leading-relaxed text-ink-700">{row.primary}</span>
-                <span className="mt-0.5 block text-[11px] leading-relaxed text-ink-500">{row.secondary}</span>
-              </button>
-            ))}
+
+          <div className="rounded-lg border border-canvas-line bg-white p-3">
+            <h3 className="text-sm font-semibold text-ink-900">Answer cards</h3>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              {answerCards.map((card) => (
+                <div key={card.id} className="rounded-lg border border-canvas-line bg-canvas/40 px-3 py-2">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-500">{card.label}</p>
+                  <p className="mt-1 text-lg font-semibold text-ink-900">{card.value}</p>
+                  <p className="mt-1 text-[11px] leading-relaxed text-ink-600">{card.detail}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
+        <CollapsibleSection summary="Frontier lab intelligence board" note="13 labs — safety frameworks, evaluations, compute, exposure">
+          <LabIntelligenceBoard onSelectLab={onSelectLab} />
+        </CollapsibleSection>
 
-        <section className="mt-4 grid gap-3 xl:grid-cols-[1.25fr_0.75fr]">
-          <div className="rounded-lg border border-canvas-line bg-white p-3">
-            <div className="flex flex-wrap items-center justify-between gap-2">
+        <CollapsibleSection summary="Research corpus" note="Institutions, policy windows, standards, public-sector AI, enforcement">
+          <ResearchCorpusPanel onOpenMapMode={onOpenAtlasMapMode} />
+        </CollapsibleSection>
+
+
+        <CollapsibleSection summary="AI Atlas comparison" note="Context indicators only — these never change legal-status summaries">
+          <section className="mt-4 rounded-lg border border-canvas-line bg-white p-3">
+            <div className="flex flex-wrap items-start justify-between gap-2">
               <div>
-                <h3 className="text-sm font-semibold text-ink-900">Comparison builder</h3>
-                <p className="text-xs text-ink-600">Compare up to six records side by side.</p>
-              </div>
-              <div className="flex flex-wrap items-center gap-1.5">
-                <button
-                  type="button"
-                  onClick={exportComparisonCsv}
-                  className="h-8 rounded-md border border-canvas-line bg-white px-2.5 text-xs font-semibold text-ink-700 hover:border-accent hover:text-accent"
-                >
-                  Export comparison CSV
-                </button>
-                <select
-                  value={compareKind}
-                  onChange={(event) => {
-                    const nextKind = event.target.value as WorkbenchCompareKind;
-                    updateWorkbenchState({
-                      compareKind: nextKind,
-                      compareId: optionsForKind(nextKind)[0]?.id ?? "",
-                    });
-                  }}
-                  className="h-8 rounded-md border border-canvas-line bg-white px-2 text-xs text-ink-800"
-                >
-                  <option value="country">Countries</option>
-                  <option value="lab">Labs</option>
-                  <option value="instrument">Instruments</option>
-                  <option value="rule">Rules</option>
-                  <option value="obligation">Obligations</option>
-                  <option value="exposure">Exposures</option>
-                </select>
-                <select
-                  value={compareId}
-                  onChange={(event) => updateWorkbenchState({ compareId: event.target.value })}
-                  className="h-8 max-w-72 rounded-md border border-canvas-line bg-white px-2 text-xs text-ink-800"
-                >
-                  {compareOptions.map((option) => (
-                    <option key={option.id} value={option.id}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-                <button
-                  type="button"
-                  onClick={addCompareItem}
-                  className="h-8 rounded-md border border-accent bg-accent/10 px-2.5 text-xs font-semibold text-accent hover:bg-accent/15"
-                >
-                  Add
-                </button>
-              </div>
-            </div>
-
-            <div className="mt-3 grid gap-3 lg:grid-cols-2 2xl:grid-cols-4">
-              {compareItems.map((item) => (
-                <CompareCard
-                  key={`${item.kind}:${item.id}`}
-                  item={item}
-                  onRemove={() => removeCompareItem(item)}
-                  onSelectCountry={onSelectCountry}
-                  onSelectLab={onSelectLab}
-                  onSelectInstrument={onSelectInstrument}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-lg border border-canvas-line bg-white p-3">
-            <div className="flex items-start justify-between gap-2">
-              <div>
-                <h3 className="text-sm font-semibold text-ink-900">Regulatory scenario</h3>
-                <p className="mt-1 text-xs leading-relaxed text-ink-600">
-                  Select a lab and likely deployment markets. Results come from structured exposure and obligation rows only.
+                <h3 className="text-sm font-semibold text-ink-900">AI Atlas presets</h3>
+                <p className="text-xs text-ink-600">
+                  Context indicators only. These scores do not change legal-status summaries.
                 </p>
               </div>
-              <button
-                type="button"
-                onClick={exportScenarioCsv}
-                className="rounded-md border border-canvas-line bg-white px-2.5 py-1 text-xs font-semibold text-ink-700 hover:border-accent hover:text-accent"
-              >
-                Export scenario CSV
-              </button>
-            </div>
-            <label className="mt-3 block text-xs font-medium text-ink-700">
-              Lab
-              <select
-                value={scenarioLabId}
-                onChange={(event) => updateWorkbenchState({ scenarioLabId: event.target.value })}
-                className="mt-1 h-8 w-full rounded-md border border-canvas-line bg-white px-2 text-xs text-ink-800"
-              >
-                {FRONTIER_LABS.map((lab) => (
-                  <option key={lab.id} value={lab.id}>
-                    {lab.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <div className="mt-3">
-              <p className="text-xs font-medium text-ink-700">Deployment markets</p>
-              <div className="mt-1 flex flex-wrap gap-1.5">
-                {SCENARIO_MARKETS.map((iso3) => (
+              <div className="inline-flex max-w-full overflow-x-auto rounded-lg border border-canvas-line">
+                {ATLAS_PRESETS.map((preset) => (
                   <button
-                    key={iso3}
+                    key={preset.id}
                     type="button"
-                    onClick={() => setScenarioMarket(iso3)}
+                    onClick={() => updateWorkbenchState({ atlasPresetId: preset.id })}
+                    title={preset.detail}
                     className={clsx(
-                      "rounded-md border px-2 py-1 text-[11px] font-medium",
-                      scenarioMarkets.includes(iso3)
-                        ? "border-accent bg-accent text-white"
-                        : "border-canvas-line bg-white text-ink-700 hover:border-accent"
+                      "whitespace-nowrap px-2.5 py-1 text-[11px] font-medium transition-colors",
+                      atlasPresetId === preset.id ? "bg-accent text-white" : "bg-white text-ink-700 hover:bg-canvas"
                     )}
                   >
-                    {COUNTRY_BY_ISO3[iso3]?.name ?? iso3}
+                    {preset.title}
                   </button>
                 ))}
               </div>
             </div>
-            {scenario && (
-              <div className="mt-3 rounded-lg border border-canvas-line bg-canvas/40 p-3 text-xs text-ink-700">
-                <p className="font-semibold text-ink-900">
-                  {scenario.labName}: {scenario.exposureRows.length} exposure row(s)
-                </p>
-                <p className="mt-1 text-ink-600">{exposureEffectSummary(scenario.exposureRows)}</p>
-                <p className="mt-2 font-semibold text-ink-900">Structured obligations</p>
-                <p className="mt-1 text-ink-600">{summarizeObligationCategories(scenario.obligations)}</p>
-                <p className="mt-2 font-semibold text-ink-900">Evidence context</p>
-                <p className="mt-1 text-ink-600">
-                  {scenario.modelGovernanceEvidence.length} model-governance row(s);{" "}
-                  {scenario.safetyEvaluationRecords.length} safety/evaluation row(s);{" "}
-                  {scenario.computeDependencyRecords.length} compute-dependency row(s).
-                </p>
-                <ul className="mt-2 space-y-1">
-                  {scenario.exposureRows.slice(0, 5).map((row) => {
-                    const target = getLabExposureTarget(row);
-                    return (
-                      <li key={row.id} className="rounded-md bg-white px-2 py-1">
-                        <span className="font-medium text-ink-900">{target.name}</span>
-                        <span className="text-ink-500"> · {LAB_EXPOSURE_EFFECT_LABELS[row.legalEffect]}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-                <p className="mt-2 rounded-md bg-white px-2 py-1.5 text-[11px] leading-relaxed text-ink-600">
-                  {scenario.caveats.join(" ")}
-                </p>
-              </div>
-            )}
-          </div>
-        </section>
+            <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
+              {ATLAS_COMPARISON_MAPS.map((item) => (
+                <AtlasMapCard
+                  key={item.id}
+                  item={item}
+                  onOpenAtlasMapMode={onOpenAtlasMapMode}
+                  onSelectCountry={onSelectCountry}
+                />
+              ))}
+            </div>
+            <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
+              {atlasRows.map((row) => (
+                <button
+                  key={`${atlasPresetId}:${row.iso3}`}
+                  type="button"
+                  onClick={() => onSelectCountry(row.iso3)}
+                  className="rounded-lg border border-canvas-line bg-canvas/40 px-3 py-2 text-left hover:border-accent hover:bg-accent/5"
+                >
+                  <span className="block text-xs font-semibold text-ink-900">{row.countryName}</span>
+                  <span className="mt-1 block text-[11px] leading-relaxed text-ink-700">{row.primary}</span>
+                  <span className="mt-0.5 block text-[11px] leading-relaxed text-ink-500">{row.secondary}</span>
+                </button>
+              ))}
+            </div>
+          </section>
+        </CollapsibleSection>
 
-        <section className="mt-4 grid gap-3 xl:grid-cols-3">
-          <MiniMatrix
-            title="Obligation matrix"
-            rows={GOVERNANCE_OBLIGATIONS.slice(0, 8).map((row) => ({
-              id: row.id,
-              name: OBLIGATION_CATEGORY_LABELS[row.category],
-              detail: `${obligationEffectLabel(row.legalEffect)} · ${getRecordDisplayName(row.parentType, row.parentId)}`,
-            }))}
-          />
-          <MiniMatrix
-            title="Implementation tracker"
-            rows={IMPLEMENTATION_MILESTONES.slice(0, 8).map((row) => ({
-              id: row.id,
-              name: IMPLEMENTATION_STATUS_LABELS[row.status],
-              detail: `${row.jurisdiction} · ${row.nextDeadline ?? row.date ?? "date not specified"}`,
-            }))}
-          />
-          <MiniMatrix
-            title="Public data endpoints"
-            rows={[
-              { id: "full", name: "/data/full-dataset.json", detail: "Full static research snapshot" },
-              { id: "obligations", name: "/data/obligation-matrix.json", detail: "Structured obligation rows" },
-              { id: "labs", name: "/data/lab-exposure-matrix.json", detail: "Lab regulatory-exposure matrix" },
-              { id: "lab-intel", name: "/data/lab-intelligence.json", detail: "Frontier-lab intelligence profiles" },
-              { id: "safety", name: "/data/safety-evaluations.json", detail: "Safety and evaluation evidence" },
-            ]}
-          />
-        </section>
+        <CollapsibleSection summary="Comparison builder and scenario simulator" note="Pin up to six records; model lab exposure across markets">
+          <section className="mt-4 grid gap-3 xl:grid-cols-[1.25fr_0.75fr]">
+            <div className="rounded-lg border border-canvas-line bg-white p-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <h3 className="text-sm font-semibold text-ink-900">Comparison builder</h3>
+                  <p className="text-xs text-ink-600">Compare up to six records side by side.</p>
+                </div>
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={exportComparisonCsv}
+                    className="h-8 rounded-md border border-canvas-line bg-white px-2.5 text-xs font-semibold text-ink-700 hover:border-accent hover:text-accent"
+                  >
+                    Export comparison CSV
+                  </button>
+                  <select
+                    value={compareKind}
+                    onChange={(event) => {
+                      const nextKind = event.target.value as WorkbenchCompareKind;
+                      updateWorkbenchState({
+                        compareKind: nextKind,
+                        compareId: optionsForKind(nextKind)[0]?.id ?? "",
+                      });
+                    }}
+                    className="h-8 rounded-md border border-canvas-line bg-white px-2 text-xs text-ink-800"
+                  >
+                    <option value="country">Countries</option>
+                    <option value="lab">Labs</option>
+                    <option value="instrument">Instruments</option>
+                    <option value="rule">Rules</option>
+                    <option value="obligation">Obligations</option>
+                    <option value="exposure">Exposures</option>
+                  </select>
+                  <select
+                    value={compareId}
+                    onChange={(event) => updateWorkbenchState({ compareId: event.target.value })}
+                    className="h-8 max-w-72 rounded-md border border-canvas-line bg-white px-2 text-xs text-ink-800"
+                  >
+                    {compareOptions.map((option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={addCompareItem}
+                    className="h-8 rounded-md border border-accent bg-accent/10 px-2.5 text-xs font-semibold text-accent hover:bg-accent/15"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+
+              <div className="mt-3 grid gap-3 lg:grid-cols-2 2xl:grid-cols-4">
+                {compareItems.map((item) => (
+                  <CompareCard
+                    key={`${item.kind}:${item.id}`}
+                    item={item}
+                    onRemove={() => removeCompareItem(item)}
+                    onSelectCountry={onSelectCountry}
+                    onSelectLab={onSelectLab}
+                    onSelectInstrument={onSelectInstrument}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-canvas-line bg-white p-3">
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <h3 className="text-sm font-semibold text-ink-900">Regulatory scenario</h3>
+                  <p className="mt-1 text-xs leading-relaxed text-ink-600">
+                    Select a lab and likely deployment markets. Results come from structured exposure and obligation rows only.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={exportScenarioCsv}
+                  className="rounded-md border border-canvas-line bg-white px-2.5 py-1 text-xs font-semibold text-ink-700 hover:border-accent hover:text-accent"
+                >
+                  Export scenario CSV
+                </button>
+              </div>
+              <label className="mt-3 block text-xs font-medium text-ink-700">
+                Lab
+                <select
+                  value={scenarioLabId}
+                  onChange={(event) => updateWorkbenchState({ scenarioLabId: event.target.value })}
+                  className="mt-1 h-8 w-full rounded-md border border-canvas-line bg-white px-2 text-xs text-ink-800"
+                >
+                  {FRONTIER_LABS.map((lab) => (
+                    <option key={lab.id} value={lab.id}>
+                      {lab.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <div className="mt-3">
+                <p className="text-xs font-medium text-ink-700">Deployment markets</p>
+                <div className="mt-1 flex flex-wrap gap-1.5">
+                  {SCENARIO_MARKETS.map((iso3) => (
+                    <button
+                      key={iso3}
+                      type="button"
+                      onClick={() => setScenarioMarket(iso3)}
+                      className={clsx(
+                        "rounded-md border px-2 py-1 text-[11px] font-medium",
+                        scenarioMarkets.includes(iso3)
+                          ? "border-accent bg-accent text-white"
+                          : "border-canvas-line bg-white text-ink-700 hover:border-accent"
+                      )}
+                    >
+                      {COUNTRY_BY_ISO3[iso3]?.name ?? iso3}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {scenario && (
+                <div className="mt-3 rounded-lg border border-canvas-line bg-canvas/40 p-3 text-xs text-ink-700">
+                  <p className="font-semibold text-ink-900">
+                    {scenario.labName}: {scenario.exposureRows.length} exposure row(s)
+                  </p>
+                  <p className="mt-1 text-ink-600">{exposureEffectSummary(scenario.exposureRows)}</p>
+                  <p className="mt-2 font-semibold text-ink-900">Structured obligations</p>
+                  <p className="mt-1 text-ink-600">{summarizeObligationCategories(scenario.obligations)}</p>
+                  <p className="mt-2 font-semibold text-ink-900">Evidence context</p>
+                  <p className="mt-1 text-ink-600">
+                    {scenario.modelGovernanceEvidence.length} model-governance row(s);{" "}
+                    {scenario.safetyEvaluationRecords.length} safety/evaluation row(s);{" "}
+                    {scenario.computeDependencyRecords.length} compute-dependency row(s).
+                  </p>
+                  <ul className="mt-2 space-y-1">
+                    {scenario.exposureRows.slice(0, 5).map((row) => {
+                      const target = getLabExposureTarget(row);
+                      return (
+                        <li key={row.id} className="rounded-md bg-white px-2 py-1">
+                          <span className="font-medium text-ink-900">{target.name}</span>
+                          <span className="text-ink-500"> · {LAB_EXPOSURE_EFFECT_LABELS[row.legalEffect]}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  <p className="mt-2 rounded-md bg-white px-2 py-1.5 text-[11px] leading-relaxed text-ink-600">
+                    {scenario.caveats.join(" ")}
+                  </p>
+                </div>
+              )}
+            </div>
+          </section>
+        </CollapsibleSection>
+
+        <CollapsibleSection summary="Obligation and implementation matrices" note="Structured duty rows and milestone tracking">
+          <section className="mt-4 grid gap-3 xl:grid-cols-3">
+            <MiniMatrix
+              title="Obligation matrix"
+              rows={GOVERNANCE_OBLIGATIONS.slice(0, 8).map((row) => ({
+                id: row.id,
+                name: OBLIGATION_CATEGORY_LABELS[row.category],
+                detail: `${obligationEffectLabel(row.legalEffect)} · ${getRecordDisplayName(row.parentType, row.parentId)}`,
+              }))}
+            />
+            <MiniMatrix
+              title="Implementation tracker"
+              rows={IMPLEMENTATION_MILESTONES.slice(0, 8).map((row) => ({
+                id: row.id,
+                name: IMPLEMENTATION_STATUS_LABELS[row.status],
+                detail: `${row.jurisdiction} · ${row.nextDeadline ?? row.date ?? "date not specified"}`,
+              }))}
+            />
+            <MiniMatrix
+              title="Public data endpoints"
+              rows={[
+                { id: "full", name: "/data/full-dataset.json", detail: "Full static research snapshot" },
+                { id: "obligations", name: "/data/obligation-matrix.json", detail: "Structured obligation rows" },
+                { id: "labs", name: "/data/lab-exposure-matrix.json", detail: "Lab regulatory-exposure matrix" },
+                { id: "lab-intel", name: "/data/lab-intelligence.json", detail: "Frontier-lab intelligence profiles" },
+                { id: "safety", name: "/data/safety-evaluations.json", detail: "Safety and evaluation evidence" },
+              ]}
+            />
+          </section>
+        </CollapsibleSection>
       </div>
     </div>
   );
@@ -1658,3 +1668,44 @@ function csvRow(values: string[]): string {
 
 const smallButtonClass =
   "inline-flex items-center rounded-md border border-canvas-line bg-white px-2 py-1 text-[11px] font-medium text-ink-700 hover:border-accent hover:text-accent";
+
+/**
+ * Secondary Workbench sections. Collapsed by default so the question and its
+ * answer own the fold: expanded, these five contributed roughly 250 of the
+ * view's 296 controls and pushed the answer off screen.
+ */
+function CollapsibleSection({
+  summary,
+  note,
+  children,
+}: {
+  summary: string;
+  note: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <details className="mt-3 rounded-lg border border-canvas-line bg-white [&[open]>summary]:border-b [&[open]>summary]:border-canvas-line">
+      <summary className="flex cursor-pointer items-center justify-between gap-3 px-3 py-2.5 text-left">
+        <span className="min-w-0">
+          <span className="block text-sm font-semibold text-ink-900">{summary}</span>
+          <span className="mt-0.5 block text-[11px] leading-relaxed text-ink-600">{note}</span>
+        </span>
+        <svg
+          aria-hidden="true"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="shrink-0 text-ink-500"
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </summary>
+      <div className="p-3 pt-2">{children}</div>
+    </details>
+  );
+}
