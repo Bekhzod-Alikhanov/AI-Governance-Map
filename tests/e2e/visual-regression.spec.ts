@@ -10,7 +10,10 @@ test.describe("visual regression baselines", () => {
   // wearing a mobile user agent.
   test("map SVG remains visually stable", async ({ page }) => {
     await page.goto("/");
-    const mapSvg = page.locator("#main-content svg").first();
+    // Target the projection explicitly. "first svg in main" silently captured a
+    // control-button icon once the control cluster moved ahead of the map in DOM
+    // order for keyboard focus.
+    const mapSvg = page.locator("#main-content svg.rsm-svg");
     await expect(page.getByLabel("Map color mode")).toBeVisible();
     await expect(mapSvg).toBeVisible();
     await expect(mapSvg).toHaveScreenshot("map-overview-svg.png", {

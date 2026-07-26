@@ -114,7 +114,8 @@ test.describe("governance map smoke flows", () => {
     await page.getByRole("button", { name: "Exit maximize" }).click();
     await expect(page.getByRole("heading", { name: "AI Governance Map" })).toBeVisible();
 
-    await page.getByRole("tab", { name: "Layers" }).click();
+    // Layers was retired into a colour mode; maximize still works after recolouring.
+    await page.getByLabel("Map color mode").selectOption("treaty-participation");
     await page.getByRole("button", { name: "Maximize map" }).click();
     await expect(page.getByRole("button", { name: "Exit maximize" })).toBeVisible();
     await page.getByRole("button", { name: "Exit maximize" }).click();

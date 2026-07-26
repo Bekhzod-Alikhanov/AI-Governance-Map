@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import type { LensKind, MapModeId } from "../types";
+import type { MapModeId } from "../types";
 import { getCountryGovernanceSummary } from "../utils/getCountryGovernanceSummary";
 import { getSubnationalRulesByCountry } from "../data/subnationalRules";
 import { InstrumentList } from "./InstrumentList";
@@ -37,7 +37,6 @@ interface Props {
   isLabPinned: (labId: string) => boolean;
   onPinInstrument: (instrumentId: string) => void;
   isInstrumentPinned: (instrumentId: string) => boolean;
-  lens: LensKind;
   mapMode: MapModeId;
   contextReason?: MapColorReason;
 }
@@ -52,7 +51,6 @@ export function CountrySidePanel({
   isLabPinned,
   onPinInstrument,
   isInstrumentPinned,
-  lens,
   mapMode,
   contextReason,
 }: Props) {
@@ -77,7 +75,7 @@ export function CountrySidePanel({
   const obligations = getCountryObligations(country.iso3);
   const implementation = getCountryImplementationMilestones(country.iso3);
   const subnationalRules = getSubnationalRulesByCountry(country.iso3);
-  const colorReason = contextReason ?? buildGovernanceColorReason(getCountryMapSummary(iso3), lens, mapMode);
+  const colorReason = contextReason ?? buildGovernanceColorReason(getCountryMapSummary(iso3), mapMode);
   const corpusRecords = getCorpusRecordsForCountry(country.iso3);
 
   return (

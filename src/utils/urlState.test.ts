@@ -120,6 +120,13 @@ describe("shareable URL state", () => {
     expect(parseShareableState("?mapMode=not-a-real-mode").mapMode).toBe("binding-law");
   });
 
+  it("resolves retired ?lens=layer links to the geography map", () => {
+    // The Layers lens was merged into Geography as a colour mode. Links shared
+    // before the merge must still land somewhere sensible rather than breaking.
+    expect(parseShareableState("?lens=layer").lens).toBe("geography");
+    expect(parseShareableState("?lens=layer&country=UZB").selectedIso3).toBe("UZB");
+  });
+
   it("round-trips the frontier-lab pin toggle", () => {
     const serialized = serializeShareableState({ ...DEFAULT_SHAREABLE_STATE, showLabs: false });
     expect(parseShareableState(serialized).showLabs).toBe(false);

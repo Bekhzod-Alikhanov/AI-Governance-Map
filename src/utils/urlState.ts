@@ -38,7 +38,7 @@ export interface ShareableAppState {
   workbench: WorkbenchState;
 }
 
-const LENSES = new Set<LensKind>(["workbench", "geography", "layer", "network", "timeline", "table"]);
+const LENSES = new Set<LensKind>(["workbench", "geography", "network", "timeline", "table"]);
 const PARTICIPATION_TYPES = new Set<ParticipationType>([
   "signed",
   "ratified",

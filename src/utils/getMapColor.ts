@@ -1,45 +1,6 @@
-import type { FilterState, InternationalParticipation, LensKind, MapModeId } from "../types";
+import type { FilterState, InternationalParticipation, MapModeId } from "../types";
 import { PARTICIPATION_BY_COUNTRY } from "../data/participation";
 import { getCountryMapSummary } from "./getCountryMapSummary";
-
-const LAYER_FILL: Record<string, string> = {
-  corporate: "#B45309",       // gold-700 — has frontier lab HQ
-  national_binding: "#1D4ED8", // dark blue — binding national AI law
-  national_proposed: "#60A5FA", // mid blue — proposed / mixed
-  voluntary: "#BFDBFE",       // light blue — guidance / voluntary / strategy
-  international: "#C4B5FD",   // violet-300 — only international participation
-  empty: "#E5E7EB",
-};
-
-export const LAYER_LABEL: Record<string, string> = {
-  corporate: "Has frontier-lab HQ",
-  national_binding: "Binding national AI law",
-  national_proposed: "Proposed / mixed national rule",
-  voluntary: "Guidance / strategy only",
-  international: "International participation only",
-  empty: "No AI-specific data",
-};
-
-const LAYER_CACHE = new Map<string, keyof typeof LAYER_FILL>();
-
-// Legal status outranks corporate presence: a country's governance layer is what
-// binds it, not which companies happen to be headquartered there. Frontier-lab
-// HQs are already shown as map pins, so "corporate" is only the primary layer
-// when there is no AI-specific rule and no international participation to report.
-function pickPrimaryLayer(iso3: string): keyof typeof LAYER_FILL {
-  const cached = LAYER_CACHE.get(iso3);
-  if (cached) return cached;
-  const s = getCountryMapSummary(iso3);
-  let layer: keyof typeof LAYER_FILL;
-  if (s.hasBindingNationalLaw) layer = "national_binding";
-  else if (s.proposedNationalRuleCount > 0) layer = "national_proposed";
-  else if (s.hasAnyAIRule) layer = "voluntary";
-  else if (s.internationalParticipationCount > 0) layer = "international";
-  else if (s.hqLabCount > 0) layer = "corporate";
-  else layer = "empty";
-  LAYER_CACHE.set(iso3, layer);
-  return layer;
-}
 
 export interface MapStyle {
   fill: string;
@@ -68,15 +29,11 @@ export function getMapStyle(
   iso3: string,
   filters: FilterState,
   matchesFilter: boolean,
-  lens: LensKind = "geography",
   mapMode: MapModeId = "binding-law",
   contextFill?: string | null
 ): MapStyle {
   if (mapMode !== "binding-law") {
     return getMapModeStyle(iso3, filters, matchesFilter, mapMode, contextFill);
-  }
-  if (lens === "layer") {
-    return getLayerStyle(iso3, filters, matchesFilter);
   }
   const summary = getCountryMapSummary(iso3);
 
@@ -200,30 +157,3 @@ function getMapModeStyle(
   return { fill, outline, strokeWidth, strokeDasharray, opacity };
 }
 
-function getLayerStyle(
-  iso3: string,
-  filters: FilterState,
-  matchesFilter: boolean
-): MapStyle {
-  const layer = pickPrimaryLayer(iso3);
-  const fill = LAYER_FILL[layer];
-
-  let outline = OUTLINE.base;
-  let strokeWidth = 0.5;
-  let opacity = 1;
-
-  if (filters.selectedInstrumentIds.length > 0) {
-    if (matchesFilter) {
-      outline = OUTLINE.match;
-      strokeWidth = 1.5;
-    } else {
-      opacity = 0.25;
-    }
-  } else if (!matchesFilter) {
-    opacity = 0.25;
-  }
-
-  return { fill, outline, strokeWidth, opacity };
-}
-
-export { pickPrimaryLayer };

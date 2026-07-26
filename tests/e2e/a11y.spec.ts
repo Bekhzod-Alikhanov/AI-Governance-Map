@@ -15,7 +15,7 @@ test.describe("lens switcher tab pattern", () => {
 
     const tablist = page.getByRole("tablist");
     const tabs = tablist.getByRole("tab");
-    await expect(tabs).toHaveCount(6);
+    await expect(tabs).toHaveCount(5);
 
     // A tablist must own a panel, and the selected tab must point at it.
     const panel = page.getByRole("tabpanel");
@@ -32,7 +32,7 @@ test.describe("lens switcher tab pattern", () => {
     await selected.focus();
     await expect(page.getByRole("tab", { name: "Geography" })).toHaveAttribute("aria-selected", "true");
     await page.keyboard.press("ArrowRight");
-    await expect(page.getByRole("tab", { name: "Layers" })).toHaveAttribute("aria-selected", "true");
+    await expect(page.getByRole("tab", { name: "Network" })).toHaveAttribute("aria-selected", "true");
     await page.keyboard.press("ArrowLeft");
     await expect(page.getByRole("tab", { name: "Geography" })).toHaveAttribute("aria-selected", "true");
 

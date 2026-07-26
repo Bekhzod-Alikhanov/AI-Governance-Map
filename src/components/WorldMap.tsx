@@ -5,7 +5,7 @@ import type { ProjectionFunction } from "react-simple-maps";
 import { feature } from "topojson-client";
 import type { Feature } from "geojson";
 import type { GeometryCollection, Topology } from "topojson-specification";
-import type { FilterState, FrontierLab, LensKind, MapFitTarget, MapModeId } from "../types";
+import type { FilterState, FrontierLab, MapFitTarget, MapModeId } from "../types";
 import { numericToAlpha3 } from "../utils/normalizeCountry";
 import { COUNTRY_BY_ISO3 } from "../data/countries";
 import { filterCountries } from "../utils/filterCountries";
@@ -62,7 +62,6 @@ interface Props {
   onHover: (data: { iso3: string; name: string; x: number; y: number } | null) => void;
   onHoverLab?: (data: { lab: FrontierLab; x: number; y: number } | null) => void;
   showLabs: boolean;
-  lens: LensKind;
   scaleBoost?: number;
   mapCenter?: [number, number];
   mapZoom?: number;
@@ -80,7 +79,6 @@ export function WorldMap({
   onHover,
   onHoverLab,
   showLabs,
-  lens,
   scaleBoost = 1,
   mapCenter,
   mapZoom = 1,
@@ -289,7 +287,7 @@ export function WorldMap({
                 }
 
                 const matches = matchByIso[iso3] ?? true;
-                const style = getMapStyle(iso3, filters, matches, lens, mapMode, contextFillByIso3?.[iso3]);
+                const style = getMapStyle(iso3, filters, matches, mapMode, contextFillByIso3?.[iso3]);
                 const isSelected = selectedIso3 === iso3;
                 const hoverFill = adjustColor(style.fill, -10);
 

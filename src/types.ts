@@ -840,7 +840,10 @@ export interface SubnationalAIRule extends VerificationMetadata {
 }
 
 // ===== Guided walkthrough (Tier 2.F) =====
-export type LensKind = "workbench" | "geography" | "layer" | "network" | "timeline" | "table";
+// "layer" was retired: it was a colour mode wearing a lens's clothes. Its one
+// unique contribution — the international-participation tier — now lives in the
+// default Geography map, and the rest is served by the map's colour modes.
+export type LensKind = "workbench" | "geography" | "network" | "timeline" | "table";
 export type NetworkPresetId =
   | "all"
   | "labs-laws"
@@ -870,6 +873,8 @@ export interface ResearchPreset {
   title: string;
   description: string;
   lens: LensKind;
+  /** Map colour mode the preset needs. Defaults to binding law when omitted. */
+  mapMode?: MapModeId;
   filterPatch?: Partial<FilterState>;
   selectedIso3?: string;
   selectedLabId?: string;

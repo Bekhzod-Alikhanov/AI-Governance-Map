@@ -1,12 +1,11 @@
 import { useMemo } from "react";
-import type { FilterState, LensKind, MapModeId } from "../types";
+import type { FilterState, MapModeId } from "../types";
 import { countActiveFilters, filterCountries } from "../utils/filterCountries";
 import { getCountryMapSummary } from "../utils/getCountryMapSummary";
 import { buildGovernanceColorReason, type MapColorReason } from "../utils/mapColorReason";
 
 interface Props {
   filters: FilterState;
-  lens: LensKind;
   mapMode: MapModeId;
   contextReasonByIso3?: Record<string, MapColorReason> | null;
   onSelectCountry: (iso3: string) => void;
@@ -15,7 +14,6 @@ interface Props {
 
 export function MapCountryList({
   filters,
-  lens,
   mapMode,
   contextReasonByIso3,
   onSelectCountry,
@@ -27,12 +25,12 @@ export function MapCountryList({
       .filter((row) => row.country.iso3 !== "ATA")
       .map((row) => {
         const summary = getCountryMapSummary(row.iso3);
-        const reason = contextReasonByIso3?.[row.iso3] ?? buildGovernanceColorReason(summary, lens, mapMode);
+        const reason = contextReasonByIso3?.[row.iso3] ?? buildGovernanceColorReason(summary, mapMode);
         return { ...row, summary, reason };
       });
     const visibleRows = activeFilterCount > 0 ? allRows.filter((row) => row.matchesFilter) : allRows;
     return visibleRows.sort((a, b) => a.country.name.localeCompare(b.country.name)).slice(0, 160);
-  }, [activeFilterCount, contextReasonByIso3, filters, lens, mapMode]);
+  }, [activeFilterCount, contextReasonByIso3, filters, mapMode]);
 
   return (
     <aside

@@ -29,7 +29,7 @@ export const RESEARCH_PRESETS: ResearchPreset[] = [
     title: "Which countries mostly have guidance or voluntary frameworks?",
     description:
       "Filters to countries with national AI entries but without binding national AI law, and emphasizes voluntary international effects.",
-    lens: "layer",
+    lens: "geography",
     filterPatch: {
       hasAnyAIRule: "yes",
       hasBindingNationalLaw: "no",
@@ -83,7 +83,7 @@ export const RESEARCH_PRESETS: ResearchPreset[] = [
     title: "Where does the EU AI Act apply, and where is there national enactment?",
     description:
       "Highlights EU AI Act applicability via EU membership. This is not the same as a member state enacting a separate national AI law.",
-    lens: "layer",
+    lens: "geography",
     selectedIso3: "EUU",
     filterPatch: {
       selectedInstrumentIds: ["eu-ai-act"],
