@@ -166,6 +166,52 @@ The CSP is safe to ship: the app loads no cross-origin resources (the external U
 
 Browser-verified at 1440 and 390 px: five tabs, `?lens=layer` resolves to Geography, the promoted controls set `mapMode` and serialise to the URL, the Timeline shows a single filter row, zero console errors.
 
+---
+
+# Fourth tier — data credibility, Network, mobile, Workbench
+
+## 10 · Data credibility (F-04, F-14, F-15, F-16)
+
+**Validator warnings: 378 → 1.** `DATA_SNAPSHOT_DATE` moves to 2026-06-19, the true `max(lastVerified)`, with a test enforcing that equality so re-verification past it fails the build. The remaining date warnings turned out to be the check being wrong rather than the data — a consultation deadline and the EU AI Act's phased application are *supposed* to be in the future — so the snapshot ceiling now applies only to backward-looking fields. The one surviving warning is the two Russian sources served over plain HTTP; neither host answers on HTTPS, so it stays visible, and the test pins the exact set.
+
+Non-official host counts moved to a new `notes` channel: the four research indices the Atlas layer cites are a disclosure the UI already makes, not a defect. A warning readers are meant to ignore is how 378 accumulated unnoticed.
+
+France and Germany are no longer counted as subnational rules — `jurisdictionLevel()` splits the module into **5 subnational rules and 2 national implementation records**.
+
+**A correction to the audit itself.** F-15 claimed 11% verification coverage. That was wrong: it came from grepping literal `verificationStatus:` occurrences, which misses the shared spread constants most records inherit from. Measured by evaluating the data, coverage is **100% — 1,094 `verified` and 464 `likely_correct` across 1,558 core records**. The finding is annotated with the correction. What survives is that the scale had no negative value (`unverified` and `superseded` added) and that zero core records are `uncertain`.
+
+## 11 · Network (F-09)
+
+Edge type is now visible: colour and dash per relationship, with a legend. **Distinct edge styles on the default view: 1 → 5.** The README's "typed as regulates / depends_on / constrains / …" claim is finally true in the picture.
+
+Node area now encodes **degree** rather than `powerScore` — the hand-assigned constant was doing the most salient visual work in the view. As a side effect more nodes clear the labelling threshold: **9 → 16 labelled**. The caption also now states that force-directed position carries no meaning.
+
+## 12 · Mobile chrome (F-17 remainder)
+
+Header + filter toolbar: **33% → 23%** of a 390 px viewport; the toolbar drops 133 px → 43 px and the map gains 90 px. Expanding reveals all 11 filter controls unchanged.
+
+## 13 · Workbench (F-08)
+
+Spec in [02-WORKBENCH-REDESIGN](02-WORKBENCH-REDESIGN.md). The question layer already existed in `TOP_RESEARCH_QUESTIONS` and was buried mid-page; it now leads. Five secondary sections moved behind `<details>`.
+
+| | Before | After |
+|---|---:|---:|
+| Screens of content | 5.9 | **1.8** |
+| Reachable controls | 296 | **30** (266 one click away) |
+| Sections expanded on arrival | all | question selector only |
+
+Nothing was deleted. The e2e suite needed updating in five places — which is the redesign working: the assertions now open a disclosure first, proving content moved rather than vanished.
+
+## Verification (fourth tier)
+
+| Gate | Result |
+|---|---|
+| `npm run lint` / `npm run typecheck` | exit 0 |
+| `npm test` | **142 passed** (33 files) |
+| `npm run build` | exit 0 |
+| `npm run check:performance` | `"ok": true` |
+| `npm run test:e2e` | **40 passed, 0 skipped** |
+
 ## Not addressed
 
 Open from [01-FINDINGS](01-FINDINGS.md): **F-04** (371 snapshot-date warnings), **F-08** (Workbench), **F-09** (Network edge types, `powerScore`), **F-14** (France and Germany filed as subnational rules), **F-15** (verification vocabulary cannot express a negative; 89% of records carry no status), **F-16** (343 unclassified source hosts, 2 `http://` sources), **F-23** (`App.tsx` state sprawl).
