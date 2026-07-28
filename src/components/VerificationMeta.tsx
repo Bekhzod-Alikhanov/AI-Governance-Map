@@ -6,6 +6,7 @@ import {
   SOURCE_KIND_LABELS,
   VERIFICATION_STATUS_LABELS,
 } from "../utils/getVerificationLabel";
+import { getVerificationAge } from "../utils/verificationAge";
 
 interface Props {
   item: VerificationMetadata;
@@ -14,6 +15,8 @@ interface Props {
 }
 
 export function VerificationMeta({ item, label = "Source verification", compact = false }: Props) {
+  // A snapshot date describes the corpus; this describes the record in hand.
+  const age = getVerificationAge(item.lastVerified);
   const hasMetadata = Boolean(
     item.sourceKind ||
       item.verificationStatus ||
@@ -62,7 +65,26 @@ export function VerificationMeta({ item, label = "Source verification", compact 
           {item.lastVerified && (
             <div>
               <dt className="text-ink-500">Last checked</dt>
-              <dd className="text-ink-800">{item.lastVerified}</dd>
+              <dd className="text-ink-800">
+                {item.lastVerified}
+                {age && (
+                  <>
+                    {" "}
+                    <span
+                      className={clsx(
+                        "rounded px-1 py-0.5 text-[10px] font-medium",
+                        age.freshness === "stale"
+                          ? "bg-amber-100 text-amber-900"
+                          : age.freshness === "ageing"
+                            ? "bg-canvas text-ink-700"
+                            : "text-ink-500"
+                      )}
+                    >
+                      {age.label}
+                    </span>
+                  </>
+                )}
+              </dd>
             </div>
           )}
         </dl>

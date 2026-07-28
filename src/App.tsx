@@ -989,7 +989,7 @@ export default function App() {
             </p>
           )}
           <p className="mt-1 text-[11px] text-ink-500">
-            Power {hoverLab.lab.powerScore}/5
+            Editorial salience {hoverLab.lab.powerScore}/5
             {hoverLab.lab.isFMFMember && " · FMF member"}
           </p>
         </div>

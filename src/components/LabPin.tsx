@@ -39,12 +39,19 @@ interface Props {
   onHover?: (lab: FrontierLab | null, e?: React.MouseEvent) => void;
 }
 
+/** Uniform pin radius: lab pins no longer encode an editorial score. */
+const LAB_PIN_RADIUS = 7;
+
 export function LabPin({ lab, selected, dimmed, onClick, onHover }: Props) {
   const coords = LAB_COORDINATES[lab.id];
   if (!coords) return null;
 
-  // Size by power score: 3 -> r=5, 4 -> r=7, 5 -> r=9
-  const r = 3 + lab.powerScore * 1.2;
+  // Every lab pin is the same size. Area is read pre-attentively, so encoding a
+  // hand-assigned 1-5 editorial score in it made the least defensible number in
+  // the dataset carry the strongest visual claim — that some labs matter more
+  // than others, on a scale with no published derivation. Identity is carried by
+  // position and by the label instead.
+  const r = LAB_PIN_RADIUS;
   const [dx, dy] = LAB_PIN_OFFSETS[lab.id] ?? [0, 0];
 
   return (

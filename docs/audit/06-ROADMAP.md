@@ -1,6 +1,6 @@
 # 06 — Roadmap
 
-Written 26 July 2026, after four remediation tiers closed 21 of 23 findings. This covers what is left.
+Written 26 July 2026, updated after block 4. Five remediation tiers closed 21 of 23 findings; N1, N2, N3, X1, X2, X3 and L3 have since shipped. This covers what is left.
 
 ## Done (not a bucket — context for what follows)
 
@@ -10,15 +10,15 @@ F-01 · F-02 · F-03 · F-05 · F-06 · F-07 · F-08 · F-09 · F-10 · F-11 · 
 
 ## Now (≤ 1 day)
 
-### N1 — Merge the branch and verify the deploy
+### ✅ N1 — Merge the branch and verify the deploy — **done**
 **Why first:** every fix so far is invisible. Production still serves the favicon-SVG link preview, no `robots.txt`, the old map colours.
 **Acceptance:** PR [#41](https://github.com/Bekhzod-Alikhanov/AI-Governance-Map/pull/41) merged; `curl -I https://global-ai-governance-map.vercel.app` returns the four new security headers; `/robots.txt` and `/sitemap.xml` return 200; a LinkedIn/X link preview renders the 1200×630 card; the map shows no grey countries.
 
-### N2 — Verify the CSP against the real deployment
+### ✅ N2 — Verify the CSP against the real deployment — **done** (found and fixed the embed frame-policy bug, PR #42)
 **Why:** `vercel.json` headers cannot be exercised locally, so the CSP is the one change shipped unverified. A too-strict `script-src` would white-screen the site.
 **Acceptance:** on the Vercel preview URL, the app renders, the console has no CSP violations, and `/embed/country/USA` still loads inside an `<iframe>` on a third-party origin.
 
-### N3 — Triage the 24 anti-bot-walled sources
+### ◐ N3 — Triage the anti-bot-walled sources — **mechanism done, 16 need a human** (see [09-SOURCE-TRIAGE](09-SOURCE-TRIAGE.md))
 **Why:** the content-aware link checker (F-11) surfaced 24 official sources — ISO, MOFA ×2, Council of the EU, OECD iLibrary and others — that return a wall rather than the document. They were reported healthy for as long as the checker existed.
 **Acceptance:** each of the 24 either resolves in a browser and gets a `sourceLinkManualChecks.json` entry with an `expiresOn` date, or is replaced with a reachable official mirror, or is marked `superseded`. `npm run audit:source-links` warnings drop to the residual set.
 **Note:** this is human verification work. It cannot be automated, and it should not be faked.
@@ -27,15 +27,15 @@ F-01 · F-02 · F-03 · F-05 · F-06 · F-07 · F-08 · F-09 · F-10 · F-11 · 
 
 ## Next (≈ 1 week)
 
-### X1 — Answer surface for each Workbench question
+### ✅ X1 — Answer surface for each Workbench question — **done**
 The restructure put the question first ([02-WORKBENCH-REDESIGN](02-WORKBENCH-REDESIGN.md)); what renders beneath is still the existing answer-card tiles. Section 10 of that spec lists five worked examples with the sentence each should produce — e.g. *"1 ratification and 20 signature-only rows. The convention is not yet in force."*
 **Acceptance:** selecting any of the eight questions renders a one-sentence answer with its number and caveat inline, above the evidence rows; no tile shows a bare integer.
 
-### X2 — Per-record link previews
+### ✅ X2 — Per-record link previews — **done**, 543 routes
 `/country/UZB` and 542 other routes still share one OG card. The sitemap already enumerates them.
 **Acceptance:** a build-time step emits per-route `<title>`, `og:title`, `og:description`; sharing two different record URLs produces two different previews. Prefer a post-build HTML rewrite over adopting a framework — the zero-infrastructure constraint holds.
 
-### X3 — `powerScore`: derive, document, or drop
+### ✅ X3 — `powerScore`: derive, document, or drop — **done**, dropped from visual encodings
 The Network no longer sizes by it (F-09), but it still drives **map pin size** and appears in evidence dossiers as `N/5`. It remains a hand-assigned constant.
 **Acceptance:** either a published rubric in the Methodology panel naming its inputs, or the field is removed from all visual encodings and kept only as a documented editorial sort key.
 
@@ -49,7 +49,7 @@ The Network no longer sizes by it (F-09), but it still drives **map pin size** a
 ### L2 — Consolidate the shareable state
 `App.tsx` still owns ~20 `useState` hooks (F-23). Both F-02 and F-05 were symptoms: no single place knew what "the current view" was, so things got forgotten when serialising. One reducer whose output *is* the URL would prevent the next instance.
 
-### L3 — An honest staleness treatment
+### ✅ L3 — An honest staleness treatment — **done**
 `DATA_SNAPSHOT_DATE` is now correct and test-enforced, but nothing tells a reader a record is ageing. Surface per-record age in panels and dossiers, and make CI fail on expired manual-verification overrides — the mechanism that would have caught the CoE lapse.
 
 ### L4 — Decide the maintenance claim

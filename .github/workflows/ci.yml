@@ -43,6 +43,9 @@ jobs:
       - name: Validate dataset export
         run: npm run validate:export
 
+      - name: Check manual source-verification expiry
+        run: npm run audit:manual-checks
+
       - name: Audit source metadata
         run: npm run audit:sources -- --output=source-audit-report.md --json-output=source-audit-report.json --fail-on-metadata-warnings
 

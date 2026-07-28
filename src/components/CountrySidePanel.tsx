@@ -283,7 +283,7 @@ export function CountrySidePanel({
                   <span className="flex-1 min-w-0">
                     <span className="block text-sm font-semibold leading-snug text-ink-900">{lab.name}</span>
                     <span className="block text-[11px] text-ink-500">
-                      Power {lab.powerScore}/5
+                      Editorial salience {lab.powerScore}/5
                       {lab.isFMFMember && " · FMF member"}
                       {lab.safetyFramework && ` · ${lab.safetyFramework.name}`}
                     </span>

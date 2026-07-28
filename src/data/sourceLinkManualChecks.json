@@ -1,6 +1,14 @@
 {
   "manualChecks": [
     {
+      "recordId": "g7-hiroshima-statement",
+      "sourceUrl": "https://www.mofa.go.jp/ecm/ec/page5e_000076.html",
+      "status": "manual_ok",
+      "lastChecked": "2026-07-26",
+      "expiresOn": "2026-10-24",
+      "reason": "Opened in a browser: MOFA serves 'G7 Leaders' Statement on the Hiroshima AI Process', dated 30 October 2023, listing the Guiding Principles and Code of Conduct PDFs as attachments. Automated fetches receive HTTP 403."
+    },
+    {
       "recordId": "cen-cenelec-ai-act-standards",
       "sourceUrl": "https://www.cencenelec.eu/areas-of-work/cen-cenelec-topics/artificial-intelligence/",
       "status": "manual_ok",

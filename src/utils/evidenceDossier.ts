@@ -395,7 +395,7 @@ function buildLabDossier(labId: string, currentUrl: string): EvidenceDossier | n
     currentUrl,
     summary: `${lab.name} is tracked as a frontier-AI lab headquartered in ${lab.hqCountryName}, with ${exposureSummary.binding} binding exposure row(s), ${exposureSummary.voluntary} voluntary row(s), ${exposureSummary.standards} standards row(s), and ${exposureSummary.infrastructure} infrastructure row(s).`,
     metrics: [
-      { label: "Power score", value: `${lab.powerScore}/5` },
+      { label: "Editorial salience", value: `${lab.powerScore}/5 (editorial judgement, not a derived score)` },
       { label: "Binding exposure rows", value: exposureSummary.binding },
       { label: "Conditional exposure rows", value: exposureSummary.conditional },
       { label: "Voluntary exposure rows", value: exposureSummary.voluntary },

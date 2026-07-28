@@ -49,6 +49,13 @@ export interface WorkbenchAnswerCard {
   label: string;
   value: string;
   detail: string;
+  /**
+   * The answer as a sentence a reader can quote. A tile reading "BINDING
+   * DUTIES 12" cannot be read aloud as a fact, and its caveat sits far enough
+   * away to be missed — which for "signed" versus "ratified" is the whole
+   * distinction. The number and the qualification belong in one line.
+   */
+  sentence: string;
 }
 
 export interface ScenarioAssessment {
@@ -155,6 +162,11 @@ export function implementationMatchesFilters(milestone: ImplementationMilestone,
   return true;
 }
 
+/** Pluralise a noun for a count, so answers read as sentences rather than logs. */
+function plural(count: number, singular: string, pluralForm = `${singular}s`): string {
+  return count === 1 ? singular : pluralForm;
+}
+
 export function buildWorkbenchAnswerCards(filters: FilterState): WorkbenchAnswerCard[] {
   const matchingCountries = COUNTRIES
     .filter((country) => country.iso3 !== "EUU")
@@ -170,31 +182,40 @@ export function buildWorkbenchAnswerCards(filters: FilterState): WorkbenchAnswer
   const activeImplementation = IMPLEMENTATION_MILESTONES.filter((row) =>
     ["in_force", "phased_application", "implementing_rules_pending"].includes(row.status)
   );
+  const bindingJurisdictionCount = unique(
+    bindingObligations.map((row) => row.jurisdiction ?? "")
+  ).filter(Boolean).length;
+  const coeRatified = coeRows.filter((row) => row.participationType === "ratified").length;
+  const coeSigned = coeRows.filter((row) => row.participationType === "signed").length;
 
   return [
     {
       id: "binding-obligations",
       label: "Binding duties",
       value: String(bindingObligations.length),
-      detail: `${unique(bindingObligations.map((row) => row.jurisdiction ?? "")).filter(Boolean).length} jurisdictions or hooks with source-backed binding obligation rows.`,
+      detail: `${bindingJurisdictionCount} jurisdictions or hooks with source-backed binding obligation rows.`,
+      sentence: `${bindingObligations.length} source-backed binding obligation ${plural(bindingObligations.length, "row")} across ${bindingJurisdictionCount} ${plural(bindingJurisdictionCount, "jurisdiction")} or hooks.`,
     },
     {
       id: "proposed-laws",
       label: "Proposed laws",
       value: String(proposedRules.length),
       detail: "Draft or consultation-stage AI-specific laws are kept separate from in-force duties.",
+      sentence: `${proposedRules.length} AI-specific ${plural(proposedRules.length, "law")} are at draft or consultation stage, counted separately from duties already in force.`,
     },
     {
       id: "coe-participation",
       label: "CoE Convention",
-      value: `${coeRows.filter((row) => row.participationType === "ratified").length} ratified`,
-      detail: `${coeRows.filter((row) => row.participationType === "signed").length} signed-only rows; signature is not ratification.`,
+      value: `${coeRatified} ratified`,
+      detail: `${coeSigned} signed-only rows; signature is not ratification.`,
+      sentence: `${coeRatified} ${plural(coeRatified, "ratification")} and ${coeSigned} signature-only ${plural(coeSigned, "row")}: signature is not ratification, and the convention is not yet in force.`,
     },
     {
       id: "lab-exposure",
       label: "Lab exposure",
       value: `${labExposureSummary.binding} binding`,
       detail: `${labExposureSummary.voluntary} voluntary, ${labExposureSummary.standards} standards, ${labExposureSummary.infrastructure} infrastructure rows are clearly separated.`,
+      sentence: `Frontier labs carry ${labExposureSummary.binding} binding regulatory ${plural(labExposureSummary.binding, "hook")}, alongside ${labExposureSummary.voluntary} voluntary, ${labExposureSummary.standards} standards and ${labExposureSummary.infrastructure} infrastructure rows.`,
     },
     {
       id: "lab-safety-evidence",
@@ -202,6 +223,7 @@ export function buildWorkbenchAnswerCards(filters: FilterState): WorkbenchAnswer
       value: String(labsWithSafetyFrameworkEvidence),
       detail:
         "Labs with public safety-framework, responsible-scaling, commitment, model-card, or evaluation evidence rows.",
+      sentence: `${labsWithSafetyFrameworkEvidence} ${plural(labsWithSafetyFrameworkEvidence, "lab")} publish safety-framework, responsible-scaling, commitment or model-card evidence.`,
     },
     {
       id: "safety-evaluations",
@@ -209,18 +231,21 @@ export function buildWorkbenchAnswerCards(filters: FilterState): WorkbenchAnswer
       value: String(labSpecificSafetyEvaluations.length),
       detail:
         "Lab-specific public safety/evaluation rows; institute-level rows are kept as context and not legal obligations.",
+      sentence: `${labSpecificSafetyEvaluations.length} lab-specific public evaluation ${plural(labSpecificSafetyEvaluations.length, "record")} are tracked; institute-level rows are context, not legal obligations.`,
     },
     {
       id: "implementation",
       label: "Implementation",
       value: String(activeImplementation.length),
       detail: "In-force, phased-application, and pending-implementation milestones tracked for high-impact rules.",
+      sentence: `${activeImplementation.length} implementation ${plural(activeImplementation.length, "milestone")} are in force, phasing in, or awaiting implementing rules.`,
     },
     {
       id: "current-scope",
       label: "Current scope",
       value: String(matchingCountries.length),
       detail: "Countries with obligation/domain/status rows matching the active workbench filters.",
+      sentence: `${matchingCountries.length} ${plural(matchingCountries.length, "country", "countries")} match the active filters.`,
     },
   ];
 }

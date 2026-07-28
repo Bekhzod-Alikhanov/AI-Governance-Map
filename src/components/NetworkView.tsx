@@ -154,10 +154,10 @@ export function NetworkView({
     }
     for (const l of FRONTIER_LABS) {
       if (preset !== "all" && !involvedIds.has(l.id)) continue;
-      nodes.push({ id: l.id, kind: "lab", label: l.name, size: 4 + l.powerScore * 1.5, color: KIND_COLOR.lab });
+      nodes.push({ id: l.id, kind: "lab", label: l.name, size: 0, color: KIND_COLOR.lab });
     }
     for (const i of INFRASTRUCTURE_NODES) {
-      nodes.push({ id: i.id, kind: "infrastructure", label: i.name, size: 4 + i.powerScore * 1.8, color: KIND_COLOR.infrastructure });
+      nodes.push({ id: i.id, kind: "infrastructure", label: i.name, size: 0, color: KIND_COLOR.infrastructure });
     }
     for (const i of INTERNATIONAL_INSTRUMENTS) {
       if (!involvedIds.has(i.id)) continue;
@@ -165,7 +165,7 @@ export function NetworkView({
         id: i.id,
         kind: "instrument",
         label: i.name,
-        size: 4 + (i.powerScore ?? 3) * 1.2,
+        size: 0,
         color: KIND_COLOR.instrument,
       });
     }
@@ -192,6 +192,8 @@ export function NetworkView({
       });
     }
 
+    // Every node's size is assigned here, from degree. The placeholder zeros
+    // above exist only so the shape is complete before this pass.
     // Size by degree, not by powerScore. Area is the most salient variable in
     // this view, and powerScore is a hand-assigned 1-5 constant with no
     // published derivation - the least defensible number in the dataset doing

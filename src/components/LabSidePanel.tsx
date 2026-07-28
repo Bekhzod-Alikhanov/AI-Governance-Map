@@ -54,7 +54,7 @@ export function LabSidePanel({ labId, onClose, onPinLab, isLabPinned }: Props) {
           </p>
           <h2 className="mt-1 text-xl font-semibold leading-tight text-ink-900">{lab.name}</h2>
           <p className="mt-0.5 text-xs text-ink-500">
-            Power score {lab.powerScore}/5
+            Editorial salience {lab.powerScore}/5 — a judgement, not a derived score
           </p>
           <div className="mt-2 flex flex-wrap items-center gap-2">
             <PinCompareButton pinned={isLabPinned} onToggle={onPinLab} />
