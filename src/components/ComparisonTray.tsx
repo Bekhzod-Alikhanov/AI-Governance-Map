@@ -144,7 +144,7 @@ function CompareCard({
         <CompareHeader label="Frontier lab" title={lab.name} item={item} onRemove={onRemove} />
         <dl className="mt-2 grid grid-cols-2 gap-2 text-[11px]">
           <Metric label="HQ" value={lab.hqCountryName} />
-          <Metric label="Power" value={`${lab.powerScore}/5`} strong={lab.powerScore >= 4} />
+          <Metric label="Salience (editorial)" value={`${lab.powerScore}/5`} strong={lab.powerScore >= 4} />
           <Metric label="Models" value={lab.flagshipModels.slice(0, 3).join(", ")} />
           <Metric label="Exposure" value={exposureSummary.total} />
           <Metric label="Binding" value={exposureSummary.binding} strong={exposureSummary.binding > 0} />

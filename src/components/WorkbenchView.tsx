@@ -939,7 +939,7 @@ function RecordRoutePanel({
             ["Exposure rows", String(exposures.length)],
             ["Obligations", String(obligations.length)],
             ["Binding rows", String(exposures.filter((row) => row.legalEffect === "binding").length)],
-            ["Power", `${lab.powerScore}/5`],
+            ["Salience (editorial)", `${lab.powerScore}/5`],
           ]}
         />
         <RecordText label="Research summary" value={lab.summary} />

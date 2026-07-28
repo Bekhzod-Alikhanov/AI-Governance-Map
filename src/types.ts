@@ -208,7 +208,14 @@ export interface FrontierLab extends VerificationMetadata {
     sourceUrl: string;
   };
   isFMFMember: boolean;
-  powerScore: number; // 1-5
+  /**
+   * Editorial salience, 1–5, assigned by hand. There is no published rubric and
+   * no derivation from the dataset, so it must not drive a visual encoding:
+   * readers infer precision from size and position that this number cannot
+   * support. Map pins are uniform and network nodes size by degree. Safe uses
+   * are ordering a list and labelled display that says it is a judgement.
+   */
+  powerScore: number;
   summary: string;
   sourceName: string;
   sourceUrl: string;
