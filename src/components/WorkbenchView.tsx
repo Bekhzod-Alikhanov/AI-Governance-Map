@@ -561,6 +561,19 @@ export function WorkbenchView({
           </section>
         )}
 
+        {activeQuestion && activeAnswerCard && (
+          <section className="mt-4 rounded-lg border border-accent/30 bg-accent/5 p-3">
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-accent">Answer</p>
+            <h3 className="mt-1 text-base font-semibold leading-snug text-ink-900">
+              {activeAnswerCard.sentence}
+            </h3>
+            <p className="mt-1 text-xs leading-relaxed text-ink-700">{activeAnswerCard.detail}</p>
+            <p className="mt-2 text-[11px] text-ink-600">
+              Answering: {activeQuestion.title} · snapshot {DATA_SNAPSHOT_DATE}
+            </p>
+          </section>
+        )}
+
         <section className="mt-4 rounded-lg border border-canvas-line bg-white p-3">
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div>
@@ -628,7 +641,7 @@ export function WorkbenchView({
               {answerCards.map((card) => (
                 <div key={card.id} className="rounded-lg border border-canvas-line bg-canvas/40 px-3 py-2">
                   <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-500">{card.label}</p>
-                  <p className="mt-1 text-lg font-semibold text-ink-900">{card.value}</p>
+                  <p className="mt-1 text-sm font-semibold leading-snug text-ink-900">{card.sentence}</p>
                   <p className="mt-1 text-[11px] leading-relaxed text-ink-600">{card.detail}</p>
                 </div>
               ))}
