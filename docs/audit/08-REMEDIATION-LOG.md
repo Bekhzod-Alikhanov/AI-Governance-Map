@@ -212,6 +212,53 @@ Nothing was deleted. The e2e suite needed updating in five places — which is t
 | `npm run check:performance` | `"ok": true` |
 | `npm run test:e2e` | **40 passed, 0 skipped** |
 
+---
+
+# Fifth tier — roadmap block 4
+
+## 14 · Source triage (N3) — mechanism, not a claim of verification
+
+I said the in-app browser would verify the anti-bot-walled sources because it runs JavaScript where `curl` is refused. **That was wrong for all but one of them.** `iso.org`, `consilium.europa.eu`, `ai.gov.ae` and `regjeringen.no` serve the same interstitial to a real browser; the Finnish, French, Israeli, Norwegian and OECD URLs are blocked both ways.
+
+**Verified: 1 of 17.** `mofa.go.jp` serves "G7 Leaders' Statement on the Hiroshima AI Process", 30 October 2023, listing both PDF attachments. That gets a manual-check entry with a 90-day expiry. The two PDFs it links were *not* opened, so they stay unverified rather than inheriting their parent's status.
+
+[09-SOURCE-TRIAGE.md](09-SOURCE-TRIAGE.md) lists the other 16 with the one-line check each needs. It also flags something automation cannot see: two ISO records point at `/standard/42001` and `/standard/42005` while the rest use the `NNNNN.html` catalogue form — those look like standard numbers used as catalogue ids, so they may be wrong URLs rather than blocked ones.
+
+`npm run audit:manual-checks` now fails the build when an override passes its `expiresOn`, and CI runs it. Verified both directions. No entry was written for a URL that could not be read.
+
+## 15 · Per-record link previews (X2)
+
+All 543 record routes shared one title and one Open Graph card. A post-build step now emits `dist/<kind>/<id>/index.html` with per-record metadata:
+
+```
+/country/UZB                 Uzbekistan — Country
+/instrument/eu-ai-act        EU AI Act (Regulation (EU) 2024/1689)
+/lab/openai                  OpenAI — Frontier AI lab
+/rule/us-ca-sb-53-frontier   California SB 53 — Transparency in Frontier AI Act
+```
+
+No framework migration, as the roadmap required.
+
+## 16 · `powerScore` (X3) and record age (L3)
+
+Lab pins are now uniform. `powerScore` is a hand-assigned 1–5 judgement with no published rubric, and area is read pre-attentively — the least defensible number in the dataset was carrying the strongest visual claim. A test asserts pin radius is independent of it, checked against the old code to confirm it fails there (`'16','12','9'` vs `'13.6','9.6','6.6'`). Where the number appears as text it stays, relabelled **"Editorial salience"**.
+
+`VerificationMeta` now shows "checked 38 days ago" beside the date, amber past 180 days, using the same 90/180-day buckets `audit:data-review` reports.
+
+## 17 · Workbench answer sentences (X1)
+
+Answer cards gain a `sentence` — the number and its qualification in one line — rendered above the question list when a question is selected. The Council of Europe answer now reads: *"1 ratification and 20 signature-only rows: signature is not ratification, and the convention is not yet in force."*
+
+## Verification (fifth tier)
+
+| Gate | Result |
+|---|---|
+| `npm run lint` / `npm run typecheck` | exit 0 |
+| `npm test` | **158 passed** (38 files) — was 142 |
+| `npm run build` | exit 0 |
+| `npm run check:performance` | `"ok": true` |
+| `npm run test:e2e` | **40 passed, 0 skipped** |
+
 ## Not addressed
 
 Open from [01-FINDINGS](01-FINDINGS.md): **F-04** (371 snapshot-date warnings), **F-08** (Workbench), **F-09** (Network edge types, `powerScore`), **F-14** (France and Germany filed as subnational rules), **F-15** (verification vocabulary cannot express a negative; 89% of records carry no status), **F-16** (343 unclassified source hosts, 2 `http://` sources), **F-23** (`App.tsx` state sprawl).
