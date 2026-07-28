@@ -51,22 +51,31 @@ const KIND_LABEL = {
   enforcement: "Enforcement / litigation record",
 };
 
-const recordIndex = JSON.parse(await readFile(path.join(dataDir, "record-page-index.json"), "utf8"));
-const dataset = JSON.parse(await readFile(path.join(dataDir, "full-dataset.json"), "utf8"));
-const shell = await readFile(path.join(dist, "index.html"), "utf8");
-const snapshotDate = dataset.snapshotDate ?? "";
+/**
+ * Loads everything the generator needs. Kept out of module scope on purpose:
+ * this file also exports pure helpers that the test suite imports, and `npm
+ * test` runs before `npm run build`, so reading dist/ on import made merely
+ * importing the module fail in CI.
+ */
+async function loadContext() {
+  const recordIndex = JSON.parse(await readFile(path.join(dataDir, "record-page-index.json"), "utf8"));
+  const dataset = JSON.parse(await readFile(path.join(dataDir, "full-dataset.json"), "utf8"));
+  const shell = await readFile(path.join(dist, "index.html"), "utf8");
 
-// Index every collection by id once, so each record's summary is a lookup.
-const summaryById = new Map();
-for (const rows of Object.values(dataset.data ?? {})) {
-  if (!Array.isArray(rows)) continue;
-  for (const row of rows) {
-    if (!row || typeof row !== "object") continue;
-    const key = row.id ?? row.iso3;
-    if (!key || summaryById.has(key)) continue;
-    const summary = row.summary ?? row.description ?? row.notes ?? row.status ?? "";
-    if (summary) summaryById.set(key, summary);
+  // Index every collection by id once, so each record's summary is a lookup.
+  const summaryById = new Map();
+  for (const rows of Object.values(dataset.data ?? {})) {
+    if (!Array.isArray(rows)) continue;
+    for (const row of rows) {
+      if (!row || typeof row !== "object") continue;
+      const key = row.id ?? row.iso3;
+      if (!key || summaryById.has(key)) continue;
+      const summary = row.summary ?? row.description ?? row.notes ?? row.status ?? "";
+      if (summary) summaryById.set(key, summary);
+    }
   }
+
+  return { recordIndex, shell, summaryById, snapshotDate: dataset.snapshotDate ?? "" };
 }
 
 /** Replace a tag's content if present, otherwise leave the shell untouched. */
@@ -74,7 +83,7 @@ function setMeta(html, pattern, replacement) {
   return pattern.test(html) ? html.replace(pattern, replacement) : html;
 }
 
-function buildPage(record) {
+function buildPage(record, { shell, summaryById, snapshotDate }) {
   const kindLabel = KIND_LABEL[record.kind] ?? "Record";
   const title = `${record.name} — ${kindLabel} | AI Governance Map`;
   const description = toDescription(
@@ -116,12 +125,13 @@ export { buildPage, toDescription };
 // Matches the CLI detection used in audit-sources.mjs; a hand-rolled file://
 // comparison silently fails on Windows, where the URL carries a drive letter.
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const context = await loadContext();
   let written = 0;
   await Promise.all(
-    recordIndex.map(async (record) => {
+    context.recordIndex.map(async (record) => {
       const dir = path.join(dist, record.kind, record.id);
       await mkdir(dir, { recursive: true });
-      await writeFile(path.join(dir, "index.html"), buildPage(record), "utf8");
+      await writeFile(path.join(dir, "index.html"), buildPage(record, context), "utf8");
       written += 1;
     })
   );
