@@ -13,7 +13,7 @@
     "data:public": "node scripts/write-public-data.mjs",
     "data:map-summary": "node scripts/generate-country-map-summaries.mjs",
     "data:seo": "node scripts/write-seo-files.mjs",
-    "build": "npm run data:map-summary && npm run data:public && npm run data:seo && tsc -b && vite build",
+    "build": "npm run data:map-summary && npm run data:public && npm run data:seo && tsc -b && vite build && npm run data:record-previews",
     "preview": "vite preview",
     "lint": "eslint .",
     "typecheck": "tsc -b --noEmit",
@@ -30,7 +30,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "data:og": "node scripts/generate-og-image.mjs",
-    "audit:manual-checks": "node scripts/check-manual-checks.mjs"
+    "audit:manual-checks": "node scripts/check-manual-checks.mjs",
+    "data:record-previews": "node scripts/write-record-previews.mjs"
   },
   "overrides": {
     "d3-color": "^3.1.0"
