@@ -76,6 +76,16 @@ export interface VerificationMetadata {
   sourceChain?: SourceChainEntry[];
   reviewStatus?: ExpertReviewStatus;
   reviewNotes?: string;
+  /**
+   * A public archive snapshot of `sourceUrl`, for sources that answer automated
+   * requests with a bot wall. The official URL stays canonical — this is
+   * corroborating evidence, and the thing that lets the link checker confirm a
+   * claim it would otherwise have to report as unverifiable. Link rot makes it
+   * useful even for sources that are reachable today.
+   */
+  archivedUrl?: string;
+  /** ISO date of the snapshot in `archivedUrl`. */
+  archivedAt?: string;
 }
 
 export interface NationalAIRegulation extends VerificationMetadata {

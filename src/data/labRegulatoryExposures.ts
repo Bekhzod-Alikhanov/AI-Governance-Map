@@ -17,6 +17,9 @@ type ExposureSource = {
   confidence: DataConfidence;
   lastVerified: string;
   verificationNotes?: string;
+  /** See `VerificationMetadata.archivedUrl` — same meaning, same purpose. */
+  archivedUrl?: string;
+  archivedAt?: string;
 };
 
 type ExposureSeed = {
@@ -127,6 +130,8 @@ const CANADA_AISI_SOURCE: ExposureSource = {
 const FR_AI_STRATEGY_SOURCE: ExposureSource = {
   sourceName: "French Ministry of Economy - National AI strategy",
   sourceUrl: "https://www.economie.gouv.fr/actualites/strategie-nationale-intelligence-artificielle",
+  archivedUrl: "https://web.archive.org/web/20260218221039/https://www.economie.gouv.fr/actualites/strategie-nationale-intelligence-artificielle",
+  archivedAt: "2026-02-18",
   sourceKind: "official",
   verificationStatus: "likely_correct",
   confidence: "medium",
@@ -193,6 +198,8 @@ const CHINA_LABELING_SOURCE: ExposureSource = {
 const ISO_42001_SOURCE: ExposureSource = {
   sourceName: "ISO - ISO/IEC 42001:2023",
   sourceUrl: "https://www.iso.org/standard/81230.html",
+  archivedUrl: "https://web.archive.org/web/20250612081233/https://www.iso.org/standard/81230.html",
+  archivedAt: "2025-06-12",
   sourceKind: "official",
   verificationStatus: "verified",
   confidence: "high",

@@ -71,6 +71,28 @@ describe("source URL integrity", () => {
     expect(conflicts).toEqual([]);
   });
 
+  it("points every archive snapshot at the source it claims to archive", () => {
+    // An archivedUrl is corroborating evidence for a specific claim. Pointed at
+    // the wrong page — or built with a timestamp nobody resolved — it is worse
+    // than absent, because the checker will report the record as verified.
+    const archived = COLLECTIONS.flatMap(({ name, rows }) =>
+      rows
+        .map((row) => row as Sourced & { archivedUrl?: string; archivedAt?: string })
+        .filter((row) => row.archivedUrl)
+        .map((row) => ({ ref: `${name}:${row.id}`, sourceUrl: row.sourceUrl ?? "", archived: row.archivedUrl!, at: row.archivedAt }))
+    );
+
+    expect(archived.length).toBeGreaterThan(0);
+    for (const row of archived) {
+      expect(row.archived).toMatch(/^https:\/\/web\.archive\.org\/web\/\d{14}\//);
+      // The snapshot must wrap this record's own source URL, not a near neighbour.
+      expect(row.archived.endsWith(row.sourceUrl)).toBe(true);
+      // archivedAt must agree with the timestamp embedded in the snapshot URL.
+      const stamp = row.archived.match(/\/web\/(\d{4})(\d{2})(\d{2})/);
+      expect(`${stamp?.[1]}-${stamp?.[2]}-${stamp?.[3]}`).toBe(row.at);
+    }
+  });
+
   it("keeps every source URL on HTTPS except the two known Russian exceptions", () => {
     const insecure = allRows
       .filter((row) => row.sourceUrl.startsWith("http://"))
