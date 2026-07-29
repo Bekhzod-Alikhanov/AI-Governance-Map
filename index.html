@@ -38,6 +38,23 @@
     />
     <meta name="twitter:image" content="https://global-ai-governance-map.vercel.app/og-image.png" />
 
+    <!-- Prerender a record page when the pointer settles on its link. The 543
+         record routes are static HTML, so this costs one cheap prefetch and
+         removes the navigation entirely when the guess is right. Ignored by
+         browsers without support. -->
+    <script type="speculationrules">
+      {
+        "prerender": [
+          {
+            "where": {
+              "href_matches": "/(country|lab|instrument|rule|obligation|exposure|institution|policy-process|standard|public-sector-ai|enforcement)/*"
+            },
+            "eagerness": "moderate"
+          }
+        ]
+      }
+    </script>
+
     <title>Global AI Governance Map</title>
   </head>
   <body>

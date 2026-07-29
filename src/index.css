@@ -160,3 +160,11 @@ button {
     transition: none;
   }
 }
+
+/* Collapsed Workbench sections keep their content in the DOM so it stays
+   searchable and linkable, but the browser can skip laying it out until it is
+   opened. Roughly 250 of the view's controls live behind these. */
+.workbench-section > div {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 400px;
+}

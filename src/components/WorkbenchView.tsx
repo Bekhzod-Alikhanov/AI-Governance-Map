@@ -1697,7 +1697,7 @@ function CollapsibleSection({
   children: React.ReactNode;
 }) {
   return (
-    <details className="mt-3 rounded-lg border border-canvas-line bg-white [&[open]>summary]:border-b [&[open]>summary]:border-canvas-line">
+    <details className="workbench-section mt-3 rounded-lg border border-canvas-line bg-white [&[open]>summary]:border-b [&[open]>summary]:border-canvas-line">
       <summary className="flex cursor-pointer items-center justify-between gap-3 px-3 py-2.5 text-left">
         <span className="min-w-0">
           <span className="block text-sm font-semibold text-ink-900">{summary}</span>
