@@ -98,7 +98,7 @@ export async function buildSourceAuditData({ checkLinks = false } = {}) {
 
   const linkCheckResults = checkLinks
     ? await checkLinksForRecords(records)
-    : { warnings: [], manualChecks: [], environmentWarnings: [] };
+    : { warnings: [], manualChecks: [], environmentWarnings: [], archiveVerified: [] };
 
   return {
     generatedAt: now.toISOString(),
@@ -113,6 +113,8 @@ export async function buildSourceAuditData({ checkLinks = false } = {}) {
     linkWarnings: linkCheckResults.warnings,
     manualLinkChecks: linkCheckResults.manualChecks,
     linkEnvironmentWarnings: linkCheckResults.environmentWarnings,
+    archiveVerified: linkCheckResults.archiveVerified ?? [],
+    archiveVerifiedCount: (linkCheckResults.archiveVerified ?? []).length,
   };
 }
 
@@ -126,6 +128,7 @@ function formatSourceAuditMarkdown(data) {
     `Link warnings: ${data.linkWarningCount}`,
     `Manual link checks: ${data.manualLinkCheckCount ?? 0}`,
     `Link environment warnings: ${data.linkEnvironmentWarningCount ?? 0}`,
+    `Verified via archive snapshot: ${data.archiveVerifiedCount ?? 0}`,
     "",
     "## Metadata Warnings",
     data.metadataWarnings.length
@@ -141,6 +144,11 @@ function formatSourceAuditMarkdown(data) {
     data.linkEnvironmentWarnings?.length
       ? data.linkEnvironmentWarnings.map((item) => `- ${item.message}`).join("\n")
       : "No link environment warnings.",
+    "",
+    "## Verified Via Archive Snapshot",
+    data.archiveVerified?.length
+      ? data.archiveVerified.map((item) => `- ${item}`).join("\n")
+      : "No archive fallbacks were needed.",
     "",
     "## Manual Link Checks",
     data.manualLinkChecks?.length
@@ -186,6 +194,8 @@ export function extractSourceRecordsFromText(text, file = "inline.ts") {
         pick(sourceContext, /"?sourceName"?:\s*"([^"]+)"/g) ??
         "Unnamed record",
       sourceUrl,
+      archivedUrl: pick(sourceContext, /"?archivedUrl"?:\s*"([^"]+)"/g),
+      archivedAt: pick(sourceContext, /"?archivedAt"?:\s*"([^"]+)"/g),
       sourceKind: metadata.sourceKind,
       verificationStatus: metadata.verificationStatus,
       confidence: metadata.confidence,
@@ -316,14 +326,38 @@ function formatWarning(warning) {
 }
 
 async function checkLinksForRecords(sourceRecords) {
-  const unique = [...new Map(sourceRecords.map((record) => [record.sourceUrl, record])).values()];
+  // Prefer a record carrying an archivedUrl when several share a source URL,
+  // so the archive fallback is not lost to deduplication.
+  const byUrl = new Map();
+  for (const record of sourceRecords) {
+    const existing = byUrl.get(record.sourceUrl);
+    if (!existing || (!existing.archivedUrl && record.archivedUrl)) byUrl.set(record.sourceUrl, record);
+  }
+  const unique = [...byUrl.values()];
   const warnings = [];
   const manualChecks = [];
+  const archiveVerified = [];
   let index = 0;
   const workers = Array.from({ length: 3 }, async () => {
     while (index < unique.length) {
       const record = unique[index++];
-      const result = await checkLink(record.sourceUrl);
+      let result = await checkLink(record.sourceUrl);
+      // Only fall back to the archive for a wall — an issuer refusing automation.
+      // A network or timeout failure says nothing about the source, and retrying
+      // those against archive.org doubles the request load for no information.
+      if (result && record.archivedUrl && !isNetworkEnvironmentFailure(result)) {
+        // The official URL stays canonical; the archive is what lets us confirm
+        // a claim the issuer's bot wall would otherwise make unverifiable.
+        const archiveResult = await checkLink(record.archivedUrl);
+        if (!archiveResult) {
+          archiveVerified.push(
+            `${record.file} :: ${record.id} :: live source is walled, verified via archive snapshot${record.archivedAt ? ` of ${record.archivedAt}` : ""}: ${record.archivedUrl}`
+          );
+          result = null;
+        } else {
+          result = `${result} (archive snapshot also unreachable: ${record.archivedUrl})`;
+        }
+      }
       if (!result) continue;
       const manualCheck = getManualLinkCheck(record);
       if (manualCheck && !isManualCheckExpired(manualCheck)) {
@@ -359,6 +393,7 @@ async function checkLinksForRecords(sourceRecords) {
     warnings: sortWarnings(warnings),
     manualChecks: sortWarnings(manualChecks),
     environmentWarnings: [],
+    archiveVerified: archiveVerified.sort(),
   };
 }
 

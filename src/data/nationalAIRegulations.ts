@@ -1096,6 +1096,8 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "Ministère de l'Économie — Stratégie nationale pour l'IA",
     sourceUrl: "https://www.economie.gouv.fr/actualites/strategie-nationale-intelligence-artificielle",
+    archivedUrl: "https://web.archive.org/web/20260218221039/https://www.economie.gouv.fr/actualites/strategie-nationale-intelligence-artificielle",
+    archivedAt: "2026-02-18",
     ...OFFICIAL_STRATEGY_REVIEWED,
   },
   {
@@ -1232,6 +1234,9 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     sourceName: "Government of Norway — National AI Strategy",
     sourceUrl:
       "https://www.regjeringen.no/contentassets/1febbbb2c4fd4b7d92c67ddd353b6ae8/en-gb/pdfs/ki-strategi_en.pdf",
+    archivedUrl:
+      "https://web.archive.org/web/20260724142925/https://www.regjeringen.no/contentassets/1febbbb2c4fd4b7d92c67ddd353b6ae8/en-gb/pdfs/ki-strategi_en.pdf",
+    archivedAt: "2026-07-24",
     ...OFFICIAL_STRATEGY_REVIEWED,
   },
   {
@@ -1388,6 +1393,8 @@ export const NATIONAL_AI_REGULATIONS: NationalAIRegulation[] = [
     frontierAIRelevant: true,
     sourceName: "U.AE — UAE National Strategy for AI 2031",
     sourceUrl: "https://ai.gov.ae/strategy/",
+    archivedUrl: "https://web.archive.org/web/20250911224832/https://ai.gov.ae/strategy/",
+    archivedAt: "2025-09-11",
     ...OFFICIAL_STRATEGY_REVIEWED,
   },
   {

@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { DEFAULT_SHAREABLE_STATE, parseShareableState, serializeShareableState } from "./urlState";
+import {
+  DEFAULT_SHAREABLE_STATE,
+  parseShareableState,
+  serializeShareableState,
+  type ShareableAppState,
+} from "./urlState";
 import { DEFAULT_FILTER_STATE, DEFAULT_WORKBENCH_STATE } from "../types";
 
 describe("shareable URL state", () => {
@@ -118,6 +123,54 @@ describe("shareable URL state", () => {
 
   it("falls back to the default map mode for an unknown value", () => {
     expect(parseShareableState("?mapMode=not-a-real-mode").mapMode).toBe("binding-law");
+  });
+
+  it("round-trips every field of the shareable state", () => {
+    // The guard that was missing when mapMode shipped as component state: a new
+    // key on ShareableAppState now fails here unless it also survives the URL.
+    // Each value below is deliberately different from the default, so a field
+    // that silently falls back to its default cannot pass.
+    const populated: ShareableAppState = {
+      lens: "table",
+      filters: {
+        ...DEFAULT_FILTER_STATE,
+        selectedInstrumentIds: ["eu-ai-act"],
+        selectedParticipationTypes: ["ratified"],
+        selectedBindingStatuses: ["binding_regulation"],
+        selectedOrganizations: ["EU"],
+        selectedRegions: ["Europe"],
+        selectedLabIds: ["openai"],
+        instrumentMatchMode: "AND",
+        hasBindingNationalLaw: "yes",
+        hasAnyAIRule: "no",
+        frontierAIRelevant: "yes",
+        selectedObligationCategories: ["incident_reporting"],
+        selectedDomains: ["frontier-gpai"],
+        selectedImplementationStatuses: ["in_force"],
+        searchQuery: "uzbekistan",
+      },
+      selectedIso3: "UZB",
+      selectedLabId: "anthropic",
+      mapMode: "enforcement-activity",
+      showLabs: false,
+      networkSelection: "eu-ai-act",
+      networkPreset: "standards-layer",
+      networkDensity: "sparse",
+      networkFrontierOnly: true,
+      timelineLane: "subnational",
+      workbench: {
+        ...DEFAULT_WORKBENCH_STATE,
+        compareKind: "instrument",
+        compareId: "eu-ai-act",
+        activeQuestionId: "coe-signed-ratified",
+      },
+    };
+
+    const parsed = parseShareableState(serializeShareableState(populated));
+
+    for (const key of Object.keys(populated) as Array<keyof ShareableAppState>) {
+      expect({ key, value: parsed[key] }).toEqual({ key, value: populated[key] });
+    }
   });
 
   it("carries the subnational timeline lane so it is shareable", () => {

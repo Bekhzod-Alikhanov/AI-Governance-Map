@@ -837,7 +837,9 @@ export const STANDARDS_CONFORMITY_RECORDS: StandardsConformityRecord[] = [
       "International AI management-system standard for establishing, implementing, maintaining, and improving AI governance processes.",
     caveat: STANDARDS_CAVEAT,
     sourceName: "ISO - ISO/IEC 42001:2023",
-    sourceUrl: "https://www.iso.org/standard/42001",
+    sourceUrl: "https://www.iso.org/standard/81230.html",
+    archivedUrl: "https://web.archive.org/web/20250612081233/https://www.iso.org/standard/81230.html",
+    archivedAt: "2025-06-12",
     verificationNotes:
       "Official ISO page identifies ISO/IEC 42001:2023 as a published international AI management-system standard.",
     ...VERIFIED_OFFICIAL,
@@ -1008,6 +1010,8 @@ export const STANDARDS_CONFORMITY_RECORDS: StandardsConformityRecord[] = [
       "Issuer-controlled standards-body source; this is voluntary standards context unless incorporated by law or contract.",
     sourceName: "ISO - ISO/IEC 23894:2023",
     sourceUrl: "https://www.iso.org/standard/77304.html",
+    archivedUrl: "https://web.archive.org/web/20260722234723/https://www.iso.org/standard/77304.html",
+    archivedAt: "2026-07-22",
     verificationNotes:
       "Official ISO page identifies ISO/IEC 23894:2023 as a published international standard and describes AI risk-management guidance.",
     ...VERIFIED_OFFICIAL_2026_06_11,
@@ -1026,7 +1030,9 @@ export const STANDARDS_CONFORMITY_RECORDS: StandardsConformityRecord[] = [
     caveat:
       "Issuer-controlled standards-body source; this is voluntary standards context unless incorporated by law or contract.",
     sourceName: "ISO - ISO/IEC 42005:2025",
-    sourceUrl: "https://www.iso.org/standard/42005",
+    sourceUrl: "https://www.iso.org/standard/44545.html",
+    archivedUrl: "https://web.archive.org/web/20241231101452/https://www.iso.org/standard/44545.html",
+    archivedAt: "2024-12-31",
     verificationNotes:
       "Official ISO page identifies ISO/IEC 42005:2025 as a published international standard and describes AI system impact-assessment guidance.",
     ...VERIFIED_OFFICIAL_2026_06_11,

@@ -215,7 +215,9 @@ export function parseShareableState(search: string): ShareableAppState {
     selectedIso3,
     selectedLabId,
     mapMode: enumValue(params.get("mapMode"), MAP_MODES, DEFAULT_SHAREABLE_STATE.mapMode),
-    showLabs: params.get("labs") !== "0",
+    // Distinct from the "labs" filter key: sharing both a lab filter and hidden
+    // pins in one URL previously collided, and the filter lost.
+    showLabs: params.get("pins") !== "0",
     networkSelection,
     networkPreset: enumValue(params.get("network"), NETWORK_PRESETS, "all"),
     networkDensity: enumValue(params.get("density"), NETWORK_DENSITIES, "all"),
@@ -255,7 +257,7 @@ export function serializeShareableState(state: ShareableAppState): string {
   if (state.selectedIso3) params.set("country", state.selectedIso3);
   if (state.selectedLabId) params.set("lab", state.selectedLabId);
   if (state.mapMode !== DEFAULT_SHAREABLE_STATE.mapMode) params.set("mapMode", state.mapMode);
-  if (!state.showLabs) params.set("labs", "0");
+  if (!state.showLabs) params.set("pins", "0");
   if (state.networkSelection) params.set("node", state.networkSelection);
   if (state.networkPreset !== "all") params.set("network", state.networkPreset);
   if (state.networkDensity !== "all") params.set("density", state.networkDensity);
