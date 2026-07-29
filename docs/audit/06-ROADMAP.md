@@ -18,7 +18,7 @@ F-01 · F-02 · F-03 · F-05 · F-06 · F-07 · F-08 · F-09 · F-10 · F-11 · 
 **Why:** `vercel.json` headers cannot be exercised locally, so the CSP is the one change shipped unverified. A too-strict `script-src` would white-screen the site.
 **Acceptance:** on the Vercel preview URL, the app renders, the console has no CSP violations, and `/embed/country/USA` still loads inside an `<iframe>` on a third-party origin.
 
-### ◐ N3 — Triage the anti-bot-walled sources — **mechanism done, 16 need a human** (see [09-SOURCE-TRIAGE](09-SOURCE-TRIAGE.md))
+### ◐ N3 — Triage the anti-bot-walled sources — **10 verified via archive, 5 need a human** (see [09-SOURCE-TRIAGE](09-SOURCE-TRIAGE.md))
 **Why:** the content-aware link checker (F-11) surfaced 24 official sources — ISO, MOFA ×2, Council of the EU, OECD iLibrary and others — that return a wall rather than the document. They were reported healthy for as long as the checker existed.
 **Acceptance:** each of the 24 either resolves in a browser and gets a `sourceLinkManualChecks.json` entry with an `expiresOn` date, or is replaced with a reachable official mirror, or is marked `superseded`. `npm run audit:source-links` warnings drop to the residual set.
 **Note:** this is human verification work. It cannot be automated, and it should not be faked.
@@ -46,8 +46,12 @@ The Network no longer sizes by it (F-09), but it still drives **map pin size** a
 ### L1 — Ego-network in the side panel
 [04-VIEW-PORTFOLIO](04-VIEW-PORTFOLIO.md) rated Network `KEEP but redesign` at **Medium** confidence, with the open question of whether a 1–2 hop ego-network belongs in the country/lab panel instead of a top-level view. Build it in the panel first; if it satisfies the "who is connected to whom" question there, delete the global graph and reclaim a nav slot plus the `d3-force` chunk.
 
-### L2 — Consolidate the shareable state
-`App.tsx` still owns ~20 `useState` hooks (F-23). Both F-02 and F-05 were symptoms: no single place knew what "the current view" was, so things got forgotten when serialising. One reducer whose output *is* the URL would prevent the next instance.
+### ◐ L2 — Consolidate the shareable state — **guard shipped, refactor not done**
+`App.tsx` still owns ~20 `useState` hooks (F-23). Both F-02 and F-05 were symptoms: no single place knew what "the current view" was, so things got forgotten when serialising.
+
+A round-trip test now asserts every `ShareableAppState` field survives the URL, which is the guarantee the refactor existed to provide — and it found a real bug on its first run (`showLabs` and `filters.selectedLabIds` both serialised to `labs`, so hiding lab pins destroyed the lab filter).
+
+The reducer consolidation itself is still open. It is `[taste]`, not a defect, and restructuring 20 hooks in a 900-line file is worth doing deliberately rather than at the end of a long session.
 
 ### ✅ L3 — An honest staleness treatment — **done**
 `DATA_SNAPSHOT_DATE` is now correct and test-enforced, but nothing tells a reader a record is ageing. Surface per-record age in panels and dossiers, and make CI fail on expired manual-verification overrides — the mechanism that would have caught the CoE lapse.

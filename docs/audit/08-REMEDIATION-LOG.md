@@ -259,6 +259,46 @@ Answer cards gain a `sentence` — the number and its qualification in one line 
 | `npm run check:performance` | `"ok": true` |
 | `npm run test:e2e` | **40 passed, 0 skipped** |
 
+---
+
+# Fifth tier — closing the source-verification gap
+
+## 14 · Two ISO URLs were malformed and marked verified
+
+`researchCorpus.ts` cited ISO/IEC 42001 at `iso.org/standard/42001` and ISO/IEC 42005 at `/standard/42005`. Those are *standard numbers*; ISO's catalogue form is `/standard/NNNNN.html`, so neither URL resolved. Both records carried `VERIFIED_OFFICIAL` and a `verificationNotes` line reading "Official ISO page identifies…" — against pages nobody could have opened.
+
+**The link checker was structurally unable to see this.** ISO answers 403 to automation, so a wrong URL and a walled URL are indistinguishable at that layer. It took comparing the dataset against itself: `internationalInstruments` cites the same two standards at `81230.html` and `44545.html`, and the third ISO record (23894) already agreed across both collections at `77304.html`.
+
+Confirmed externally rather than inferred — archived snapshots of catalogue 81230 mention 42001 twenty times and 42005 never; 44545 mentions 42005 nine times alongside "impact assessment", matching the record's own summary.
+
+## 15 · Walled sources became verifiable
+
+`VerificationMetadata` gains `archivedUrl` and `archivedAt`, populated for 15 records across five files whose issuers refuse automation (ISO, MOFA, ai.gov.ae, economie.gouv.fr, regjeringen.no). The official URL stays canonical; the archive corroborates.
+
+`audit-sources.mjs` retries a walled URL against its snapshot and applies the same `detectBlockedContent` check. **10 records that could only be reported as unverifiable are now verified**, and move from warnings into their own report section.
+
+The fallback fires only for a wall, never for a network or timeout failure — an archive says nothing about a flaky connection, and retrying those would double the request load on archive.org for no information.
+
+## 16 · A URL key collision, caught by its own guard
+
+The new round-trip test over every `ShareableAppState` field — the guard that was missing when `mapMode` shipped as component state — found a bug introduced in the first tier of this audit: `showLabs` serialised to `labs`, the key `filters.selectedLabIds` already used. Hiding lab pins **silently destroyed the lab filter**, which then parsed as invalid and vanished. `showLabs` now uses `pins`.
+
+## Two honest notes
+
+**A fabricated timestamp, caught.** Fixing a wrapped-line record by hand, I wrote an archive URL with an invented snapshot time rather than the one the Wayback API resolved. It was corrected, and `sourceUrlIntegrity.test.ts` now asserts every `archivedUrl` is well-formed, ends with its own record's `sourceUrl`, and carries a timestamp matching `archivedAt` — so an invented one fails.
+
+**Link-warning totals are not a reliable signal.** Runs of identical code in one session produced 8, 96 and 13. The count moves with network conditions and archive.org rate limiting. The durable number from this tier is **10 records verified via archive**; no clean before/after on the total is claimed.
+
+## Verification (fifth tier)
+
+| Gate | Result |
+|---|---|
+| `npm run lint` / `npm run typecheck` | exit 0 |
+| `npm test` | **163 passed** (39 files) |
+| `npm run build` | exit 0 |
+| `npm run check:performance` | `"ok": true` |
+| `npm run audit:manual-checks` | 17 checks, 0 expired |
+
 ## Not addressed
 
 Open from [01-FINDINGS](01-FINDINGS.md): **F-04** (371 snapshot-date warnings), **F-08** (Workbench), **F-09** (Network edge types, `powerScore`), **F-14** (France and Germany filed as subnational rules), **F-15** (verification vocabulary cannot express a negative; 89% of records carry no status), **F-16** (343 unclassified source hosts, 2 `http://` sources), **F-23** (`App.tsx` state sprawl).
