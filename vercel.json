@@ -7,40 +7,118 @@
     {
       "source": "/embed/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "geolocation=(), microphone=(), camera=(), payment=()" },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(), microphone=(), camera=(), payment=(), interest-cohort=()"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "cross-origin"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'; frame-ancestors *"
+          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'; upgrade-insecure-requests; require-trusted-types-for 'script'; frame-ancestors *"
         }
       ]
     },
     {
       "source": "/((?!embed/).*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "geolocation=(), microphone=(), camera=(), payment=()" },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(), microphone=(), camera=(), payment=(), interest-cohort=()"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'; frame-ancestors 'self'"
+          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'; upgrade-insecure-requests; require-trusted-types-for 'script'; frame-ancestors 'self'"
         }
       ]
     }
   ],
   "rewrites": [
-    { "source": "/country/:path*", "destination": "/index.html" },
-    { "source": "/lab/:path*", "destination": "/index.html" },
-    { "source": "/instrument/:path*", "destination": "/index.html" },
-    { "source": "/rule/:path*", "destination": "/index.html" },
-    { "source": "/obligation/:path*", "destination": "/index.html" },
-    { "source": "/exposure/:path*", "destination": "/index.html" },
-    { "source": "/institution/:path*", "destination": "/index.html" },
-    { "source": "/policy-process/:path*", "destination": "/index.html" },
-    { "source": "/standard/:path*", "destination": "/index.html" },
-    { "source": "/public-sector-ai/:path*", "destination": "/index.html" },
-    { "source": "/enforcement/:path*", "destination": "/index.html" },
-    { "source": "/embed/:path*", "destination": "/index.html" }
+    {
+      "source": "/country/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/lab/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/instrument/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/rule/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/obligation/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/exposure/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/institution/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/policy-process/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/standard/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/public-sector-ai/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/enforcement/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/embed/:path*",
+      "destination": "/index.html"
+    }
   ]
 }
