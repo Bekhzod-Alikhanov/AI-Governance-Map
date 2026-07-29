@@ -42,7 +42,7 @@ test.describe("visual regression baselines", () => {
     // Target the projection explicitly. "first svg in main" silently captured a
     // control-button icon once the control cluster moved ahead of the map in DOM
     // order for keyboard focus.
-    const mapSvg = page.locator("#main-content svg.rsm-svg");
+    const mapSvg = page.locator("#main-content svg.world-map");
     await expect(page.getByLabel("Map color mode")).toBeVisible();
     await expect(mapSvg).toBeVisible();
     await expect(mapSvg).toHaveScreenshot("map-overview-svg.png", {

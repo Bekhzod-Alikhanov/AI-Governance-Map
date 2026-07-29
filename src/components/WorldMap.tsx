@@ -1,36 +1,19 @@
 import { useMemo, useRef, useState, useEffect } from "react";
-import { geoEqualEarth, geoPath, type GeoPermissibleObjects, type GeoProjection } from "d3-geo";
-import { ComposableMap, Geographies, Geography, Sphere, Graticule } from "react-simple-maps";
-import type { ProjectionFunction } from "react-simple-maps";
-import { feature } from "topojson-client";
-import type { Feature } from "geojson";
-import type { GeometryCollection, Topology } from "topojson-specification";
+import { geoEqualEarth, geoGraticule, geoPath, type GeoPermissibleObjects, type GeoProjection } from "d3-geo";
 import type { FilterState, FrontierLab, MapFitTarget, MapModeId } from "../types";
-import { numericToAlpha3 } from "../utils/normalizeCountry";
+import {
+  featureIso3,
+  loadWorldTopology,
+  type WorldTopology,
+} from "../utils/worldTopology";
 import { COUNTRY_BY_ISO3 } from "../data/countries";
 import { filterCountries } from "../utils/filterCountries";
 import { getMapStyle } from "../utils/getMapColor";
 import { FRONTIER_LABS } from "../data/frontierLabs";
 import { LAB_COORDINATES, LabPin } from "./LabPin";
 import { activateOnKeyboard } from "../utils/keyboardActivation";
-// Bundle the world topojson locally — eliminates the unpkg round-trip and
-// removes a known cause of first-paint stall when the CDN is slow/offline.
-import worldTopo from "world-atlas/countries-110m.json";
-
-const GEO_DATA = worldTopo as unknown as Parameters<typeof Geographies>[0]["geography"];
-const TOPOLOGY = worldTopo as unknown as Topology<{ countries: GeometryCollection }>;
-type CountryFeature = Feature & {
-  id?: string | number;
-  properties?: { id?: string | number } | null;
-};
-const RAW_COUNTRY_FEATURES = feature(TOPOLOGY, TOPOLOGY.objects.countries) as unknown as {
-  type: "FeatureCollection";
-  features: CountryFeature[];
-};
-const FITTED_COUNTRY_FEATURES = {
-  ...RAW_COUNTRY_FEATURES,
-  features: RAW_COUNTRY_FEATURES.features.filter((geo) => featureIso3(geo) !== "ATA"),
-} as unknown as GeoPermissibleObjects;
+const GRATICULE = geoGraticule().step([20, 20])();
+const SPHERE = { type: "Sphere" } as const;
 const MAP_SIDE_PADDING = 8;
 const MAP_TOP_PADDING = 2;
 const MAP_BOTTOM_PADDING = 6;
@@ -42,16 +25,6 @@ const FIT_MOBILE_TOP_PADDING = 60;
 const FIT_MOBILE_BOTTOM_PADDING = 132;
 const FIT_TOP_SLACK = 16;
 const FIT_POINT_PADDING = 26;
-
-const BASE_COUNTRY_BOUNDS = geoPath(
-  geoEqualEarth().scale(1).center([10, 10]).translate([0, 0])
-).bounds(FITTED_COUNTRY_FEATURES);
-
-const COUNTRY_FEATURE_BY_ISO3 = new Map<string, CountryFeature>();
-for (const geo of RAW_COUNTRY_FEATURES.features) {
-  const iso3 = featureIso3(geo);
-  if (iso3) COUNTRY_FEATURE_BY_ISO3.set(iso3, geo);
-}
 
 interface Props {
   filters: FilterState;
@@ -101,6 +74,22 @@ export function WorldMap({
     key: "",
     offset: [0, 0],
   });
+  const [topology, setTopology] = useState<WorldTopology | null>(null);
+  const [topologyError, setTopologyError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    loadWorldTopology()
+      .then((loaded) => {
+        if (!cancelled) setTopology(loaded);
+      })
+      .catch((error: unknown) => {
+        if (!cancelled) setTopologyError(error instanceof Error ? error.message : "Unknown error");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const el = wrapperRef.current;
@@ -122,7 +111,10 @@ export function WorldMap({
   }, [filters]);
 
   const projection = useMemo<GeoProjection>(() => {
-    const [[x0, y0], [x1, y1]] = BASE_COUNTRY_BOUNDS;
+    const [[x0, y0], [x1, y1]] = topology?.baseBounds ?? [
+      [0, 0],
+      [1, 1],
+    ];
     const boundedWidth = x1 - x0;
     const boundedHeight = y1 - y0;
     const availableWidth = Math.max(1, dims.width - MAP_SIDE_PADDING * 2);
@@ -139,17 +131,25 @@ export function WorldMap({
         dims.width / 2 - ((x0 + x1) / 2) * scale,
         MAP_TOP_PADDING - y0 * scale,
       ]);
-  }, [dims.width, dims.height, scaleBoost]);
+  }, [dims.width, dims.height, scaleBoost, topology]);
 
   const projectedCountryBounds = useMemo(
-    () => geoPath(projection).bounds(FITTED_COUNTRY_FEATURES),
-    [projection]
+    () =>
+      topology
+        ? geoPath(projection).bounds(topology.fitted)
+        : ([
+            [0, 0],
+            [dims.width, dims.height],
+          ] as [[number, number], [number, number]]),
+    [projection, topology, dims.width, dims.height]
   );
 
+  const pathGenerator = useMemo(() => geoPath(projection), [projection]);
+
   const projectedFitBounds = useMemo(() => {
-    if (!mapFitTarget) return null;
-    return getProjectedFitBounds(mapFitTarget, projection);
-  }, [mapFitTarget, projection]);
+    if (!mapFitTarget || !topology) return null;
+    return getProjectedFitBounds(mapFitTarget, projection, topology);
+  }, [mapFitTarget, projection, topology]);
 
   const baseMapTransform = useMemo(() => {
     if (projectedFitBounds) {
@@ -255,36 +255,44 @@ export function WorldMap({
       onPointerCancel={endPointerDrag}
       className="relative h-full w-full overflow-hidden bg-canvas-surface"
     >
-      <ComposableMap
-        projection={projection as unknown as ProjectionFunction}
+      {topologyError && (
+        <p role="alert" className="absolute inset-x-0 top-1/2 px-6 text-center text-sm text-ink-700">
+          The world map could not load ({topologyError}). The country list under &ldquo;Country
+          list&rdquo; lists the same data as text.
+        </p>
+      )}
+      <svg
+        className="world-map h-full w-full"
+        viewBox={`0 0 ${dims.width} ${dims.height}`}
         width={dims.width}
         height={dims.height}
-        style={{ width: "100%", height: "100%" }}
+        // Not role="img": the map contains 167 focusable country buttons, and
+        // role="img" declares the whole SVG one indivisible graphic, which axe
+        // correctly flags as nested-interactive. A group names the collection
+        // without claiming its children are decorative.
+        role="group"
+        aria-label="World map of AI governance status. Each country is a button."
       >
         <g
           transform={`translate(${appliedMapTransform.x} ${appliedMapTransform.y}) scale(${appliedMapTransform.k})`}
         >
-          <Sphere id="globe-sphere" stroke="#E2E8F0" strokeWidth={0.5} fill="#F8FAFC" />
-          <Graticule stroke="#E2E8F0" strokeWidth={0.4} step={[20, 20]} />
-          <Geographies geography={GEO_DATA}>
-            {({ geographies }) =>
-              geographies.map((geo) => {
-                const numericId = (geo.id as string) ?? geo.properties?.id;
-                const iso3 = numericToAlpha3(numericId);
-                if (iso3 === "ATA") return null;
-                if (!iso3 || !COUNTRY_BY_ISO3[iso3]) {
-                  return (
-                    <Geography
-                      key={geo.rsmKey}
-                      geography={geo}
-                      style={{
-                        default: { fill: "#E5E7EB", stroke: "#CBD5E1", strokeWidth: 0.4, outline: "none" },
-                        hover: { fill: "#E5E7EB", outline: "none" },
-                        pressed: { fill: "#E5E7EB", outline: "none" },
-                      }}
-                    />
-                  );
-                }
+          <path d={pathGenerator(SPHERE) ?? undefined} stroke="#E2E8F0" strokeWidth={0.5} fill="#F8FAFC" />
+          <path d={pathGenerator(GRATICULE) ?? undefined} stroke="#E2E8F0" strokeWidth={0.4} fill="none" />
+          {(topology?.features ?? []).map((geo, index) => {
+            const iso3 = featureIso3(geo);
+            const d = pathGenerator(geo as GeoPermissibleObjects);
+            if (!d || iso3 === "ATA") return null;
+            if (!iso3 || !COUNTRY_BY_ISO3[iso3]) {
+              return (
+                <path
+                  key={`unmapped-${index}`}
+                  d={d}
+                  fill="#E5E7EB"
+                  stroke="#CBD5E1"
+                  strokeWidth={0.4}
+                />
+              );
+            }
 
                 const matches = matchByIso[iso3] ?? true;
                 const style = getMapStyle(iso3, filters, matches, mapMode, contextFillByIso3?.[iso3]);
@@ -292,9 +300,10 @@ export function WorldMap({
                 const hoverFill = adjustColor(style.fill, -10);
 
                 return (
-                  <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
+                  <path
+                    key={iso3}
+                    d={d}
+                    className="world-map__country"
                     onClick={() => {
                       if (suppressClickRef.current) return;
                       onSelectCountry(iso3);
@@ -320,47 +329,35 @@ export function WorldMap({
                     role="button"
                     tabIndex={0}
                     aria-label={`${COUNTRY_BY_ISO3[iso3].name} - open country details`}
-                    style={{
-                      default: {
-                        fill: style.fill,
+                    style={
+                      {
+                        // Hover is CSS, not React state: re-rendering 179 paths on
+                        // every pointer move is what a custom property avoids.
+                        "--country-fill": style.fill,
+                        "--country-hover-fill": hoverFill,
                         stroke: isSelected ? "#0F172A" : style.outline,
                         strokeWidth: isSelected ? 1.5 : style.strokeWidth,
                         strokeDasharray: style.strokeDasharray,
                         opacity: style.opacity,
-                        outline: "none",
-                        cursor: "pointer",
-                        transition: "fill 120ms ease-out, opacity 120ms ease-out",
-                      },
-                      hover: {
-                        fill: hoverFill,
-                        stroke: "#0F172A",
-                        strokeWidth: 1.2,
-                        opacity: 1,
-                        outline: "none",
-                        cursor: "pointer",
-                      },
-                      pressed: {
-                        fill: hoverFill,
-                        stroke: "#0F172A",
-                        strokeWidth: 1.5,
-                        outline: "none",
-                      },
-                    }}
+                      } as React.CSSProperties
+                    }
                   />
                 );
-              })
-            }
-          </Geographies>
+          })}
 
           {showLabs &&
             FRONTIER_LABS.map((lab) => {
               const dimmed =
                 filters.selectedLabIds.length > 0 &&
                 !filters.selectedLabIds.includes(lab.id);
+              const coords = LAB_COORDINATES[lab.id];
+              const projected = coords ? projection(coords) : null;
+              if (!projected) return null;
               return (
                 <LabPin
                   key={lab.id}
                   lab={lab}
+                  position={projected}
                   selected={selectedLabId === lab.id}
                   dimmed={dimmed}
                   onClick={(id) => {
@@ -376,21 +373,17 @@ export function WorldMap({
               );
             })}
         </g>
-      </ComposableMap>
+      </svg>
     </div>
   );
 }
 
-function featureIso3(geo: { id?: string | number; properties?: { id?: string | number } | null }) {
-  return numericToAlpha3(geo.id ?? geo.properties?.id);
-}
-
-function getProjectedFitBounds(target: MapFitTarget, projection: GeoProjection) {
+function getProjectedFitBounds(target: MapFitTarget, projection: GeoProjection, topology: WorldTopology) {
   const path = geoPath(projection);
   const bounds: Array<[[number, number], [number, number]]> = [];
 
   for (const iso3 of target.countryIso3s) {
-    const geo = COUNTRY_FEATURE_BY_ISO3.get(iso3);
+    const geo = topology.byIso3.get(iso3);
     if (!geo) continue;
     bounds.push(path.bounds(geo as GeoPermissibleObjects));
   }
