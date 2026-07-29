@@ -22,7 +22,6 @@ export default defineConfig({
             )
               return "d3-force";
             if (normalizedId.includes("/d3-") || normalizedId.includes("/topojson-")) return "d3";
-            if (normalizedId.includes("/world-atlas/") || normalizedId.includes("/react-simple-maps/")) return "map";
           }
         },
       },

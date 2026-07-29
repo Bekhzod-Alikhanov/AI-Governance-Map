@@ -1,7 +1,6 @@
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { describe, expect, it } from "vitest";
-import { ComposableMap } from "react-simple-maps";
 import { LabPin } from "./LabPin";
 import { FRONTIER_LABS } from "../data/frontierLabs";
 
@@ -13,9 +12,9 @@ function radiiFor(labId: string): string[] {
   const root = createRoot(container);
   act(() => {
     root.render(
-      <ComposableMap>
-        <LabPin lab={lab} selected={false} onClick={() => {}} />
-      </ComposableMap>
+      <svg>
+        <LabPin lab={lab} position={[100, 100]} selected={false} onClick={() => {}} />
+      </svg>
     );
   });
   const radii = [...container.querySelectorAll("circle")].map((c) => c.getAttribute("r") ?? "");

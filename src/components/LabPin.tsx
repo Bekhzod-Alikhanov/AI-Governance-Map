@@ -1,4 +1,3 @@
-import { Marker } from "react-simple-maps";
 import clsx from "clsx";
 import type { FrontierLab } from "../types";
 import { activateOnKeyboard } from "../utils/keyboardActivation";
@@ -33,6 +32,8 @@ const LAB_PIN_OFFSETS: Record<string, [number, number]> = {
 
 interface Props {
   lab: FrontierLab;
+  /** Already-projected [x, y] in SVG space. */
+  position: [number, number];
   selected: boolean;
   dimmed?: boolean;
   onClick: (id: string) => void;
@@ -42,9 +43,8 @@ interface Props {
 /** Uniform pin radius: lab pins no longer encode an editorial score. */
 const LAB_PIN_RADIUS = 7;
 
-export function LabPin({ lab, selected, dimmed, onClick, onHover }: Props) {
-  const coords = LAB_COORDINATES[lab.id];
-  if (!coords) return null;
+export function LabPin({ lab, position, selected, dimmed, onClick, onHover }: Props) {
+
 
   // Every lab pin is the same size. Area is read pre-attentively, so encoding a
   // hand-assigned 1-5 editorial score in it made the least defensible number in
@@ -55,7 +55,7 @@ export function LabPin({ lab, selected, dimmed, onClick, onHover }: Props) {
   const [dx, dy] = LAB_PIN_OFFSETS[lab.id] ?? [0, 0];
 
   return (
-    <Marker coordinates={coords}>
+    <g transform={`translate(${position[0]} ${position[1]})`}>
       <g
         transform={`translate(${dx} ${dy})`}
         style={{ cursor: "pointer", opacity: dimmed ? 0.35 : 1, transition: "opacity 120ms" }}
@@ -88,6 +88,6 @@ export function LabPin({ lab, selected, dimmed, onClick, onHover }: Props) {
           strokeWidth={1.5}
         />
       </g>
-    </Marker>
+    </g>
   );
 }

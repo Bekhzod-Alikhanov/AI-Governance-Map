@@ -136,3 +136,28 @@ button {
     box-shadow: none !important;
   }
 }
+
+/* Country hover is handled in CSS rather than React state. react-simple-maps
+   tracked hover in a component, which re-rendered every path on pointer move;
+   custom properties let the browser do it with no JavaScript at all. */
+.world-map__country {
+  fill: var(--country-fill);
+  cursor: pointer;
+  outline: none;
+  transition: fill 120ms ease-out, opacity 120ms ease-out;
+}
+
+.world-map__country:hover,
+.world-map__country:focus-visible {
+  fill: var(--country-hover-fill);
+  stroke: #0f172a;
+  stroke-width: 1.2;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-map__country {
+    transition: none;
+  }
+}
+
