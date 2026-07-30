@@ -1,6 +1,5 @@
 import { FRONTIER_LABS, LAB_BY_ID } from "../data/frontierLabs";
 import {
-  COMPUTE_DEPENDENCY_RECORDS,
   COMPUTE_DEPENDENCY_RECORDS_BY_LAB,
   INCIDENT_ENFORCEMENT_RECORDS_BY_LAB,
   LAB_INTELLIGENCE_BY_LAB,
@@ -126,10 +125,6 @@ export function renderLabBoardCsv(rows = buildLabBoardRows()): string {
     ]),
   ];
   return csvRows.map((row) => row.map(csvCell).join(",")).join("\n");
-}
-
-export function getComputeDependencyRecordsForInfrastructure(infrastructureId: string) {
-  return COMPUTE_DEPENDENCY_RECORDS.filter((record) => record.infrastructureId === infrastructureId);
 }
 
 function csvCell(value: string): string {

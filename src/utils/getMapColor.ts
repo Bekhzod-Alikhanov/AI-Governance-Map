@@ -137,12 +137,6 @@ function getMapModeStyle(
     if (summary.hasNextImplementationDeadline) fill = "#EA580C";
     else if (summary.hasInForceImplementation) fill = "#16A34A";
     else if (summary.implementationStatuses.length) fill = "#FDBA74";
-  } else if (mapMode === "source-confidence") {
-    if (summary.sourceConfidence === "low") fill = "#FCA5A5";
-    else if (summary.sourceConfidence === "medium") fill = "#FCD34D";
-    else if (summary.sourceConfidence === "high") fill = "#86EFAC";
-  } else if (mapMode === "frontier-relevance") {
-    fill = summary.hasFrontierAIRelevant ? "#1D4ED8" : FILL.empty;
   } else {
     fill = contextFill ?? FILL.empty;
   }

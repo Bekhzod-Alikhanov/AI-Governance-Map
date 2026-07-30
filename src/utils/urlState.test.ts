@@ -125,6 +125,20 @@ describe("shareable URL state", () => {
     expect(parseShareableState("?mapMode=not-a-real-mode").mapMode).toBe("binding-law");
   });
 
+  it("resolves retired map modes to the default instead of breaking the link", () => {
+    // All three shipped as pickable modes and are therefore in the wild as
+    // citable URLs. Each was retired because it could not differentiate any
+    // country from any other: `frontier-relevance` painted all 192 countries
+    // one colour (`hasFrontierAIRelevant` is true for every country) and
+    // `source-confidence` painted all 192 another (`sourceConfidence` is
+    // "medium" for every country), both by construction; `ai-vibrancy` put 65
+    // of its 66 scored countries in a single bucket. A retired mode must land
+    // on Geography with the default colouring, never on an error.
+    for (const retired of ["frontier-relevance", "source-confidence", "ai-vibrancy"]) {
+      expect(parseShareableState(`?mapMode=${retired}`).mapMode).toBe("binding-law");
+    }
+  });
+
   it("round-trips every field of the shareable state", () => {
     // The guard that was missing when mapMode shipped as component state: a new
     // key on ShareableAppState now fails here unless it also survives the URL.

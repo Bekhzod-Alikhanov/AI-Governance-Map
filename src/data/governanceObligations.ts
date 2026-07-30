@@ -1,7 +1,6 @@
 import type {
   GovernanceObligation,
   ObligationCategory,
-  ObligationLegalEffect,
 } from "../types";
 
 const VERIFIED = {
@@ -35,15 +34,6 @@ export const OBLIGATION_CATEGORY_LABELS: Record<ObligationCategory, string> = {
   safety_framework_publication: "Safety framework publication",
 };
 
-export const OBLIGATION_EFFECT_LABELS: Record<ObligationLegalEffect, string> = {
-  binding: "Binding",
-  proposed: "Proposed",
-  voluntary: "Voluntary",
-  standard: "Standard",
-  guidance: "Guidance",
-  conditional: "Conditional",
-  indirect: "Indirect",
-};
 
 export const GOVERNANCE_OBLIGATIONS: GovernanceObligation[] = [
   {
@@ -407,6 +397,3 @@ export const OBLIGATIONS_BY_PARENT = GOVERNANCE_OBLIGATIONS.reduce(
   {} as Record<string, GovernanceObligation[]>
 );
 
-export function getObligationsForParent(parentType: GovernanceObligation["parentType"], parentId: string) {
-  return OBLIGATIONS_BY_PARENT[`${parentType}:${parentId}`] ?? [];
-}

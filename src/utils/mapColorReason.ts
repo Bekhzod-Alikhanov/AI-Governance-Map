@@ -72,31 +72,6 @@ export function buildGovernanceColorReason(
         };
   }
 
-  if (mapMode === "source-confidence") {
-    const confidence =
-      summary.sourceConfidence === "low"
-        ? "Contains lower-confidence legal/source records"
-        : summary.sourceConfidence === "medium" || summary.sourceConfidence === "high"
-          ? "Tracked records are medium/high confidence"
-          : "No source-confidence signal";
-    return {
-      label: confidence,
-      detail: "Source-confidence mode is about verification metadata, not the legal strength of an instrument.",
-    };
-  }
-
-  if (mapMode === "frontier-relevance") {
-    return summary.hasFrontierAIRelevant
-      ? {
-          label: "Frontier-relevant governance context",
-          detail: "This country has a frontier-relevant rule, instrument participation, lab HQ, or dependency edge in the dataset.",
-        }
-      : {
-          label: "No frontier-relevant signal",
-          detail: "No frontier-relevant dataset hook is currently mapped for this country.",
-        };
-  }
-
   if (mapMode === "obligation-type") {
     return {
       label: "Obligation-mode context",

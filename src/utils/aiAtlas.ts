@@ -130,10 +130,6 @@ export function formatAtlasSource(score: CountryIndicatorScore | undefined): str
   return source ? `${source.publisher} ${score.year}` : String(score.year);
 }
 
-export function atlasCaveatForSource(sourceId: string): string {
-  return INDICATOR_SOURCE_BY_ID[sourceId]?.caveat ?? "Context indicator only; not legal advice.";
-}
-
 export function getAtlasMapFill(iso3: string, mapMode: MapModeId): string | null {
   if (mapMode === "gov-ai-readiness") {
     return sequentialFill(getCountryIndicatorScore(iso3, OXFORD_READINESS_SOURCE_ID)?.score, 100, [
@@ -153,15 +149,6 @@ export function getAtlasMapFill(iso3: string, mapMode: MapModeId): string | null
       "#065F46",
     ]);
   }
-  if (mapMode === "ai-vibrancy") {
-    return sequentialFill(getCountryIndicatorScore(iso3, STANFORD_VIBRANCY_SOURCE_ID)?.score, 100, [
-      "#E5E7EB",
-      "#EDE9FE",
-      "#C4B5FD",
-      "#7C3AED",
-      "#4C1D95",
-    ]);
-  }
   if (mapMode === "unesco-ram-status") {
     const status = getCountryAtlasSummary(iso3).unescoRam?.status;
     if (status === "completed") return "#16A34A";
@@ -171,14 +158,6 @@ export function getAtlasMapFill(iso3: string, mapMode: MapModeId): string | null
     return "#E5E7EB";
   }
   return null;
-}
-
-export function buildAtlasMapFills(mapMode: MapModeId): Record<string, string> {
-  return Object.fromEntries(
-    COUNTRIES
-      .filter((country) => country.iso3 !== "EUU")
-      .map((country) => [country.iso3, getAtlasMapFill(country.iso3, mapMode) ?? "#E5E7EB"])
-  );
 }
 
 export function buildAtlasMapContext(mapMode: MapModeId): AtlasMapContext {
@@ -210,14 +189,6 @@ export function getAtlasMapReason(iso3: string, mapMode: MapModeId): AtlasMapRea
     return {
       label: `CAIDP score: ${formatAtlasScore(score)}`,
       detail: `${score.tier ? `Tier ${score.tier}. ` : ""}${formatAtlasSource(score)} assessment; not official legal status.`,
-    };
-  }
-  if (mapMode === "ai-vibrancy") {
-    const score = getCountryIndicatorScore(iso3, STANFORD_VIBRANCY_SOURCE_ID);
-    if (!score) return noAtlasReason(countryName, "Stanford AI vibrancy score");
-    return {
-      label: `AI vibrancy: ${formatAtlasScore(score)}`,
-      detail: `${formatAtlasRank(score) || "No rank shown"} from ${formatAtlasSource(score)}. Ecosystem context only.`,
     };
   }
   if (mapMode === "unesco-ram-status") {

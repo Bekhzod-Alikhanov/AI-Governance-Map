@@ -230,11 +230,6 @@ export function hasCompleteVerificationMetadata(item: VerificationMetadata): boo
   return Boolean(item.sourceKind && item.verificationStatus && item.lastVerified);
 }
 
-/** A record with no explicit status is unverified, not implicitly fine. */
-export function effectiveVerificationStatus(item: VerificationMetadata) {
-  return item.verificationStatus ?? "unverified";
-}
-
 export function assessSourceUrl(sourceUrl: string | undefined): SourceAssessment {
   const issues: string[] = [];
   if (!sourceUrl) return { sourceKind: "unknown", host: null, issues: ["missing source URL"] };

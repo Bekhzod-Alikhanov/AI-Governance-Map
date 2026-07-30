@@ -107,10 +107,3 @@ export const RESEARCH_PRESETS: ResearchPreset[] = [
   },
 ];
 
-export const PRESET_BY_ID: Record<string, ResearchPreset> = RESEARCH_PRESETS.reduce(
-  (acc, preset) => {
-    acc[preset.id] = preset;
-    return acc;
-  },
-  {} as Record<string, ResearchPreset>
-);

@@ -249,10 +249,6 @@ export const COUNTRY_BY_ISO3: Record<string, Country> = COUNTRIES.reduce(
   {} as Record<string, Country>
 );
 
-export function getCountryName(iso3: string): string {
-  return COUNTRY_BY_ISO3[iso3]?.name ?? iso3;
-}
-
 export const ASEAN_MEMBERS: ReadonlyArray<string> = [
   "BRN",
   "KHM",
@@ -380,53 +376,4 @@ export const OECD_NON_MEMBER_ADHERENTS: ReadonlyArray<string> = [
   "ROU",
   "SGP",
   "UKR",
-];
-
-export const COUNCIL_OF_EUROPE_MEMBERS: ReadonlyArray<string> = [
-  "ALB",
-  "AND",
-  "ARM",
-  "AUT",
-  "AZE",
-  "BEL",
-  "BIH",
-  "BGR",
-  "HRV",
-  "CYP",
-  "CZE",
-  "DNK",
-  "EST",
-  "FIN",
-  "FRA",
-  "GEO",
-  "DEU",
-  "GRC",
-  "HUN",
-  "ISL",
-  "IRL",
-  "ITA",
-  "LVA",
-  "LIE",
-  "LTU",
-  "LUX",
-  "MLT",
-  "MDA",
-  "MCO",
-  "MNE",
-  "NLD",
-  "MKD",
-  "NOR",
-  "POL",
-  "PRT",
-  "ROU",
-  "SMR",
-  "SRB",
-  "SVK",
-  "SVN",
-  "ESP",
-  "SWE",
-  "CHE",
-  "TUR",
-  "UKR",
-  "GBR",
 ];

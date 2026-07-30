@@ -330,6 +330,3 @@ export const IMPLEMENTATION_BY_PARENT = IMPLEMENTATION_MILESTONES.reduce(
   {} as Record<string, ImplementationMilestone[]>
 );
 
-export function getImplementationForParent(parentType: ImplementationMilestone["parentType"], parentId: string) {
-  return IMPLEMENTATION_BY_PARENT[`${parentType}:${parentId}`] ?? [];
-}
