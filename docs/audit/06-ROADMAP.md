@@ -56,6 +56,14 @@ The reducer consolidation itself is still open. It is `[taste]`, not a defect, a
 ### ✅ L3 — An honest staleness treatment — **done**
 `DATA_SNAPSHOT_DATE` is now correct and test-enforced, but nothing tells a reader a record is ageing. Surface per-record age in panels and dossiers, and make CI fail on expired manual-verification overrides — the mechanism that would have caught the CoE lapse.
 
+### ⛔ TypeScript 7 — **evaluated 29 July 2026, blocked on typescript-eslint**
+
+The compiler side is ready: `tsc -b --noEmit` under TypeScript 7.0.2 is clean, and a cold typecheck drops from **4.0s to 1.17s — 3.4× faster**. Tests (163) and `npm run build` both pass unchanged.
+
+`npm run lint` does not. `typescript-eslint@8.65.0` — the latest stable — refuses outright: *"typescript-eslint does not support TS 7.0."* Everything past 8.65.0 is an `8.65.1-alpha.*` prerelease.
+
+Putting an alpha of the lint toolchain into CI, on a project whose whole claim is rigour, is not worth a build-time-only gain. Revisit when typescript-eslint ships stable TS 7 support; the upgrade itself is a one-line version bump and the measurement above is the payoff.
+
 ### L4 — Decide the maintenance claim
 Open question Q3 in [07-OPEN-QUESTIONS](07-OPEN-QUESTIONS.md), and **the only item on this roadmap that is not mine to decide**: is this a maintained corpus or an archived snapshot? Either is defensible; the ambiguity is not. A governance dataset that looks live but is two months stale is more dangerous to a reader than one plainly labelled archived.
 
