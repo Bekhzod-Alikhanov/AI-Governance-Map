@@ -1,14 +1,10 @@
 import { COUNTRIES, COUNTRY_BY_ISO3 } from "../data/countries";
 import { EU_MEMBER_ISO3 } from "../data/euMembers";
 import {
-  INSTITUTION_BY_ID,
   INSTITUTION_RECORDS,
-  POLICY_PROCESS_BY_ID,
   POLICY_PROCESS_RECORDS,
-  PUBLIC_SECTOR_AI_BY_ID,
   PUBLIC_SECTOR_AI_RECORDS,
   RESEARCH_CORPUS_CHANGELOG,
-  STANDARDS_CONFORMITY_BY_ID,
   STANDARDS_CONFORMITY_RECORDS,
 } from "../data/researchCorpus";
 import {
@@ -99,11 +95,6 @@ export function getCorpusRecord(routeKind: CorpusUiKind, id: string): ResearchCo
   return RESEARCH_CORPUS_BY_ROUTE[`${routeKind}:${id}`] ?? null;
 }
 
-export function getCorpusRecordByReference(reference: CorpusRecordReference): ResearchCorpusRecord | null {
-  if (!isCorpusReference(reference.kind)) return null;
-  return getCorpusRecord(corpusKindToRouteKind(reference.kind), reference.id);
-}
-
 export function corpusRoute(record: ResearchCorpusRecord): string {
   return `${routePrefix(record.routeKind)}${encodeURIComponent(record.id)}`;
 }
@@ -111,10 +102,6 @@ export function corpusRoute(record: ResearchCorpusRecord): string {
 export function corpusKindLabel(kind: CorpusRecordKind | CorpusUiKind): string {
   const corpusKind = isCorpusUiKind(kind) ? ROUTE_KIND_TO_CORPUS_KIND[kind] : kind;
   return CORPUS_KIND_LABELS[corpusKind];
-}
-
-export function corpusRecordDisplayName(routeKind: CorpusUiKind, id: string): string {
-  return getCorpusRecord(routeKind, id)?.title ?? id;
 }
 
 export function getCorpusRecordsForCountry(iso3: string): ResearchCorpusRecord[] {
@@ -283,10 +270,6 @@ export function relatedRecordsFor(record: ResearchCorpusRecord): CorpusRecordRef
   return "relatedRecords" in record.raw ? record.raw.relatedRecords : [];
 }
 
-export function routeKindForCorpusKind(kind: CorpusRecordKind): CorpusUiKind {
-  return corpusKindToRouteKind(kind);
-}
-
 function normalizeInstitution(record: InstitutionRecord): ResearchCorpusRecord {
   return {
     kind: "institution",
@@ -416,20 +399,9 @@ function expandCountryIso3(iso3: string | undefined): string[] {
   return [iso3];
 }
 
-function corpusKindToRouteKind(kind: CorpusRecordKind): CorpusUiKind {
-  if (kind === "policy_process") return "policy-process";
-  if (kind === "standards_conformity") return "standard";
-  if (kind === "public_sector_ai") return "public-sector-ai";
-  return kind;
-}
-
 function changelogKindForRecord(record: ResearchCorpusRecord): RecordChangeLogEntry["recordKind"] {
   if (record.kind === "enforcement") return "incident_enforcement";
   return record.kind;
-}
-
-function isCorpusReference(kind: CorpusRecordReference["kind"]): kind is CorpusRecordKind {
-  return ["institution", "policy_process", "standards_conformity", "public_sector_ai", "enforcement"].includes(kind);
 }
 
 function isCorpusUiKind(kind: string): kind is CorpusUiKind {
@@ -465,10 +437,3 @@ function csvCell(value: string | number): string {
   return `"${text.replace(/"/g, '""')}"`;
 }
 
-export function rawCorpusRecordExists(kind: CorpusUiKind, id: string): boolean {
-  if (kind === "institution") return Boolean(INSTITUTION_BY_ID[id]);
-  if (kind === "policy-process") return Boolean(POLICY_PROCESS_BY_ID[id]);
-  if (kind === "standard") return Boolean(STANDARDS_CONFORMITY_BY_ID[id]);
-  if (kind === "public-sector-ai") return Boolean(PUBLIC_SECTOR_AI_BY_ID[id]);
-  return Boolean(INCIDENT_ENFORCEMENT_RECORDS.find((record) => record.id === id));
-}

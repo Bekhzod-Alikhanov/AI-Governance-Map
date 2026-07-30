@@ -421,13 +421,6 @@ const ATLAS_COMPARISON_MAPS: Array<{
     presetId: "caidp-oxford-comparison",
     detail: "Compare democratic-values assessment with government readiness.",
   },
-  {
-    id: "vibrancy-maturity",
-    title: "Vibrancy vs regulation",
-    mapMode: "ai-vibrancy",
-    presetId: "vibrancy-regulatory-maturity",
-    detail: "Compare AI ecosystem vibrancy with tracked binding-law coverage.",
-  },
 ];
 
 export function WorkbenchView({

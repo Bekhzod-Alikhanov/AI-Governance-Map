@@ -787,8 +787,6 @@ export const MAP_MODE_OPTIONS = [
   { id: "lab-hq", label: "Lab HQ" },
   { id: "obligation-type", label: "Obligations" },
   { id: "implementation-deadline", label: "Implementation" },
-  { id: "source-confidence", label: "Source confidence" },
-  { id: "frontier-relevance", label: "Frontier relevance" },
   { id: "ai-institutions", label: "AI institutions" },
   { id: "policy-windows", label: "Policy windows" },
   { id: "public-sector-ai", label: "Public-sector AI" },
@@ -797,7 +795,6 @@ export const MAP_MODE_OPTIONS = [
   { id: "gov-ai-readiness", label: "Gov readiness" },
   { id: "democratic-values", label: "Democratic values" },
   { id: "unesco-ram-status", label: "UNESCO RAM" },
-  { id: "ai-vibrancy", label: "AI vibrancy" },
 ] as const;
 
 export type MapModeId = (typeof MAP_MODE_OPTIONS)[number]["id"];

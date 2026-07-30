@@ -91,6 +91,3 @@ export const EU_AI_ACT_AUTHORITY_MATRIX: EUAIActAuthorityMatrixRow[] = EU_MEMBER
   ([iso3, name]) => memberRow(iso3, name)
 );
 
-export const EU_AI_ACT_AUTHORITY_BY_COUNTRY = Object.fromEntries(
-  EU_AI_ACT_AUTHORITY_MATRIX.map((row) => [row.countryIso3, row])
-) as Record<string, EUAIActAuthorityMatrixRow>;

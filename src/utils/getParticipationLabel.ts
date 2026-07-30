@@ -63,7 +63,3 @@ export const NATIONAL_BINDING_DESCRIPTIONS: Record<NationalBindingStatus, string
   proposed: "Draft or proposed AI-specific legal instrument; not in force.",
   mixed: "Contains a mix of binding and non-binding elements, or depends on implementation phase.",
 };
-
-export function isBindingParticipation(type: ParticipationType): boolean {
-  return type === "ratified" || type === "applicable_via_eu";
-}

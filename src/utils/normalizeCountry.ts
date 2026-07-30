@@ -61,8 +61,3 @@ export function numericToAlpha3(code: string | number | undefined | null): strin
   const padded = String(code).padStart(3, "0");
   return NUMERIC_TO_A3[padded] ?? null;
 }
-
-export function alpha3ToNumeric(a3: string): string | null {
-  const entry = Object.entries(NUMERIC_TO_A3).find(([, v]) => v === a3);
-  return entry ? entry[0] : null;
-}

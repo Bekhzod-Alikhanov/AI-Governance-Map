@@ -5,8 +5,7 @@ import type { VerificationMetadata } from "../types";
  * Canonical author attribution, reused wherever a record, country, or the full
  * dataset is cited or exported, so the work is properly attributable.
  */
-export const DATASET_AUTHOR = "Bekhzodkhon (Beck) Alikhanov";
-export const DATASET_CITATION_TITLE = `Alikhanov, B. (2026). Global AI Governance Map [dataset], snapshot ${DATA_SNAPSHOT_DATE}.`;
+export const DATASET_CITATION_TITLE =`Alikhanov, B. (2026). Global AI Governance Map [dataset], snapshot ${DATA_SNAPSHOT_DATE}.`;
 
 interface CitationInput extends VerificationMetadata {
   recordKind: string;

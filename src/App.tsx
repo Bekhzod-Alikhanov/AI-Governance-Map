@@ -78,7 +78,6 @@ const ATLAS_MAP_MODES = new Set<MapModeId>([
   "gov-ai-readiness",
   "democratic-values",
   "unesco-ram-status",
-  "ai-vibrancy",
 ]);
 const CORPUS_MAP_MODES = new Set<MapModeId>([
   "ai-institutions",

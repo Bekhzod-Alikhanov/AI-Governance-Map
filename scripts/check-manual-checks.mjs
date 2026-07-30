@@ -1,4 +1,5 @@
-// Fails when a manual source-verification override has outlived its expiry date.
+// Fails when a manual source-verification override has outlived its expiry date,
+// or has no expiry date at all.
 //
 // A manual check records a human confirming something automation cannot reach.
 // That confirmation ages: the Council of Europe override expired on 5 July 2026
@@ -6,6 +7,10 @@
 // had re-checked. This turns that into a build failure.
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+
+// Matches AGEING_AFTER_DAYS in src/utils/verificationAge.ts, and the interval
+// already used by the g7-hiroshima-statement entry.
+const EXPIRY_WINDOW_DAYS = 90;
 
 const root = process.cwd();
 const configPath = path.join(root, "src", "data", "sourceLinkManualChecks.json");
@@ -23,11 +28,19 @@ for (const check of expired) {
   );
 }
 for (const check of undated) {
-  console.warn(`no expiry  ${check.recordId} — consider adding expiresOn so this cannot age silently.`);
+  console.error(
+    `NO EXPIRY  ${check.recordId} — manual verification has no expiresOn, so it can never lapse. ` +
+      `Add expiresOn (convention: lastChecked + ${EXPIRY_WINDOW_DAYS} days), or mark the record superseded.`
+  );
 }
 
 console.log(
   `Manual source checks: ${checks.length} total, ${expired.length} expired, ${undated.length} without an expiry date.`
 );
 
-if (expired.length > 0) process.exit(1);
+// An override with no expiry is not a smaller problem than an expired one — it
+// is the same problem with the alarm disabled. A human wrote "I checked this on
+// this date"; without an expiry that dated act silently becomes a permanent
+// claim, which is exactly how the Council of Europe status went stale. Both
+// conditions fail the build.
+if (expired.length > 0 || undated.length > 0) process.exit(1);
