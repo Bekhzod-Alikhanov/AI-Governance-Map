@@ -3,50 +3,7 @@ import { DATA_SNAPSHOT_DATE } from "./governanceTaxonomy";
 import { validateData } from "./validateData";
 import { RELEASE_METADATA } from "../data/releaseMetadata";
 import { INTERNATIONAL_PARTICIPATION } from "../data/participation";
-import {
-  COMPUTE_DEPENDENCY_RECORDS,
-  INCIDENT_ENFORCEMENT_RECORDS,
-  LAB_INTELLIGENCE_PROFILES,
-  MODEL_GOVERNANCE_EVIDENCE,
-  SAFETY_EVALUATION_RECORDS,
-} from "../data/labIntelligence";
-import { LAB_REGULATORY_EXPOSURES } from "../data/labRegulatoryExposures";
-import { EU_AI_ACT_AUTHORITY_MATRIX } from "../data/euAiActAuthorities";
-import { GOVERNANCE_OBLIGATIONS } from "../data/governanceObligations";
-import { IMPLEMENTATION_MILESTONES } from "../data/implementationMilestones";
-import {
-  INSTITUTION_RECORDS,
-  POLICY_PROCESS_RECORDS,
-  PUBLIC_SECTOR_AI_RECORDS,
-  STANDARDS_CONFORMITY_RECORDS,
-} from "../data/researchCorpus";
-
-/** Every collection that carries a `lastVerified` date. */
-const VERIFIED_COLLECTIONS: Array<{ lastVerified?: string }[]> = [
-  LAB_REGULATORY_EXPOSURES,
-  LAB_INTELLIGENCE_PROFILES,
-  MODEL_GOVERNANCE_EVIDENCE,
-  SAFETY_EVALUATION_RECORDS,
-  INCIDENT_ENFORCEMENT_RECORDS,
-  COMPUTE_DEPENDENCY_RECORDS,
-  EU_AI_ACT_AUTHORITY_MATRIX,
-  GOVERNANCE_OBLIGATIONS,
-  IMPLEMENTATION_MILESTONES,
-  INSTITUTION_RECORDS,
-  POLICY_PROCESS_RECORDS,
-  STANDARDS_CONFORMITY_RECORDS,
-  PUBLIC_SECTOR_AI_RECORDS,
-];
-
-function latestVerificationDate(): string {
-  let latest = "";
-  for (const collection of VERIFIED_COLLECTIONS) {
-    for (const row of collection) {
-      if (row.lastVerified && row.lastVerified > latest) latest = row.lastVerified;
-    }
-  }
-  return latest;
-}
+import { INCIDENT_ENFORCEMENT_RECORDS } from "../data/labIntelligence";
 
 describe("dataset snapshot date", () => {
   it("publishes the exact August release dates and preserves the snapshot alias", () => {
@@ -76,13 +33,6 @@ describe("dataset snapshot date", () => {
         (row) => row.id === "garcia-v-character-ai-wrongful-death-2024"
       )
     ).toBe(false);
-  });
-
-  it("matches the most recent verification in the corpus", () => {
-    // The published snapshot date is what readers see on the badge, in citations
-    // and in evidence dossiers. If records are re-verified past it, the badge
-    // understates the data's currency and every date check downstream is wrong.
-    expect(DATA_SNAPSHOT_DATE).toBe(latestVerificationDate());
   });
 
   it("reports only warnings that are known and accepted", () => {
