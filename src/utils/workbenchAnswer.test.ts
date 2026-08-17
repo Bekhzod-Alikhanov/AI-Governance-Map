@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { GOVERNANCE_OBLIGATIONS } from "../data/governanceObligations";
+import { IMPLEMENTATION_MILESTONES } from "../data/implementationMilestones";
+import { NATIONAL_AI_REGULATIONS, NATIONAL_REG_BY_ID } from "../data/nationalAIRegulations";
 import { RELEASE_METADATA } from "../data/releaseMetadata";
 import { DEFAULT_FILTER_STATE, type WorkbenchAnswer } from "../types";
 import {
@@ -31,7 +33,8 @@ describe("structured Workbench answers", () => {
       statusAsOf: RELEASE_METADATA.statusAsOf,
     });
     expect(answer.namedEntities.length).toBeGreaterThan(0);
-    expect(answer.evidence.length).toBeGreaterThanOrEqual(3);
+    const minimumEvidence = ["incident-reporting", "coe-signed-ratified"].includes(questionId) ? 1 : 3;
+    expect(answer.evidence.length).toBeGreaterThanOrEqual(minimumEvidence);
     expect(answer.evidence.length).toBeLessThanOrEqual(5);
 
     for (const evidence of answer.evidence) {
@@ -73,6 +76,13 @@ describe("structured Workbench answers", () => {
     }
   });
 
+  it("does not present multiple records backed by the same official source as independent evidence", () => {
+    const answer = buildWorkbenchAnswer("incident-reporting", DEFAULT_FILTER_STATE);
+    const sourceUrls = answer.evidence.map((row) => row.sourceUrl);
+
+    expect(new Set(sourceUrls).size).toBe(sourceUrls.length);
+  });
+
   it("separates CoE ratification from signature-only parties without duplicating the EU", () => {
     const answer = buildWorkbenchAnswer("coe-signed-ratified", DEFAULT_FILTER_STATE);
 
@@ -97,6 +107,70 @@ describe("structured Workbench answers", () => {
     expect(answer.sentence).toMatch(/directly applicable|direct applicability/i);
     expect(`${answer.sentence} ${answer.caveat}`).toMatch(/national implementation/i);
     expect(answer.namedEntities).toEqual(expect.arrayContaining(["European Union", "Italy", "Slovenia"]));
+  });
+
+  it("derives EU and national entity names from the configured rule records", () => {
+    const italy = NATIONAL_REG_BY_ID["it-law-132-2025"];
+    const originalJurisdiction = italy.jurisdiction;
+    italy.jurisdiction = "Italian Republic";
+
+    try {
+      const answer = buildWorkbenchAnswer("eu-act-vs-national-law", DEFAULT_FILTER_STATE);
+      expect(answer.namedEntities).toContain("Italian Republic");
+      expect(answer.namedEntities).not.toContain("Italy");
+    } finally {
+      italy.jurisdiction = originalJurisdiction;
+    }
+  });
+
+  it("does not claim a regional EU row when the configured regional record is unavailable", () => {
+    const regional = NATIONAL_REG_BY_ID["eu-ai-act-regional"];
+    delete NATIONAL_REG_BY_ID["eu-ai-act-regional"];
+
+    try {
+      const answer = buildWorkbenchAnswer("eu-act-vs-national-law", DEFAULT_FILTER_STATE);
+      expect(answer.countLabel).toMatch(/^0 EU regulations/);
+      expect(answer.namedEntities).not.toContain("European Union");
+      expect(answer.caveat).not.toMatch(/supplement the directly applicable EU regulation/i);
+    } finally {
+      NATIONAL_REG_BY_ID["eu-ai-act-regional"] = regional;
+    }
+  });
+
+  it("uses proposed-law records rather than unrelated binding obligations as proposed-law evidence", () => {
+    const answer = buildWorkbenchAnswer("proposed-laws", DEFAULT_FILTER_STATE);
+    const proposedRuleIds = new Set(
+      NATIONAL_AI_REGULATIONS.filter((row) => row.bindingStatus === "proposed").map((row) => row.id),
+    );
+
+    expect(answer.evidence.length).toBeGreaterThan(0);
+    expect(answer.evidence.every((row) => proposedRuleIds.has(row.id))).toBe(true);
+  });
+
+  it("answers the source-confidence question with high-confidence claims", () => {
+    const answer = buildWorkbenchAnswer("source-confidence", DEFAULT_FILTER_STATE);
+
+    expect(answer.sentence).toMatch(/high-confidence/i);
+    expect(answer.evidence.length).toBeGreaterThan(0);
+    expect(answer.evidence.every((row) => row.confidence === "high")).toBe(true);
+  });
+
+  it("shows only upcoming implementation deadlines, sorted from soonest to latest", () => {
+    const answer = buildWorkbenchAnswer("implementation-deadlines", DEFAULT_FILTER_STATE);
+    const expected = IMPLEMENTATION_MILESTONES
+      .filter((row) => ["phased_application", "implementing_rules_pending"].includes(row.status))
+      .map((row) => ({ row, deadline: row.nextDeadline ?? row.date }))
+      .filter((entry): entry is { row: (typeof IMPLEMENTATION_MILESTONES)[number]; deadline: string } =>
+        Boolean(entry.deadline && entry.deadline > RELEASE_METADATA.statusAsOf),
+      )
+      .sort((a, b) => a.deadline.localeCompare(b.deadline))
+      .slice(0, 5);
+
+    expect(answer.evidence.map((row) => row.id)).toEqual(expected.map((entry) => entry.row.id));
+    if (expected.length === 0) {
+      expect(answer.sentence).toMatch(/no upcoming deadlines/i);
+      expect(answer.countLabel).toBe("0 upcoming deadlines");
+    }
   });
 });
 

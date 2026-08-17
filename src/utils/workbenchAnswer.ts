@@ -22,6 +22,7 @@ import type {
   WorkbenchAnswer,
   WorkbenchCompareItem,
   WorkbenchEvidenceRow,
+  WorkbenchQuestion,
 } from "../types";
 import { recordRoute } from "./recordRoutes";
 import {
@@ -67,13 +68,12 @@ function evidence(
 
 function uniqueEvidence(rows: WorkbenchEvidenceRow[]): WorkbenchEvidenceRow[] {
   const seenIds = new Set<string>();
-  const seenRecordSources = new Set<string>();
+  const seenSourceUrls = new Set<string>();
   return rows
     .filter((row) => {
-      const sourceKey = `${row.recordUrl ?? row.id}|${row.sourceUrl}`;
-      if (seenIds.has(row.id) || seenRecordSources.has(sourceKey)) return false;
+      if (seenIds.has(row.id) || seenSourceUrls.has(row.sourceUrl)) return false;
       seenIds.add(row.id);
-      seenRecordSources.add(sourceKey);
+      seenSourceUrls.add(row.sourceUrl);
       return true;
     })
     .slice(0, 5);
@@ -201,7 +201,6 @@ function frontierLabExposureAnswer(questionTitle: string): WorkbenchAnswer {
   );
   const labIds = uniqueStrings(rows.map((row) => row.labId));
   const labNames = labIds.map((id) => LAB_BY_ID[id]?.name ?? id);
-  const selected = selectDistinct(rows, (row) => row.labId, 5);
 
   return answer({
     questionId: "frontier-lab-binding-exposure",
@@ -211,7 +210,7 @@ function frontierLabExposureAnswer(questionTitle: string): WorkbenchAnswer {
       "These rows are applicability hooks based on jurisdiction or market activity, not lab-specific enforcement findings or conclusions that every duty is triggered.",
     countLabel: `${labNames.length} labs · ${rows.length} binding hooks`,
     namedEntities: labNames,
-    evidence: selected.map((row) => {
+    evidence: rows.map((row) => {
       const labName = LAB_BY_ID[row.labId]?.name ?? row.labId;
       const targetName = getTargetName(row.targetId);
       return evidence(
@@ -224,17 +223,16 @@ function frontierLabExposureAnswer(questionTitle: string): WorkbenchAnswer {
   });
 }
 
-function euActVsNationalAnswer(questionTitle: string): WorkbenchAnswer {
-  const ids = [
-    "eu-ai-act-regional",
-    "it-law-132-2025",
-    "si-eu-ai-act-implementation-2025",
-  ];
-  const rules = ids
-    .map((id) => NATIONAL_REG_BY_ID[id])
+function euActVsNationalAnswer(question: WorkbenchQuestion): WorkbenchAnswer {
+  const rules = (question.compareItems ?? [])
+    .filter((item) => item.kind === "rule")
+    .map((item) => NATIONAL_REG_BY_ID[item.id])
     .filter((row): row is NonNullable<typeof row> => Boolean(row));
+  const ruleIds = new Set(rules.map((row) => row.id));
+  const regionalRows = rules.filter((row) => row.regionalEntity === "EU");
+  const nationalRows = rules.filter((row) => row.countryIso3 && row.regionalEntity !== "EU");
   const milestones = IMPLEMENTATION_MILESTONES.filter((row) =>
-    ids.includes(row.parentId),
+    ruleIds.has(row.parentId),
   );
   const rows = uniqueEvidence([
     ...rules.map((row) => evidence(row, row.name, row.jurisdiction, recordRoute("rule", row.id))),
@@ -245,13 +243,40 @@ function euActVsNationalAnswer(questionTitle: string): WorkbenchAnswer {
 
   return answer({
     questionId: "eu-act-vs-national-law",
-    questionTitle,
-    sentence: `The EU AI Act has direct applicability across the EU, while ${Math.max(0, rules.length - 1)} tracked national law rows describe implementation activity in member states.`,
-    caveat:
-      "National implementation and enforcement arrangements supplement the directly applicable EU regulation; they should not be counted as separate national enactments of the EU AI Act itself.",
-    countLabel: `1 EU regulation · ${Math.max(0, rules.length - 1)} national implementation rows`,
-    namedEntities: ["European Union", "Italy", "Slovenia"],
+    questionTitle: question.title,
+    sentence: regionalRows.length
+      ? `${regionalRows.length} tracked EU ${plural(regionalRows.length, "regulation")} ${pluralVerb(regionalRows.length, "is", "are")} directly applicable, while ${nationalRows.length} tracked national law ${plural(nationalRows.length, "row")} ${pluralVerb(nationalRows.length, "describes", "describe")} implementation activity in member states.`
+      : `No directly applicable EU regulation row is available among the configured records; ${nationalRows.length} tracked national law ${plural(nationalRows.length, "row")} ${pluralVerb(nationalRows.length, "describes", "describe")} national implementation activity.`,
+    caveat: regionalRows.length
+      ? "National implementation and enforcement arrangements supplement the directly applicable EU regulation; they should not be counted as separate national enactments of the EU AI Act itself."
+      : "Without a configured regional regulation row, the tracked national implementation records must not be treated as evidence of direct EU applicability.",
+    countLabel: `${regionalRows.length} EU ${plural(regionalRows.length, "regulation")} · ${nationalRows.length} national implementation ${plural(nationalRows.length, "row")}`,
+    namedEntities: uniqueStrings(rules.map((row) => row.jurisdiction)),
     evidence: rows,
+  });
+}
+
+function proposedLawEvidence(): WorkbenchEvidenceRow[] {
+  return NATIONAL_AI_REGULATIONS
+    .filter((row) => row.bindingStatus === "proposed")
+    .map((row) => evidence(row, row.name, row.jurisdiction, recordRoute("rule", row.id)));
+}
+
+function sourceConfidenceAnswer(question: WorkbenchQuestion): WorkbenchAnswer {
+  const rows = NATIONAL_AI_REGULATIONS.filter(
+    (row) => row.confidence === "high" && row.sourceKind === "official",
+  );
+  return answer({
+    questionId: question.id,
+    questionTitle: question.title,
+    sentence: `${rows.length} tracked national-rule claims carry high-confidence verification metadata from official sources.`,
+    caveat:
+      "Confidence describes the recorded source and verification state; it is not a ranking of legal importance or a guarantee that status has not changed.",
+    countLabel: `${rows.length} high-confidence claims`,
+    namedEntities: uniqueStrings(rows.map((row) => row.jurisdiction)),
+    evidence: rows.map((row) =>
+      evidence(row, row.name, row.jurisdiction, recordRoute("rule", row.id)),
+    ),
   });
 }
 
@@ -266,8 +291,15 @@ function genericAnswer(
   const fromComparison = (question.compareItems ?? [])
     .map(evidenceForCompareItem)
     .filter((row): row is WorkbenchEvidenceRow => Boolean(row));
-  const fallback = GOVERNANCE_OBLIGATIONS
-    .filter((row) => obligationMatchesFilters(row, filters))
+  const answerCardEvidence = question.answerCardId === "proposed-laws" ? proposedLawEvidence() : [];
+  const effectiveFilters = { ...filters, ...question.patch };
+  const usesObligationFilters = Boolean(
+    question.patch.selectedObligationCategories?.length || question.patch.selectedDomains?.length,
+  );
+  const filteredObligations = usesObligationFilters
+    ? GOVERNANCE_OBLIGATIONS.filter((row) => obligationMatchesFilters(row, effectiveFilters))
+    : [];
+  const fallback = filteredObligations
     .map((row) =>
       evidence(
         row,
@@ -276,7 +308,7 @@ function genericAnswer(
         recordRoute("obligation", row.id),
       ),
     );
-  const evidenceRows = uniqueEvidence([...fromComparison, ...fallback]);
+  const evidenceRows = uniqueEvidence([...fromComparison, ...answerCardEvidence, ...fallback]);
   return answer({
     questionId: question.id,
     questionTitle: question.title,
@@ -298,20 +330,27 @@ export function buildWorkbenchAnswer(
   if (question.id === "incident-reporting") return incidentReportingAnswer(question.title);
   if (question.id === "coe-signed-ratified") return coeParticipationAnswer(question.title);
   if (question.id === "frontier-lab-binding-exposure") return frontierLabExposureAnswer(question.title);
-  if (question.id === "eu-act-vs-national-law") return euActVsNationalAnswer(question.title);
+  if (question.id === "eu-act-vs-national-law") return euActVsNationalAnswer(question);
+  if (question.id === "source-confidence") return sourceConfidenceAnswer(question);
   if (question.id === "implementation-deadlines") {
-    const rows = IMPLEMENTATION_MILESTONES.filter((row) =>
-      implementationMatchesFilters(row, { ...filters, ...question.patch }),
-    );
+    const upcoming = IMPLEMENTATION_MILESTONES
+      .filter((row) => implementationMatchesFilters(row, { ...filters, ...question.patch }))
+      .map((row) => ({ row, deadline: row.nextDeadline ?? row.date }))
+      .filter((entry): entry is { row: (typeof IMPLEMENTATION_MILESTONES)[number]; deadline: string } =>
+        Boolean(entry.deadline && entry.deadline > RELEASE_METADATA.statusAsOf),
+      )
+      .sort((a, b) => a.deadline.localeCompare(b.deadline));
     return answer({
       questionId: question.id,
       questionTitle: question.title,
-      sentence: `${rows.length} tracked implementation milestones match the selected deadline statuses.`,
+      sentence: upcoming.length
+        ? `${upcoming.length} upcoming implementation ${plural(upcoming.length, "deadline")} are tracked after ${RELEASE_METADATA.statusAsOf}, ordered from soonest to latest.`
+        : `No upcoming deadlines after ${RELEASE_METADATA.statusAsOf} are recorded for the selected implementation statuses.`,
       caveat: "Dates describe tracked implementation milestones and may change in official sources.",
-      countLabel: `${rows.length} milestones`,
-      namedEntities: uniqueStrings(rows.map((row) => row.jurisdiction)),
-      evidence: rows.slice(0, 5).map((row) =>
-        evidence(row, row.label, row.jurisdiction, implementationRoute(row.id)),
+      countLabel: `${upcoming.length} upcoming ${plural(upcoming.length, "deadline")}`,
+      namedEntities: uniqueStrings(upcoming.map(({ row }) => row.jurisdiction)),
+      evidence: upcoming.map(({ row, deadline }) =>
+        evidence(row, `${row.label} — ${deadline}`, row.jurisdiction, implementationRoute(row.id)),
       ),
     });
   }
