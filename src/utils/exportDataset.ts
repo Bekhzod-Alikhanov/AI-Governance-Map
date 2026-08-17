@@ -1,6 +1,7 @@
 import { COUNTRIES } from "../data/countries";
 import { AI_ATLAS_SOURCES, COUNTRY_INDICATOR_SCORES, COUNTRY_READINESS_REPORTS } from "../data/aiAtlas";
 import { DATASET_RELEASES } from "../data/datasetReleases";
+import { RELEASE_METADATA } from "../data/releaseMetadata";
 import { DEPENDENCY_EDGES } from "../data/dependencies";
 import { EU_AI_ACT_AUTHORITY_MATRIX } from "../data/euAiActAuthorities";
 import { EU_MEMBER_ISO3 } from "../data/euMembers";
@@ -34,7 +35,14 @@ import { SUBNATIONAL_AI_RULES } from "../data/subnationalRules";
 import { DATA_SNAPSHOT_DATE } from "./governanceTaxonomy";
 import { DATASET_SCHEMA_ID, DATASET_SCHEMA_VERSION } from "./datasetSchema";
 import { DATASET_CITATION_TITLE } from "./citation";
-import { DEFAULT_FILTER_STATE, type FilterState, type GovernanceDomainId, type LabRegulatoryExposure } from "../types";
+import {
+  DEFAULT_FILTER_STATE,
+  type FilterState,
+  type GovernanceDomainId,
+  type LabRegulatoryExposure,
+  type SourceLocator,
+  type VerificationMetadata,
+} from "../types";
 import { countActiveFilters, filterCountries } from "./filterCountries";
 import { downloadTextFile } from "./downloadTextFile";
 import { implementationMatchesFilters, obligationMatchesFilters } from "./researchWorkbench";
@@ -45,7 +53,10 @@ export { downloadTextFile } from "./downloadTextFile";
 export function buildDatasetSnapshot() {
   return {
     schemaVersion: DATASET_SCHEMA_VERSION,
-    snapshotDate: DATA_SNAPSHOT_DATE,
+    releaseDate: RELEASE_METADATA.releaseDate,
+    coverageCutoff: RELEASE_METADATA.coverageCutoff,
+    statusAsOf: RELEASE_METADATA.statusAsOf,
+    snapshotDate: RELEASE_METADATA.statusAsOf,
     schema: {
       id: DATASET_SCHEMA_ID,
       version: DATASET_SCHEMA_VERSION,
@@ -119,6 +130,79 @@ export function buildDatasetSnapshot() {
       recordChangeLogEntries: [...RECORD_CHANGE_LOG_ENTRIES, ...RESEARCH_CORPUS_CHANGELOG],
     },
   };
+}
+
+export interface SourceMetadataEntry {
+  collection: string;
+  id: string;
+  name: string;
+  sourceName: string;
+  sourceUrl: string;
+  sourceKind: string;
+  verificationStatus: string;
+  confidence: string;
+  lastVerified: string;
+  verificationNotes: string;
+  sourceLocator?: SourceLocator;
+  reviewStatus: string;
+  reviewNotes: string;
+}
+
+type ExportSourceRecord = VerificationMetadata & {
+  id?: string;
+  name?: string;
+  title?: string;
+  label?: string;
+  sourceName?: string;
+  sourceUrl?: string;
+};
+
+export function buildSourceMetadataEntries(snapshot: { data: object }): SourceMetadataEntry[] {
+  const entries: SourceMetadataEntry[] = [];
+  for (const [collection, rows] of Object.entries(snapshot.data)) {
+    if (!Array.isArray(rows)) continue;
+    for (const [rowIndex, value] of rows.entries()) {
+      if (!value || typeof value !== "object") continue;
+      const row = value as ExportSourceRecord;
+      const rowId = row.id ?? `${collection}.${rowIndex}`;
+      const rowName = row.name ?? row.title ?? row.label ?? rowId;
+      if (row.sourceUrl) {
+        entries.push({
+          collection,
+          id: rowId,
+          name: rowName,
+          sourceName: row.sourceName ?? "",
+          sourceUrl: row.sourceUrl,
+          sourceKind: row.sourceKind ?? "",
+          verificationStatus: row.verificationStatus ?? "",
+          confidence: row.confidence ?? "",
+          lastVerified: row.lastVerified ?? "",
+          verificationNotes: row.verificationNotes ?? "",
+          ...(row.sourceLocator ? { sourceLocator: row.sourceLocator } : {}),
+          reviewStatus: row.reviewStatus ?? "",
+          reviewNotes: row.reviewNotes ?? "",
+        });
+      }
+      for (const [sourceIndex, source] of (row.sourceChain ?? []).entries()) {
+        entries.push({
+          collection,
+          id: `${rowId}.sourceChain.${sourceIndex}`,
+          name: `${rowName} supporting source`,
+          sourceName: source.sourceName,
+          sourceUrl: source.sourceUrl,
+          sourceKind: source.sourceKind ?? "",
+          verificationStatus: row.verificationStatus ?? "",
+          confidence: row.confidence ?? "",
+          lastVerified: row.lastVerified ?? "",
+          verificationNotes: source.note ?? row.verificationNotes ?? "",
+          ...(source.sourceLocator ? { sourceLocator: source.sourceLocator } : {}),
+          reviewStatus: row.reviewStatus ?? "",
+          reviewNotes: row.reviewNotes ?? "",
+        });
+      }
+    }
+  }
+  return entries.sort((a, b) => `${a.collection}:${a.id}`.localeCompare(`${b.collection}:${b.id}`));
 }
 
 export function buildCitationText(): string {

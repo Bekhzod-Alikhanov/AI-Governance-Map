@@ -25,18 +25,25 @@ import {
   buildCitationText,
   buildDatasetSnapshot,
   buildFilteredDatasetSnapshot,
+  buildSourceMetadataEntries,
   DATASET_SCHEMA_VERSION,
   toPrettyJson,
 } from "./exportDataset";
 import { DATASET_SCHEMA_ID, validateDatasetSnapshotShape } from "./datasetSchema";
 import { DEFAULT_FILTER_STATE } from "../types";
+import { RELEASE_METADATA } from "../data/releaseMetadata";
 
 describe("dataset export helpers", () => {
   it("builds a snapshot with declared schema, counts, and primary data arrays", () => {
     const snapshot = buildDatasetSnapshot();
 
     expect(snapshot.schemaVersion).toBe(DATASET_SCHEMA_VERSION);
-    expect(snapshot.snapshotDate).toBe(DATA_SNAPSHOT_DATE);
+    expect(snapshot).toMatchObject({
+      releaseDate: RELEASE_METADATA.releaseDate,
+      coverageCutoff: RELEASE_METADATA.coverageCutoff,
+      statusAsOf: RELEASE_METADATA.statusAsOf,
+      snapshotDate: RELEASE_METADATA.statusAsOf,
+    });
     expect(snapshot.schema).toEqual({
       id: DATASET_SCHEMA_ID,
       version: DATASET_SCHEMA_VERSION,
@@ -70,6 +77,20 @@ describe("dataset export helpers", () => {
     expect(snapshot.data.euAiActAuthorityMatrix).toBe(EU_AI_ACT_AUTHORITY_MATRIX);
     expect(snapshot.data.countryIndicatorScores).toBe(COUNTRY_INDICATOR_SCORES);
     expect(validateDatasetSnapshotShape(snapshot)).toEqual([]);
+  });
+
+  it("publishes pinpoint locators and review metadata in source metadata", () => {
+    const sources = buildSourceMetadataEntries(buildDatasetSnapshot());
+    const located = sources.find((source) => source.id === "andersen-v-stability-ai-2024");
+
+    expect(located).toMatchObject({
+      sourceLocator: {
+        documentId: "380",
+        page: "1–2",
+      },
+      reviewStatus: "editorial_checked",
+      reviewNotes: "",
+    });
   });
 
   it("builds citation text with snapshot date and public project URLs", () => {

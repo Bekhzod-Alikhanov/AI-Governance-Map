@@ -1,5 +1,31 @@
 # Changelog
 
+## 2026.08.0 - 17 August 2026 Research Release
+
+### Added
+
+- Explicit release, coverage-cutoff, and status-as-of dates, with `snapshotDate` retained as a one-cycle compatibility alias.
+- JSON Schema support for pinpoint source locators, the full verification vocabulary, and two-person review status.
+- Deterministic SHA-256 manifests and immutable copies of the full dataset, schema, and release package.
+- DOI-ready `CITATION.cff` and Zenodo metadata. No DOI has been assigned or claimed.
+
+### Changed
+
+- Published the August release record and marked the unpublished June plan as superseded.
+- Narrowed three federal litigation records to claims supported by pinpointed primary court documents.
+- Removed the Garcia litigation row because its public claim lacked a stable primary document.
+
+### Verification
+
+- Schema version: `2026.08.0`.
+- Release date, coverage cutoff, and status-as-of date: `2026-08-17`.
+- SHA-256 manifests can be checked with `npm run validate:release`.
+
+### Caveats
+
+- Per-record `lastVerified` values remain record-specific; the release date does not imply every source was rechecked that day.
+- `editorial_checked` is not expert review. Records marked `needs_review` or `unreviewed` remain in the second-person review queue.
+
 ## 2026.05 - May 2026 Snapshot
 
 ### Added

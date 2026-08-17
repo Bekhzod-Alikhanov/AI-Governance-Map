@@ -1,4 +1,6 @@
-export const DATASET_SCHEMA_VERSION = "2026.06.4";
+import { RELEASE_METADATA } from "../data/releaseMetadata";
+
+export const DATASET_SCHEMA_VERSION = "2026.08.0";
 export const DATASET_SCHEMA_ID = "https://global-ai-governance-map.vercel.app/dataset.schema.json";
 
 const DATA_KEYS = [
@@ -75,10 +77,24 @@ export const DATASET_SCHEMA = {
     "Self-contained static research snapshot for frontier-AI governance mapping. This dataset is not legal advice.",
   type: "object",
   additionalProperties: false,
-  required: ["schemaVersion", "snapshotDate", "schema", "title", "caveat", "counts", "data"],
+  required: [
+    "schemaVersion",
+    "releaseDate",
+    "coverageCutoff",
+    "statusAsOf",
+    "snapshotDate",
+    "schema",
+    "title",
+    "caveat",
+    "counts",
+    "data",
+  ],
   properties: {
     schemaVersion: { const: DATASET_SCHEMA_VERSION },
-    snapshotDate: { type: "string", pattern: "^\\d{4}-\\d{2}-\\d{2}$" },
+    releaseDate: { const: RELEASE_METADATA.releaseDate },
+    coverageCutoff: { const: RELEASE_METADATA.coverageCutoff },
+    statusAsOf: { const: RELEASE_METADATA.statusAsOf },
+    snapshotDate: { const: RELEASE_METADATA.statusAsOf },
     schema: {
       type: "object",
       required: ["id", "version", "format"],
@@ -109,11 +125,19 @@ export const DATASET_SCHEMA = {
       properties: {
         sourceKind: { enum: ["official", "secondary", "mixed", "unknown"] },
         verificationStatus: {
-          enum: ["verified", "likely_correct", "uncertain", "needs_external_check"],
+          enum: [
+            "verified",
+            "likely_correct",
+            "uncertain",
+            "needs_external_check",
+            "unverified",
+            "superseded",
+          ],
         },
         confidence: { enum: ["high", "medium", "low"] },
         lastVerified: { type: "string", pattern: "^\\d{4}-\\d{2}-\\d{2}$" },
         verificationNotes: { type: "string" },
+        sourceLocator: { $ref: "#/definitions/sourceLocator" },
         reviewStatus: {
           enum: ["unreviewed", "editorial_checked", "expert_reviewed", "needs_review"],
         },
@@ -128,9 +152,23 @@ export const DATASET_SCHEMA = {
               sourceUrl: { type: "string", format: "uri" },
               sourceKind: { enum: ["official", "secondary", "mixed", "unknown"] },
               note: { type: "string" },
+              sourceLocator: { $ref: "#/definitions/sourceLocator" },
             },
           },
         },
+      },
+    },
+    sourceLocator: {
+      type: "object",
+      additionalProperties: false,
+      required: ["label"],
+      properties: {
+        label: { type: "string" },
+        documentId: { type: "string" },
+        article: { type: "string" },
+        section: { type: "string" },
+        page: { type: "string" },
+        paragraph: { type: "string" },
       },
     },
   },
@@ -154,6 +192,15 @@ export function validateDatasetSnapshotShape(snapshot: unknown): string[] {
 
   if (snapshot.schemaVersion !== DATASET_SCHEMA_VERSION) {
     issues.push(`schemaVersion must be ${DATASET_SCHEMA_VERSION}`);
+  }
+
+  for (const [key, expected] of Object.entries({
+    releaseDate: RELEASE_METADATA.releaseDate,
+    coverageCutoff: RELEASE_METADATA.coverageCutoff,
+    statusAsOf: RELEASE_METADATA.statusAsOf,
+    snapshotDate: RELEASE_METADATA.statusAsOf,
+  })) {
+    if (snapshot[key] !== expected) issues.push(`${key} must be ${expected}`);
   }
 
   const schema = getRecord(snapshot, "schema");

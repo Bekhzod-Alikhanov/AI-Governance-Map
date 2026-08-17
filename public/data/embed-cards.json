@@ -5,7 +5,7 @@
       "id": "ALB",
       "title": "Albania",
       "subtitle": "Europe",
-      "summary": "0 national entries; 5 international rows; 0 obligation rows.",
+      "summary": "0 national entries; 6 international rows; 1 obligation rows.",
       "url": "https://global-ai-governance-map.vercel.app/country/ALB",
       "embedUrl": "https://global-ai-governance-map.vercel.app/embed/country/ALB"
     },
@@ -3225,10 +3225,28 @@
       "kind": "implementation-deadline-card",
       "id": "eu-ai-act-phased-application",
       "title": "EU AI Act phased application",
-      "subtitle": "Next deadline: 2026-08-02",
-      "summary": "The Act applies through phased deadlines; the next broad deadline tracked here is 2 August 2026.",
+      "subtitle": "phased_application",
+      "summary": "The Act applies through phased deadlines; separate milestones track the 2026 AI Omnibus and broad-application dates.",
       "url": "https://global-ai-governance-map.vercel.app/embed/implementation/eu-ai-act-phased-application",
       "embedUrl": "https://global-ai-governance-map.vercel.app/embed/implementation/eu-ai-act-phased-application"
+    },
+    {
+      "kind": "implementation-deadline-card",
+      "id": "eu-ai-omnibus-entered-force",
+      "title": "AI Omnibus entered into force",
+      "subtitle": "in_force",
+      "summary": "The AI Omnibus entered into force on 27 July 2026 and changed the application timeline for rules governing high-risk AI systems.",
+      "url": "https://global-ai-governance-map.vercel.app/embed/implementation/eu-ai-omnibus-entered-force",
+      "embedUrl": "https://global-ai-governance-map.vercel.app/embed/implementation/eu-ai-omnibus-entered-force"
+    },
+    {
+      "kind": "implementation-deadline-card",
+      "id": "eu-ai-act-broad-application-2026",
+      "title": "Broad AI Act application milestone",
+      "subtitle": "phased_application",
+      "summary": "Most AI Act provisions began applying on 2 August 2026, while deadlines for high-risk AI systems follow the timeline changed by the AI Omnibus.",
+      "url": "https://global-ai-governance-map.vercel.app/embed/implementation/eu-ai-act-broad-application-2026",
+      "embedUrl": "https://global-ai-governance-map.vercel.app/embed/implementation/eu-ai-act-broad-application-2026"
     },
     {
       "kind": "implementation-deadline-card",

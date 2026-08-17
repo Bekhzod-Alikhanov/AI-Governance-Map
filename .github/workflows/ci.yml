@@ -90,6 +90,13 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Validate reproducible release
+        run: npm run validate:release
+
+      - name: Summarize research release
+        run: |
+          node -e 'const fs=require("node:fs"); const snapshot=require("./public/data/full-dataset.json"); const sources=require("./public/data/source-metadata.json"); const release=snapshot.data.datasetReleases.at(-1); const manual=release.unresolvedManualReview.length; const reviewDue=sources.filter((source)=>["needs_review","unreviewed"].includes(source.reviewStatus)).length; const summary=["## Research release",`- Release id: ${release.id}`,`- Status date: ${snapshot.statusAsOf}`,`- Manual checks: ${manual}`,`- Source entries due for review: ${reviewDue}`].join("\n")+"\n"; fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,summary);'
+
       - name: Check performance budget
         run: npm run check:performance
 

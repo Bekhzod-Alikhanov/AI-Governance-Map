@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software or dataset, please cite the dataset release below."
+title: "Global AI Governance Map"
+type: software
+authors:
+  - family-names: "Alikhanov"
+    given-names: "Bekhzodkhon (Beck)"
+version: "2026.08.0"
+date-released: "2026-08-17"
+repository-code: "https://github.com/Bekhzod-Alikhanov/AI-Governance-Map"
+url: "https://global-ai-governance-map.vercel.app/"
+license: MIT
+preferred-citation:
+  type: dataset
+  title: "Global AI Governance Map: 17 August 2026 research snapshot"
+  authors:
+    - family-names: "Alikhanov"
+      given-names: "Bekhzodkhon (Beck)"
+  version: "2026.08.0"
+  date-released: "2026-08-17"
+  repository-code: "https://github.com/Bekhzod-Alikhanov/AI-Governance-Map"
+  url: "https://global-ai-governance-map.vercel.app/"

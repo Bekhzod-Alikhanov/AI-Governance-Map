@@ -25,6 +25,8 @@ Do not add generic privacy, cybersecurity, semiconductor, export-control, or dig
    - `confidence`
    - `lastVerified`
    - `verificationNotes` when the status is uncertain, low-confidence, indirect, or easy to misread.
+   - `sourceLocator` with a descriptive `label` and the narrowest available document, article, section, page, or paragraph locator.
+   - `reviewStatus` and `reviewNotes` for the second-person review trail.
 5. Run the data review commands:
 
 ```bash
@@ -58,6 +60,21 @@ npm run test:e2e
 Use `verified` only when the cited official source directly supports the displayed claim. Use `likely_correct` when the source is official but the claim requires limited interpretation. Use `uncertain` or `needs_external_check` when the source is incomplete, generic, indirect, blocked, or not yet checked against a primary legal record.
 
 Records with `uncertain`, `needs_external_check`, or `low` confidence must include `verificationNotes`. The notes should explain the uncertainty, not argue around it.
+
+The two-person review field has four deliberately distinct meanings:
+
+- `editorial_checked`: a dataset editor checked the record and its cited support; this is not a claim of subject-matter expert review.
+- `expert_reviewed`: a qualified second reviewer completed a documented subject-matter review. Use this only when that review actually occurred.
+- `needs_review`: the record is queued for a second-person check or has a known review caveat.
+- `unreviewed`: no second-person review has been recorded.
+
+The author and the second reviewer should be different people. Put the review scope or unresolved caveat in `reviewNotes`; never promote a record to `expert_reviewed` merely because CI passed.
+
+## Reproducible Release And Zenodo Publication
+
+Before proposing a release, run `npm run data:public`, `npm run data:manifest`, and `npm run validate:release`. The immutable directory must contain `full-dataset.json`, `schema.json`, `release-package.json`, and `manifest.json`; a manifest never digests itself.
+
+Zenodo publication is manual. A maintainer must sign in to Zenodo, select **New upload**, upload the four files from `public/data/releases/2026-08-17/`, copy the metadata from `.zenodo.json`, confirm the MIT license and dataset upload type, and click **Publish**. Only after Zenodo assigns a real DOI may a separate reviewed change add that DOI to repository metadata. This release does not claim an expert review or a DOI.
 
 ## Source Freshness
 

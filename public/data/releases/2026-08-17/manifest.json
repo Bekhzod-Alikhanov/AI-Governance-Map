@@ -1,0 +1,22 @@
+{
+  "releaseId": "2026-08-17",
+  "algorithm": "sha256",
+  "generatedFrom": "deterministic public data build",
+  "files": [
+    {
+      "path": "full-dataset.json",
+      "bytes": 2385396,
+      "sha256": "ed4b02ec8e975c560963b19a44448255d1e142230869dcc60f31f3e525424598"
+    },
+    {
+      "path": "release-package.json",
+      "bytes": 4134046,
+      "sha256": "92c7d8085663a4862d54c1600df80c1d7a34408232bc2a5386a9e8b7183330f0"
+    },
+    {
+      "path": "schema.json",
+      "bytes": 9126,
+      "sha256": "8b3da865ae0f3630089779d4de47adc4c8a00ba96e29faa5b5f4f9e2d9f55efc"
+    }
+  ]
+}

@@ -1495,19 +1495,19 @@
       "title": "Andersen v. Stability AI Ltd.",
       "jurisdiction": "United States (N.D. Cal., 23-cv-00201-WHO)",
       "country": "United States",
-      "status": "Ongoing pretrial litigation; plaintiffs moved for leave to file a Third Amended Complaint (2026-01-12)",
+      "status": "Discovery; amended stipulated protective order entered (Document 380, 2026-01-14)",
       "domains": [
         "synthetic-media",
         "enforcement-litigation"
       ],
-      "summary": "Artists' class action alleging Stable Diffusion and related AI image tools (Stability AI, Midjourney, DeviantArt, Runway) were trained on their works and infringe copyright and right of publicity.",
-      "caveat": "Held for human review: the cited GovInfo PDF was not confirmed to be the specific February 2024 order, and the 2026/2027 hearing dates are from a research pass. Do not rely on procedural detail until a PACER/RECAP docket-authenticated order is obtained.",
-      "sourceName": "GovInfo - Andersen v. Stability AI order",
-      "sourceUrl": "https://www.govinfo.gov/content/pkg/USCOURTS-cand-3_23-cv-00201/pdf/USCOURTS-cand-3_23-cv-00201-1.pdf",
+      "summary": "Artists' claims involving Stable Diffusion and related image-generation systems remained pending in discovery as of the court's 14 January 2026 protective order.",
+      "caveat": "Document 380 supports only a pending discovery/protective-order posture; it does not support broader scheduling or amendment assertions.",
+      "sourceName": "GovInfo - Andersen v. Stability AI, Document 380",
+      "sourceUrl": "https://www.govinfo.gov/content/pkg/USCOURTS-cand-3_23-cv-00201/pdf/USCOURTS-cand-3_23-cv-00201-16.pdf",
       "sourceKind": "official",
-      "verificationStatus": "uncertain",
-      "confidence": "medium",
-      "lastVerified": "2026-06-15"
+      "verificationStatus": "verified",
+      "confidence": "high",
+      "lastVerified": "2026-08-17"
     },
     {
       "id": "enforcement:getty-v-stability-ai-uk-2025",
@@ -1979,19 +1979,19 @@
       "title": "Bartz v. Anthropic (authors' copyright class action)",
       "jurisdiction": "United States (N.D. Cal., 3:24-cv-05417)",
       "country": "United States",
-      "status": "Summary-judgment ruling (June 2025); preliminary settlement (Sept 2025)",
+      "status": "Preliminary settlement approval (Document 437, 2025-10-17)",
       "domains": [
         "frontier-gpai",
         "enforcement-litigation"
       ],
-      "summary": "Authors (Andrea Bartz, Charles Graeber, Kirk Wallace Johnson) sued Anthropic over training Claude on their books; a landmark ruling split training (fair use) from piracy (not), followed by a ~$1.5B settlement.",
-      "caveat": "Litigation status is volatile (settlement approval was under review); confirm against the docket. The govinfo case page is the official record; the specific order was not individually read here.",
-      "sourceName": "GovInfo - Bartz v. Anthropic (USCOURTS-cand-3_24-cv-05417)",
-      "sourceUrl": "https://www.govinfo.gov/app/details/USCOURTS-cand-3_24-cv-05417",
+      "summary": "The court granted preliminary approval of the proposed class settlement in Bartz v. Anthropic on 17 October 2025.",
+      "caveat": "Preliminary approval is not final approval or final judgment; later settlement administration and docket developments are outside this source's scope.",
+      "sourceName": "GovInfo - Bartz v. Anthropic, Document 437",
+      "sourceUrl": "https://www.govinfo.gov/content/pkg/USCOURTS-cand-3_24-cv-05417/pdf/USCOURTS-cand-3_24-cv-05417-5.pdf",
       "sourceKind": "official",
-      "verificationStatus": "uncertain",
-      "confidence": "medium",
-      "lastVerified": "2026-06-19"
+      "verificationStatus": "verified",
+      "confidence": "high",
+      "lastVerified": "2026-08-17"
     },
     {
       "id": "enforcement:kadrey-v-meta-copyright-2025",
@@ -2001,52 +2001,29 @@
       "title": "Kadrey v. Meta Platforms (authors' copyright)",
       "jurisdiction": "United States (N.D. Cal., 3:23-cv-03417)",
       "country": "United States",
-      "status": "Order on summary judgment (2025-06-25, Judge Chhabria)",
+      "status": "Summary judgment for Meta as to named plaintiffs; proposed-class distribution and contributory claims unresolved (Document 700)",
       "domains": [
         "frontier-gpai",
         "enforcement-litigation"
       ],
-      "summary": "Thirteen authors (incl. Richard Kadrey, Sarah Silverman) sued Meta over training Llama on their books; the court found fair use on the record but expressly flagged 'market dilution' as a live future theory.",
-      "caveat": "The fair-use win was on the specific record; the court left 'market dilution' open. Confirm current posture against the docket.",
-      "sourceName": "GovInfo - Kadrey v. Meta Platforms (USCOURTS-cand-3_23-cv-03417)",
-      "sourceUrl": "https://www.govinfo.gov/app/details/USCOURTS-cand-3_23-cv-03417",
+      "summary": "The named plaintiffs' training claim ended at summary judgment, but Document 700 did not resolve the proposed class's distribution and contributory claims.",
+      "caveat": "The disposition is split: the named-plaintiff training claim is resolved, while the proposed-class distribution and contributory claims remained unresolved in this document.",
+      "sourceName": "GovInfo - Kadrey v. Meta Platforms, Document 700",
+      "sourceUrl": "https://www.govinfo.gov/content/pkg/USCOURTS-cand-3_23-cv-03417/pdf/USCOURTS-cand-3_23-cv-03417-41.pdf",
       "sourceKind": "official",
-      "verificationStatus": "uncertain",
-      "confidence": "medium",
-      "lastVerified": "2026-06-19"
-    },
-    {
-      "id": "enforcement:garcia-v-character-ai-wrongful-death-2024",
-      "route": "/enforcement/garcia-v-character-ai-wrongful-death-2024",
-      "kind": "enforcement",
-      "kindLabel": "Enforcement / litigation",
-      "title": "Garcia v. Character Technologies (and Google) — AI-chatbot wrongful death",
-      "jurisdiction": "United States (M.D. Fla., 6:24-cv-01903)",
-      "country": "United States",
-      "status": "Motion to dismiss largely denied; ongoing",
-      "domains": [
-        "education-children",
-        "frontier-gpai",
-        "enforcement-litigation"
-      ],
-      "summary": "Megan Garcia sued Character.AI, its founders, and Google after her son's suicide following interactions with a Character.AI persona — a landmark AI product-liability / wrongful-death case.",
-      "caveat": "Volatile and high-profile; Google's exact role and the current posture should be confirmed against the docket. The govinfo M.D. Fla. case page should be verified to resolve to the right documents.",
-      "sourceName": "GovInfo - Garcia v. Character Technologies (USCOURTS-flmd-6_24-cv-01903)",
-      "sourceUrl": "https://www.govinfo.gov/app/details/USCOURTS-flmd-6_24-cv-01903",
-      "sourceKind": "official",
-      "verificationStatus": "uncertain",
-      "confidence": "medium",
-      "lastVerified": "2026-06-19"
+      "verificationStatus": "verified",
+      "confidence": "high",
+      "lastVerified": "2026-08-17"
     }
   ],
   "coverageReport": {
-    "totalRecords": 92,
+    "totalRecords": 91,
     "recordsByKind": {
       "institution": 23,
       "policy_process": 10,
       "standards_conformity": 11,
       "public_sector_ai": 10,
-      "enforcement": 38
+      "enforcement": 37
     },
     "countriesWithInstitutionData": [
       "AUT",

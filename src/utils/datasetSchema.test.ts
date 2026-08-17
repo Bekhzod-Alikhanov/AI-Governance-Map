@@ -11,6 +11,39 @@ describe("dataset schema", () => {
   it("declares a stable public schema id and current version", () => {
     expect(DATASET_SCHEMA.$id).toBe(DATASET_SCHEMA_ID);
     expect(DATASET_SCHEMA.properties.schemaVersion.const).toBe(DATASET_SCHEMA_VERSION);
+    expect(DATASET_SCHEMA_VERSION).toBe("2026.08.0");
+    expect(DATASET_SCHEMA.required).toEqual(
+      expect.arrayContaining(["releaseDate", "coverageCutoff", "statusAsOf", "snapshotDate"])
+    );
+  });
+
+  it("describes the full verification, review, and pinpoint locator vocabulary", () => {
+    expect(DATASET_SCHEMA.definitions.verificationMetadata.properties.verificationStatus.enum).toEqual([
+      "verified",
+      "likely_correct",
+      "uncertain",
+      "needs_external_check",
+      "unverified",
+      "superseded",
+    ]);
+    expect(DATASET_SCHEMA.definitions.verificationMetadata.properties.reviewStatus.enum).toEqual([
+      "unreviewed",
+      "editorial_checked",
+      "expert_reviewed",
+      "needs_review",
+    ]);
+    expect(DATASET_SCHEMA.definitions.verificationMetadata.properties.sourceLocator).toEqual({
+      $ref: "#/definitions/sourceLocator",
+    });
+    expect(DATASET_SCHEMA.definitions.sourceLocator.required).toEqual(["label"]);
+    expect(DATASET_SCHEMA.definitions.sourceLocator.properties).toMatchObject({
+      label: { type: "string" },
+      documentId: { type: "string" },
+      article: { type: "string" },
+      section: { type: "string" },
+      page: { type: "string" },
+      paragraph: { type: "string" },
+    });
   });
 
   it("validates the exported snapshot shape and count mirrors", () => {

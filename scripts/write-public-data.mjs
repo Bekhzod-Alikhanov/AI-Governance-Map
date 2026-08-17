@@ -9,47 +9,6 @@ function stableJson(value) {
   return `${JSON.stringify(value, null, 2)}\n`;
 }
 
-function sourceEntries(snapshot) {
-  const entries = [];
-  for (const [collection, rows] of Object.entries(snapshot.data)) {
-    if (!Array.isArray(rows)) continue;
-    for (const row of rows) {
-      if (!row || typeof row !== "object") continue;
-      if (row.sourceUrl) {
-        entries.push({
-          collection,
-          id: row.id,
-          name: row.name ?? row.title ?? row.label ?? row.id,
-          sourceName: row.sourceName,
-          sourceUrl: row.sourceUrl,
-          sourceKind: row.sourceKind ?? "",
-          verificationStatus: row.verificationStatus ?? "",
-          confidence: row.confidence ?? "",
-          lastVerified: row.lastVerified ?? "",
-          verificationNotes: row.verificationNotes ?? "",
-        });
-      }
-      if (Array.isArray(row.sourceChain)) {
-        for (const [index, source] of row.sourceChain.entries()) {
-          entries.push({
-            collection,
-            id: `${row.id}.sourceChain.${index}`,
-            name: `${row.name ?? row.title ?? row.label ?? row.id} supporting source`,
-            sourceName: source.sourceName,
-            sourceUrl: source.sourceUrl,
-            sourceKind: source.sourceKind ?? "",
-            verificationStatus: row.verificationStatus ?? "",
-            confidence: row.confidence ?? "",
-            lastVerified: row.lastVerified ?? "",
-            verificationNotes: source.note ?? row.verificationNotes ?? "",
-          });
-        }
-      }
-    }
-  }
-  return entries.sort((a, b) => `${a.collection}:${a.id}`.localeCompare(`${b.collection}:${b.id}`));
-}
-
 function publicUrl(pathname) {
   return `https://global-ai-governance-map.vercel.app${pathname}`;
 }
@@ -181,6 +140,7 @@ try {
   const policyBriefModule = await server.ssrLoadModule("/src/utils/policyBrief.ts");
 
   const snapshot = exportDataset.buildDatasetSnapshot();
+  const sourceEntries = exportDataset.buildSourceMetadataEntries(snapshot);
   const countrySummaries = countriesModule.COUNTRIES
     .filter((country) => country.iso3 !== "EUU")
     .map((country) => {
@@ -284,7 +244,7 @@ try {
     writeFile(path.join(outDir, "ai-atlas-indicators.json"), stableJson(aiAtlasModule.COUNTRY_INDICATOR_SCORES), "utf8"),
     writeFile(path.join(outDir, "ai-atlas-sources.json"), stableJson(aiAtlasModule.AI_ATLAS_SOURCES), "utf8"),
     writeFile(path.join(outDir, "readiness-reports.json"), stableJson(aiAtlasModule.COUNTRY_READINESS_REPORTS), "utf8"),
-    writeFile(path.join(outDir, "source-metadata.json"), stableJson(sourceEntries(snapshot)), "utf8"),
+    writeFile(path.join(outDir, "source-metadata.json"), stableJson(sourceEntries), "utf8"),
     writeFile(path.join(outDir, "changelog.json"), stableJson(releasesModule.DATASET_RELEASES), "utf8"),
     writeFile(path.join(outDir, "record-page-index.json"), stableJson(recordPageIndex(snapshot)), "utf8"),
     writeFile(path.join(outDir, "embed-cards.json"), stableJson(embedCards(snapshot, countrySummaries)), "utf8"),
@@ -296,7 +256,10 @@ try {
         snapshotDate: snapshot.snapshotDate,
         schema: datasetSchemaModule.DATASET_SCHEMA,
         dataset: snapshot,
-        sources: sourceEntries(snapshot),
+        releaseDate: snapshot.releaseDate,
+        coverageCutoff: snapshot.coverageCutoff,
+        statusAsOf: snapshot.statusAsOf,
+        sources: sourceEntries,
         changelog: labIntelligenceModule.RECORD_CHANGE_LOG_ENTRIES,
         corpusChangelog: researchCorpusModule.RESEARCH_CORPUS_CHANGELOG,
         euAiActAuthorityMatrix: euAiActAuthoritiesModule.EU_AI_ACT_AUTHORITY_MATRIX,
