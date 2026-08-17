@@ -1,46 +1,125 @@
-// Fails when a manual source-verification override has outlived its expiry date,
-// or has no expiry date at all.
-//
-// A manual check records a human confirming something automation cannot reach.
-// That confirmation ages: the Council of Europe override expired on 5 July 2026
-// and nothing surfaced it, so the dataset kept reporting a treaty status nobody
-// had re-checked. This turns that into a build failure.
+// Audits every time-boxed manual source check in the two data stores that can
+// carry one. Imports are side-effect free so the normalization and expiry
+// policy can be tested with fixtures.
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
-// Matches AGEING_AFTER_DAYS in src/utils/verificationAge.ts, and the interval
-// already used by the g7-hiroshima-statement entry.
-const EXPIRY_WINDOW_DAYS = 90;
+const DAY_MS = 86_400_000;
+const DUE_SOON_DAYS = 14;
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
-const root = process.cwd();
-const configPath = path.join(root, "src", "data", "sourceLinkManualChecks.json");
-const config = JSON.parse(await readFile(configPath, "utf8"));
-const checks = config.manualChecks ?? [];
+export function collectManualChecks(manualLinkConfig = {}, sourceDeltaConfig = {}) {
+  const manualLinkChecks = (manualLinkConfig.manualChecks ?? []).map((check) => ({
+    id: check.recordId,
+    sourceUrl: check.sourceUrl,
+    reviewedAt: check.lastChecked,
+    validUntil: check.expiresOn,
+  }));
+  const monitorChecks = (sourceDeltaConfig.monitors ?? [])
+    .filter((monitor) => monitor.manualVerification)
+    .map((monitor) => ({
+      id: monitor.id,
+      sourceUrl: monitor.sourceUrl,
+      reviewedAt: monitor.manualVerification.reviewedAt,
+      validUntil: monitor.manualVerification.validUntil,
+    }));
 
-const today = new Date().toISOString().slice(0, 10);
-const expired = checks.filter((check) => check.expiresOn && today > check.expiresOn);
-const undated = checks.filter((check) => !check.expiresOn);
-
-for (const check of expired) {
-  console.error(
-    `EXPIRED  ${check.recordId} — manual verification lapsed on ${check.expiresOn}. ` +
-      `Re-check ${check.sourceUrl} and update lastChecked/expiresOn, or mark the record superseded.`
-  );
-}
-for (const check of undated) {
-  console.error(
-    `NO EXPIRY  ${check.recordId} — manual verification has no expiresOn, so it can never lapse. ` +
-      `Add expiresOn (convention: lastChecked + ${EXPIRY_WINDOW_DAYS} days), or mark the record superseded.`
-  );
+  return [...manualLinkChecks, ...monitorChecks];
 }
 
-console.log(
-  `Manual source checks: ${checks.length} total, ${expired.length} expired, ${undated.length} without an expiry date.`
-);
+export function auditManualChecks(checks, today = new Date().toISOString().slice(0, 10)) {
+  const expired = [];
+  const undated = [];
+  const dueSoon = [];
+  const messages = [];
+  const todayTime = parseIsoDate(today);
 
-// An override with no expiry is not a smaller problem than an expired one — it
-// is the same problem with the alarm disabled. A human wrote "I checked this on
-// this date"; without an expiry that dated act silently becomes a permanent
-// claim, which is exactly how the Council of Europe status went stale. Both
-// conditions fail the build.
-if (expired.length > 0 || undated.length > 0) process.exit(1);
+  if (todayTime === null) throw new TypeError(`Invalid audit date: ${today}`);
+
+  for (const check of checks) {
+    if (!check.validUntil) {
+      undated.push(check);
+      messages.push(
+        `NO EXPIRY  ${check.id} — manual verification has no valid-until date. ` +
+          `Re-check ${check.sourceUrl} and add validUntil/expiresOn, or mark the record superseded.`
+      );
+      continue;
+    }
+
+    const validUntilTime = parseIsoDate(check.validUntil);
+    if (validUntilTime === null) {
+      undated.push(check);
+      messages.push(
+        `NO EXPIRY  ${check.id} — manual verification has an invalid valid-until date (${check.validUntil}). ` +
+          `Re-check ${check.sourceUrl} and add a valid ISO date, or mark the record superseded.`
+      );
+      continue;
+    }
+
+    const daysUntilExpiry = Math.round((validUntilTime - todayTime) / DAY_MS);
+    if (daysUntilExpiry < 0) {
+      expired.push(check);
+      messages.push(
+        `EXPIRED  ${check.id} — manual verification lapsed on ${check.validUntil}. ` +
+          `Re-check ${check.sourceUrl} and update the review dates, or mark the record superseded.`
+      );
+    } else if (daysUntilExpiry <= DUE_SOON_DAYS) {
+      dueSoon.push(check);
+      messages.push(
+        `DUE SOON  ${check.id} — manual verification expires in ${daysUntilExpiry} day(s) on ${check.validUntil}. ` +
+          `Re-check ${check.sourceUrl} before expiry.`
+      );
+    }
+  }
+
+  return {
+    checks,
+    dueSoon,
+    expired,
+    undated,
+    messages,
+    exitCode: expired.length > 0 || undated.length > 0 ? 1 : 0,
+  };
+}
+
+export async function runManualCheckAudit({ today } = {}) {
+  const [manualLinkConfig, sourceDeltaConfig] = await Promise.all([
+    readJson(path.join(root, "src", "data", "sourceLinkManualChecks.json")),
+    readJson(path.join(root, "src", "data", "sourceDeltaMonitors.json")),
+  ]);
+  const result = auditManualChecks(
+    collectManualChecks(manualLinkConfig, sourceDeltaConfig),
+    today
+  );
+
+  for (const message of result.messages) {
+    const log = message.startsWith("DUE SOON") ? console.warn : console.error;
+    log(message);
+  }
+  console.log(
+    `Manual source checks: ${result.checks.length} total, ${result.dueSoon.length} due soon, ` +
+      `${result.expired.length} expired, ${result.undated.length} without an expiry date.`
+  );
+
+  return result;
+}
+
+function parseIsoDate(value) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value ?? "")) return null;
+  const time = Date.parse(`${value}T00:00:00Z`);
+  return Number.isNaN(time) ? null : time;
+}
+
+async function readJson(filePath) {
+  return JSON.parse(await readFile(filePath, "utf8"));
+}
+
+function isCli() {
+  return process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+}
+
+if (isCli()) {
+  const result = await runManualCheckAudit();
+  process.exitCode = result.exitCode;
+}

@@ -60,11 +60,21 @@ export type ExpertReviewStatus =
   | "expert_reviewed"
   | "needs_review";
 
+export interface SourceLocator {
+  label: string;
+  documentId?: string;
+  article?: string;
+  section?: string;
+  page?: string;
+  paragraph?: string;
+}
+
 export interface SourceChainEntry {
   sourceName: string;
   sourceUrl: string;
   sourceKind?: SourceKind;
   note?: string;
+  sourceLocator?: SourceLocator;
 }
 
 export interface VerificationMetadata {
@@ -73,6 +83,7 @@ export interface VerificationMetadata {
   confidence?: DataConfidence;
   lastVerified?: string;
   verificationNotes?: string;
+  sourceLocator?: SourceLocator;
   sourceChain?: SourceChainEntry[];
   reviewStatus?: ExpertReviewStatus;
   reviewNotes?: string;

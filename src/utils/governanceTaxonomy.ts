@@ -6,14 +6,14 @@ import type {
   VerificationMetadata,
 } from "../types";
 import sourceHosts from "../data/sourceHosts.json";
+import { RELEASE_METADATA } from "../data/releaseMetadata";
 
 /**
- * The date the dataset is current to: the most recent `lastVerified` across the
- * corpus. Enforced by `snapshotDate.test.ts`, so re-verifying a record past this
- * date fails the build rather than silently making the published badge, the
- * citations and every downstream date check wrong.
+ * Compatibility alias for the release-level status date. `lastVerified`
+ * remains record-specific and must not be inferred from this release date.
+ * Prefer `RELEASE_METADATA.statusAsOf` in new reader-facing code.
  */
-export const DATA_SNAPSHOT_DATE = "2026-06-19";
+export const DATA_SNAPSHOT_DATE = RELEASE_METADATA.statusAsOf;
 
 export type NationalEntryClass =
   | "binding_ai_law"

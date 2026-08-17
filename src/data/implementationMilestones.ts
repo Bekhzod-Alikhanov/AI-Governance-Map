@@ -47,15 +47,48 @@ export const IMPLEMENTATION_MILESTONES: ImplementationMilestone[] = [
     jurisdiction: "European Union",
     status: "phased_application",
     date: "2024-08-01",
-    nextDeadline: "2026-08-02",
     label: "EU AI Act phased application",
     summary:
-      "The Act applies through phased deadlines; the next broad deadline tracked here is 2 August 2026.",
+      "The Act applies through phased deadlines; separate milestones track the 2026 AI Omnibus and broad-application dates.",
     sourceName: "EUR-Lex - Regulation (EU) 2024/1689",
     sourceUrl: "https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng",
     ...VERIFIED,
     verificationNotes:
-      "This milestone intentionally uses a broad next-deadline cue. Detailed article-by-article deadlines should be added as separate rows before legal reliance.",
+      "This is the general phase marker. The separate 2026 milestones distinguish broad application from the high-risk-system timeline changed by the AI Omnibus.",
+  },
+  {
+    id: "eu-ai-omnibus-entered-force",
+    parentType: "international_instrument",
+    parentId: "eu-ai-act",
+    jurisdiction: "European Union",
+    status: "in_force",
+    date: "2026-07-27",
+    label: "AI Omnibus entered into force",
+    summary:
+      "The AI Omnibus entered into force on 27 July 2026 and changed the application timeline for rules governing high-risk AI systems.",
+    sourceName: "European Commission - AI Omnibus enters into force",
+    sourceUrl: "https://digital-strategy.ec.europa.eu/en/news/ai-omnibus-enters-force",
+    ...VERIFIED,
+    lastVerified: "2026-08-17",
+    verificationNotes:
+      "Official Commission announcement confirms the entry-into-force date. This row does not imply that every high-risk-system obligation applied on that date.",
+  },
+  {
+    id: "eu-ai-act-broad-application-2026",
+    parentType: "international_instrument",
+    parentId: "eu-ai-act",
+    jurisdiction: "European Union",
+    status: "phased_application",
+    date: "2026-08-02",
+    label: "Broad AI Act application milestone",
+    summary:
+      "Most AI Act provisions began applying on 2 August 2026, while deadlines for high-risk AI systems follow the timeline changed by the AI Omnibus.",
+    sourceName: "European Commission - Navigating the AI Act",
+    sourceUrl: "https://digital-strategy.ec.europa.eu/en/faqs/navigating-ai-act",
+    ...VERIFIED,
+    lastVerified: "2026-08-17",
+    verificationNotes:
+      "Official Commission guidance supports the broad application milestone; high-risk-system requirements are deliberately not described as fully applicable on 2 August 2026.",
   },
   {
     id: "eu-ai-act-national-authorities-deadline",

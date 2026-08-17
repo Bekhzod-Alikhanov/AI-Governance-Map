@@ -111,29 +111,40 @@ rows.push(
   }),
 );
 
-// Council of Europe Framework Convention on AI — signed (20), and EU ratified.
+// Council of Europe Framework Convention on AI — 20 signature-only parties,
+// plus the EU, which signed and later ratified.
 rows.push(
-    ...makeRows("coe-ai-convention", COE_CONVENTION_SIGNATORIES, "signed", {
-      sourceName: "Council of Europe — Treaty Office, CETS No. 225",
-      sourceUrl: "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=225",
-      notes:
-        "Signed 5 Sep 2024 or later. Manual Treaty Office check on 5 Jun 2026 confirmed status as of 22 May 2026: 19 signatures not followed by ratification and 1 EU ratification/accession; treaty not yet in force.",
-      sourceKind: "official",
-      verificationStatus: "verified",
-      confidence: "high",
-      lastVerified: "2026-06-05",
-    }),
+  ...makeRows("coe-ai-convention", COE_CONVENTION_SIGNATORIES, "signed", {
+    sourceName: "Council of Europe — Treaty Office, CETS No. 225",
+    sourceUrl: "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=225",
+    notes:
+      "Signed 5 Sep 2024 or later. Treaty Office status reviewed 17 Aug 2026: 20 signatures not followed by ratification and 1 EU ratification/accession; treaty not yet in force.",
+    sourceKind: "official",
+    verificationStatus: "verified",
+    confidence: "high",
+    lastVerified: "2026-08-17",
+  }),
+  ...makeRows("coe-ai-convention", ["ALB"], "signed", {
+    date: "2026-06-15",
+    sourceName: "Council of Europe — Treaty Office, CETS No. 225",
+    sourceUrl: "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=225",
+    notes: "Albania signed CETS No. 225 on 15 June 2026.",
+    sourceKind: "official",
+    verificationStatus: "verified",
+    confidence: "high",
+    lastVerified: "2026-08-17",
+  }),
   ...makeRows("coe-ai-convention", [EU], "ratified", {
     date: "2026-05-15",
     sourceName: "Council of Europe — Treaty Office, CETS No. 225",
     sourceUrl: "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=225",
-      notes: "EU deposited its instrument of ratification on 15 May 2026.",
-      sourceKind: "official",
-      verificationStatus: "verified",
-      confidence: "high",
-      lastVerified: "2026-06-05",
-    }),
-  );
+    notes: "EU deposited its instrument of ratification on 15 May 2026.",
+    sourceKind: "official",
+    verificationStatus: "verified",
+    confidence: "high",
+    lastVerified: "2026-08-17",
+  }),
+);
 
 // Bletchley Declaration
 rows.push(

@@ -185,8 +185,13 @@ export function buildWorkbenchAnswerCards(filters: FilterState): WorkbenchAnswer
   const bindingJurisdictionCount = unique(
     bindingObligations.map((row) => row.jurisdiction ?? "")
   ).filter(Boolean).length;
-  const coeRatified = coeRows.filter((row) => row.participationType === "ratified").length;
-  const coeSigned = coeRows.filter((row) => row.participationType === "signed").length;
+  const coeRatifiedRows = coeRows.filter((row) => row.participationType === "ratified");
+  const coeRatifiedParties = new Set(coeRatifiedRows.map((row) => row.countryIso3));
+  const coeSignatureOnlyRows = coeRows.filter(
+    (row) => row.participationType === "signed" && !coeRatifiedParties.has(row.countryIso3)
+  );
+  const coeRatified = coeRatifiedRows.length;
+  const coeSigned = coeSignatureOnlyRows.length;
 
   return [
     {

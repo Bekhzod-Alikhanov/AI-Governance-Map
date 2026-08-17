@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { DATA_SNAPSHOT_DATE } from "./governanceTaxonomy";
 import { validateData } from "./validateData";
+import { RELEASE_METADATA } from "../data/releaseMetadata";
+import { INTERNATIONAL_PARTICIPATION } from "../data/participation";
 import {
   COMPUTE_DEPENDENCY_RECORDS,
   INCIDENT_ENFORCEMENT_RECORDS,
@@ -47,6 +49,35 @@ function latestVerificationDate(): string {
 }
 
 describe("dataset snapshot date", () => {
+  it("publishes the exact August release dates and preserves the snapshot alias", () => {
+    expect(RELEASE_METADATA).toEqual({
+      releaseId: "2026-08-17",
+      releaseDate: "2026-08-17",
+      coverageCutoff: "2026-08-17",
+      statusAsOf: "2026-08-17",
+    });
+    expect(DATA_SNAPSHOT_DATE).toBe(RELEASE_METADATA.statusAsOf);
+  });
+
+  it("includes Albania's 15 June 2026 Convention signature", () => {
+    expect(INTERNATIONAL_PARTICIPATION).toContainEqual(
+      expect.objectContaining({
+        instrumentId: "coe-ai-convention",
+        countryIso3: "ALB",
+        participationType: "signed",
+        date: "2026-06-15",
+      })
+    );
+  });
+
+  it("removes litigation whose purported primary source was unconfirmed", () => {
+    expect(
+      INCIDENT_ENFORCEMENT_RECORDS.some(
+        (row) => row.id === "garcia-v-character-ai-wrongful-death-2024"
+      )
+    ).toBe(false);
+  });
+
   it("matches the most recent verification in the corpus", () => {
     // The published snapshot date is what readers see on the badge, in citations
     // and in evidence dossiers. If records are re-verified past it, the badge
