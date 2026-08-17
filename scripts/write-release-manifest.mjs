@@ -5,6 +5,7 @@ import { pathToFileURL } from "node:url";
 
 export const RELEASE_ID = "2026-08-17";
 export const RELEASE_FILES = ["full-dataset.json", "schema.json", "release-package.json"];
+export const GENERATED_FROM = "deterministic public data build";
 
 function normalizeRelativePath(filePath) {
   return filePath.replaceAll("\\", "/").replace(/^\.\//, "");
@@ -45,36 +46,70 @@ export async function buildManifest({ releaseId, baseDir, files }) {
   return {
     releaseId,
     algorithm: "sha256",
-    generatedFrom: "deterministic public data build",
+    generatedFrom: GENERATED_FROM,
     files: entries,
   };
+}
+
+async function readFileIfPresent(filePath) {
+  try {
+    return await readFile(filePath);
+  } catch (error) {
+    if (error?.code === "ENOENT") return null;
+    throw error;
+  }
 }
 
 export async function writeReleaseManifest({ releaseId = RELEASE_ID, dataDir = path.join(process.cwd(), "public", "data") } = {}) {
   const versionedDir = path.join(dataDir, "releases", releaseId);
   await mkdir(versionedDir, { recursive: true });
 
-  for (const filename of RELEASE_FILES) {
-    await copyFile(path.join(dataDir, filename), path.join(versionedDir, filename));
-  }
-
   const manifest = await buildManifest({ releaseId, baseDir: dataDir, files: RELEASE_FILES });
   const serialized = `${JSON.stringify(manifest, null, 2)}\n`;
+  const serializedBytes = Buffer.from(serialized, "utf8");
+  const archivedFiles = await Promise.all(
+    RELEASE_FILES.map(async (filename) => ({
+      filename,
+      source: await readFile(path.join(dataDir, filename)),
+      archived: await readFileIfPresent(path.join(versionedDir, filename)),
+    }))
+  );
+  const archivedManifestPath = path.join(versionedDir, "manifest.json");
+  const archivedManifest = await readFileIfPresent(archivedManifestPath);
+  const archiveExists = archivedManifest !== null || archivedFiles.some(({ archived }) => archived !== null);
+
+  if (archiveExists) {
+    for (const { filename, source, archived } of archivedFiles) {
+      if (archived === null || !archived.equals(source)) {
+        throw new Error(`Refusing to overwrite immutable release ${releaseId}: ${filename} differs`);
+      }
+    }
+    if (archivedManifest === null || !archivedManifest.equals(serializedBytes)) {
+      throw new Error(`Refusing to overwrite immutable release ${releaseId}: manifest.json differs`);
+    }
+  } else {
+    for (const filename of RELEASE_FILES) {
+      await copyFile(path.join(dataDir, filename), path.join(versionedDir, filename));
+    }
+    await writeFile(archivedManifestPath, serializedBytes);
+  }
+
   await writeFile(path.join(dataDir, "release-manifest.json"), serialized, "utf8");
-  await writeFile(path.join(versionedDir, "manifest.json"), serialized, "utf8");
   return manifest;
 }
 
 export async function verifyManifest(manifestPath, baseDir = path.dirname(manifestPath)) {
   const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+  if (manifest.releaseId !== RELEASE_ID) throw new Error(`Invalid releaseId in ${manifestPath}`);
+  if (manifest.generatedFrom !== GENERATED_FROM) throw new Error(`Invalid generatedFrom in ${manifestPath}`);
   if (manifest.algorithm !== "sha256" || !Array.isArray(manifest.files)) {
     throw new Error(`Invalid release manifest: ${manifestPath}`);
   }
 
   const paths = manifest.files.map((entry) => entry.path);
-  const sortedPaths = [...paths].sort((a, b) => a.localeCompare(b));
-  if (JSON.stringify(paths) !== JSON.stringify(sortedPaths)) {
-    throw new Error(`Manifest file paths are not sorted: ${manifestPath}`);
+  const requiredPaths = RELEASE_FILES.map(normalizeRelativePath).sort((a, b) => a.localeCompare(b));
+  if (JSON.stringify(paths) !== JSON.stringify(requiredPaths)) {
+    throw new Error(`Manifest must list exactly: ${requiredPaths.join(", ")}`);
   }
 
   for (const entry of manifest.files) {

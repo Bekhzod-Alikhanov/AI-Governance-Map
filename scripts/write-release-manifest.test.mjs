@@ -65,6 +65,22 @@ test("writeReleaseManifest creates immutable copies and both manifests determini
   await verifyManifest(path.join(versionedDir, "manifest.json"), versionedDir);
 });
 
+test("writeReleaseManifest refuses to replace a published archive with different bytes", async (t) => {
+  const { root, dataDir } = await fixture();
+  t.after(() => rm(root, { recursive: true, force: true }));
+
+  await writeReleaseManifest({ releaseId: "2026-08-17", dataDir });
+  const archivedSchemaPath = path.join(dataDir, "releases", "2026-08-17", "schema.json");
+  const publishedSchema = await readFile(archivedSchemaPath, "utf8");
+  await writeFile(path.join(dataDir, "schema.json"), '{"schema":"changed-after-publication"}\n', "utf8");
+
+  await assert.rejects(
+    writeReleaseManifest({ releaseId: "2026-08-17", dataDir }),
+    /Refusing to overwrite immutable release 2026-08-17: schema\.json differs/
+  );
+  assert.equal(await readFile(archivedSchemaPath, "utf8"), publishedSchema);
+});
+
 test("verifyManifest rejects a mutated release file", async (t) => {
   const { root, dataDir } = await fixture();
   t.after(() => rm(root, { recursive: true, force: true }));
@@ -76,4 +92,40 @@ test("verifyManifest rejects a mutated release file", async (t) => {
     verifyManifest(path.join(dataDir, "release-manifest.json"), dataDir),
     /Digest mismatch for schema\.json/
   );
+});
+
+test("verifyManifest rejects malformed release identity and provenance", async (t) => {
+  const { root, dataDir } = await fixture();
+  t.after(() => rm(root, { recursive: true, force: true }));
+
+  await writeReleaseManifest({ releaseId: "2026-08-17", dataDir });
+  const manifestPath = path.join(dataDir, "release-manifest.json");
+  const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+
+  await writeFile(manifestPath, `${JSON.stringify({ ...manifest, releaseId: "2026-08-18" }, null, 2)}\n`);
+  await assert.rejects(verifyManifest(manifestPath, dataDir), /Invalid releaseId/);
+
+  await writeFile(
+    manifestPath,
+    `${JSON.stringify({ ...manifest, generatedFrom: "unknown build" }, null, 2)}\n`
+  );
+  await assert.rejects(verifyManifest(manifestPath, dataDir), /Invalid generatedFrom/);
+});
+
+test("verifyManifest rejects omitted and duplicate required file entries", async (t) => {
+  const { root, dataDir } = await fixture();
+  t.after(() => rm(root, { recursive: true, force: true }));
+
+  await writeReleaseManifest({ releaseId: "2026-08-17", dataDir });
+  const manifestPath = path.join(dataDir, "release-manifest.json");
+  const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+
+  await writeFile(manifestPath, `${JSON.stringify({ ...manifest, files: manifest.files.slice(0, 2) }, null, 2)}\n`);
+  await assert.rejects(verifyManifest(manifestPath, dataDir), /Manifest must list exactly/);
+
+  await writeFile(
+    manifestPath,
+    `${JSON.stringify({ ...manifest, files: [manifest.files[0], manifest.files[0], manifest.files[2]] }, null, 2)}\n`
+  );
+  await assert.rejects(verifyManifest(manifestPath, dataDir), /Manifest must list exactly/);
 });

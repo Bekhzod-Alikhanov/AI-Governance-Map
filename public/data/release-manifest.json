@@ -10,8 +10,8 @@
     },
     {
       "path": "release-package.json",
-      "bytes": 4134046,
-      "sha256": "92c7d8085663a4862d54c1600df80c1d7a34408232bc2a5386a9e8b7183330f0"
+      "bytes": 4155716,
+      "sha256": "0b025161b55ced9fde6f60c3feba00a63b61d3858435a3c822f7f423aa249be5"
     },
     {
       "path": "schema.json",

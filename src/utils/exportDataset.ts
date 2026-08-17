@@ -179,7 +179,7 @@ export function buildSourceMetadataEntries(snapshot: { data: object }): SourceMe
           lastVerified: row.lastVerified ?? "",
           verificationNotes: row.verificationNotes ?? "",
           ...(row.sourceLocator ? { sourceLocator: row.sourceLocator } : {}),
-          reviewStatus: row.reviewStatus ?? "",
+          reviewStatus: row.reviewStatus ?? "unreviewed",
           reviewNotes: row.reviewNotes ?? "",
         });
       }
@@ -196,7 +196,7 @@ export function buildSourceMetadataEntries(snapshot: { data: object }): SourceMe
           lastVerified: row.lastVerified ?? "",
           verificationNotes: source.note ?? row.verificationNotes ?? "",
           ...(source.sourceLocator ? { sourceLocator: source.sourceLocator } : {}),
-          reviewStatus: row.reviewStatus ?? "",
+          reviewStatus: row.reviewStatus ?? "unreviewed",
           reviewNotes: row.reviewNotes ?? "",
         });
       }

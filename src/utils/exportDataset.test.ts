@@ -93,6 +93,29 @@ describe("dataset export helpers", () => {
     });
   });
 
+  it("exports missing source review state as unreviewed", () => {
+    const sources = buildSourceMetadataEntries({
+      data: {
+        records: [
+          {
+            id: "primary-without-review",
+            name: "Primary source without review metadata",
+            sourceName: "Official source",
+            sourceUrl: "https://example.gov/primary",
+            sourceChain: [
+              {
+                sourceName: "Supporting source",
+                sourceUrl: "https://example.gov/supporting",
+              },
+            ],
+          },
+        ],
+      },
+    });
+
+    expect(sources.map((source) => source.reviewStatus)).toEqual(["unreviewed", "unreviewed"]);
+  });
+
   it("builds citation text with snapshot date and public project URLs", () => {
     const citation = buildCitationText();
 
