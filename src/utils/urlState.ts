@@ -231,8 +231,10 @@ export function parseShareableState(search: string): ShareableAppState {
       scenarioMarkets: scenarioMarkets.length ? scenarioMarkets : DEFAULT_WORKBENCH_STATE.scenarioMarkets,
       atlasPresetId: enumValue(params.get("wbAtlas"), ATLAS_PRESETS, DEFAULT_WORKBENCH_STATE.atlasPresetId),
       activeWorkflowId: params.get("wbWorkflow")?.slice(0, 80) || null,
-      activeQuestionId: params.get("wbQuestion")?.slice(0, 80) || null,
-      activeAnswerCardId: params.get("wbAnswer")?.slice(0, 80) || null,
+      activeQuestionId:
+        params.get("wbQuestion")?.slice(0, 80) || DEFAULT_WORKBENCH_STATE.activeQuestionId,
+      activeAnswerCardId:
+        params.get("wbAnswer")?.slice(0, 80) || DEFAULT_WORKBENCH_STATE.activeAnswerCardId,
     },
   };
 }
@@ -278,8 +280,18 @@ export function serializeShareableState(state: ShareableAppState): string {
     params.set("wbAtlas", state.workbench.atlasPresetId);
   }
   if (state.workbench.activeWorkflowId) params.set("wbWorkflow", state.workbench.activeWorkflowId);
-  if (state.workbench.activeQuestionId) params.set("wbQuestion", state.workbench.activeQuestionId);
-  if (state.workbench.activeAnswerCardId) params.set("wbAnswer", state.workbench.activeAnswerCardId);
+  if (
+    state.workbench.activeQuestionId &&
+    state.workbench.activeQuestionId !== DEFAULT_WORKBENCH_STATE.activeQuestionId
+  ) {
+    params.set("wbQuestion", state.workbench.activeQuestionId);
+  }
+  if (
+    state.workbench.activeAnswerCardId &&
+    state.workbench.activeAnswerCardId !== DEFAULT_WORKBENCH_STATE.activeAnswerCardId
+  ) {
+    params.set("wbAnswer", state.workbench.activeAnswerCardId);
+  }
   const serialized = params.toString();
   return serialized ? `?${serialized}` : "";
 }

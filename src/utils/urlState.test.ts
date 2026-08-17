@@ -104,6 +104,29 @@ describe("shareable URL state", () => {
     expect(parsed.workbench.activeAnswerCardId).toBe("binding-obligations");
   });
 
+  it("uses answer-first Workbench defaults without adding redundant question parameters", () => {
+    expect(DEFAULT_WORKBENCH_STATE.activeQuestionId).toBe("binding-duties-by-jurisdiction");
+    expect(DEFAULT_WORKBENCH_STATE.activeAnswerCardId).toBe("binding-obligations");
+    expect(serializeShareableState(DEFAULT_SHAREABLE_STATE)).not.toContain("wbQuestion");
+    expect(serializeShareableState(DEFAULT_SHAREABLE_STATE)).not.toContain("wbAnswer");
+    expect(parseShareableState("").workbench.activeQuestionId).toBe("binding-duties-by-jurisdiction");
+  });
+
+  it("round-trips an explicit non-default Workbench question", () => {
+    const serialized = serializeShareableState({
+      ...DEFAULT_SHAREABLE_STATE,
+      lens: "workbench",
+      workbench: {
+        ...DEFAULT_WORKBENCH_STATE,
+        activeQuestionId: "incident-reporting",
+        activeAnswerCardId: "binding-obligations",
+      },
+    });
+
+    expect(serialized).toContain("wbQuestion=incident-reporting");
+    expect(parseShareableState(serialized).workbench.activeQuestionId).toBe("incident-reporting");
+  });
+
   it("round-trips the map colour mode so a recoloured map can be cited", () => {
     const serialized = serializeShareableState({
       ...DEFAULT_SHAREABLE_STATE,
