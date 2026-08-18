@@ -205,6 +205,12 @@ export function buildSourceMetadataEntries(snapshot: { data: object }): SourceMe
   return entries.sort((a, b) => `${a.collection}:${a.id}`.localeCompare(`${b.collection}:${b.id}`));
 }
 
+export function countRecordsAwaitingSecondPersonReview(entries: SourceMetadataEntry[]): number {
+  return entries.filter(
+    (entry) => entry.reviewStatus === "unreviewed" || entry.reviewStatus === "needs_review"
+  ).length;
+}
+
 export function buildCitationText(): string {
   const { counts } = buildDatasetSnapshot();
   return [

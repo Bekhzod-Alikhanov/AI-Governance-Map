@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { DATASET_RELEASES } from "../data/datasetReleases";
+import { RELEASE_METADATA } from "../data/releaseMetadata";
 import type { FilterState } from "../types";
 
 interface Props {
@@ -9,7 +11,27 @@ interface Props {
 export function DataActions({ onOpenMethodology, filters }: Props) {
   const [open, setOpen] = useState(false);
   const [downloading, setDownloading] = useState<"dataset" | "filtered" | "citation" | null>(null);
+  const [reviewQueueCount, setReviewQueueCount] = useState<number | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
+  const currentRelease =
+    DATASET_RELEASES.find(
+      (release) => release.id === RELEASE_METADATA.releaseId && release.status === "published"
+    ) ?? [...DATASET_RELEASES].reverse().find((release) => release.status === "published");
+
+  useEffect(() => {
+    if (!open || reviewQueueCount !== null) return;
+    let cancelled = false;
+    void import("../utils/exportDataset").then(
+      ({ buildDatasetSnapshot, buildSourceMetadataEntries, countRecordsAwaitingSecondPersonReview }) => {
+        if (cancelled) return;
+        const entries = buildSourceMetadataEntries(buildDatasetSnapshot());
+        setReviewQueueCount(countRecordsAwaitingSecondPersonReview(entries));
+      }
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, [open, reviewQueueCount]);
 
   useEffect(() => {
     if (!open) return;
@@ -66,7 +88,7 @@ export function DataActions({ onOpenMethodology, filters }: Props) {
       {open && (
         <div
           id="data-actions-menu"
-          className="absolute right-0 top-full z-50 mt-2 w-64 rounded-lg border border-canvas-line bg-white p-2 text-xs shadow-drawer"
+          className="absolute right-0 top-full z-50 mt-2 w-72 max-w-[calc(100vw-2rem)] rounded-lg border border-canvas-line bg-white p-2 text-xs shadow-drawer"
         >
           <button
             type="button"
@@ -110,9 +132,28 @@ export function DataActions({ onOpenMethodology, filters }: Props) {
           >
             Source audit notes
           </a>
-          <p className="border-t border-canvas-line px-2.5 pt-2 text-[10px] leading-snug text-ink-500">
-            Static May 2026 research snapshot. Verify time-sensitive legal status against official sources.
-          </p>
+          <a
+            href="/data/changelog.json"
+            className="block rounded-md px-2.5 py-2 font-medium text-ink-800 hover:bg-canvas"
+          >
+            What changed
+          </a>
+          <a
+            href="/data/release-manifest.json"
+            className="block rounded-md px-2.5 py-2 font-medium text-ink-800 hover:bg-canvas"
+          >
+            Verify release checksums
+          </a>
+          <div className="space-y-0.5 border-t border-canvas-line px-2.5 pt-2 text-[10px] leading-snug text-ink-500">
+            <p>Released {currentRelease?.releaseDate ?? RELEASE_METADATA.releaseDate}</p>
+            <p>Coverage through {currentRelease?.coverageCutoff ?? RELEASE_METADATA.coverageCutoff}</p>
+            <p>
+              {reviewQueueCount === null
+                ? "Calculating second-person review queue…"
+                : `${new Intl.NumberFormat("en-US").format(reviewQueueCount)} records awaiting second-person review`}
+            </p>
+            <p>Record checks have their own dates; verify time-sensitive legal status against official sources.</p>
+          </div>
         </div>
       )}
     </div>

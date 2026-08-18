@@ -153,7 +153,7 @@ const WORKBENCH_COMPARE_KINDS = new Set<WorkbenchCompareKind>([
 ]);
 
 export const DEFAULT_SHAREABLE_STATE: ShareableAppState = {
-  lens: "geography",
+  lens: "workbench",
   filters: DEFAULT_FILTER_STATE,
   selectedIso3: null,
   selectedLabId: null,
@@ -210,7 +210,10 @@ export function parseShareableState(search: string): ShareableAppState {
   const scenarioMarkets = parseList(params.get("wbMarkets"), COUNTRY_IDS);
 
   return {
-    lens: enumValue(params.get("lens"), LENSES, DEFAULT_SHAREABLE_STATE.lens),
+    lens:
+      params.get("lens") === "layer"
+        ? "geography"
+        : enumValue(params.get("lens"), LENSES, DEFAULT_SHAREABLE_STATE.lens),
     filters,
     selectedIso3,
     selectedLabId,

@@ -30,11 +30,11 @@ test.describe("lens switcher tab pattern", () => {
 
     // Arrow keys move selection, which is what role="tab" promises.
     await selected.focus();
-    await expect(page.getByRole("tab", { name: "Geography" })).toHaveAttribute("aria-selected", "true");
+    await expect(page.getByRole("tab", { name: "Workbench" })).toHaveAttribute("aria-selected", "true");
     await page.keyboard.press("ArrowRight");
-    await expect(page.getByRole("tab", { name: "Network" })).toHaveAttribute("aria-selected", "true");
-    await page.keyboard.press("ArrowLeft");
     await expect(page.getByRole("tab", { name: "Geography" })).toHaveAttribute("aria-selected", "true");
+    await page.keyboard.press("ArrowLeft");
+    await expect(page.getByRole("tab", { name: "Workbench" })).toHaveAttribute("aria-selected", "true");
 
     await page.keyboard.press("End");
     await expect(page.getByRole("tab", { name: "Table" })).toHaveAttribute("aria-selected", "true");
@@ -45,14 +45,14 @@ test.describe("lens switcher tab pattern", () => {
 
 test.describe("accessibility smoke checks", () => {
   test("geography view has no automated WCAG A/AA violations", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/?lens=geography");
     await expect(page.getByRole("heading", { name: "AI Governance Map" })).toBeVisible();
 
     await expectNoA11yViolations(page);
   });
 
   test("country list map alternative has no automated WCAG A/AA violations", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/?lens=geography");
     await page.getByRole("button", { name: "Country list" }).click();
     await expect(page.getByRole("dialog", { name: "Keyboard-accessible country list" })).toBeVisible();
 
@@ -64,6 +64,49 @@ test.describe("accessibility smoke checks", () => {
     await page.getByRole("tab", { name: "Network" }).click();
     await page.getByRole("button", { name: "Node list" }).click();
 
+    await expectNoA11yViolations(page);
+  });
+
+  test("Workbench is the accessible default view", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.getByRole("tab", { name: "Workbench" })).toHaveAttribute("aria-selected", "true");
+    await expect(page.getByRole("heading", { name: "Answer concrete AI-governance questions" })).toBeVisible();
+
+    await expectNoA11yViolations(page);
+  });
+
+  test("Workbench remains usable at a 200% zoom equivalent", async ({ page }) => {
+    const viewport = page.viewportSize();
+    if (!viewport) throw new Error("This project must provide a viewport fixture");
+    await page.setViewportSize({
+      width: Math.max(180, Math.floor(viewport.width / 2)),
+      height: Math.max(300, Math.floor(viewport.height / 2)),
+    });
+    await page.goto("/?lens=workbench");
+
+    const question = page.getByRole("button", { name: /Which countries have binding AI duties/ });
+    await expect(question).toBeVisible();
+    await question.focus();
+    await expect(question).toBeFocused();
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1)
+    ).toBe(true);
+  });
+
+  test("forced colors preserve Workbench questions, sources, and keyboard focus", async ({ page }) => {
+    await page.emulateMedia({ forcedColors: "active" });
+    await page.goto("/?lens=workbench");
+
+    const question = page.getByRole("button", { name: /Which countries have binding AI duties/ });
+    const source = page.getByRole("link", { name: /^Official source/ }).first();
+    await expect(question).toBeVisible();
+    await expect(source).toBeVisible();
+    await question.focus();
+    await expect(question).toBeFocused();
+    expect(await question.evaluate((element) => getComputedStyle(element).outlineStyle)).not.toBe("none");
+    await source.focus();
+    await expect(source).toBeFocused();
+    expect(await source.evaluate((element) => getComputedStyle(element).outlineStyle)).not.toBe("none");
     await expectNoA11yViolations(page);
   });
 

@@ -54,7 +54,7 @@ describe("shareable URL state", () => {
 
   it("drops invalid values rather than trusting arbitrary URLs", () => {
     const parsed = parseShareableState("?lens=bad&inst=bad-id&country=NOPE&density=nope");
-    expect(parsed.lens).toBe("geography");
+    expect(parsed.lens).toBe("workbench");
     expect(parsed.filters.selectedInstrumentIds).toEqual([]);
     expect(parsed.selectedIso3).toBeNull();
     expect(parsed.networkDensity).toBe("all");

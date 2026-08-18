@@ -13,7 +13,7 @@ async function revealFilters(page: Page) {
 
 test.describe("governance map smoke flows", () => {
   test("opens data exports and map details", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/?lens=geography");
 
     await expect(page.getByRole("heading", { name: "AI Governance Map" })).toBeVisible();
     await expect(page.getByRole("note")).toHaveCount(0);
@@ -31,6 +31,14 @@ test.describe("governance map smoke flows", () => {
     await expect(page.getByRole("button", { name: "Download filtered JSON" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Download citation" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Methodology" })).toBeVisible();
+    await expect(page.getByText("Released 2026-08-17", { exact: true })).toBeVisible();
+    await expect(page.getByText("Coverage through 2026-08-17", { exact: true })).toBeVisible();
+    await expect(page.getByText("2,188 records awaiting second-person review", { exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "What changed" })).toHaveAttribute("href", "/data/changelog.json");
+    await expect(page.getByRole("link", { name: "Verify release checksums" })).toHaveAttribute(
+      "href",
+      "/data/release-manifest.json"
+    );
 
     const downloadPromise = page.waitForEvent("download");
     await page.getByRole("button", { name: "Download citation" }).click();
@@ -62,6 +70,7 @@ test.describe("governance map smoke flows", () => {
     await expect(page.getByText(/1 pinned item/)).toBeVisible();
     await expect(page.getByRole("link", { name: "Report correction" }).first()).toBeVisible();
 
+    await australiaDrawer.locator("summary", { hasText: "International instruments" }).click();
     await australiaDrawer.getByRole("button", { name: /Bletchley Declaration/ }).click();
     await australiaDrawer.getByRole("button", { name: "Dossier", exact: true }).click();
     const instrumentDossier = page.getByRole("dialog", { name: /Bletchley Declaration evidence dossier/ });
@@ -109,7 +118,7 @@ test.describe("governance map smoke flows", () => {
   });
 
   test("supports in-page map maximize mode", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/?lens=geography");
 
     await page.getByLabel("Map focus").selectOption("europe");
     await expect(page.getByLabel("Map focus")).toHaveValue("europe");
@@ -312,7 +321,7 @@ test.describe("governance map smoke flows", () => {
   });
 
   test("keeps map result scope clear while filtering", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/?lens=geography");
 
     await expect(page.getByLabel("Map scope: World overview")).toBeVisible();
     await page.getByRole("button", { name: "Country list" }).click();
@@ -351,5 +360,73 @@ test.describe("governance map smoke flows", () => {
     await page.locator("[data-filter-toolbar]").getByRole("button", { name: "Reset" }).click();
     await expect(page.getByLabel("Map scope: World overview")).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  });
+
+  test("keeps selected country context compact in Workbench and restores the full record", async ({ page }) => {
+    await page.goto("/?lens=geography");
+    await page.getByRole("button", { name: "Country list" }).click();
+    await page
+      .getByRole("dialog", { name: "Keyboard-accessible country list" })
+      .getByRole("button", { name: /Australia/ })
+      .click();
+    await expect(page.getByRole("dialog", { name: "Australia AI governance details" })).toBeVisible();
+
+    await page.getByRole("tab", { name: "Workbench" }).click();
+    await expect(page.getByRole("dialog", { name: "Australia AI governance details" })).toHaveCount(0);
+    const context = page.getByRole("region", { name: "Country context" });
+    await expect(context).toContainText("Australia");
+    await expect(context).toContainText("AUS");
+    await expect(context.getByRole("button", { name: "Open country record" })).toBeVisible();
+    await expect(context.getByRole("button", { name: "Clear context" })).toBeVisible();
+    await expect(page).toHaveURL(/country=AUS/);
+
+    await context.getByRole("button", { name: "Open country record" }).click();
+    await expect(page.getByRole("tab", { name: "Geography" })).toHaveAttribute("aria-selected", "true");
+    await expect(page.getByRole("dialog", { name: "Australia AI governance details" })).toBeVisible();
+
+    await page.getByRole("tab", { name: "Workbench" }).click();
+    await page.getByRole("region", { name: "Country context" }).getByRole("button", { name: "Clear context" }).click();
+    await expect(page.getByRole("region", { name: "Country context" })).toHaveCount(0);
+    await expect(page).not.toHaveURL(/country=AUS/);
+  });
+
+  test("country records expose status currency and stable contents anchors", async ({ page }) => {
+    await page.goto("/?lens=geography&country=AUS");
+    const drawer = page.getByRole("dialog", { name: "Australia AI governance details" });
+    await expect(drawer).toContainText("Status as of 2026-08-17");
+    await expect(drawer).toContainText(/Individual rows carry their own last-checked dates/);
+
+    const contents = drawer.getByRole("navigation", { name: "Country record contents" });
+    const targets = [
+      "country-research-answer",
+      "country-obligations",
+      "country-corpus",
+      "country-labs",
+      "country-national-rules",
+      "country-subnational-rules",
+      "country-connections",
+      "country-international",
+    ];
+    for (const target of targets) {
+      await expect(contents.locator(`a[href="#${target}"]`)).toHaveCount(1);
+      await expect(drawer.locator(`#${target}`)).toHaveCount(1);
+    }
+  });
+
+  test("search exposes humanized metadata and supports keyboard selection", async ({ page }) => {
+    await page.goto("/?lens=geography");
+    const search = page.getByRole("combobox", { name: "Search countries, acts, instruments" });
+    await search.fill("European AI Office");
+    const regulation = page.getByRole("option", { name: /European AI Office/ });
+    await expect(regulation).toContainText("Institutional framework");
+    await expect(regulation).not.toContainText("institutional_framework");
+
+    await search.fill("Australia");
+    await expect(page.getByRole("option", { name: /^Australia Country/ })).toBeVisible();
+    await search.press("ArrowDown");
+    await search.press("ArrowUp");
+    await expect(search).toHaveAttribute("aria-activedescendant", /global-search-option-country-AUS/);
+    await search.press("Enter");
+    await expect(page.getByRole("dialog", { name: "Australia AI governance details" })).toBeVisible();
   });
 });

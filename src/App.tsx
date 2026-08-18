@@ -32,8 +32,8 @@ import { countActiveFilters } from "./utils/filterCountries";
 import { parseRecordRoute, type RecordRoute } from "./utils/recordRoutes";
 import { parseEmbedRoute } from "./utils/embedRoutes";
 
-// Network + Timeline lenses are non-default. Lazy-load them so d3-force
-// and the timeline list don't ship in the initial bundle.
+// Lazy-load the analytical lenses so their specialist datasets and d3-force
+// code arrive only when the corresponding view is opened.
 const NetworkView = lazy(() => import("./components/NetworkView").then((m) => ({ default: m.NetworkView })));
 const TimelineView = lazy(() => import("./components/TimelineView").then((m) => ({ default: m.TimelineView })));
 const TableView = lazy(() => import("./components/TableView").then((m) => ({ default: m.TableView })));
@@ -449,6 +449,14 @@ export default function App() {
     setMapView(DEFAULT_MAP_VIEW);
   }
 
+  function handleOpenCountryRecord() {
+    if (!selectedIso3) return;
+    markNavigation();
+    setLens("geography");
+    setRouteRecord(null);
+    setIsMapMaximized(false);
+  }
+
   function isComparePinned(kind: CompareItemKind, id: string) {
     return compareItems.some((item) => item.kind === kind && item.id === id);
   }
@@ -781,20 +789,57 @@ export default function App() {
           />
         )}
         {lens === "workbench" && (
-          <Suspense fallback={<LensFallback />}>
-            <WorkbenchView
-              filters={filters}
-              onFiltersChange={handleFilterChange}
-              onSelectCountry={handleSelectCountry}
-              onSelectLab={handleSelectLab}
-              onSelectInstrument={handleSelectInstrument}
-              onOpenMethodology={() => setShowMethodology(true)}
-              onOpenAtlasMapMode={handleOpenAtlasMapMode}
-              workbenchState={workbenchState}
-              onWorkbenchStateChange={setWorkbenchState}
-              routeRecord={routeRecord}
-            />
-          </Suspense>
+          <div className="flex h-full min-w-0 flex-col overflow-hidden">
+            {selectedIso3 && COUNTRY_BY_ISO3[selectedIso3] && (
+              <section
+                aria-label="Country context"
+                className="z-10 flex shrink-0 flex-wrap items-center gap-2 border-b border-canvas-line bg-white px-4 py-2 text-xs shadow-sm"
+              >
+                <span className="font-semibold text-ink-900">
+                  Country context: {COUNTRY_BY_ISO3[selectedIso3].name}
+                </span>
+                <span className="rounded bg-canvas px-1.5 py-0.5 font-mono text-[11px] text-ink-600">
+                  {selectedIso3}
+                </span>
+                <span className="text-ink-500">Applied across Workbench answers and comparisons.</span>
+                <div className="ml-auto flex flex-wrap gap-1.5">
+                  <button
+                    type="button"
+                    onClick={handleOpenCountryRecord}
+                    className="rounded-md border border-accent bg-accent/5 px-2.5 py-1 font-medium text-accent hover:bg-accent/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  >
+                    Open country record
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      markNavigation();
+                      setSelectedIso3(null);
+                    }}
+                    className="rounded-md border border-canvas-line bg-white px-2.5 py-1 font-medium text-ink-700 hover:bg-canvas focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  >
+                    Clear context
+                  </button>
+                </div>
+              </section>
+            )}
+            <div className="min-h-0 min-w-0 flex-1">
+              <Suspense fallback={<LensFallback />}>
+                <WorkbenchView
+                  filters={filters}
+                  onFiltersChange={handleFilterChange}
+                  onSelectCountry={handleSelectCountry}
+                  onSelectLab={handleSelectLab}
+                  onSelectInstrument={handleSelectInstrument}
+                  onOpenMethodology={() => setShowMethodology(true)}
+                  onOpenAtlasMapMode={handleOpenAtlasMapMode}
+                  workbenchState={workbenchState}
+                  onWorkbenchStateChange={setWorkbenchState}
+                  routeRecord={routeRecord}
+                />
+              </Suspense>
+            </div>
+          </div>
         )}
         {lens === "network" && (
           <Suspense fallback={<LensFallback />}>
@@ -914,7 +959,7 @@ export default function App() {
           </div>
         )}
 
-        {selectedIso3 && (
+        {selectedIso3 && lens !== "workbench" && (
           <Suspense fallback={null}>
             <CountrySidePanel
               iso3={selectedIso3}
@@ -952,7 +997,7 @@ export default function App() {
               onOpenCountry={handleSelectCountry}
               onOpenLab={handleSelectLab}
               onOpenInstrument={handleSelectInstrument}
-              drawerOpen={Boolean(selectedIso3 || selectedLabId)}
+              drawerOpen={Boolean((selectedIso3 && lens !== "workbench") || selectedLabId)}
             />
           </Suspense>
         )}

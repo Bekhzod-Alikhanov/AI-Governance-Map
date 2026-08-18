@@ -8,6 +8,29 @@ import {
 } from "../utils/getVerificationLabel";
 import { getVerificationAge } from "../utils/verificationAge";
 
+const REVIEW_STATUS_LABELS = {
+  editorial_checked: "Editorially checked",
+  needs_review: "Needs review",
+  unreviewed: "Unreviewed",
+  expert_reviewed: "Expert reviewed",
+} as const;
+
+const REVIEW_STATUS_CLASSES = {
+  editorial_checked: "border-blue-200 bg-blue-50 text-blue-900",
+  needs_review: "border-amber-200 bg-amber-50 text-amber-900",
+  unreviewed: "border-canvas-line bg-white text-ink-700",
+  expert_reviewed: "border-emerald-200 bg-emerald-50 text-emerald-900",
+} as const;
+
+function formatSourceLocator(locator: NonNullable<VerificationMetadata["sourceLocator"]>): string {
+  const parts = [locator.documentId ? `Document ${locator.documentId}` : locator.label];
+  if (locator.article) parts.push(`article ${locator.article}`);
+  if (locator.section) parts.push(`section ${locator.section}`);
+  if (locator.page) parts.push(`${/[–—-]/.test(locator.page) ? "pages" : "page"} ${locator.page}`);
+  if (locator.paragraph) parts.push(`paragraph ${locator.paragraph}`);
+  return parts.join(" · ");
+}
+
 interface Props {
   item: VerificationMetadata;
   label?: string;
@@ -22,7 +45,10 @@ export function VerificationMeta({ item, label = "Source verification", compact 
       item.verificationStatus ||
       item.confidence ||
       item.lastVerified ||
-      item.verificationNotes
+      item.verificationNotes ||
+      item.reviewStatus ||
+      item.reviewNotes ||
+      item.sourceLocator
   );
 
   if (!hasMetadata) {
@@ -41,6 +67,16 @@ export function VerificationMeta({ item, label = "Source verification", compact 
         {item.verificationStatus && (
           <span className="rounded-md border border-canvas-line bg-white px-1.5 py-0.5 text-ink-700">
             {VERIFICATION_STATUS_LABELS[item.verificationStatus]}
+          </span>
+        )}
+        {item.reviewStatus && (
+          <span
+            className={clsx(
+              "rounded-md border px-1.5 py-0.5 font-medium",
+              REVIEW_STATUS_CLASSES[item.reviewStatus]
+            )}
+          >
+            {REVIEW_STATUS_LABELS[item.reviewStatus]}
           </span>
         )}
         {item.confidence && (
@@ -89,7 +125,14 @@ export function VerificationMeta({ item, label = "Source verification", compact 
           )}
         </dl>
       )}
+      {item.sourceLocator && (
+        <p className="mt-1 text-ink-700">
+          <span className="font-medium text-ink-800">Source pinpoint:</span>{" "}
+          {formatSourceLocator(item.sourceLocator)}
+        </p>
+      )}
       {item.verificationNotes && <p className="mt-1 text-ink-700">{item.verificationNotes}</p>}
+      {item.reviewNotes && <p className="mt-1 text-ink-700">{item.reviewNotes}</p>}
     </div>
   );
 }

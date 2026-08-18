@@ -24,6 +24,8 @@ import {
 } from "../utils/researchWorkbench";
 import { buildGovernanceColorReason, type MapColorReason } from "../utils/mapColorReason";
 import { corpusKindLabel, corpusRoute, getCorpusRecordsForCountry } from "../utils/researchCorpus";
+import { RELEASE_METADATA } from "../data/releaseMetadata";
+import { getEdgesForNode } from "../utils/getEdgesForNode";
 
 const AIAtlasSection = lazy(() => import("./AIAtlasSection").then((module) => ({ default: module.AIAtlasSection })));
 
@@ -77,6 +79,7 @@ export function CountrySidePanel({
   const subnationalRules = getSubnationalRulesByCountry(country.iso3);
   const colorReason = contextReason ?? buildGovernanceColorReason(getCountryMapSummary(iso3), mapMode);
   const corpusRecords = getCorpusRecordsForCountry(country.iso3);
+  const connectionCount = getEdgesForNode(country.iso3).totalCount;
 
   return (
     <aside
@@ -133,6 +136,28 @@ export function CountrySidePanel({
       </header>
 
       <div className="policy-scroll flex-1 overflow-y-auto px-5 py-5">
+        <div className="rounded-lg border border-canvas-line bg-canvas/60 px-3 py-2 text-[11px] leading-relaxed text-ink-600">
+          <span className="font-semibold text-ink-800">Status as of {RELEASE_METADATA.statusAsOf}.</span>{" "}
+          Individual rows carry their own last-checked dates; the release date does not replace those record-level checks.
+        </div>
+
+        <nav
+          aria-label="Country record contents"
+          className="sticky top-0 z-10 -mx-1 mt-3 rounded-lg border border-canvas-line bg-white/95 px-3 py-2 shadow-sm backdrop-blur"
+        >
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-ink-500">Contents</p>
+          <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-[11px] font-medium">
+            <a className="text-accent hover:underline" href="#country-research-answer">Answer</a>
+            <a className="text-accent hover:underline" href="#country-obligations">Obligations</a>
+            <a className="text-accent hover:underline" href="#country-corpus">Corpus</a>
+            <a className="text-accent hover:underline" href="#country-labs">Labs</a>
+            <a className="text-accent hover:underline" href="#country-national-rules">National rules</a>
+            <a className="text-accent hover:underline" href="#country-subnational-rules">Subnational</a>
+            <a className="text-accent hover:underline" href="#country-connections">Connections</a>
+            <a className="text-accent hover:underline" href="#country-international">International</a>
+          </div>
+        </nav>
+
         <section className="grid grid-cols-3 gap-3 rounded-xl border border-canvas-line bg-canvas/60 p-3 text-center">
           <div>
             <p className="text-2xl font-semibold text-ink-900">
@@ -160,7 +185,7 @@ export function CountrySidePanel({
           </div>
         </section>
 
-        <section className="mt-4 rounded-xl border border-canvas-line bg-white p-3">
+        <section id="country-research-answer" className="mt-4 scroll-mt-20 rounded-xl border border-canvas-line bg-white p-3">
           <h3 className="text-xs font-semibold uppercase tracking-wide text-ink-500">
             Research answer
           </h3>
@@ -204,7 +229,7 @@ export function CountrySidePanel({
           </p>
         </section>
 
-        <section className="mt-4 rounded-xl border border-canvas-line bg-white p-3">
+        <section id="country-obligations" className="mt-4 scroll-mt-20 rounded-xl border border-canvas-line bg-white p-3">
           <h3 className="text-xs font-semibold uppercase tracking-wide text-ink-500">
             Obligations and implementation
           </h3>
@@ -232,11 +257,11 @@ export function CountrySidePanel({
           <AIAtlasSection iso3={country.iso3} />
         </Suspense>
 
-        {corpusRecords.length > 0 && (
-          <section className="mt-6">
-            <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">
+        <section id="country-corpus" className="mt-6 scroll-mt-20">
+          <details className="rounded-xl border border-canvas-line bg-white p-3">
+            <summary className="cursor-pointer text-xs font-semibold uppercase tracking-wide text-ink-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
               Research corpus context ({corpusRecords.length})
-            </h3>
+            </summary>
             <ul className="space-y-1.5">
               {corpusRecords.map((record) => (
                 <li key={`${record.routeKind}:${record.id}`} className="rounded-md border border-canvas-line bg-white px-3 py-2 text-xs">
@@ -256,14 +281,14 @@ export function CountrySidePanel({
                 </li>
               ))}
             </ul>
-          </section>
-        )}
+          </details>
+        </section>
 
-        {summary.hqLabs.length > 0 && (
-          <section className="mt-6">
-            <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">
+        <section id="country-labs" className="mt-6 scroll-mt-20">
+          <details className="rounded-xl border border-canvas-line bg-white p-3">
+            <summary className="cursor-pointer text-xs font-semibold uppercase tracking-wide text-ink-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
               Frontier-lab HQ ({summary.hqLabs.length})
-            </h3>
+            </summary>
             <ul className="space-y-1.5">
               {summary.hqLabs.map((lab) => (
                 <li
@@ -299,24 +324,26 @@ export function CountrySidePanel({
                 </li>
               ))}
             </ul>
-          </section>
-        )}
-
-        <section className="mt-6">
-          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">
-            National AI laws, proposals, and guidance
-          </h3>
-          <NationalRegulationList regulations={summary.nationalRegulations} />
+          </details>
         </section>
 
-        {subnationalRules.length > 0 && (
-          <section className="mt-6">
-            <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">
-              {subnationalRules.every((rule) => jurisdictionLevel(rule.jurisdictionType) === "national_implementation")
+        <section id="country-national-rules" className="mt-6 scroll-mt-20">
+          <details className="rounded-xl border border-canvas-line bg-white p-3">
+            <summary className="cursor-pointer text-xs font-semibold uppercase tracking-wide text-ink-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+              National AI laws, proposals, and guidance ({summary.nationalRegulations.length})
+            </summary>
+            <NationalRegulationList regulations={summary.nationalRegulations} />
+          </details>
+        </section>
+
+        <section id="country-subnational-rules" className="mt-6 scroll-mt-20">
+          <details className="rounded-xl border border-canvas-line bg-white p-3">
+            <summary className="cursor-pointer text-xs font-semibold uppercase tracking-wide text-ink-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+              {subnationalRules.length > 0 && subnationalRules.every((rule) => jurisdictionLevel(rule.jurisdictionType) === "national_implementation")
                 ? "National implementation activity"
                 : "Subnational AI rules"}{" "}
               ({subnationalRules.length})
-            </h3>
+            </summary>
             <ul className="space-y-1.5">
               {subnationalRules.map((rule) => (
                 <li
@@ -356,25 +383,29 @@ export function CountrySidePanel({
                 </li>
               ))}
             </ul>
-          </section>
-        )}
-
-        <section className="mt-6">
-          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">
-            Connections
-          </h3>
-          <ConnectionsSection nodeId={iso3} />
+          </details>
         </section>
 
-        <section className="mt-6">
-          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-500">
-            International instruments and participation
-          </h3>
-          <InstrumentList
-            items={summary.participations}
-            onPinInstrument={onPinInstrument}
-            isInstrumentPinned={isInstrumentPinned}
-          />
+        <section id="country-connections" className="mt-6 scroll-mt-20">
+          <details className="rounded-xl border border-canvas-line bg-white p-3">
+            <summary className="cursor-pointer text-xs font-semibold uppercase tracking-wide text-ink-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+              Connections ({connectionCount})
+            </summary>
+            <ConnectionsSection nodeId={iso3} />
+          </details>
+        </section>
+
+        <section id="country-international" className="mt-6 scroll-mt-20">
+          <details className="rounded-xl border border-canvas-line bg-white p-3">
+            <summary className="cursor-pointer text-xs font-semibold uppercase tracking-wide text-ink-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+              International instruments and participation ({summary.participations.length})
+            </summary>
+            <InstrumentList
+              items={summary.participations}
+              onPinInstrument={onPinInstrument}
+              isInstrumentPinned={isInstrumentPinned}
+            />
+          </details>
         </section>
 
         {country.notes && (
