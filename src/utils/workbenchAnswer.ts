@@ -308,7 +308,9 @@ function genericAnswer(
         recordRoute("obligation", row.id),
       ),
     );
-  const evidenceRows = uniqueEvidence([...fromComparison, ...answerCardEvidence, ...fallback]);
+  const evidenceRows = uniqueEvidence(
+    fromComparison.length ? fromComparison : [...answerCardEvidence, ...fallback],
+  );
   return answer({
     questionId: question.id,
     questionTitle: question.title,

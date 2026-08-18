@@ -3,6 +3,7 @@ import { GOVERNANCE_OBLIGATIONS } from "../data/governanceObligations";
 import { IMPLEMENTATION_MILESTONES } from "../data/implementationMilestones";
 import { NATIONAL_AI_REGULATIONS, NATIONAL_REG_BY_ID } from "../data/nationalAIRegulations";
 import { RELEASE_METADATA } from "../data/releaseMetadata";
+import { WORKBENCH_QUESTION_BY_ID } from "../data/workbenchQuestions";
 import { DEFAULT_FILTER_STATE, type WorkbenchAnswer } from "../types";
 import {
   buildWorkbenchAnswer,
@@ -153,6 +154,22 @@ describe("structured Workbench answers", () => {
     expect(answer.sentence).toMatch(/high-confidence/i);
     expect(answer.evidence.length).toBeGreaterThan(0);
     expect(answer.evidence.every((row) => row.confidence === "high")).toBe(true);
+  });
+
+  it("uses resolved configured comparisons as the complete China question evidence set", () => {
+    const question = WORKBENCH_QUESTION_BY_ID["china-synthetic-media"];
+    const configuredRules = (question.compareItems ?? [])
+      .filter((item) => item.kind === "rule")
+      .map((item) => NATIONAL_REG_BY_ID[item.id])
+      .filter((row): row is NonNullable<typeof row> => Boolean(row));
+    const configuredIds = new Set(configuredRules.map((row) => row.id));
+    const configuredSourceUrls = new Set(configuredRules.map((row) => row.sourceUrl));
+
+    const answer = buildWorkbenchAnswer(question.id, DEFAULT_FILTER_STATE);
+
+    expect(answer.evidence.length).toBeGreaterThan(0);
+    expect(answer.evidence.every((row) => configuredIds.has(row.id))).toBe(true);
+    expect(answer.evidence.every((row) => configuredSourceUrls.has(row.sourceUrl))).toBe(true);
   });
 
   it("shows only upcoming implementation deadlines, sorted from soonest to latest", () => {
