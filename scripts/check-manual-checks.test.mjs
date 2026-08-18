@@ -105,4 +105,22 @@ describe("manual review expiry audit", () => {
       /undated-link.*https:\/\/official\.example\/undated-link/
     );
   });
+
+  it("treats calendar-impossible valid-until dates as invalid and undated", () => {
+    const result = auditManualChecks(
+      [
+        {
+          id: "impossible-date",
+          sourceUrl: "https://official.example/impossible-date",
+          reviewedAt: "2026-02-17",
+          validUntil: "2026-02-31",
+        },
+      ],
+      "2026-02-17"
+    );
+
+    assert.equal(result.exitCode, 1);
+    assert.deepEqual(result.undated.map((check) => check.id), ["impossible-date"]);
+    assert.match(result.messages.join("\n"), /invalid valid-until date \(2026-02-31\)/);
+  });
 });

@@ -36,11 +36,9 @@ describe("answer-first Workbench", () => {
     const featured = container.querySelector('section[aria-label="Featured research questions"]');
     expect(featured).not.toBeNull();
     expect(featured?.querySelectorAll("button")).toHaveLength(6);
-    const pressedQuestions = new Set(
-      Array.from(container.querySelectorAll('button[data-workbench-question][aria-pressed="true"]'))
-        .map((button) => button.getAttribute("data-workbench-question")),
-    );
-    expect(pressedQuestions).toEqual(new Set(["binding-duties-by-jurisdiction"]));
+    const pressedQuestions = container.querySelectorAll('button[data-workbench-question][aria-pressed="true"]');
+    expect(pressedQuestions).toHaveLength(1);
+    expect(pressedQuestions[0]).toHaveAttribute("data-workbench-question", "binding-duties-by-jurisdiction");
 
     const answer = container.querySelector('section[aria-label="Workbench answer"]');
     expect(answer).not.toBeNull();

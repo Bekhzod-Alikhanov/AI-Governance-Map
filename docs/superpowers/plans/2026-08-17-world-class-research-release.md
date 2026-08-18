@@ -264,3 +264,40 @@ Expected: every command exits 0; Playwright covers Workbench in desktop and mobi
 git add src/App.tsx src/components/DataActions.tsx src/components/SearchBox.tsx src/components/SearchBox.test.tsx src/components/CountrySidePanel.tsx src/components/VerificationMeta.tsx src/components/VerificationMeta.test.tsx tests/e2e/a11y.spec.ts tests/e2e/smoke.spec.ts
 git commit -m "feat: improve research navigation and trust cues"
 ```
+
+### Task 5: Whole-release integration closure
+
+**Files:**
+- Modify: `vite.config.ts`
+- Modify: `package.json`
+- Modify: `scripts/check-manual-checks.mjs`
+- Modify: `scripts/check-manual-checks.test.mjs`
+- Modify: `src/data/datasetCoverageStats.ts`
+- Regenerate: `src/data/countryMapSummaries.ts`
+- Modify: `src/components/WorkbenchView.tsx`
+- Modify: `src/components/WorkbenchView.test.tsx`
+- Modify: `docs/superpowers/plans/2026-08-17-world-class-research-release.md`
+
+**Interfaces:**
+- Produces one `npm test` command that runs Vitest suites and the two Node-native suites without double collection.
+- Reconciles generated counts with the August source data and closes deferred review minors.
+
+- [x] **Step 1: Capture the existing full-suite failures**
+
+Run `npm test` and confirm the two Node-native files are mis-collected plus Albania count drift.
+
+- [x] **Step 2: Separate and retain Node-native test execution**
+
+Exclude only `scripts/check-manual-checks.test.mjs` and `scripts/write-release-manifest.test.mjs` from Vitest, add `test:node` for those exact files, and make `npm test` run both Vitest and `test:node`.
+
+- [x] **Step 3: Regenerate August-derived counts**
+
+Run the existing country-map-summary generator and update `internationalParticipationRows` to the derived total. Do not hand-edit generated country summaries.
+
+- [x] **Step 4: Close deferred review minors**
+
+Reject calendar-impossible expiry dates by UTC round-trip validation with a Node regression. Render featured questions only once as pressed controls by excluding them from the closed all-questions list, with a component regression that asserts exactly one pressed control.
+
+- [x] **Step 5: Run full verification and commit**
+
+Run `npm test`, lint, typecheck, data validation, export validation, manual audit, manifest validation, and focused Workbench tests. Commit with message `test: close August release integration gaps`.

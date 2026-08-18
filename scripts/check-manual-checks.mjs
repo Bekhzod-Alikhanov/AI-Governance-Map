@@ -107,8 +107,12 @@ export async function runManualCheckAudit({ today } = {}) {
 
 function parseIsoDate(value) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value ?? "")) return null;
-  const time = Date.parse(`${value}T00:00:00Z`);
-  return Number.isNaN(time) ? null : time;
+  const [year, month, day] = value.split("-").map(Number);
+  const date = new Date(`${value}T00:00:00Z`);
+  const time = date.getTime();
+  if (!Number.isFinite(time)) return null;
+  if (date.getUTCFullYear() !== year || date.getUTCMonth() + 1 !== month || date.getUTCDate() !== day) return null;
+  return time;
 }
 
 async function readJson(filePath) {

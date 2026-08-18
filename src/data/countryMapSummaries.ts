@@ -46,8 +46,21 @@ export const EMPTY_COUNTRY_MAP_SUMMARY: CountryMapSummary = {
 
 export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> = {
   "ALB": {
-    "internationalParticipationCount": 5,
+    "internationalParticipationCount": 6,
     "hasFrontierAIRelevant": true,
+    "obligationSignals": [
+      {
+        "category": "risk_assessment",
+        "legalEffect": "binding",
+        "domains": [
+          "frontier-gpai",
+          "public-sector"
+        ]
+      }
+    ],
+    "implementationStatuses": [
+      "adopted"
+    ],
     "sourceConfidence": "medium"
   },
   "AND": {
@@ -146,7 +159,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -214,7 +226,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -295,7 +306,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -358,7 +368,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -421,7 +430,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -484,7 +492,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -547,7 +554,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -610,7 +616,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -674,7 +679,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -743,7 +747,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -826,7 +829,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -889,7 +891,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -952,7 +953,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -1033,7 +1033,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -1099,7 +1098,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "phased_application",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -1162,7 +1160,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -1243,7 +1240,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -1306,7 +1302,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -1369,7 +1364,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -1474,7 +1468,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -1590,7 +1583,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -1653,7 +1645,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -1716,7 +1707,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -1818,7 +1808,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -1883,7 +1872,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -1953,7 +1941,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },
@@ -2017,7 +2004,6 @@ export const COUNTRY_MAP_SUMMARIES: Record<string, Partial<CountryMapSummary>> =
       "regulator_appointed",
       "guidance_issued"
     ],
-    "hasNextImplementationDeadline": true,
     "hasInForceImplementation": true,
     "sourceConfidence": "medium"
   },

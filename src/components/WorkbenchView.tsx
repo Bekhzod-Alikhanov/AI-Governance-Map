@@ -246,6 +246,7 @@ export function WorkbenchView({
   const filteredQuestions = useMemo(() => {
     const query = questionSearch.trim().toLowerCase();
     return WORKBENCH_QUESTIONS.filter((question) => {
+      if (question.featured) return false;
       if (questionCategory !== "all" && question.category !== questionCategory) return false;
       if (!query) return true;
       return `${question.title} ${question.detail} ${question.categoryLabel}`.toLowerCase().includes(query);
