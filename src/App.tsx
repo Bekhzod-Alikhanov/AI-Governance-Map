@@ -801,7 +801,9 @@ export default function App() {
                 <span className="rounded bg-canvas px-1.5 py-0.5 font-mono text-[11px] text-ink-600">
                   {selectedIso3}
                 </span>
-                <span className="text-ink-500">Applied across Workbench answers and comparisons.</span>
+                <span className="text-ink-500">
+                  Retained navigation context only; Workbench answers are not filtered by this selection.
+                </span>
                 <div className="ml-auto flex flex-wrap gap-1.5">
                   <button
                     type="button"

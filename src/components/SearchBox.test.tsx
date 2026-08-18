@@ -132,4 +132,31 @@ describe("SearchBox keyboard combobox", () => {
     expect(australia).toHaveTextContent("Australia");
     expect(input).toHaveAttribute("aria-activedescendant", australia.id);
   });
+
+  it("resets a remembered index when an external controlled query returns", async () => {
+    const onSelectCountry = vi.fn();
+    const props = {
+      onQueryChange: vi.fn(),
+      onSelectCountry,
+      onSelectInstrument: vi.fn(),
+    };
+    const view = mount(<SearchBox query="Australia" {...props} />);
+    const input = view.container.querySelector<HTMLInputElement>('[role="combobox"]')!;
+    focus(input);
+    const australiaResults = await settleSearch(view.container);
+    expect(australiaResults.length).toBeGreaterThan(2);
+    press(input, "ArrowDown");
+    press(input, "ArrowDown");
+    expect(input).toHaveAttribute("aria-activedescendant", australiaResults[2].id);
+
+    act(() => view.root.render(<SearchBox query="European AI Office" {...props} />));
+    const officeResult = (await settleSearch(view.container))[0];
+    expect(input).toHaveAttribute("aria-activedescendant", officeResult.id);
+
+    act(() => view.root.render(<SearchBox query="Australia" {...props} />));
+    const returnedResults = await settleSearch(view.container);
+    expect(input).toHaveAttribute("aria-activedescendant", returnedResults[0].id);
+    press(input, "Enter");
+    expect(onSelectCountry).toHaveBeenCalledWith("AUS");
+  });
 });

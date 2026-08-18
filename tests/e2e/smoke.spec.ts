@@ -376,6 +376,10 @@ test.describe("governance map smoke flows", () => {
     const context = page.getByRole("region", { name: "Country context" });
     await expect(context).toContainText("Australia");
     await expect(context).toContainText("AUS");
+    await expect(context).toContainText(
+      "Retained navigation context only; Workbench answers are not filtered by this selection."
+    );
+    await expect(context).not.toContainText("Applied across Workbench answers and comparisons.");
     await expect(context.getByRole("button", { name: "Open country record" })).toBeVisible();
     await expect(context.getByRole("button", { name: "Clear context" })).toBeVisible();
     await expect(page).toHaveURL(/country=AUS/);
