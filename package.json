@@ -29,7 +29,7 @@
     "check:performance": "node scripts/check-performance-budget.mjs",
     "test:e2e": "node ./scripts/run-playwright.mjs",
     "test:a11y": "node ./scripts/run-playwright.mjs tests/e2e/a11y.spec.ts",
-    "test": "vitest run && npm run test:node && node -e \"\"",
+    "test": "vitest run && npm run test:node",
     "test:node": "node --test scripts/check-manual-checks.test.mjs scripts/write-release-manifest.test.mjs",
     "test:watch": "vitest",
     "data:og": "node scripts/generate-og-image.mjs",
