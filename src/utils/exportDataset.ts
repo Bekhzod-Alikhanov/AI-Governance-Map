@@ -53,6 +53,7 @@ export { downloadTextFile } from "./downloadTextFile";
 export function buildDatasetSnapshot() {
   return {
     schemaVersion: DATASET_SCHEMA_VERSION,
+    releaseId: RELEASE_METADATA.releaseId,
     releaseDate: RELEASE_METADATA.releaseDate,
     coverageCutoff: RELEASE_METADATA.coverageCutoff,
     statusAsOf: RELEASE_METADATA.statusAsOf,
@@ -97,7 +98,7 @@ export function buildDatasetSnapshot() {
       datasetReleases: DATASET_RELEASES.length,
       recordChangeLogEntries: RECORD_CHANGE_LOG_ENTRIES.length + RESEARCH_CORPUS_CHANGELOG.length,
     },
-    data: {
+    data: normalizeForPublicExport({
       countries: COUNTRIES,
       euMembers: EU_MEMBER_ISO3,
       frontierLabs: FRONTIER_LABS,
@@ -128,7 +129,7 @@ export function buildDatasetSnapshot() {
       sourceNotes: SOURCE_NOTES,
       datasetReleases: DATASET_RELEASES,
       recordChangeLogEntries: [...RECORD_CHANGE_LOG_ENTRIES, ...RESEARCH_CORPUS_CHANGELOG],
-    },
+    }),
   };
 }
 
@@ -360,7 +361,7 @@ export function buildFilteredDatasetSnapshot(filters: FilterState) {
       datasetReleases: DATASET_RELEASES.length,
       recordChangeLogEntries: RECORD_CHANGE_LOG_ENTRIES.length + RESEARCH_CORPUS_CHANGELOG.length,
     },
-    data: {
+    data: normalizeForPublicExport({
       countries: filteredCountries,
       euMembers: EU_MEMBER_ISO3.filter((iso3) => countryIso3s.has(iso3)),
       frontierLabs: filteredLabs,
@@ -391,8 +392,29 @@ export function buildFilteredDatasetSnapshot(filters: FilterState) {
       sourceNotes: SOURCE_NOTES,
       datasetReleases: DATASET_RELEASES,
       recordChangeLogEntries: [...RECORD_CHANGE_LOG_ENTRIES, ...RESEARCH_CORPUS_CHANGELOG],
-    },
+    }),
   };
+}
+
+function normalizeForPublicExport<T>(value: T): T {
+  if (Array.isArray(value)) {
+    const normalized = value.map((item) => normalizeForPublicExport(item));
+    return normalized.every((item, index) => item === value[index]) ? value : (normalized as T);
+  }
+  if (!value || typeof value !== "object") return value;
+
+  const original = value as Record<string, unknown>;
+  const normalized: Record<string, unknown> = {};
+  let changed = false;
+  for (const [key, child] of Object.entries(original)) {
+    normalized[key] = normalizeForPublicExport(child);
+    if (normalized[key] !== child) changed = true;
+  }
+  if (typeof original.sourceUrl === "string" && original.sourceUrl && original.reviewStatus === undefined) {
+    normalized.reviewStatus = "unreviewed";
+    changed = true;
+  }
+  return (changed ? normalized : value) as T;
 }
 
 function getFilteredCountryIso3s(filters: FilterState) {

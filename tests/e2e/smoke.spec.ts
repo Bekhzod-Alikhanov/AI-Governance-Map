@@ -12,6 +12,26 @@ async function revealFilters(page: Page) {
 }
 
 test.describe("governance map smoke flows", () => {
+  test("publishes a schema whose canonical id dereferences the served schema path", async ({ request }) => {
+    const response = await request.get("/data/schema.json");
+    expect(response.ok()).toBe(true);
+    expect(response.headers()["content-type"]).toMatch(/application\/json/);
+
+    const schema = (await response.json()) as { $id?: string };
+    expect(schema.$id).toBe("https://global-ai-governance-map.vercel.app/data/schema.json");
+    expect(new URL(schema.$id!).pathname).toBe(new URL(response.url()).pathname);
+  });
+
+  test("shows source pinpoint and review state in an evidence dossier", async ({ page }) => {
+    await page.goto("/enforcement/kadrey-v-meta-copyright-2025");
+    await page.getByRole("button", { name: "Dossier" }).first().click();
+    const dossier = page.getByRole("dialog", { name: /Kadrey v\. Meta Platforms.*evidence dossier/i });
+
+    await expect(dossier).toBeVisible();
+    await expect(dossier).toContainText("Document 700 · pages 3–5");
+    await expect(dossier).toContainText("Editorially checked");
+  });
+
   test("opens data exports and map details", async ({ page }) => {
     await page.goto("/?lens=geography");
 

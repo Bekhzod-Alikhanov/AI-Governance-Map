@@ -10,6 +10,9 @@ import {
 describe("dataset schema", () => {
   it("declares a stable public schema id and current version", () => {
     expect(DATASET_SCHEMA.$id).toBe(DATASET_SCHEMA_ID);
+    expect(DATASET_SCHEMA_ID).toBe(
+      "https://global-ai-governance-map.vercel.app/data/schema.json",
+    );
     expect(DATASET_SCHEMA.properties.schemaVersion.const).toBe(DATASET_SCHEMA_VERSION);
     expect(DATASET_SCHEMA_VERSION).toBe("2026.08.0");
     expect(DATASET_SCHEMA.required).toEqual(

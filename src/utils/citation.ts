@@ -1,11 +1,11 @@
-import { DATA_SNAPSHOT_DATE } from "./governanceTaxonomy";
+import { RELEASE_METADATA } from "../data/releaseMetadata";
 import type { VerificationMetadata } from "../types";
 
 /**
  * Canonical author attribution, reused wherever a record, country, or the full
  * dataset is cited or exported, so the work is properly attributable.
  */
-export const DATASET_CITATION_TITLE =`Alikhanov, B. (2026). Global AI Governance Map [dataset], snapshot ${DATA_SNAPSHOT_DATE}.`;
+export const DATASET_CITATION_TITLE = `Alikhanov, B. (2026). Global AI Governance Map [dataset], release ${RELEASE_METADATA.releaseDate}; coverage through ${RELEASE_METADATA.coverageCutoff}; status as of ${RELEASE_METADATA.statusAsOf}.`;
 
 interface CitationInput extends VerificationMetadata {
   recordKind: string;

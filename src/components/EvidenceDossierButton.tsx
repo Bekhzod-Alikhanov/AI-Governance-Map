@@ -4,6 +4,7 @@ import type { DossierKind, EvidenceDossier } from "../utils/evidenceDossier";
 import { downloadTextFile } from "../utils/downloadTextFile";
 import { useDialogFocus } from "../utils/useDialogFocus";
 import { CopyTextButton } from "./CopyTextButton";
+import { formatReviewState, formatSourceLocator } from "../utils/sourceProvenance";
 
 interface Props {
   kind: DossierKind;
@@ -126,7 +127,7 @@ function EvidenceDossierModal({
               {dossier.title}
             </h2>
             <p className="mt-1 text-xs text-ink-500">
-              Snapshot {dossier.snapshotDate}. Research aid only; not legal advice.
+              Release {dossier.releaseDate}; coverage through {dossier.coverageCutoff}; status as of {dossier.statusAsOf}. Research aid only; not legal advice.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -172,7 +173,7 @@ function EvidenceDossierModal({
                 {dossier.title}
               </h3>
               <p className="mt-2 text-xs leading-relaxed text-ink-500">
-                Dataset snapshot {dossier.snapshotDate}. Share URL: {dossier.currentUrl}
+                Release {dossier.releaseDate}; coverage through {dossier.coverageCutoff}; status as of {dossier.statusAsOf}. Share URL: {dossier.currentUrl}
               </p>
               <p className="mt-3 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-900">
                 Research aid only; not legal advice. Verify time-sensitive legal status against linked official sources.
@@ -242,6 +243,8 @@ function EvidenceDossierModal({
                       <th className="border-y border-l border-canvas-line px-2 py-1.5 font-semibold text-ink-700">Record</th>
                       <th className="border-y border-canvas-line px-2 py-1.5 font-semibold text-ink-700">Verification</th>
                       <th className="border-y border-canvas-line px-2 py-1.5 font-semibold text-ink-700">Last verified</th>
+                      <th className="border-y border-canvas-line px-2 py-1.5 font-semibold text-ink-700">Source pinpoint</th>
+                      <th className="border-y border-canvas-line px-2 py-1.5 font-semibold text-ink-700">Review</th>
                       <th className="border-y border-r border-canvas-line px-2 py-1.5 font-semibold text-ink-700">Source</th>
                     </tr>
                   </thead>
@@ -253,6 +256,12 @@ function EvidenceDossierModal({
                           {[source.sourceKind, source.verificationStatus, source.confidence].filter(Boolean).join(" / ")}
                         </td>
                         <td className="border-b border-canvas-line px-2 py-1.5 align-top">{source.lastVerified ?? ""}</td>
+                        <td className="border-b border-canvas-line px-2 py-1.5 align-top">
+                          {source.sourceLocator ? formatSourceLocator(source.sourceLocator) : "Not recorded"}
+                        </td>
+                        <td className="border-b border-canvas-line px-2 py-1.5 align-top">
+                          {formatReviewState(source)}
+                        </td>
                         <td className="border-b border-r border-canvas-line px-2 py-1.5 align-top">
                           <a
                             href={source.sourceUrl}

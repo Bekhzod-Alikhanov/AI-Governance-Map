@@ -4,6 +4,8 @@ import { INSTRUMENT_BY_ID } from "../data/internationalInstruments";
 import { PARTICIPATION_BY_INSTRUMENT } from "../data/participation";
 import type { VerificationMetadata } from "../types";
 import { DATA_SNAPSHOT_DATE, isConfirmedBindingNationalRegulation } from "./governanceTaxonomy";
+import { RELEASE_METADATA } from "../data/releaseMetadata";
+import { formatReviewState, formatSourceLocator } from "./sourceProvenance";
 import { getCountryGovernanceSummary } from "./getCountryGovernanceSummary";
 import {
   DATA_CONFIDENCE_LABELS,
@@ -95,6 +97,9 @@ export interface EvidenceDossier {
   title: string;
   subtitle: string;
   snapshotDate: string;
+  releaseDate: string;
+  coverageCutoff: string;
+  statusAsOf: string;
   currentUrl: string;
   summary: string;
   metrics: EvidenceDossierMetric[];
@@ -126,7 +131,9 @@ export function renderEvidenceDossierMarkdown(dossier: EvidenceDossier): string 
     `# ${dossier.title}`,
     "",
     `**Record:** ${dossier.subtitle}`,
-    `**Dataset snapshot:** ${dossier.snapshotDate}`,
+    `**Dataset release:** ${dossier.releaseDate}`,
+    `**Coverage through:** ${dossier.coverageCutoff}`,
+    `**Status as of:** ${dossier.statusAsOf}`,
     `**Share URL:** ${dossier.currentUrl}`,
     "",
     "> Research aid only; not legal advice. Verify time-sensitive legal status against the linked official sources.",
@@ -162,11 +169,11 @@ export function renderEvidenceDossierMarkdown(dossier: EvidenceDossier): string 
   }
 
   lines.push("## Sources", "");
-  lines.push("| Record | Source kind | Verification | Confidence | Last verified | URL |");
-  lines.push("| --- | --- | --- | --- | --- | --- |");
+  lines.push("| Record | Source kind | Verification | Confidence | Source pinpoint | Review | Last verified | URL |");
+  lines.push("| --- | --- | --- | --- | --- | --- | --- | --- |");
   for (const source of dossier.sources) {
     lines.push(
-      `| ${mdCell(source.record)} | ${mdCell(sourceKindLabel(source))} | ${mdCell(verificationLabel(source))} | ${mdCell(confidenceLabel(source))} | ${mdCell(source.lastVerified ?? "")} | ${mdCell(source.sourceUrl)} |`
+      `| ${mdCell(source.record)} | ${mdCell(sourceKindLabel(source))} | ${mdCell(verificationLabel(source))} | ${mdCell(confidenceLabel(source))} | ${mdCell(source.sourceLocator ? formatSourceLocator(source.sourceLocator) : "Not recorded")} | ${mdCell(formatReviewState(source))} | ${mdCell(source.lastVerified ?? "")} | ${mdCell(source.sourceUrl)} |`
     );
   }
   lines.push("");
@@ -201,7 +208,7 @@ function buildCountryDossier(iso3: string, currentUrl: string): EvidenceDossier 
   const caveats = [
     "This country profile is a research aggregation, not legal advice.",
     ...(!binding.length
-      ? ["No confirmed binding AI-specific national law is recorded in this snapshot; absence from the dataset is not proof that no relevant law exists."]
+      ? ["No confirmed binding AI-specific national law is recorded in this release; absence from the dataset is not proof that no relevant law exists."]
       : []),
     ...(country.isEUMember
       ? ["EU AI Act applicability does not mean the member state enacted a separate national AI law."]
@@ -248,10 +255,13 @@ function buildCountryDossier(iso3: string, currentUrl: string): EvidenceDossier 
     title: `${country.name} evidence dossier`,
     subtitle: `Country profile (${country.iso3})`,
     snapshotDate: DATA_SNAPSHOT_DATE,
+    releaseDate: RELEASE_METADATA.releaseDate,
+    coverageCutoff: RELEASE_METADATA.coverageCutoff,
+    statusAsOf: RELEASE_METADATA.statusAsOf,
     currentUrl,
     summary: binding.length
-      ? `${country.name} has ${binding.length} confirmed binding AI-specific national or EU-applicable rule(s) in this snapshot, plus ${proposed.length} proposed and ${guidance.length} guidance, strategy, or framework entrie(s).`
-      : `${country.name} has no confirmed binding AI-specific national law in this snapshot, but has ${proposed.length} proposed and ${guidance.length} guidance, strategy, or framework entrie(s), plus ${summary.participations.length} international participation row(s).`,
+      ? `${country.name} has ${binding.length} confirmed binding AI-specific national or EU-applicable rule(s) in this release, plus ${proposed.length} proposed and ${guidance.length} guidance, strategy, or framework entrie(s).`
+      : `${country.name} has no confirmed binding AI-specific national law in this release, but has ${proposed.length} proposed and ${guidance.length} guidance, strategy, or framework entrie(s), plus ${summary.participations.length} international participation row(s).`,
     metrics: [
       { label: "Confirmed binding AI-specific rules", value: binding.length },
       { label: "Proposed AI laws", value: proposed.length },
@@ -392,6 +402,9 @@ function buildLabDossier(labId: string, currentUrl: string): EvidenceDossier | n
     title: `${lab.name} evidence dossier`,
     subtitle: `Frontier lab - HQ: ${lab.hqCountryName}`,
     snapshotDate: DATA_SNAPSHOT_DATE,
+    releaseDate: RELEASE_METADATA.releaseDate,
+    coverageCutoff: RELEASE_METADATA.coverageCutoff,
+    statusAsOf: RELEASE_METADATA.statusAsOf,
     currentUrl,
     summary: `${lab.name} is tracked as a frontier-AI lab headquartered in ${lab.hqCountryName}, with ${exposureSummary.binding} binding exposure row(s), ${exposureSummary.voluntary} voluntary row(s), ${exposureSummary.standards} standards row(s), and ${exposureSummary.infrastructure} infrastructure row(s).`,
     metrics: [
@@ -525,8 +538,11 @@ function buildInstrumentDossier(instrumentId: string, currentUrl: string): Evide
     title: `${instrument.name} evidence dossier`,
     subtitle: `${instrument.organizationType} ${instrument.instrumentType.replace(/_/g, " ")}`,
     snapshotDate: DATA_SNAPSHOT_DATE,
+    releaseDate: RELEASE_METADATA.releaseDate,
+    coverageCutoff: RELEASE_METADATA.coverageCutoff,
+    statusAsOf: RELEASE_METADATA.statusAsOf,
     currentUrl,
-    summary: `${instrument.name} is classified as ${INSTRUMENT_BINDING_LABELS[instrument.bindingStatus].toLowerCase()} with ${participations.length} participation row(s) in this snapshot.`,
+    summary: `${instrument.name} is classified as ${INSTRUMENT_BINDING_LABELS[instrument.bindingStatus].toLowerCase()} with ${participations.length} participation row(s) in this release.`,
     metrics: [
       { label: "Issuer", value: instrument.issuer },
       { label: "Legal effect", value: INSTRUMENT_BINDING_LABELS[instrument.bindingStatus] },
@@ -595,6 +611,9 @@ function buildCorpusDossier(kind: CorpusUiKind, id: string, currentUrl: string):
     title: `${record.title} evidence dossier`,
     subtitle: `${corpusKindLabel(record.kind)} - ${record.jurisdiction}`,
     snapshotDate: DATA_SNAPSHOT_DATE,
+    releaseDate: RELEASE_METADATA.releaseDate,
+    coverageCutoff: RELEASE_METADATA.coverageCutoff,
+    statusAsOf: RELEASE_METADATA.statusAsOf,
     currentUrl,
     summary: `${record.title} is tracked as ${record.status} for ${record.jurisdiction}.`,
     metrics: [
@@ -680,6 +699,12 @@ function exposureSourceRecord(
     confidence: exposure.confidence,
     lastVerified: exposure.lastVerified,
     verificationNotes: exposure.verificationNotes,
+    sourceLocator: exposure.sourceLocator,
+    sourceChain: exposure.sourceChain,
+    reviewStatus: exposure.reviewStatus,
+    reviewNotes: exposure.reviewNotes,
+    archivedUrl: exposure.archivedUrl,
+    archivedAt: exposure.archivedAt,
   };
 }
 
@@ -694,6 +719,12 @@ function corpusSourceRecord(record: ResearchCorpusRecord): SourceBackedRecord {
     confidence: record.metadata.confidence,
     lastVerified: record.metadata.lastVerified,
     verificationNotes: record.metadata.verificationNotes,
+    sourceLocator: record.metadata.sourceLocator,
+    sourceChain: record.metadata.sourceChain,
+    reviewStatus: record.metadata.reviewStatus,
+    reviewNotes: record.metadata.reviewNotes,
+    archivedUrl: record.metadata.archivedUrl,
+    archivedAt: record.metadata.archivedAt,
   };
 }
 
@@ -713,6 +744,12 @@ function createSourceCollector() {
         confidence: record.confidence,
         lastVerified: record.lastVerified,
         verificationNotes: record.verificationNotes,
+        sourceLocator: record.sourceLocator,
+        sourceChain: record.sourceChain,
+        reviewStatus: record.reviewStatus,
+        reviewNotes: record.reviewNotes,
+        archivedUrl: record.archivedUrl,
+        archivedAt: record.archivedAt,
       });
     },
     list() {

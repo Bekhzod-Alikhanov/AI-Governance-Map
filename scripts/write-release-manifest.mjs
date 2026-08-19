@@ -3,7 +3,6 @@ import { copyFile, mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
-export const RELEASE_ID = "2026-08-17";
 export const RELEASE_FILES = ["full-dataset.json", "schema.json", "release-package.json"];
 export const GENERATED_FROM = "deterministic public data build";
 
@@ -60,7 +59,16 @@ async function readFileIfPresent(filePath) {
   }
 }
 
-export async function writeReleaseManifest({ releaseId = RELEASE_ID, dataDir = path.join(process.cwd(), "public", "data") } = {}) {
+async function readReleaseId(dataDir) {
+  const dataset = JSON.parse(await readFile(path.join(dataDir, "full-dataset.json"), "utf8"));
+  if (typeof dataset.releaseId !== "string" || !dataset.releaseId.trim()) {
+    throw new Error(`Missing releaseId in ${path.join(dataDir, "full-dataset.json")}`);
+  }
+  return dataset.releaseId;
+}
+
+export async function writeReleaseManifest({ dataDir = path.join(process.cwd(), "public", "data"), migrateRelease = false } = {}) {
+  const releaseId = await readReleaseId(dataDir);
   const versionedDir = path.join(dataDir, "releases", releaseId);
   await mkdir(versionedDir, { recursive: true });
 
@@ -79,13 +87,32 @@ export async function writeReleaseManifest({ releaseId = RELEASE_ID, dataDir = p
   const archiveExists = archivedManifest !== null || archivedFiles.some(({ archived }) => archived !== null);
 
   if (archiveExists) {
+    let differs = false;
     for (const { filename, source, archived } of archivedFiles) {
       if (archived === null || !archived.equals(source)) {
-        throw new Error(`Refusing to overwrite immutable release ${releaseId}: ${filename} differs`);
+        if (!migrateRelease) {
+          throw new Error(`Refusing to overwrite immutable release ${releaseId}: ${filename} differs`);
+        }
+        differs = true;
       }
     }
     if (archivedManifest === null || !archivedManifest.equals(serializedBytes)) {
-      throw new Error(`Refusing to overwrite immutable release ${releaseId}: manifest.json differs`);
+      if (!migrateRelease) {
+        throw new Error(`Refusing to overwrite immutable release ${releaseId}: manifest.json differs`);
+      }
+      differs = true;
+    }
+    if (differs) {
+      const migrationTargets = [...RELEASE_FILES, "manifest.json"].map((filename) => path.resolve(versionedDir, filename));
+      for (const target of migrationTargets) {
+        if (path.dirname(target) !== path.resolve(versionedDir)) {
+          throw new Error(`Release migration target is not a direct child of ${versionedDir}: ${target}`);
+        }
+      }
+      for (const filename of RELEASE_FILES) {
+        await copyFile(path.join(dataDir, filename), path.join(versionedDir, filename));
+      }
+      await writeFile(archivedManifestPath, serializedBytes);
     }
   } else {
     for (const filename of RELEASE_FILES) {
@@ -100,7 +127,8 @@ export async function writeReleaseManifest({ releaseId = RELEASE_ID, dataDir = p
 
 export async function verifyManifest(manifestPath, baseDir = path.dirname(manifestPath)) {
   const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
-  if (manifest.releaseId !== RELEASE_ID) throw new Error(`Invalid releaseId in ${manifestPath}`);
+  const expectedReleaseId = await readReleaseId(baseDir);
+  if (manifest.releaseId !== expectedReleaseId) throw new Error(`Invalid releaseId in ${manifestPath}`);
   if (manifest.generatedFrom !== GENERATED_FROM) throw new Error(`Invalid generatedFrom in ${manifestPath}`);
   if (manifest.algorithm !== "sha256" || !Array.isArray(manifest.files)) {
     throw new Error(`Invalid release manifest: ${manifestPath}`);
@@ -128,15 +156,25 @@ export async function verifyManifest(manifestPath, baseDir = path.dirname(manife
 
 async function main() {
   const dataDir = path.join(process.cwd(), "public", "data");
-  if (process.argv.includes("--verify")) {
-    const versionedDir = path.join(dataDir, "releases", RELEASE_ID);
+  const verifyIndex = process.argv.indexOf("--verify");
+  if (verifyIndex >= 0) {
+    const suppliedDir = process.argv[verifyIndex + 1];
+    if (suppliedDir) {
+      const versionedDir = path.resolve(suppliedDir);
+      const manifest = await verifyManifest(path.join(versionedDir, "manifest.json"), versionedDir);
+      process.stdout.write(`Verified SHA-256 manifest for release ${manifest.releaseId}.\n`);
+      return;
+    }
+    const releaseId = await readReleaseId(dataDir);
+    const versionedDir = path.join(dataDir, "releases", releaseId);
     await verifyManifest(path.join(dataDir, "release-manifest.json"), dataDir);
     await verifyManifest(path.join(versionedDir, "manifest.json"), versionedDir);
-    process.stdout.write(`Verified SHA-256 manifests for release ${RELEASE_ID}.\n`);
+    process.stdout.write(`Verified SHA-256 manifests for release ${releaseId}.\n`);
     return;
   }
-  await writeReleaseManifest({ releaseId: RELEASE_ID, dataDir });
-  process.stdout.write(`Wrote deterministic manifests for release ${RELEASE_ID}.\n`);
+  const migrateRelease = process.argv.includes("--migrate-release");
+  const manifest = await writeReleaseManifest({ dataDir, migrateRelease });
+  process.stdout.write(`Wrote deterministic manifests for release ${manifest.releaseId}.\n`);
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {

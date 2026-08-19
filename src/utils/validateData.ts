@@ -534,7 +534,7 @@ export function validateData(): ValidationReport {
     if (milestoneIds.has(milestone.id)) errors.push(`Duplicate implementation milestone id: ${milestone.id}`);
     milestoneIds.add(milestone.id);
     validateSource("Implementation milestone", milestone.id, milestone);
-    validateDate(`Implementation milestone ${milestone.id} date`, milestone.date);
+    validateDate(`Implementation milestone ${milestone.id} date`, milestone.date, { allowFuture: true });
     validateDate(`Implementation milestone ${milestone.id} nextDeadline`, milestone.nextDeadline, { allowFuture: true });
     validateDate(`Implementation milestone ${milestone.id} lastVerified`, milestone.lastVerified);
     if (!parentReferenceExists(milestone.parentType, milestone.parentId, labExposureIds)) {

@@ -3,13 +3,19 @@ import { GOVERNANCE_OBLIGATIONS } from "../data/governanceObligations";
 import { IMPLEMENTATION_MILESTONES } from "../data/implementationMilestones";
 import { NATIONAL_AI_REGULATIONS, NATIONAL_REG_BY_ID } from "../data/nationalAIRegulations";
 import { RELEASE_METADATA } from "../data/releaseMetadata";
-import { WORKBENCH_QUESTION_BY_ID } from "../data/workbenchQuestions";
+import { COUNTRY_READINESS_REPORTS } from "../data/aiAtlas";
+import { INSTRUMENT_BY_ID } from "../data/internationalInstruments";
+import {
+  WORKBENCH_QUESTION_BY_ID,
+  WORKBENCH_QUESTIONS,
+} from "../data/workbenchQuestions";
 import { DEFAULT_FILTER_STATE, type WorkbenchAnswer } from "../types";
 import {
   buildWorkbenchAnswer,
   renderWorkbenchAnswerCitation,
   renderWorkbenchAnswerCsv,
 } from "./workbenchAnswer";
+import { parseShareableState } from "./urlState";
 
 const WORKED_QUESTION_IDS = [
   "binding-duties-by-jurisdiction",
@@ -20,6 +26,86 @@ const WORKED_QUESTION_IDS = [
 ] as const;
 
 describe("structured Workbench answers", () => {
+  const expectedAnswerNouns: Record<string, RegExp> = {
+    "binding-duties-by-jurisdiction": /binding obligation/i,
+    "incident-reporting": /incident-reporting/i,
+    "model-evaluation": /model-evaluation/i,
+    "coe-signed-ratified": /ratification.*signature-only/i,
+    "eu-act-vs-national-law": /EU regulation.*national implementation/i,
+    "frontier-lab-binding-exposure": /frontier labs?.*binding exposure/i,
+    "labs-with-safety-frameworks": /labs?.*safety framework/i,
+    "government-evaluation-exposure": /government evaluation/i,
+    "china-synthetic-media": /China.*synthetic-media/i,
+    "high-readiness-weak-law": /readiness/i,
+    "unesco-ram-available": /UNESCO RAM/i,
+    "standards-soft-law": /standards.*soft-law/i,
+    "implementation-deadlines": /implementation deadline/i,
+    "employment-ai": /employment AI/i,
+    biometrics: /biometric/i,
+    "healthcare-ai": /healthcare AI/i,
+    "compute-dependencies": /compute dependency/i,
+    "source-confidence": /high-confidence/i,
+    "proposed-laws": /proposed law/i,
+    "gpai-market-access": /GPAI market-access/i,
+    "public-sector-ai": /public-sector AI/i,
+    "citation-brief": /citable source/i,
+  };
+
+  it.each(WORKBENCH_QUESTIONS)(
+    "derives sentence, count, entities, caveat, and evidence from the $id scope",
+    (question) => {
+      const answer = buildWorkbenchAnswer(question.id, DEFAULT_FILTER_STATE);
+
+      expect(answer.sentence.trim()).toMatch(/[.!?]$/);
+      expect(answer.sentence.trim()).toMatch(expectedAnswerNouns[question.id]);
+      expect(answer.caveat.trim()).not.toBe("");
+      expect(answer.countLabel.trim()).not.toBe("");
+      expect(answer.evidence.length).toBeLessThanOrEqual(5);
+
+      for (const row of answer.evidence) {
+        expect(row.sourceName.trim()).not.toBe("");
+        expect(row.sourceUrl).toMatch(/^https?:\/\//);
+      }
+
+      expect(new Set(answer.namedEntities)).toEqual(
+        new Set(answer.evidence.map((row) => row.entity)),
+      );
+      if (answer.evidence.length === 0) {
+        expect(answer.sentence).toMatch(/tracked release has no matching evidence/i);
+      }
+    },
+  );
+
+  it("uses UNESCO RAM activity rows rather than the global country count", () => {
+    const answer = buildWorkbenchAnswer("unesco-ram-available", DEFAULT_FILTER_STATE);
+    const ramRows = COUNTRY_READINESS_REPORTS.filter(
+      (row) => row.sourceId === "unesco-ram-global-hub-2026",
+    );
+    const ramIds = new Set(ramRows.map((row) => row.id));
+
+    expect(answer.sentence).toContain(`${ramRows.length} UNESCO RAM activity rows`);
+    expect(answer.countLabel).toBe(`${ramRows.length} UNESCO RAM activity rows`);
+    expect(answer.sentence).not.toMatch(/191 countries|countries match/i);
+    expect(answer.evidence.length).toBeGreaterThan(0);
+    expect(answer.evidence.every((row) => ramIds.has(row.id))).toBe(true);
+  });
+
+  it("uses configured standards and soft-law instruments without lab-exposure nouns", () => {
+    const question = WORKBENCH_QUESTION_BY_ID["standards-soft-law"];
+    const configuredIds = (question.compareItems ?? [])
+      .filter((item) => item.kind === "instrument")
+      .map((item) => item.id);
+    const answer = buildWorkbenchAnswer(question.id, DEFAULT_FILTER_STATE);
+
+    expect(answer.sentence).toContain(
+      `${configuredIds.length} configured standards and soft-law instruments`,
+    );
+    expect(answer.countLabel).toBe(`${configuredIds.length} standards and soft-law instruments`);
+    expect(answer.sentence).not.toMatch(/lab|binding hooks?/i);
+    expect(answer.evidence.map((row) => row.id)).toEqual(configuredIds);
+    expect(answer.evidence.every((row) => Boolean(INSTRUMENT_BY_ID[row.id]))).toBe(true);
+  });
+
   it.each(WORKED_QUESTION_IDS)("builds a complete source-backed answer for %s", (questionId) => {
     const answer = buildWorkbenchAnswer(questionId, DEFAULT_FILTER_STATE);
 
@@ -189,6 +275,56 @@ describe("structured Workbench answers", () => {
       expect(answer.countLabel).toBe("0 upcoming deadlines");
     }
   });
+
+  it("includes the two changed AI Omnibus high-risk deadlines with official evidence", () => {
+    const expected = [
+      {
+        id: "eu-ai-omnibus-high-risk-annex-iii-deadline",
+        date: "2027-12-02",
+        label: "AI Omnibus high-risk-system deadline (Annex III)",
+      },
+      {
+        id: "eu-ai-omnibus-high-risk-products-deadline",
+        date: "2028-08-02",
+        label: "AI Omnibus regulated-product high-risk-system deadline (Annex I)",
+      },
+    ];
+    const officialUrl = "https://digital-strategy.ec.europa.eu/en/news/ai-omnibus-enters-force";
+    const rows = expected.map(({ id }) => IMPLEMENTATION_MILESTONES.find((row) => row.id === id));
+    const question = WORKBENCH_QUESTION_BY_ID["implementation-deadlines"];
+    const answer = buildWorkbenchAnswer(question.id, DEFAULT_FILTER_STATE);
+
+    expect(rows.map((row) => row?.date)).toEqual(expected.map((row) => row.date));
+    expect(rows.map((row) => row?.label)).toEqual(expected.map((row) => row.label));
+    expect(rows.every((row) => row?.sourceUrl === officialUrl)).toBe(true);
+    expect(rows.every((row) => /changed|extended/i.test(`${row?.summary} ${row?.verificationNotes}`))).toBe(true);
+    expect(question.featured).toBe(true);
+    expect(answer.sentence.trim()).not.toBe("");
+    expect(answer.evidence.map((row) => row.id)).toEqual(expected.map((row) => row.id));
+    expect(answer.evidence.map((row) => row.name)).toEqual(
+      expected.map((row) => `${row.label} — ${row.date}`),
+    );
+    expect(answer.evidence.every((row) => row.sourceUrl === officialUrl)).toBe(true);
+  });
+
+  it("rebuilds the selected answer and effective configuration from the citation URL alone", () => {
+    const question = WORKBENCH_QUESTION_BY_ID["model-evaluation"];
+    const selectedFilters = { ...DEFAULT_FILTER_STATE, ...question.patch };
+    const selected = buildWorkbenchAnswer(question.id, selectedFilters);
+    const citation = renderWorkbenchAnswerCitation(selected);
+    const canonicalUrl = citation.match(/Canonical Workbench URL: (.+)/)?.[1];
+
+    expect(canonicalUrl).toBeTruthy();
+    const parsed = parseShareableState(new URL(canonicalUrl!).search);
+    const rebuilt = buildWorkbenchAnswer(parsed.workbench.activeQuestionId!, parsed.filters);
+
+    expect(parsed.filters).toEqual(selectedFilters);
+    expect(parsed.workbench.compareItems).toEqual(
+      question.compareItems ?? [],
+    );
+    expect(parsed.workbench.activeAnswerCardId).toBe(question.answerCardId ?? null);
+    expect(rebuilt).toEqual(selected);
+  });
 });
 
 describe("Workbench answer renderers", () => {
@@ -199,6 +335,8 @@ describe("Workbench answer renderers", () => {
     caveat: "Tracked data, not legal advice.",
     countLabel: "1 row",
     namedEntities: ["Example Entity"],
+    releaseDate: RELEASE_METADATA.releaseDate,
+    coverageCutoff: RELEASE_METADATA.coverageCutoff,
     statusAsOf: RELEASE_METADATA.statusAsOf,
     evidence: [
       {
@@ -212,6 +350,13 @@ describe("Workbench answer renderers", () => {
         verificationStatus: "verified",
         confidence: "high",
         lastVerified: "2026-08-17",
+        sourceLocator: {
+          label: "N.D. Cal. Document 700, filed 25 March 2026, pages 3–5",
+          documentId: "700",
+          page: "3–5",
+        },
+        reviewStatus: "needs_review",
+        reviewNotes: "Second-person review remains outstanding.",
       },
     ],
   };
@@ -221,11 +366,35 @@ describe("Workbench answer renderers", () => {
     const [header, row] = csv.split("\r\n");
 
     expect(header).toBe(
-      "question_id,question_title,answer,caveat,entity,evidence_id,evidence_name,source_name,source_url,record_url,status_as_of"
+      "question_id,question_title,answer,caveat,entity,evidence_id,evidence_name,source_name,source_url,record_url,source_locator,review_status,review_notes,last_verified,release_date,coverage_cutoff,status_as_of"
     );
     expect(row).toContain('"Who said ""yes"", and when?"');
     expect(row).toContain('"Example, ""official"" record"');
     expect(row).toContain('"Official Gazette, Office"');
+    expect(row).toContain("Document 700 · pages 3–5");
+    expect(row).toContain("needs_review");
+    expect(row).toContain("Second-person review remains outstanding.");
+    expect(row).toContain(RELEASE_METADATA.releaseDate);
+    expect(row).toContain(RELEASE_METADATA.coverageCutoff);
+  });
+
+  it("always exports one RFC-4180 summary row when scoped evidence is empty", () => {
+    const empty: WorkbenchAnswer = {
+      ...quotedAnswer,
+      questionId: "empty-question",
+      questionTitle: "Which evidence is available?",
+      sentence: "The tracked release has no matching evidence for this question.",
+      countLabel: "0 matching evidence rows",
+      namedEntities: [],
+      evidence: [],
+    };
+    const csv = renderWorkbenchAnswerCsv(empty);
+    const [header, summary, ...extra] = csv.split("\r\n");
+
+    expect(header).toContain("release_date,coverage_cutoff,status_as_of");
+    expect(summary).toContain("empty-question");
+    expect(summary).toContain("The tracked release has no matching evidence");
+    expect(extra).toEqual([]);
   });
 
   it("renders a citation with title, release and status dates, canonical question URL, and sources", () => {
@@ -234,10 +403,22 @@ describe("Workbench answer renderers", () => {
 
     expect(citation).toContain(answer.questionTitle);
     expect(citation).toContain(RELEASE_METADATA.releaseDate);
+    expect(citation).toContain(`coverage through ${RELEASE_METADATA.coverageCutoff}`);
     expect(citation).toContain(RELEASE_METADATA.statusAsOf);
     expect(citation).toContain("https://global-ai-governance-map.vercel.app/?lens=workbench&wbQuestion=binding-duties-by-jurisdiction");
     for (const source of new Set(answer.evidence.map((row) => row.sourceName))) {
       expect(citation).toContain(source);
     }
+  });
+
+  it("includes pinpoint and review metadata in citable source lines", () => {
+    const citation = renderWorkbenchAnswerCitation(quotedAnswer);
+
+    expect(citation).toContain("Document 700 · pages 3–5");
+    expect(citation).toContain("Needs review");
+    expect(citation).toContain("Second-person review remains outstanding.");
+    expect(citation).toContain(RELEASE_METADATA.releaseDate);
+    expect(citation).toContain(RELEASE_METADATA.coverageCutoff);
+    expect(citation).toContain(RELEASE_METADATA.statusAsOf);
   });
 });

@@ -32,12 +32,34 @@ export function auditManualChecks(checks, today = new Date().toISOString().slice
   const expired = [];
   const undated = [];
   const dueSoon = [];
+  const invalidReviewDates = [];
   const messages = [];
   const todayTime = parseIsoDate(today);
 
   if (todayTime === null) throw new TypeError(`Invalid audit date: ${today}`);
 
   for (const check of checks) {
+    const reviewedAtTime = parseIsoDate(check.reviewedAt);
+    if (!check.reviewedAt) {
+      invalidReviewDates.push(check);
+      messages.push(
+        `INVALID REVIEW  ${check.id} â€” manual verification has no reviewed-at date. ` +
+          `Re-check ${check.sourceUrl} and add reviewedAt/lastChecked.`
+      );
+    } else if (reviewedAtTime === null) {
+      invalidReviewDates.push(check);
+      messages.push(
+        `INVALID REVIEW  ${check.id} â€” manual verification has an invalid reviewed-at date (${check.reviewedAt}). ` +
+          `Re-check ${check.sourceUrl} and add a real ISO calendar date.`
+      );
+    } else if (reviewedAtTime > todayTime) {
+      invalidReviewDates.push(check);
+      messages.push(
+        `INVALID REVIEW  ${check.id} â€” reviewed-at date ${check.reviewedAt} is after audit date ${today}. ` +
+          `Re-check ${check.sourceUrl} and correct the review date.`
+      );
+    }
+
     if (!check.validUntil) {
       undated.push(check);
       messages.push(
@@ -55,6 +77,14 @@ export function auditManualChecks(checks, today = new Date().toISOString().slice
           `Re-check ${check.sourceUrl} and add a valid ISO date, or mark the record superseded.`
       );
       continue;
+    }
+
+    if (reviewedAtTime !== null && reviewedAtTime > validUntilTime) {
+      if (!invalidReviewDates.includes(check)) invalidReviewDates.push(check);
+      messages.push(
+        `INVALID REVIEW  ${check.id} â€” reviewed-at date ${check.reviewedAt} is after valid-until date ${check.validUntil}. ` +
+          `Re-check ${check.sourceUrl} and correct the review window.`
+      );
     }
 
     const daysUntilExpiry = Math.round((validUntilTime - todayTime) / DAY_MS);
@@ -78,8 +108,9 @@ export function auditManualChecks(checks, today = new Date().toISOString().slice
     dueSoon,
     expired,
     undated,
+    invalidReviewDates,
     messages,
-    exitCode: expired.length > 0 || undated.length > 0 ? 1 : 0,
+    exitCode: expired.length > 0 || undated.length > 0 || invalidReviewDates.length > 0 ? 1 : 0,
   };
 }
 
@@ -99,7 +130,8 @@ export async function runManualCheckAudit({ today } = {}) {
   }
   console.log(
     `Manual source checks: ${result.checks.length} total, ${result.dueSoon.length} due soon, ` +
-      `${result.expired.length} expired, ${result.undated.length} without an expiry date.`
+      `${result.expired.length} expired, ${result.undated.length} without an expiry date, ` +
+      `${result.invalidReviewDates.length} with invalid review dates.`
   );
 
   return result;

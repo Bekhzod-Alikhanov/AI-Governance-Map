@@ -69,6 +69,8 @@ import { getLabIntelligenceSummary } from "../utils/labIntelligence";
 import { RELEASE_METADATA } from "../data/releaseMetadata";
 import {
   FEATURED_WORKBENCH_QUESTIONS,
+  getQuestionEffectiveFilters,
+  getQuestionWorkbenchState,
   WORKBENCH_QUESTIONS,
   WORKBENCH_QUESTION_CATEGORY_LABELS,
 } from "../data/workbenchQuestions";
@@ -77,6 +79,7 @@ import {
   renderWorkbenchAnswerCitation,
   renderWorkbenchAnswerCsv,
 } from "../utils/workbenchAnswer";
+import { formatReviewState, formatSourceLocator } from "../utils/sourceProvenance";
 import { CopyTextButton } from "./CopyTextButton";
 import {
   corpusKindLabel,
@@ -267,20 +270,8 @@ export function WorkbenchView({
   }
 
   function applyQuestion(question: WorkbenchQuestion) {
-    const nextCompareItems = question.compareItems ?? compareItems;
-    const firstCompareItem = nextCompareItems[0];
-    onFiltersChange({ ...DEFAULT_FILTER_STATE, ...question.patch });
-    updateWorkbenchState({
-      compareKind: firstCompareItem?.kind ?? compareKind,
-      compareId: firstCompareItem?.id ?? compareId,
-      compareItems: nextCompareItems,
-      scenarioLabId: question.scenario?.labId ?? scenarioLabId,
-      scenarioMarkets: question.scenario?.markets ?? scenarioMarkets,
-      atlasPresetId: question.atlasPresetId ?? atlasPresetId,
-      activeWorkflowId: null,
-      activeQuestionId: question.id,
-      activeAnswerCardId: question.answerCardId ?? null,
-    });
+    onFiltersChange(getQuestionEffectiveFilters(question.id));
+    onWorkbenchStateChange(getQuestionWorkbenchState(question.id));
   }
 
   function addCompareItem() {
@@ -440,6 +431,12 @@ export function WorkbenchView({
                 <li key={row.id} className="rounded-lg border border-canvas-line bg-white p-2.5">
                   <p className="text-xs font-semibold leading-snug text-ink-900">{row.name}</p>
                   <p className="mt-1 text-[11px] text-ink-500">Record checked {row.lastVerified ?? "date not recorded"}</p>
+                  {row.sourceLocator && (
+                    <p className="mt-1 text-[11px] text-ink-600">
+                      Source pinpoint: {formatSourceLocator(row.sourceLocator)}
+                    </p>
+                  )}
+                  <p className="mt-1 text-[11px] text-ink-600">Review: {formatReviewState(row)}</p>
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     <a
                       href={row.sourceUrl}
@@ -803,7 +800,7 @@ export function WorkbenchView({
             <MiniMatrix
               title="Public data endpoints"
               rows={[
-                { id: "full", name: "/data/full-dataset.json", detail: "Full static research snapshot" },
+                { id: "full", name: "/data/full-dataset.json", detail: "Full static research release" },
                 { id: "obligations", name: "/data/obligation-matrix.json", detail: "Structured obligation rows" },
                 { id: "labs", name: "/data/lab-exposure-matrix.json", detail: "Lab regulatory-exposure matrix" },
                 { id: "lab-intel", name: "/data/lab-intelligence.json", detail: "Frontier-lab intelligence profiles" },
@@ -843,7 +840,7 @@ function RecordRoutePanel({
             ["International rows", String(summary.participations.length)],
           ]}
         />
-        <RecordText label="Research summary" value={`${summary.country.name} has ${summary.nationalRegulations.length} national entries, ${summary.participations.length} international rows, and ${summary.hqLabs.length} headquartered frontier lab(s) in this snapshot.`} />
+        <RecordText label="Research summary" value={`${summary.country.name} has ${summary.nationalRegulations.length} national entries, ${summary.participations.length} international rows, and ${summary.hqLabs.length} headquartered frontier lab(s) in this release.`} />
         <RecordText label="Obligations" value={summarizeObligationCategories(obligations)} />
         <RecordText label="Implementation" value={summarizeImplementationStatuses(implementation)} />
         <RecordActions>

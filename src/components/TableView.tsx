@@ -235,7 +235,7 @@ const COLUMNS: Record<DatasetKey, TableColumn[]> = {
   ],
   releases: [
     { key: "id", label: "Release" },
-    { key: "snapshotDate", label: "Snapshot" },
+    { key: "snapshotDate", label: "Compatibility status date" },
     { key: "status", label: "Status" },
     { key: "added", label: "Added" },
     { key: "changed", label: "Changed" },

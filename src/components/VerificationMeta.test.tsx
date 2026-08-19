@@ -62,6 +62,21 @@ describe("VerificationMeta age", () => {
 });
 
 describe("VerificationMeta review provenance", () => {
+  it("discloses an absent review status as unreviewed beside legacy verified metadata", () => {
+    const view = renderItem({
+      sourceKind: "official",
+      verificationStatus: "verified",
+      confidence: "high",
+      lastVerified: "2026-08-17",
+    });
+
+    expect(view.container).toHaveTextContent("Verified");
+    expect(view.container).toHaveTextContent("Unreviewed");
+    expect(view.container).not.toHaveTextContent("Editorially checked");
+    expect(view.container).not.toHaveTextContent("Expert reviewed");
+    view.cleanup();
+  });
+
   it.each([
     ["editorial_checked", "Editorially checked"],
     ["needs_review", "Needs review"],

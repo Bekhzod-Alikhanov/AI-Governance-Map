@@ -5,18 +5,18 @@
   "files": [
     {
       "path": "full-dataset.json",
-      "bytes": 2385396,
-      "sha256": "ed4b02ec8e975c560963b19a44448255d1e142230869dcc60f31f3e525424598"
+      "bytes": 2471519,
+      "sha256": "6d9df2c040ea4d430fe35104c0d7fc49252ba88cb39d05152d92ab74b44661cf"
     },
     {
       "path": "release-package.json",
-      "bytes": 4155716,
-      "sha256": "0b025161b55ced9fde6f60c3feba00a63b61d3858435a3c822f7f423aa249be5"
+      "bytes": 4243733,
+      "sha256": "8e782dc08643faafc37fda6edd82482fe38219c6d52433b959cf2cd18f421a8a"
     },
     {
       "path": "schema.json",
-      "bytes": 9126,
-      "sha256": "8b3da865ae0f3630089779d4de47adc4c8a00ba96e29faa5b5f4f9e2d9f55efc"
+      "bytes": 9182,
+      "sha256": "f58e23d215192bf2840655fd7cbf0da1e91e9d7d9f8fe49e773ba0507b8f5cc3"
     }
   ]
 }

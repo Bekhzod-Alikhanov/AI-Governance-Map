@@ -2,7 +2,7 @@ import { COUNTRY_BY_ISO3 } from "../data/countries";
 import { LAB_BY_ID } from "../data/frontierLabs";
 import { POLICY_PROCESS_RECORDS, STANDARDS_CONFORMITY_RECORDS } from "../data/researchCorpus";
 import type { CorpusRecordReference, PolicyBrief, PolicyBriefKind, VerificationMetadata } from "../types";
-import { DATA_SNAPSHOT_DATE } from "./governanceTaxonomy";
+import { RELEASE_METADATA } from "../data/releaseMetadata";
 import { getCountryGovernanceSummary } from "./getCountryGovernanceSummary";
 import { getLabExposureTarget, getLabRegulatoryExposures, LAB_EXPOSURE_EFFECT_LABELS } from "./labExposure";
 import { buildScenarioAssessment, getCountryImplementationMilestones, getCountryObligations } from "./researchWorkbench";
@@ -107,7 +107,7 @@ function buildCountryBrief(iso3: string): PolicyBrief | null {
     "",
     "## Governance status",
     "",
-    `- Confirmed binding law: ${summary.hasBindingNationalLaw ? "Yes" : "None confirmed in this snapshot"}`,
+    `- Confirmed binding law: ${summary.hasBindingNationalLaw ? "Yes" : "None confirmed in this release"}`,
     `- Proposed or guidance/context entries: ${summary.nationalRegulations.filter((row) => row.bindingStatus !== "binding").length}`,
     `- Frontier labs headquartered here: ${summary.hqLabs.map((lab) => lab.name).join("; ") || "None tracked"}`,
     "",
@@ -389,7 +389,9 @@ function briefHeader(title: string, subtitle: string): string[] {
     `# ${title}`,
     "",
     `**Record:** ${subtitle}`,
-    `**Dataset snapshot:** ${DATA_SNAPSHOT_DATE}`,
+    `**Dataset release:** ${RELEASE_METADATA.releaseDate}`,
+    `**Coverage through:** ${RELEASE_METADATA.coverageCutoff}`,
+    `**Status as of:** ${RELEASE_METADATA.statusAsOf}`,
     "",
     "> Research aid only; not legal advice. Verify time-sensitive legal status against official sources.",
     "",

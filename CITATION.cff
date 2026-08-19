@@ -12,7 +12,7 @@ url: "https://global-ai-governance-map.vercel.app/"
 license: MIT
 preferred-citation:
   type: dataset
-  title: "Global AI Governance Map: 17 August 2026 research snapshot"
+  title: "Global AI Governance Map: 17 August 2026 research release"
   authors:
     - family-names: "Alikhanov"
       given-names: "Bekhzodkhon (Beck)"

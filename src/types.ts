@@ -968,6 +968,8 @@ export interface WorkbenchAnswer {
   countLabel: string;
   namedEntities: string[];
   evidence: WorkbenchEvidenceRow[];
+  releaseDate: string;
+  coverageCutoff: string;
   statusAsOf: string;
 }
 

@@ -6,6 +6,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataDir = path.join(root, "src", "data");
 const sourceHostConfigPath = path.join(dataDir, "sourceHosts.json");
 const sourceLinkManualChecksPath = path.join(dataDir, "sourceLinkManualChecks.json");
+const releaseDescriptorPath = path.join(root, "public", "data", "full-dataset.json");
 const args = new Map(
   process.argv.slice(2).map((arg) => {
     const [key, value = "true"] = arg.replace(/^--/, "").split("=");
@@ -15,6 +16,7 @@ const args = new Map(
 
 const sourceHostConfig = JSON.parse(await fs.readFile(sourceHostConfigPath, "utf8"));
 const sourceLinkManualCheckConfig = JSON.parse(await fs.readFile(sourceLinkManualChecksPath, "utf8"));
+const releaseDescriptor = JSON.parse(await fs.readFile(releaseDescriptorPath, "utf8"));
 const OFFICIAL_HOSTS = new Set(sourceHostConfig.officialHosts);
 const OFFICIAL_SUFFIXES = sourceHostConfig.officialHostSuffixes;
 const MANUAL_LINK_CHECKS = sourceLinkManualCheckConfig.manualChecks ?? [];
@@ -41,6 +43,7 @@ const MANUAL_LINK_CHECKS_BY_URL = new Map(
 );
 
 const now = new Date();
+const freshnessAsOf = new Date(`${releaseDescriptor.statusAsOf}T23:59:59Z`);
 
 if (isCli()) {
   const data = await buildSourceAuditData({ checkLinks: args.has("check-links") });
@@ -308,7 +311,7 @@ function isOfficialHost(host) {
 function ageInDays(dateText) {
   const date = new Date(`${dateText}T00:00:00Z`);
   if (Number.isNaN(date.getTime())) return null;
-  return Math.floor((now.getTime() - date.getTime()) / 86_400_000);
+  return Math.floor((freshnessAsOf.getTime() - date.getTime()) / 86_400_000);
 }
 
 function warn(record, message) {

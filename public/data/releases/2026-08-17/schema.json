@@ -1,12 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://global-ai-governance-map.vercel.app/dataset.schema.json",
-  "title": "Global AI Governance Map dataset snapshot",
-  "description": "Self-contained static research snapshot for frontier-AI governance mapping. This dataset is not legal advice.",
+  "$id": "https://global-ai-governance-map.vercel.app/data/schema.json",
+  "title": "Global AI Governance Map dataset release",
+  "description": "Self-contained research release for frontier-AI governance mapping. This dataset is not legal advice.",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "schemaVersion",
+    "releaseId",
     "releaseDate",
     "coverageCutoff",
     "statusAsOf",
@@ -20,6 +21,9 @@
   "properties": {
     "schemaVersion": {
       "const": "2026.08.0"
+    },
+    "releaseId": {
+      "const": "2026-08-17"
     },
     "releaseDate": {
       "const": "2026-08-17"
@@ -42,7 +46,7 @@
       ],
       "properties": {
         "id": {
-          "const": "https://global-ai-governance-map.vercel.app/dataset.schema.json"
+          "const": "https://global-ai-governance-map.vercel.app/data/schema.json"
         },
         "version": {
           "const": "2026.08.0"

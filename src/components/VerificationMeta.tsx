@@ -6,30 +6,13 @@ import {
   SOURCE_KIND_LABELS,
   VERIFICATION_STATUS_LABELS,
 } from "../utils/getVerificationLabel";
+import {
+  formatSourceLocator,
+  getReviewStatus,
+  REVIEW_STATUS_CLASSES,
+  REVIEW_STATUS_LABELS,
+} from "../utils/sourceProvenance";
 import { getVerificationAge } from "../utils/verificationAge";
-
-const REVIEW_STATUS_LABELS = {
-  editorial_checked: "Editorially checked",
-  needs_review: "Needs review",
-  unreviewed: "Unreviewed",
-  expert_reviewed: "Expert reviewed",
-} as const;
-
-const REVIEW_STATUS_CLASSES = {
-  editorial_checked: "border-blue-200 bg-blue-50 text-blue-900",
-  needs_review: "border-amber-200 bg-amber-50 text-amber-900",
-  unreviewed: "border-canvas-line bg-white text-ink-700",
-  expert_reviewed: "border-emerald-200 bg-emerald-50 text-emerald-900",
-} as const;
-
-function formatSourceLocator(locator: NonNullable<VerificationMetadata["sourceLocator"]>): string {
-  const parts = [locator.documentId ? `Document ${locator.documentId}` : locator.label];
-  if (locator.article) parts.push(`article ${locator.article}`);
-  if (locator.section) parts.push(`section ${locator.section}`);
-  if (locator.page) parts.push(`${/[–—-]/.test(locator.page) ? "pages" : "page"} ${locator.page}`);
-  if (locator.paragraph) parts.push(`paragraph ${locator.paragraph}`);
-  return parts.join(" · ");
-}
 
 interface Props {
   item: VerificationMetadata;
@@ -38,17 +21,11 @@ interface Props {
 }
 
 export function VerificationMeta({ item, label = "Source verification", compact = false }: Props) {
-  // A snapshot date describes the corpus; this describes the record in hand.
   const age = getVerificationAge(item.lastVerified);
+  const reviewStatus = getReviewStatus(item);
   const hasMetadata = Boolean(
-    item.sourceKind ||
-      item.verificationStatus ||
-      item.confidence ||
-      item.lastVerified ||
-      item.verificationNotes ||
-      item.reviewStatus ||
-      item.reviewNotes ||
-      item.sourceLocator
+    item.sourceKind || item.verificationStatus || item.confidence || item.lastVerified ||
+      item.verificationNotes || item.reviewStatus || item.reviewNotes || item.sourceLocator
   );
 
   if (!hasMetadata) {
@@ -69,23 +46,11 @@ export function VerificationMeta({ item, label = "Source verification", compact 
             {VERIFICATION_STATUS_LABELS[item.verificationStatus]}
           </span>
         )}
-        {item.reviewStatus && (
-          <span
-            className={clsx(
-              "rounded-md border px-1.5 py-0.5 font-medium",
-              REVIEW_STATUS_CLASSES[item.reviewStatus]
-            )}
-          >
-            {REVIEW_STATUS_LABELS[item.reviewStatus]}
-          </span>
-        )}
+        <span className={clsx("rounded-md border px-1.5 py-0.5 font-medium", REVIEW_STATUS_CLASSES[reviewStatus])}>
+          {REVIEW_STATUS_LABELS[reviewStatus]}
+        </span>
         {item.confidence && (
-          <span
-            className={clsx(
-              "rounded-md border px-1.5 py-0.5 font-medium",
-              CONFIDENCE_BADGE_CLASSES[item.confidence]
-            )}
-          >
+          <span className={clsx("rounded-md border px-1.5 py-0.5 font-medium", CONFIDENCE_BADGE_CLASSES[item.confidence])}>
             {DATA_CONFIDENCE_LABELS[item.confidence]}
           </span>
         )}
@@ -106,16 +71,14 @@ export function VerificationMeta({ item, label = "Source verification", compact 
                 {age && (
                   <>
                     {" "}
-                    <span
-                      className={clsx(
-                        "rounded px-1 py-0.5 text-[10px] font-medium",
-                        age.freshness === "stale"
-                          ? "bg-amber-100 text-amber-900"
-                          : age.freshness === "ageing"
-                            ? "bg-canvas text-ink-700"
-                            : "text-ink-500"
-                      )}
-                    >
+                    <span className={clsx(
+                      "rounded px-1 py-0.5 text-[10px] font-medium",
+                      age.freshness === "stale"
+                        ? "bg-amber-100 text-amber-900"
+                        : age.freshness === "ageing"
+                          ? "bg-canvas text-ink-700"
+                          : "text-ink-500"
+                    )}>
                       {age.label}
                     </span>
                   </>

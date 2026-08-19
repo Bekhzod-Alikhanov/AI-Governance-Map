@@ -13,7 +13,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-30"
+    "lastVerified": "2026-05-30",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "eu-ai-act-phased-application",
@@ -30,7 +31,8 @@
     "verificationStatus": "verified",
     "confidence": "high",
     "lastVerified": "2026-05-30",
-    "verificationNotes": "This is the general phase marker. The separate 2026 milestones distinguish broad application from the high-risk-system timeline changed by the AI Omnibus."
+    "verificationNotes": "This is the general phase marker. The separate 2026 milestones distinguish broad application from the high-risk-system timeline changed by the AI Omnibus.",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "eu-ai-omnibus-entered-force",
@@ -47,7 +49,8 @@
     "verificationStatus": "verified",
     "confidence": "high",
     "lastVerified": "2026-08-17",
-    "verificationNotes": "Official Commission announcement confirms the entry-into-force date. This row does not imply that every high-risk-system obligation applied on that date."
+    "verificationNotes": "Official Commission announcement confirms the entry-into-force date. This row does not imply that every high-risk-system obligation applied on that date.",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "eu-ai-act-broad-application-2026",
@@ -64,7 +67,44 @@
     "verificationStatus": "verified",
     "confidence": "high",
     "lastVerified": "2026-08-17",
-    "verificationNotes": "Official Commission guidance supports the broad application milestone; high-risk-system requirements are deliberately not described as fully applicable on 2 August 2026."
+    "verificationNotes": "Official Commission guidance supports the broad application milestone; high-risk-system requirements are deliberately not described as fully applicable on 2 August 2026.",
+    "reviewStatus": "unreviewed"
+  },
+  {
+    "id": "eu-ai-omnibus-high-risk-annex-iii-deadline",
+    "parentType": "international_instrument",
+    "parentId": "eu-ai-act",
+    "jurisdiction": "European Union",
+    "status": "phased_application",
+    "date": "2027-12-02",
+    "label": "AI Omnibus high-risk-system deadline (Annex III)",
+    "summary": "The AI Omnibus changed the deadline for AI Act rules governing Annex III high-risk AI systems to 2 December 2027.",
+    "sourceName": "European Commission - AI Omnibus enters into force",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/news/ai-omnibus-enters-force",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-08-17",
+    "reviewStatus": "editorial_checked",
+    "verificationNotes": "Changed deadline confirmed by the official Commission AI Omnibus announcement; this date is specific to Annex III high-risk AI systems."
+  },
+  {
+    "id": "eu-ai-omnibus-high-risk-products-deadline",
+    "parentType": "international_instrument",
+    "parentId": "eu-ai-act",
+    "jurisdiction": "European Union",
+    "status": "phased_application",
+    "date": "2028-08-02",
+    "label": "AI Omnibus regulated-product high-risk-system deadline (Annex I)",
+    "summary": "The AI Omnibus changed the deadline for high-risk AI systems embedded in products regulated under Annex I to 2 August 2028.",
+    "sourceName": "European Commission - AI Omnibus enters into force",
+    "sourceUrl": "https://digital-strategy.ec.europa.eu/en/news/ai-omnibus-enters-force",
+    "sourceKind": "official",
+    "verificationStatus": "verified",
+    "confidence": "high",
+    "lastVerified": "2026-08-17",
+    "reviewStatus": "editorial_checked",
+    "verificationNotes": "Changed deadline confirmed by the official Commission AI Omnibus announcement; this date is specific to high-risk systems embedded in Annex I regulated products."
   },
   {
     "id": "eu-ai-act-national-authorities-deadline",
@@ -81,7 +121,8 @@
     "verificationStatus": "verified",
     "confidence": "high",
     "lastVerified": "2026-06-05",
-    "verificationNotes": "Official Commission page states that each Member State should have designated and empowered national competent authorities until 2 August 2025. This milestone tracks the EU-level deadline, not verified country-by-country designations."
+    "verificationNotes": "Official Commission page states that each Member State should have designated and empowered national competent authorities until 2 August 2025. This milestone tracks the EU-level deadline, not verified country-by-country designations.",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "eu-gpai-code-practice-published",
@@ -98,7 +139,8 @@
     "verificationStatus": "verified",
     "confidence": "high",
     "lastVerified": "2026-06-05",
-    "verificationNotes": "Official Commission page states that the Code was published on 10 July 2025, is voluntary, and helps providers demonstrate compliance with AI Act GPAI obligations."
+    "verificationNotes": "Official Commission page states that the Code was published on 10 July 2025, is voluntary, and helps providers demonstrate compliance with AI Act GPAI obligations.",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "coe-ai-convention-not-in-force",
@@ -107,14 +149,15 @@
     "jurisdiction": "Council of Europe parties",
     "status": "adopted",
     "date": "2024-05-17",
-    "label": "CoE AI Convention adopted; not yet in force in snapshot",
-    "summary": "The Convention was adopted and opened for signature, but the snapshot notes that entry-into-force conditions had not yet been met.",
+    "label": "CoE AI Convention adopted; not yet in force as of release status date",
+    "summary": "The Convention was adopted and opened for signature, but entry-into-force conditions had not been met as of the release status date.",
     "sourceName": "Council of Europe - Framework Convention on Artificial Intelligence",
     "sourceUrl": "https://www.coe.int/en/web/artificial-intelligence/the-framework-convention-on-artificial-intelligence",
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-30"
+    "lastVerified": "2026-05-30",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "kr-ai-basic-act-application",
@@ -131,7 +174,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-30"
+    "lastVerified": "2026-05-30",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "cn-genai-measures-in-force",
@@ -147,7 +191,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-30"
+    "lastVerified": "2026-05-30",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "ca-sb-53-in-force",
@@ -163,7 +208,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-30"
+    "lastVerified": "2026-05-30",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "br-ai-bill-proposed",
@@ -179,7 +225,8 @@
     "sourceKind": "official",
     "verificationStatus": "likely_correct",
     "confidence": "medium",
-    "lastVerified": "2026-05-30"
+    "lastVerified": "2026-05-30",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "tr-ai-draft-proposed",
@@ -195,7 +242,8 @@
     "sourceKind": "official",
     "verificationStatus": "likely_correct",
     "confidence": "medium",
-    "lastVerified": "2026-05-30"
+    "lastVerified": "2026-05-30",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "mx-ai-law-proposed",
@@ -211,7 +259,8 @@
     "sourceKind": "official",
     "verificationStatus": "likely_correct",
     "confidence": "medium",
-    "lastVerified": "2026-05-30"
+    "lastVerified": "2026-05-30",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "no-ai-act-consultation-proposed",
@@ -227,7 +276,8 @@
     "sourceKind": "official",
     "verificationStatus": "likely_correct",
     "confidence": "medium",
-    "lastVerified": "2026-05-30"
+    "lastVerified": "2026-05-30",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "uk-pro-innovation-guidance-issued",
@@ -243,7 +293,8 @@
     "sourceKind": "official",
     "verificationStatus": "likely_correct",
     "confidence": "medium",
-    "lastVerified": "2026-05-30"
+    "lastVerified": "2026-05-30",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "uk-ai-regulation-bill-proposed",
@@ -259,7 +310,8 @@
     "sourceKind": "official",
     "verificationStatus": "likely_correct",
     "confidence": "medium",
-    "lastVerified": "2026-05-30"
+    "lastVerified": "2026-05-30",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "it-law-132-in-force",
@@ -275,7 +327,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-30"
+    "lastVerified": "2026-05-30",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "it-law-132-regulators-appointed",
@@ -291,7 +344,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-30"
+    "lastVerified": "2026-05-30",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "si-ai-act-implementation-in-force",
@@ -307,7 +361,8 @@
     "sourceKind": "official",
     "verificationStatus": "verified",
     "confidence": "high",
-    "lastVerified": "2026-05-30"
+    "lastVerified": "2026-05-30",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "de-ai-act-implementation-draft",
@@ -323,7 +378,8 @@
     "sourceKind": "official",
     "verificationStatus": "likely_correct",
     "confidence": "medium",
-    "lastVerified": "2026-05-30"
+    "lastVerified": "2026-05-30",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "fr-ai-act-implementation-activity",
@@ -339,7 +395,8 @@
     "sourceKind": "official",
     "verificationStatus": "likely_correct",
     "confidence": "medium",
-    "lastVerified": "2026-05-30"
+    "lastVerified": "2026-05-30",
+    "reviewStatus": "unreviewed"
   },
   {
     "id": "es-ai-law-draft-proposed",
@@ -355,6 +412,7 @@
     "sourceKind": "official",
     "verificationStatus": "likely_correct",
     "confidence": "medium",
-    "lastVerified": "2026-05-30"
+    "lastVerified": "2026-05-30",
+    "reviewStatus": "unreviewed"
   }
 ]

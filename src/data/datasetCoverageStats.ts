@@ -7,7 +7,7 @@ export const DATASET_COVERAGE_STATS = {
   internationalParticipationRows: 1440,
   labRegulatoryExposures: 106,
   governanceObligations: 21,
-  implementationMilestones: 22,
+  implementationMilestones: 24,
   euAiActAuthorityMatrix: 27,
   researchCorpusRecords: 91,
   modelGovernanceEvidence: 16,

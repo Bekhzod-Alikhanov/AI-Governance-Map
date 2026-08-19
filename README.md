@@ -6,7 +6,7 @@ An interactive research instrument covering 192 countries, 37 international inst
 
 <p>
   <a href="https://global-ai-governance-map.vercel.app"><img alt="Live" src="https://img.shields.io/badge/live-global--ai--governance--map.vercel.app-1E40AF?style=flat-square&logo=vercel" /></a>
-  <img alt="Snapshot" src="https://img.shields.io/badge/dataset-19_June_2026-B45309?style=flat-square" />
+  <img alt="Release" src="https://img.shields.io/badge/release-17_August_2026-B45309?style=flat-square" />
   <img alt="Sources" src="https://img.shields.io/badge/sourced_records-2%2C320-0F766E?style=flat-square" />
   <img alt="Tests" src="https://img.shields.io/badge/tests-163_unit_%2B_40_e2e-6E9F18?style=flat-square" />
   <img alt="License" src="https://img.shields.io/badge/code-MIT-555?style=flat-square" />
@@ -73,7 +73,7 @@ This is where a governance map earns or loses its credibility.
 
 ## What's in the dataset
 
-Snapshot **19 June 2026** — the most recent verification date in the corpus, enforced by a test so the badge cannot drift from the data.
+Research release **17 August 2026**; coverage through **17 August 2026**; status as of **17 August 2026**. Per-record verification dates remain visible and test-enforced.
 
 | | |
 |---|---:|

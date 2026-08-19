@@ -123,4 +123,79 @@ describe("manual review expiry audit", () => {
     assert.deepEqual(result.undated.map((check) => check.id), ["impossible-date"]);
     assert.match(result.messages.join("\n"), /invalid valid-until date \(2026-02-31\)/);
   });
+
+  it("fails a missing reviewedAt date with an actionable message", () => {
+    const result = auditManualChecks(
+      [{ id: "missing-review", sourceUrl: "https://official.example/missing", validUntil: "2026-09-01" }],
+      "2026-08-17"
+    );
+
+    assert.equal(result.exitCode, 1);
+    assert.deepEqual(result.invalidReviewDates.map((check) => check.id), ["missing-review"]);
+    assert.match(result.messages.join("\n"), /missing-review.*no reviewed-at date.*official\.example\/missing/i);
+  });
+
+  it("fails calendar-impossible reviewedAt dates", () => {
+    const result = auditManualChecks(
+      [{
+        id: "impossible-review",
+        sourceUrl: "https://official.example/impossible-review",
+        reviewedAt: "2026-02-31",
+        validUntil: "2026-09-01",
+      }],
+      "2026-08-17"
+    );
+
+    assert.equal(result.exitCode, 1);
+    assert.deepEqual(result.invalidReviewDates.map((check) => check.id), ["impossible-review"]);
+    assert.match(result.messages.join("\n"), /invalid reviewed-at date \(2026-02-31\)/i);
+  });
+
+  it("fails reviewedAt dates in the future", () => {
+    const result = auditManualChecks(
+      [{
+        id: "future-review",
+        sourceUrl: "https://official.example/future-review",
+        reviewedAt: "2026-08-18",
+        validUntil: "2026-09-01",
+      }],
+      "2026-08-17"
+    );
+
+    assert.equal(result.exitCode, 1);
+    assert.deepEqual(result.invalidReviewDates.map((check) => check.id), ["future-review"]);
+    assert.match(result.messages.join("\n"), /reviewed-at date 2026-08-18 is after audit date 2026-08-17/i);
+  });
+
+  it("fails when reviewedAt is later than validUntil", () => {
+    const result = auditManualChecks(
+      [{
+        id: "inverted-review",
+        sourceUrl: "https://official.example/inverted-review",
+        reviewedAt: "2026-08-17",
+        validUntil: "2026-08-16",
+      }],
+      "2026-08-17"
+    );
+
+    assert.equal(result.exitCode, 1);
+    assert.deepEqual(result.invalidReviewDates.map((check) => check.id), ["inverted-review"]);
+    assert.match(result.messages.join("\n"), /reviewed-at date 2026-08-17 is after valid-until date 2026-08-16/i);
+  });
+
+  it("accepts a real leap-day reviewedAt date", () => {
+    const result = auditManualChecks(
+      [{
+        id: "leap-day-review",
+        sourceUrl: "https://official.example/leap-day-review",
+        reviewedAt: "2024-02-29",
+        validUntil: "2024-03-14",
+      }],
+      "2024-02-29"
+    );
+
+    assert.equal(result.exitCode, 0);
+    assert.deepEqual(result.invalidReviewDates, []);
+    assert.deepEqual(result.expired, []);
+  });
 });

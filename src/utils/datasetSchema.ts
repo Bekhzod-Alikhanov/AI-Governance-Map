@@ -1,7 +1,7 @@
 import { RELEASE_METADATA } from "../data/releaseMetadata";
 
 export const DATASET_SCHEMA_VERSION = "2026.08.0";
-export const DATASET_SCHEMA_ID = "https://global-ai-governance-map.vercel.app/dataset.schema.json";
+export const DATASET_SCHEMA_ID = "https://global-ai-governance-map.vercel.app/data/schema.json";
 
 const DATA_KEYS = [
   "countries",
@@ -72,13 +72,14 @@ const COUNT_TO_DATA_KEY = {
 export const DATASET_SCHEMA = {
   $schema: "https://json-schema.org/draft/2020-12/schema",
   $id: DATASET_SCHEMA_ID,
-  title: "Global AI Governance Map dataset snapshot",
+  title: "Global AI Governance Map dataset release",
   description:
-    "Self-contained static research snapshot for frontier-AI governance mapping. This dataset is not legal advice.",
+    "Self-contained research release for frontier-AI governance mapping. This dataset is not legal advice.",
   type: "object",
   additionalProperties: false,
   required: [
     "schemaVersion",
+    "releaseId",
     "releaseDate",
     "coverageCutoff",
     "statusAsOf",
@@ -91,6 +92,7 @@ export const DATASET_SCHEMA = {
   ],
   properties: {
     schemaVersion: { const: DATASET_SCHEMA_VERSION },
+    releaseId: { const: RELEASE_METADATA.releaseId },
     releaseDate: { const: RELEASE_METADATA.releaseDate },
     coverageCutoff: { const: RELEASE_METADATA.coverageCutoff },
     statusAsOf: { const: RELEASE_METADATA.statusAsOf },
@@ -192,6 +194,9 @@ export function validateDatasetSnapshotShape(snapshot: unknown): string[] {
 
   if (snapshot.schemaVersion !== DATASET_SCHEMA_VERSION) {
     issues.push(`schemaVersion must be ${DATASET_SCHEMA_VERSION}`);
+  }
+  if (snapshot.releaseId !== RELEASE_METADATA.releaseId) {
+    issues.push(`releaseId must be ${RELEASE_METADATA.releaseId}`);
   }
 
   for (const [key, expected] of Object.entries({

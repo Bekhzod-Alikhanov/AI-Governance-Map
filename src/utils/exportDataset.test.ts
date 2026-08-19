@@ -32,6 +32,8 @@ import {
 import { DATASET_SCHEMA_ID, validateDatasetSnapshotShape } from "./datasetSchema";
 import { DEFAULT_FILTER_STATE } from "../types";
 import { RELEASE_METADATA } from "../data/releaseMetadata";
+import releasePackageRaw from "../../public/data/release-package.json?raw";
+import { countRecordsAwaitingSecondPersonReview } from "./exportDataset";
 
 describe("dataset export helpers", () => {
   it("builds a snapshot with declared schema, counts, and primary data arrays", () => {
@@ -69,13 +71,18 @@ describe("dataset export helpers", () => {
     expect(snapshot.counts.countryIndicatorScores).toBe(COUNTRY_INDICATOR_SCORES.length);
     expect(snapshot.counts.countryReadinessReports).toBe(COUNTRY_READINESS_REPORTS.length);
     expect(snapshot.data.countries).toBe(COUNTRIES);
-    expect(snapshot.data.frontierLabs).toBe(FRONTIER_LABS);
-    expect(snapshot.data.labRegulatoryExposures).toBe(LAB_REGULATORY_EXPOSURES);
-    expect(snapshot.data.labIntelligenceProfiles).toBe(LAB_INTELLIGENCE_PROFILES);
-    expect(snapshot.data.modelGovernanceEvidence).toBe(MODEL_GOVERNANCE_EVIDENCE);
-    expect(snapshot.data.institutionRecords).toBe(INSTITUTION_RECORDS);
-    expect(snapshot.data.euAiActAuthorityMatrix).toBe(EU_AI_ACT_AUTHORITY_MATRIX);
-    expect(snapshot.data.countryIndicatorScores).toBe(COUNTRY_INDICATOR_SCORES);
+    expect(snapshot.data.frontierLabs).toHaveLength(FRONTIER_LABS.length);
+    expect(snapshot.data.frontierLabs[0]).toMatchObject({ id: FRONTIER_LABS[0].id, reviewStatus: "unreviewed" });
+    expect(snapshot.data.labRegulatoryExposures).not.toBe(LAB_REGULATORY_EXPOSURES);
+    expect(snapshot.data.labIntelligenceProfiles).not.toBe(LAB_INTELLIGENCE_PROFILES);
+    expect(snapshot.data.modelGovernanceEvidence).toEqual(MODEL_GOVERNANCE_EVIDENCE);
+    expect(snapshot.data.institutionRecords).toEqual(INSTITUTION_RECORDS);
+    expect(snapshot.data.euAiActAuthorityMatrix).toEqual(EU_AI_ACT_AUTHORITY_MATRIX);
+    expect(snapshot.data.countryIndicatorScores).toHaveLength(COUNTRY_INDICATOR_SCORES.length);
+    expect(snapshot.data.countryIndicatorScores[0]).toMatchObject({
+      id: COUNTRY_INDICATOR_SCORES[0].id,
+      reviewStatus: "unreviewed",
+    });
     expect(validateDatasetSnapshotShape(snapshot)).toEqual([]);
   });
 
@@ -116,6 +123,32 @@ describe("dataset export helpers", () => {
     expect(sources.map((source) => source.reviewStatus)).toEqual(["unreviewed", "unreviewed"]);
   });
 
+  it("defaults legacy source-backed records to unreviewed in full data, source metadata, and release package", () => {
+    const snapshot = buildDatasetSnapshot();
+    const exportedLab = snapshot.data.frontierLabs.find((row) => row.id === "openai");
+    const sources = buildSourceMetadataEntries(snapshot);
+    const exportedSource = sources.find(
+      (row) => row.collection === "frontierLabs" && row.id === "openai",
+    );
+    const releasePackage = JSON.parse(releasePackageRaw) as {
+      dataset: { data: { frontierLabs: Array<{ id: string; reviewStatus?: string }> } };
+      sources: Array<{ collection: string; id: string; reviewStatus?: string }>;
+    };
+
+    expect(FRONTIER_LABS.find((row) => row.id === "openai")?.reviewStatus).toBeUndefined();
+    expect(exportedLab?.reviewStatus).toBe("unreviewed");
+    expect(exportedSource?.reviewStatus).toBe("unreviewed");
+    expect(
+      releasePackage.dataset.data.frontierLabs.find((row) => row.id === "openai")?.reviewStatus,
+    ).toBe("unreviewed");
+    expect(
+      releasePackage.sources.find(
+        (row) => row.collection === "frontierLabs" && row.id === "openai",
+      )?.reviewStatus,
+    ).toBe("unreviewed");
+    expect(countRecordsAwaitingSecondPersonReview(sources)).toBe(2188);
+  });
+
   it("builds citation text with snapshot date and public project URLs", () => {
     const citation = buildCitationText();
 
@@ -150,7 +183,9 @@ describe("dataset export helpers", () => {
     const full = buildDatasetSnapshot();
 
     expect(filtered.counts).toEqual(full.counts);
-    expect(filtered.data.internationalInstruments).toBe(INTERNATIONAL_INSTRUMENTS);
+    expect(filtered.data.internationalInstruments).toEqual(
+      full.data.internationalInstruments,
+    );
   });
 
   it("includes search-matched labs and their HQ countries", () => {

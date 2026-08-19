@@ -209,7 +209,7 @@ export function CountrySidePanel({
           <p className="mt-3 text-xs leading-relaxed text-ink-600">
             {confirmedBinding.length
               ? "At least one confirmed binding AI-specific national or EU-applicable rule is recorded. Check source notes for scope, dates, and caveats."
-              : "No confirmed binding AI-specific national law is recorded for this country in the current snapshot. Proposed laws, strategies, and international participation may still be relevant."}
+              : "No confirmed binding AI-specific national law is recorded for this country in the current release. Proposed laws, strategies, and international participation may still be relevant."}
           </p>
           {indirectRows.length > 0 && (
             <p className="mt-2 rounded-md bg-canvas px-2 py-1.5 text-[11px] leading-relaxed text-ink-700">

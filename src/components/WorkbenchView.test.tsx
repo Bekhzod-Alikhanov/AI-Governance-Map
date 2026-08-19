@@ -1,6 +1,8 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import { DEFAULT_FILTER_STATE, DEFAULT_WORKBENCH_STATE } from "../types";
+import { GOVERNANCE_OBLIGATIONS } from "../data/governanceObligations";
+import { buildWorkbenchAnswer } from "../utils/workbenchAnswer";
 import { WorkbenchView } from "./WorkbenchView";
 
 function renderWorkbench() {
@@ -71,5 +73,41 @@ describe("answer-first Workbench", () => {
       expect(details).not.toHaveAttribute("open");
     }
     expect(container.querySelectorAll("details[open]")).toHaveLength(0);
+  });
+
+  it("renders source pinpoint and review state on Workbench evidence rows", () => {
+    const evidenceId = buildWorkbenchAnswer(
+      "binding-duties-by-jurisdiction",
+      DEFAULT_FILTER_STATE,
+    ).evidence[0]?.id;
+    const row = GOVERNANCE_OBLIGATIONS.find((candidate) => candidate.id === evidenceId);
+    expect(row).toBeTruthy();
+    const original = {
+      sourceLocator: row!.sourceLocator,
+      reviewStatus: row!.reviewStatus,
+      reviewNotes: row!.reviewNotes,
+    };
+    row!.sourceLocator = {
+      label: "N.D. Cal. Document 700, filed 25 March 2026, pages 3–5",
+      documentId: "700",
+      page: "3–5",
+    };
+    row!.reviewStatus = "needs_review";
+    row!.reviewNotes = "Second-person review remains outstanding.";
+
+    try {
+      const container = renderWorkbench();
+      const evidence = container.querySelector('section[aria-label="Workbench answer"]');
+      expect(evidence).toHaveTextContent("Document 700 · pages 3–5");
+      expect(evidence).toHaveTextContent("Needs review");
+      expect(evidence).toHaveTextContent("Second-person review remains outstanding.");
+    } finally {
+      if (original.sourceLocator) row!.sourceLocator = original.sourceLocator;
+      else delete row!.sourceLocator;
+      if (original.reviewStatus) row!.reviewStatus = original.reviewStatus;
+      else delete row!.reviewStatus;
+      if (original.reviewNotes) row!.reviewNotes = original.reviewNotes;
+      else delete row!.reviewNotes;
+    }
   });
 });

@@ -1,7 +1,10 @@
 import type {
+  FilterState,
+  WorkbenchState,
   WorkbenchQuestion,
   WorkbenchQuestionCategory,
 } from "../types";
+import { DEFAULT_FILTER_STATE, DEFAULT_WORKBENCH_STATE } from "../types";
 
 export const WORKBENCH_QUESTION_CATEGORY_LABELS: Record<WorkbenchQuestionCategory, string> = {
   "legal-duties": "Legal duties",
@@ -300,3 +303,27 @@ export const FEATURED_WORKBENCH_QUESTIONS = WORKBENCH_QUESTIONS.filter(
 export const WORKBENCH_QUESTION_BY_ID = Object.fromEntries(
   WORKBENCH_QUESTIONS.map((item) => [item.id, item]),
 ) as Record<string, WorkbenchQuestion>;
+
+export function getWorkbenchQuestion(id: string | null | undefined): WorkbenchQuestion {
+  return WORKBENCH_QUESTION_BY_ID[id ?? ""] ?? WORKBENCH_QUESTIONS[0];
+}
+
+export function getQuestionEffectiveFilters(id: string | null | undefined): FilterState {
+  return { ...DEFAULT_FILTER_STATE, ...getWorkbenchQuestion(id).patch };
+}
+
+export function getQuestionWorkbenchState(id: string | null | undefined): WorkbenchState {
+  const item = getWorkbenchQuestion(id);
+  const first = item.compareItems?.[0];
+  return {
+    ...DEFAULT_WORKBENCH_STATE,
+    compareKind: first?.kind ?? DEFAULT_WORKBENCH_STATE.compareKind,
+    compareId: first?.id ?? DEFAULT_WORKBENCH_STATE.compareId,
+    compareItems: item.compareItems ?? [],
+    scenarioLabId: item.scenario?.labId ?? DEFAULT_WORKBENCH_STATE.scenarioLabId,
+    scenarioMarkets: item.scenario?.markets ?? DEFAULT_WORKBENCH_STATE.scenarioMarkets,
+    atlasPresetId: item.atlasPresetId ?? DEFAULT_WORKBENCH_STATE.atlasPresetId,
+    activeQuestionId: item.id,
+    activeAnswerCardId: item.answerCardId ?? null,
+  };
+}

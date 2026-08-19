@@ -87,7 +87,7 @@ export const DATASET_RELEASES: DatasetRelease[] = [
     status: "published",
     title: "August 2026 reproducible research release",
     summary:
-      "Citable, schema-versioned snapshot with deterministic SHA-256 manifests, immutable release copies, source pinpoint locators, and explicit review status metadata.",
+      "Citable, schema-versioned release with deterministic SHA-256 manifests, immutable release copies, source pinpoint locators, and explicit review status metadata.",
     recordsAdded: [
       "Release-level dates distinguish publication, coverage cutoff, and status currency while retaining snapshotDate for one compatibility cycle.",
       "Deterministic latest and immutable versioned manifests cover the full dataset, JSON Schema, and release package.",

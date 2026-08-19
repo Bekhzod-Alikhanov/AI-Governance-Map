@@ -2225,6 +2225,6 @@
     "recordsMissingDeadlines": [],
     "staleVerificationRecords": [],
     "officialSourceGaps": [],
-    "caveat": "Corpus coverage is an editorial snapshot. Missing records mean not yet collected, not absence of governance activity."
+    "caveat": "Curated release: missing records mean not yet collected, not absence of governance activity."
   }
 }
