@@ -1,0 +1,4 @@
+# Release artifacts are hashed byte-for-byte. Pin JSON line endings so Windows
+# checkouts cannot invalidate SHA-256 manifests through CRLF conversion.
+public/data/*.json text eol=lf
+public/data/**/*.json text eol=lf
