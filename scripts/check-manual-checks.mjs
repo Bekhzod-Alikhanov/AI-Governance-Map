@@ -43,19 +43,19 @@ export function auditManualChecks(checks, today = new Date().toISOString().slice
     if (!check.reviewedAt) {
       invalidReviewDates.push(check);
       messages.push(
-        `INVALID REVIEW  ${check.id} â€” manual verification has no reviewed-at date. ` +
+        `INVALID REVIEW  ${check.id} — manual verification has no reviewed-at date. ` +
           `Re-check ${check.sourceUrl} and add reviewedAt/lastChecked.`
       );
     } else if (reviewedAtTime === null) {
       invalidReviewDates.push(check);
       messages.push(
-        `INVALID REVIEW  ${check.id} â€” manual verification has an invalid reviewed-at date (${check.reviewedAt}). ` +
+        `INVALID REVIEW  ${check.id} — manual verification has an invalid reviewed-at date (${check.reviewedAt}). ` +
           `Re-check ${check.sourceUrl} and add a real ISO calendar date.`
       );
     } else if (reviewedAtTime > todayTime) {
       invalidReviewDates.push(check);
       messages.push(
-        `INVALID REVIEW  ${check.id} â€” reviewed-at date ${check.reviewedAt} is after audit date ${today}. ` +
+        `INVALID REVIEW  ${check.id} — reviewed-at date ${check.reviewedAt} is after audit date ${today}. ` +
           `Re-check ${check.sourceUrl} and correct the review date.`
       );
     }
@@ -82,7 +82,7 @@ export function auditManualChecks(checks, today = new Date().toISOString().slice
     if (reviewedAtTime !== null && reviewedAtTime > validUntilTime) {
       if (!invalidReviewDates.includes(check)) invalidReviewDates.push(check);
       messages.push(
-        `INVALID REVIEW  ${check.id} â€” reviewed-at date ${check.reviewedAt} is after valid-until date ${check.validUntil}. ` +
+        `INVALID REVIEW  ${check.id} — reviewed-at date ${check.reviewedAt} is after valid-until date ${check.validUntil}. ` +
           `Re-check ${check.sourceUrl} and correct the review window.`
       );
     }

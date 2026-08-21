@@ -21,6 +21,7 @@ import type {
   WorkbenchQuestion,
 } from "../types";
 import { recordRoute } from "./recordRoutes";
+import { getCountryGovernanceSummary } from "./getCountryGovernanceSummary";
 import { formatReviewState, formatSourceLocator, getReviewStatus } from "./sourceProvenance";
 
 const CANONICAL_APP_URL = "https://global-ai-governance-map.vercel.app/";
@@ -141,7 +142,7 @@ function coeAnswer(question: WorkbenchQuestion): WorkbenchAnswer {
     "ratification and signature-only rows",
     `${ratified.length} ratification and ${signed.length} signature-only rows are tracked for the Council of Europe AI Convention.`,
     "Signature is not ratification, ratified parties are excluded from the signature-only count, and the convention is not yet in force.",
-    `${ratified.length} ratified Â· ${signed.length} signature-only`,
+    `${ratified.length} ratified · ${signed.length} signature-only`,
   );
 }
 
@@ -162,7 +163,7 @@ function euComparison(question: WorkbenchQuestion): WorkbenchAnswer {
     regional.length
       ? "National implementation supplements the directly applicable EU regulation and is not a separate national enactment of that regulation."
       : "Without a configured regional regulation row, national implementation records are not evidence of direct EU applicability.",
-    `${regional.length} EU regulations Â· ${national.length} national implementation rows`,
+    `${regional.length} EU regulations · ${national.length} national implementation rows`,
   );
 }
 
@@ -207,14 +208,32 @@ function governmentEvaluation(question: WorkbenchQuestion): WorkbenchAnswer {
 }
 
 function highReadiness(question: WorkbenchQuestion): WorkbenchAnswer {
-  const countries = new Set((question.compareItems ?? []).filter((item) => item.kind === "country").map((item) => item.id));
-  const records = COUNTRY_INDICATOR_SCORES.filter((row) => row.sourceId === "oxford-gov-ai-readiness-2025" && countries.has(row.countryIso3));
+  const records = COUNTRY_INDICATOR_SCORES
+    .filter(
+      (row) =>
+        row.sourceId === "oxford-gov-ai-readiness-2025" &&
+        row.score !== undefined &&
+        row.score >= 60 &&
+        !getCountryGovernanceSummary(row.countryIso3).hasBindingNationalLaw,
+    )
+    .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
+    .slice(0, 8);
   const rows = records.map((row) => evidence(row, `Oxford readiness: ${COUNTRY_BY_ISO3[row.countryIso3]?.name ?? row.countryIso3}`, COUNTRY_BY_ISO3[row.countryIso3]?.name ?? row.countryIso3, recordRoute("country", row.countryIso3)));
-  return scopedAnswer(question, rows, "Oxford readiness evidence rows", `${records.length} Oxford readiness evidence rows are configured for comparison.`, "Readiness is contextual capacity evidence, not proof of binding law or legal weakness.");
+  return scopedAnswer(
+    question,
+    rows,
+    "high-readiness / no-confirmed-binding-law countries",
+    `${records.length} high-readiness countries with no confirmed binding AI-specific law are tracked.`,
+    "Readiness is contextual capacity evidence; absence means no binding AI-specific law is confirmed in this release, not that a jurisdiction has no relevant law.",
+  );
 }
 
 function unescoRam(question: WorkbenchQuestion): WorkbenchAnswer {
-  const records = COUNTRY_READINESS_REPORTS.filter((row) => row.sourceId === "unesco-ram-global-hub-2026");
+  const records = COUNTRY_READINESS_REPORTS.filter(
+    (row) =>
+      row.sourceId === "unesco-ram-global-hub-2026" &&
+      (row.status === "completed" || row.status === "in_process"),
+  );
   const rows = records.map((row) => evidence(row, `UNESCO RAM: ${COUNTRY_BY_ISO3[row.countryIso3]?.name ?? row.countryIso3}`, COUNTRY_BY_ISO3[row.countryIso3]?.name ?? row.countryIso3, recordRoute("country", row.countryIso3)));
   return scopedAnswer(question, rows, "UNESCO RAM activity rows", `${records.length} UNESCO RAM activity rows are tracked.`, "RAM activity is assessment context, not a comparable legal score or binding duty.", `${records.length} UNESCO RAM activity rows`);
 }
@@ -261,8 +280,18 @@ function gpaiMarket(question: WorkbenchQuestion): WorkbenchAnswer {
 }
 
 function publicSector(question: WorkbenchQuestion): WorkbenchAnswer {
-  const rows = PUBLIC_SECTOR_AI_RECORDS.map((row) => evidence(row, row.title, row.jurisdiction, `/embed/public-sector-ai/${encodeURIComponent(row.id)}`));
-  return scopedAnswer(question, rows, "public-sector AI governance rows", `${rows.length} public-sector AI governance rows are tracked.`, "Public-sector registries and guidance vary in legal effect and do not establish private-sector duties.");
+  const obligations = GOVERNANCE_OBLIGATIONS.filter((row) => row.domains.includes("public-sector"));
+  const obligationRows = obligationEvidence(obligations);
+  const contextRows = PUBLIC_SECTOR_AI_RECORDS.map((row) => evidence(row, row.title, row.jurisdiction, `/embed/public-sector-ai/${encodeURIComponent(row.id)}`));
+  const rows = [...contextRows.slice(0, 2), ...obligationRows, ...contextRows.slice(2)];
+  return scopedAnswer(
+    question,
+    rows,
+    "public-sector obligation and registry/context rows",
+    `Public-sector AI governance includes ${obligations.length} public-sector obligation rows and ${contextRows.length} registry/context rows.`,
+    "Obligations vary in legal effect and applicability; registries and guidance are governance context and do not by themselves establish private-sector duties.",
+    `${obligations.length} public-sector obligations · ${contextRows.length} registry/context rows`,
+  );
 }
 
 function configuredQuestion(question: WorkbenchQuestion, noun: string): WorkbenchAnswer {

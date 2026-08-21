@@ -3,8 +3,9 @@ import { GOVERNANCE_OBLIGATIONS } from "../data/governanceObligations";
 import { IMPLEMENTATION_MILESTONES } from "../data/implementationMilestones";
 import { NATIONAL_AI_REGULATIONS, NATIONAL_REG_BY_ID } from "../data/nationalAIRegulations";
 import { RELEASE_METADATA } from "../data/releaseMetadata";
-import { COUNTRY_READINESS_REPORTS } from "../data/aiAtlas";
+import { COUNTRY_INDICATOR_SCORES, COUNTRY_READINESS_REPORTS } from "../data/aiAtlas";
 import { INSTRUMENT_BY_ID } from "../data/internationalInstruments";
+import { PUBLIC_SECTOR_AI_RECORDS } from "../data/researchCorpus";
 import {
   WORKBENCH_QUESTION_BY_ID,
   WORKBENCH_QUESTIONS,
@@ -15,6 +16,7 @@ import {
   renderWorkbenchAnswerCitation,
   renderWorkbenchAnswerCsv,
 } from "./workbenchAnswer";
+import { getCountryGovernanceSummary } from "./getCountryGovernanceSummary";
 import { parseShareableState } from "./urlState";
 
 const WORKED_QUESTION_IDS = [
@@ -79,7 +81,9 @@ describe("structured Workbench answers", () => {
   it("uses UNESCO RAM activity rows rather than the global country count", () => {
     const answer = buildWorkbenchAnswer("unesco-ram-available", DEFAULT_FILTER_STATE);
     const ramRows = COUNTRY_READINESS_REPORTS.filter(
-      (row) => row.sourceId === "unesco-ram-global-hub-2026",
+      (row) =>
+        row.sourceId === "unesco-ram-global-hub-2026" &&
+        (row.status === "completed" || row.status === "in_process"),
     );
     const ramIds = new Set(ramRows.map((row) => row.id));
 
@@ -88,6 +92,55 @@ describe("structured Workbench answers", () => {
     expect(answer.sentence).not.toMatch(/191 countries|countries match/i);
     expect(answer.evidence.length).toBeGreaterThan(0);
     expect(answer.evidence.every((row) => ramIds.has(row.id))).toBe(true);
+  });
+
+  it("keeps high-readiness evidence inside the no-confirmed-binding-law scope", () => {
+    const expected = COUNTRY_INDICATOR_SCORES
+      .filter(
+        (row) =>
+          row.sourceId === "oxford-gov-ai-readiness-2025" &&
+          row.score !== undefined &&
+          row.score >= 60 &&
+          !getCountryGovernanceSummary(row.countryIso3).hasBindingNationalLaw,
+      )
+      .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
+      .slice(0, 8);
+    const answer = buildWorkbenchAnswer("high-readiness-weak-law", DEFAULT_FILTER_STATE);
+
+    expect(answer.sentence).toContain(
+      `${expected.length} high-readiness countries with no confirmed binding AI-specific law`,
+    );
+    expect(answer.countLabel).toBe(
+      `${expected.length} high-readiness / no-confirmed-binding-law countries`,
+    );
+    expect(answer.evidence.map((row) => row.id)).toEqual(
+      expected.slice(0, 5).map((row) => row.id),
+    );
+  });
+
+  it("combines public-sector obligations with registry and context records", () => {
+    const obligationIds = new Set(
+      GOVERNANCE_OBLIGATIONS
+        .filter((row) => row.domains.includes("public-sector"))
+        .map((row) => row.id),
+    );
+    const contextIds = new Set(PUBLIC_SECTOR_AI_RECORDS.map((row) => row.id));
+    const answer = buildWorkbenchAnswer("public-sector-ai", DEFAULT_FILTER_STATE);
+
+    expect(answer.sentence).toContain(
+      `${obligationIds.size} public-sector obligation rows and ${contextIds.size} registry/context rows`,
+    );
+    expect(answer.evidence.some((row) => obligationIds.has(row.id))).toBe(true);
+    expect(answer.evidence.some((row) => contextIds.has(row.id))).toBe(true);
+  });
+
+  it("renders readable middle-dot separators in compact comparison counts", () => {
+    expect(
+      buildWorkbenchAnswer("coe-signed-ratified", DEFAULT_FILTER_STATE).countLabel,
+    ).toBe("1 ratified · 20 signature-only");
+    expect(
+      buildWorkbenchAnswer("eu-act-vs-national-law", DEFAULT_FILTER_STATE).countLabel,
+    ).toMatch(/^\d+ EU regulations · \d+ national implementation rows$/);
   });
 
   it("uses configured standards and soft-law instruments without lab-exposure nouns", () => {

@@ -10,7 +10,11 @@ const budgets = {
   maxAtlasChunkBytes: 430_000,
   // Corpus rows are source/caveat-heavy text and are loaded lazily; transfer size is
   // the useful budget here because the repeated source language compresses well.
-  maxCorpusGzipBytes: 20_000,
+  // Raised 20_000 -> 20_500 after the answer-selector closure changed
+  // content-addressed dependency filenames while aggregate uncompressed corpus
+  // bytes remained 81,591. This 2.5% tolerance avoids one-byte hash/compression
+  // churn becoming a false regression while preserving a deliberately tight cap.
+  maxCorpusGzipBytes: 20_500,
   // Total JS includes optional lazy research-workbench, Atlas, dossier, and corpus modules.
   // Keep initial-load budgets strict; allow a narrow ceiling for richer lazy research tools.
   // Raised 1_550_000 -> 1_600_000 for the AI litigation/enforcement corpus expansion

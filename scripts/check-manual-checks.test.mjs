@@ -198,4 +198,14 @@ describe("manual review expiry audit", () => {
     assert.deepEqual(result.invalidReviewDates, []);
     assert.deepEqual(result.expired, []);
   });
+
+  it("uses a readable em dash in actionable validation messages", () => {
+    const result = auditManualChecks(
+      [{ id: "missing-review", sourceUrl: "https://official.example/missing", validUntil: "2026-09-01" }],
+      "2026-08-17"
+    );
+
+    assert.match(result.messages.join("\n"), /missing-review — manual verification/);
+    assert.doesNotMatch(result.messages.join("\n"), /â/);
+  });
 });
