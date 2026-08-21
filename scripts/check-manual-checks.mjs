@@ -123,7 +123,6 @@ export async function runManualCheckAudit({ today } = {}) {
     collectManualChecks(manualLinkConfig, sourceDeltaConfig),
     today
   );
-
   for (const message of result.messages) {
     const log = message.startsWith("DUE SOON") ? console.warn : console.error;
     log(message);
