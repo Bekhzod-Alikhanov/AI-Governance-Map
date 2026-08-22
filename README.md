@@ -137,11 +137,11 @@ Measured release budgets (`npm run build && npm run check:performance`):
 | Metric | Current | Budget |
 | --- | ---: | ---: |
 | Initial JavaScript | 459,822 B | 725,000 B |
-| Initial JavaScript gzip | 126,759 B | 220,000 B |
-| Default Workbench route gzip | 258,875 B | 270,000 B |
+| Initial JavaScript gzip | 126,758 B | 220,000 B |
+| Default Workbench route gzip | 258,851 B | 270,000 B |
 | Atlas lazy chunk | 417,373 B | 430,000 B |
-| Corpus lazy gzip | 19,994 B | 20,500 B |
-| Total JavaScript | 1,426,354 B | 1,610,000 B |
+| Corpus lazy gzip | 19,989 B | 20,500 B |
+| Total JavaScript | 1,426,898 B | 1,610,000 B |
 
 ---
 

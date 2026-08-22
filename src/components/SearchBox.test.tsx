@@ -41,8 +41,9 @@ function SearchHarness({
 }
 
 async function settleSearch(container: HTMLElement) {
-  for (let attempt = 0; attempt < 20; attempt += 1) {
-    await act(async () => new Promise((resolve) => setTimeout(resolve, 0)));
+  const deadline = Date.now() + 2_000;
+  while (Date.now() < deadline) {
+    await act(async () => new Promise((resolve) => setTimeout(resolve, 10)));
     const options = container.querySelectorAll<HTMLElement>('[role="option"]');
     if (options.length) return options;
   }
