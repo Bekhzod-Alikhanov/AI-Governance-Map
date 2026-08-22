@@ -1,3 +1,5 @@
+import { act } from "react";
+import { createRoot } from "react-dom/client";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import { DEFAULT_FILTER_STATE, DEFAULT_WORKBENCH_STATE } from "../types";
@@ -75,11 +77,92 @@ describe("answer-first Workbench", () => {
     expect(container.querySelectorAll("details[open]")).toHaveLength(0);
   });
 
+  it("does not mount a secondary Workbench section until its disclosure is opened", () => {
+    const container = document.createElement("div");
+    document.body.append(container);
+    const root = createRoot(container);
+    act(() => {
+      root.render(
+        <WorkbenchView
+          filters={DEFAULT_FILTER_STATE}
+          onFiltersChange={vi.fn()}
+          onSelectCountry={vi.fn()}
+          onSelectLab={vi.fn()}
+          onSelectInstrument={vi.fn()}
+          onOpenMethodology={vi.fn()}
+          onOpenAtlasMapMode={vi.fn()}
+          workbenchState={DEFAULT_WORKBENCH_STATE}
+          onWorkbenchStateChange={vi.fn()}
+          routeRecord={null}
+        />,
+      );
+    });
+    const disclosure = Array.from(container.querySelectorAll("details")).find((details) =>
+      text(details.querySelector("summary")).startsWith("Research workflows and answer metrics"),
+    );
+    expect(disclosure).toBeTruthy();
+    expect(disclosure).not.toHaveTextContent("Compare countries");
+
+    act(() => {
+      disclosure!.open = true;
+      disclosure!.dispatchEvent(new Event("toggle", { bubbles: true }));
+    });
+
+    expect(disclosure).toHaveTextContent("Compare countries");
+    act(() => root.unmount());
+    container.remove();
+  });
+
+  it("keeps the active research answer selected when applying a legacy workflow", () => {
+    const onWorkbenchStateChange = vi.fn();
+    const state = {
+      ...DEFAULT_WORKBENCH_STATE,
+      activeQuestionId: "incident-reporting",
+      activeAnswerCardId: "binding-obligations",
+    };
+    const container = document.createElement("div");
+    document.body.append(container);
+    const root = createRoot(container);
+    act(() => {
+      root.render(
+        <WorkbenchView
+          filters={DEFAULT_FILTER_STATE}
+          onFiltersChange={vi.fn()}
+          onSelectCountry={vi.fn()}
+          onSelectLab={vi.fn()}
+          onSelectInstrument={vi.fn()}
+          onOpenMethodology={vi.fn()}
+          onOpenAtlasMapMode={vi.fn()}
+          workbenchState={state}
+          onWorkbenchStateChange={onWorkbenchStateChange}
+          routeRecord={null}
+        />,
+      );
+    });
+    const workflowDisclosure = Array.from(container.querySelectorAll("details")).find((details) =>
+      text(details.querySelector("summary")).startsWith("Research workflows and answer metrics"),
+    );
+    expect(workflowDisclosure).toBeTruthy();
+    act(() => {
+      workflowDisclosure!.open = true;
+      workflowDisclosure!.dispatchEvent(new Event("toggle", { bubbles: true }));
+    });
+    const workflowButton = Array.from(container.querySelectorAll("button")).find(
+      (button) => text(button).startsWith("Compare countries"),
+    );
+    expect(workflowButton).toBeTruthy();
+    act(() => workflowButton!.click());
+
+    expect(onWorkbenchStateChange).toHaveBeenCalledWith({
+      ...state,
+      activeWorkflowId: "compare-countries",
+    });
+    act(() => root.unmount());
+    container.remove();
+  });
+
   it("renders source pinpoint and review state on Workbench evidence rows", () => {
-    const evidenceId = buildWorkbenchAnswer(
-      "binding-duties-by-jurisdiction",
-      DEFAULT_FILTER_STATE,
-    ).evidence[0]?.id;
+    const evidenceId = buildWorkbenchAnswer("binding-duties-by-jurisdiction").evidence[0]?.id;
     const row = GOVERNANCE_OBLIGATIONS.find((candidate) => candidate.id === evidenceId);
     expect(row).toBeTruthy();
     const original = {

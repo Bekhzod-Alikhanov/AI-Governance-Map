@@ -129,7 +129,7 @@ test.describe("accessibility smoke checks", () => {
   test("methodology panel has no automated WCAG A/AA violations", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("button", { name: "Data", exact: true }).click();
-    await page.getByRole("button", { name: "Methodology" }).click();
+    await page.locator("#data-actions-menu").getByRole("button", { name: "Methodology" }).click();
     await expect(page.getByRole("dialog", { name: "Methodology" })).toBeVisible();
 
     await expectNoA11yViolations(page);

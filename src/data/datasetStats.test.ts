@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import publicDataCatalog from "../../public/data/catalog.json";
+import sourceMetadata from "../../public/data/source-metadata.json";
 import { COUNTRIES } from "./countries";
 import { DEPENDENCY_EDGES } from "./dependencies";
 import { DATASET_COVERAGE_STATS } from "./datasetCoverageStats";
@@ -61,5 +62,8 @@ describe("DATASET_STATS", () => {
         INCIDENT_ENFORCEMENT_RECORDS.length
     );
     expect(DATASET_COVERAGE_STATS.publicDataEndpoints).toBe(publicDataCatalog.endpoints.length);
+    expect((DATASET_COVERAGE_STATS as Record<string, number>).secondPersonReviewQueue).toBe(
+      sourceMetadata.filter((row) => row.reviewStatus === "needs_review" || row.reviewStatus === "unreviewed").length,
+    );
   });
 });

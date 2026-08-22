@@ -56,7 +56,7 @@ describe("structured Workbench answers", () => {
   it.each(WORKBENCH_QUESTIONS)(
     "derives sentence, count, entities, caveat, and evidence from the $id scope",
     (question) => {
-      const answer = buildWorkbenchAnswer(question.id, DEFAULT_FILTER_STATE);
+      const answer = buildWorkbenchAnswer(question.id);
 
       expect(answer.sentence.trim()).toMatch(/[.!?]$/);
       expect(answer.sentence.trim()).toMatch(expectedAnswerNouns[question.id]);
@@ -79,7 +79,7 @@ describe("structured Workbench answers", () => {
   );
 
   it("uses UNESCO RAM activity rows rather than the global country count", () => {
-    const answer = buildWorkbenchAnswer("unesco-ram-available", DEFAULT_FILTER_STATE);
+    const answer = buildWorkbenchAnswer("unesco-ram-available");
     const ramRows = COUNTRY_READINESS_REPORTS.filter(
       (row) =>
         row.sourceId === "unesco-ram-global-hub-2026" &&
@@ -105,7 +105,7 @@ describe("structured Workbench answers", () => {
       )
       .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
       .slice(0, 8);
-    const answer = buildWorkbenchAnswer("high-readiness-weak-law", DEFAULT_FILTER_STATE);
+    const answer = buildWorkbenchAnswer("high-readiness-weak-law");
 
     expect(answer.sentence).toContain(
       `${expected.length} high-readiness countries with no confirmed binding AI-specific law`,
@@ -125,7 +125,7 @@ describe("structured Workbench answers", () => {
         .map((row) => row.id),
     );
     const contextIds = new Set(PUBLIC_SECTOR_AI_RECORDS.map((row) => row.id));
-    const answer = buildWorkbenchAnswer("public-sector-ai", DEFAULT_FILTER_STATE);
+    const answer = buildWorkbenchAnswer("public-sector-ai");
 
     expect(answer.sentence).toContain(
       `${obligationIds.size} public-sector obligation rows and ${contextIds.size} registry/context rows`,
@@ -136,10 +136,10 @@ describe("structured Workbench answers", () => {
 
   it("renders readable middle-dot separators in compact comparison counts", () => {
     expect(
-      buildWorkbenchAnswer("coe-signed-ratified", DEFAULT_FILTER_STATE).countLabel,
+      buildWorkbenchAnswer("coe-signed-ratified").countLabel,
     ).toBe("1 ratified · 20 signature-only");
     expect(
-      buildWorkbenchAnswer("eu-act-vs-national-law", DEFAULT_FILTER_STATE).countLabel,
+      buildWorkbenchAnswer("eu-act-vs-national-law").countLabel,
     ).toMatch(/^\d+ EU regulations · \d+ national implementation rows$/);
   });
 
@@ -148,7 +148,7 @@ describe("structured Workbench answers", () => {
     const configuredIds = (question.compareItems ?? [])
       .filter((item) => item.kind === "instrument")
       .map((item) => item.id);
-    const answer = buildWorkbenchAnswer(question.id, DEFAULT_FILTER_STATE);
+    const answer = buildWorkbenchAnswer(question.id);
 
     expect(answer.sentence).toContain(
       `${configuredIds.length} configured standards and soft-law instruments`,
@@ -160,7 +160,7 @@ describe("structured Workbench answers", () => {
   });
 
   it.each(WORKED_QUESTION_IDS)("builds a complete source-backed answer for %s", (questionId) => {
-    const answer = buildWorkbenchAnswer(questionId, DEFAULT_FILTER_STATE);
+    const answer = buildWorkbenchAnswer(questionId);
 
     expect(answer).toMatchObject({
       questionId,
@@ -195,7 +195,7 @@ describe("structured Workbench answers", () => {
   });
 
   it("names binding jurisdictions and provides routable official evidence with a caveat", () => {
-    const answer = buildWorkbenchAnswer("binding-duties-by-jurisdiction", DEFAULT_FILTER_STATE);
+    const answer = buildWorkbenchAnswer("binding-duties-by-jurisdiction");
 
     expect(answer.sentence).toMatch(/binding obligation/i);
     expect(answer.caveat).toMatch(/tracked|snapshot|legal advice/i);
@@ -205,7 +205,7 @@ describe("structured Workbench answers", () => {
   });
 
   it("includes California SB 53 and any structured EU AI Act incident-reporting row", () => {
-    const answer = buildWorkbenchAnswer("incident-reporting", DEFAULT_FILTER_STATE);
+    const answer = buildWorkbenchAnswer("incident-reporting");
 
     expect(answer.evidence.some((row) => row.id === "ca-sb-53-incident-reporting")).toBe(true);
     const euIncidentRows = GOVERNANCE_OBLIGATIONS.filter(
@@ -217,14 +217,14 @@ describe("structured Workbench answers", () => {
   });
 
   it("does not present multiple records backed by the same official source as independent evidence", () => {
-    const answer = buildWorkbenchAnswer("incident-reporting", DEFAULT_FILTER_STATE);
+    const answer = buildWorkbenchAnswer("incident-reporting");
     const sourceUrls = answer.evidence.map((row) => row.sourceUrl);
 
     expect(new Set(sourceUrls).size).toBe(sourceUrls.length);
   });
 
   it("separates CoE ratification from signature-only parties without duplicating the EU", () => {
-    const answer = buildWorkbenchAnswer("coe-signed-ratified", DEFAULT_FILTER_STATE);
+    const answer = buildWorkbenchAnswer("coe-signed-ratified");
 
     expect(answer.sentence).toContain("1 ratification and 20 signature-only rows");
     expect(answer.caveat).toMatch(/signature is not ratification/i);
@@ -234,7 +234,7 @@ describe("structured Workbench answers", () => {
   });
 
   it("names frontier labs and distinguishes applicability hooks from enforcement findings", () => {
-    const answer = buildWorkbenchAnswer("frontier-lab-binding-exposure", DEFAULT_FILTER_STATE);
+    const answer = buildWorkbenchAnswer("frontier-lab-binding-exposure");
 
     expect(answer.namedEntities).toEqual(expect.arrayContaining(["OpenAI", "Google DeepMind", "Mistral"]));
     expect(answer.sentence).toMatch(/binding/i);
@@ -242,7 +242,7 @@ describe("structured Workbench answers", () => {
   });
 
   it("distinguishes direct EU applicability from national implementation activity", () => {
-    const answer = buildWorkbenchAnswer("eu-act-vs-national-law", DEFAULT_FILTER_STATE);
+    const answer = buildWorkbenchAnswer("eu-act-vs-national-law");
 
     expect(answer.sentence).toMatch(/directly applicable|direct applicability/i);
     expect(`${answer.sentence} ${answer.caveat}`).toMatch(/national implementation/i);
@@ -255,7 +255,7 @@ describe("structured Workbench answers", () => {
     italy.jurisdiction = "Italian Republic";
 
     try {
-      const answer = buildWorkbenchAnswer("eu-act-vs-national-law", DEFAULT_FILTER_STATE);
+      const answer = buildWorkbenchAnswer("eu-act-vs-national-law");
       expect(answer.namedEntities).toContain("Italian Republic");
       expect(answer.namedEntities).not.toContain("Italy");
     } finally {
@@ -268,7 +268,7 @@ describe("structured Workbench answers", () => {
     delete NATIONAL_REG_BY_ID["eu-ai-act-regional"];
 
     try {
-      const answer = buildWorkbenchAnswer("eu-act-vs-national-law", DEFAULT_FILTER_STATE);
+      const answer = buildWorkbenchAnswer("eu-act-vs-national-law");
       expect(answer.countLabel).toMatch(/^0 EU regulations/);
       expect(answer.namedEntities).not.toContain("European Union");
       expect(answer.caveat).not.toMatch(/supplement the directly applicable EU regulation/i);
@@ -278,7 +278,7 @@ describe("structured Workbench answers", () => {
   });
 
   it("uses proposed-law records rather than unrelated binding obligations as proposed-law evidence", () => {
-    const answer = buildWorkbenchAnswer("proposed-laws", DEFAULT_FILTER_STATE);
+    const answer = buildWorkbenchAnswer("proposed-laws");
     const proposedRuleIds = new Set(
       NATIONAL_AI_REGULATIONS.filter((row) => row.bindingStatus === "proposed").map((row) => row.id),
     );
@@ -288,7 +288,7 @@ describe("structured Workbench answers", () => {
   });
 
   it("answers the source-confidence question with high-confidence claims", () => {
-    const answer = buildWorkbenchAnswer("source-confidence", DEFAULT_FILTER_STATE);
+    const answer = buildWorkbenchAnswer("source-confidence");
 
     expect(answer.sentence).toMatch(/high-confidence/i);
     expect(answer.evidence.length).toBeGreaterThan(0);
@@ -304,7 +304,7 @@ describe("structured Workbench answers", () => {
     const configuredIds = new Set(configuredRules.map((row) => row.id));
     const configuredSourceUrls = new Set(configuredRules.map((row) => row.sourceUrl));
 
-    const answer = buildWorkbenchAnswer(question.id, DEFAULT_FILTER_STATE);
+    const answer = buildWorkbenchAnswer(question.id);
 
     expect(answer.evidence.length).toBeGreaterThan(0);
     expect(answer.evidence.every((row) => configuredIds.has(row.id))).toBe(true);
@@ -312,7 +312,7 @@ describe("structured Workbench answers", () => {
   });
 
   it("shows only upcoming implementation deadlines, sorted from soonest to latest", () => {
-    const answer = buildWorkbenchAnswer("implementation-deadlines", DEFAULT_FILTER_STATE);
+    const answer = buildWorkbenchAnswer("implementation-deadlines");
     const expected = IMPLEMENTATION_MILESTONES
       .filter((row) => ["phased_application", "implementing_rules_pending"].includes(row.status))
       .map((row) => ({ row, deadline: row.nextDeadline ?? row.date }))
@@ -345,7 +345,7 @@ describe("structured Workbench answers", () => {
     const officialUrl = "https://digital-strategy.ec.europa.eu/en/news/ai-omnibus-enters-force";
     const rows = expected.map(({ id }) => IMPLEMENTATION_MILESTONES.find((row) => row.id === id));
     const question = WORKBENCH_QUESTION_BY_ID["implementation-deadlines"];
-    const answer = buildWorkbenchAnswer(question.id, DEFAULT_FILTER_STATE);
+    const answer = buildWorkbenchAnswer(question.id);
 
     expect(rows.map((row) => row?.date)).toEqual(expected.map((row) => row.date));
     expect(rows.map((row) => row?.label)).toEqual(expected.map((row) => row.label));
@@ -363,13 +363,13 @@ describe("structured Workbench answers", () => {
   it("rebuilds the selected answer and effective configuration from the citation URL alone", () => {
     const question = WORKBENCH_QUESTION_BY_ID["model-evaluation"];
     const selectedFilters = { ...DEFAULT_FILTER_STATE, ...question.patch };
-    const selected = buildWorkbenchAnswer(question.id, selectedFilters);
+    const selected = buildWorkbenchAnswer(question.id);
     const citation = renderWorkbenchAnswerCitation(selected);
     const canonicalUrl = citation.match(/Canonical Workbench URL: (.+)/)?.[1];
 
     expect(canonicalUrl).toBeTruthy();
     const parsed = parseShareableState(new URL(canonicalUrl!).search);
-    const rebuilt = buildWorkbenchAnswer(parsed.workbench.activeQuestionId!, parsed.filters);
+    const rebuilt = buildWorkbenchAnswer(parsed.workbench.activeQuestionId!);
 
     expect(parsed.filters).toEqual(selectedFilters);
     expect(parsed.workbench.compareItems).toEqual(
@@ -451,7 +451,7 @@ describe("Workbench answer renderers", () => {
   });
 
   it("renders a citation with title, release and status dates, canonical question URL, and sources", () => {
-    const answer = buildWorkbenchAnswer("binding-duties-by-jurisdiction", DEFAULT_FILTER_STATE);
+    const answer = buildWorkbenchAnswer("binding-duties-by-jurisdiction");
     const citation = renderWorkbenchAnswerCitation(answer);
 
     expect(citation).toContain(answer.questionTitle);

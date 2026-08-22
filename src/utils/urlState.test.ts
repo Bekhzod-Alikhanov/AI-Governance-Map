@@ -127,6 +127,20 @@ describe("shareable URL state", () => {
     expect(parseShareableState(serialized).workbench.activeQuestionId).toBe("incident-reporting");
   });
 
+  it("preserves an explicitly cleared comparison list for a question with defaults", () => {
+    const serialized = serializeShareableState({
+      ...DEFAULT_SHAREABLE_STATE,
+      workbench: {
+        ...DEFAULT_WORKBENCH_STATE,
+        activeQuestionId: "incident-reporting",
+        compareItems: [],
+      },
+    });
+
+    expect(serialized).toContain("wbCompare=");
+    expect(parseShareableState(serialized).workbench.compareItems).toEqual([]);
+  });
+
   it("round-trips the map colour mode so a recoloured map can be cited", () => {
     const serialized = serializeShareableState({
       ...DEFAULT_SHAREABLE_STATE,

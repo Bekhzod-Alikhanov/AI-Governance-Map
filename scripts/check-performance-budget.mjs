@@ -7,6 +7,10 @@ const distAssets = path.join(process.cwd(), "dist", "assets");
 const budgets = {
   maxInitialJsBytes: 725_000,
   maxInitialGzipBytes: 220_000,
+  // Workbench is the default route. Count its complete static dependency closure,
+  // rather than only the scripts referenced directly by index.html, so a large
+  // route dependency cannot hide behind a dynamic-import boundary.
+  maxDefaultRouteGzipBytes: 270_000,
   maxAtlasChunkBytes: 430_000,
   // Corpus rows are source/caveat-heavy text and are loaded lazily; transfer size is
   // the useful budget here because the repeated source language compresses well.
@@ -46,6 +50,36 @@ const totalJsBytes = rows.reduce((sum, row) => sum + row.bytes, 0);
 const initialRows = rows.filter((row) => initialFileNames.has(row.file));
 const initialJsBytes = initialRows.reduce((sum, row) => sum + row.bytes, 0);
 const initialGzipBytes = initialRows.reduce((sum, row) => sum + row.gzipBytes, 0);
+const workbenchRow = rows.find((row) => /^WorkbenchView-.*\.js$/i.test(row.file));
+
+function staticImports(file) {
+  const content = fileContents.get(file)?.toString("utf8") ?? "";
+  return [...content.matchAll(/(?:\bfrom|\bimport)\s*["']\.\/([^"']+\.js)["']/g)].map(
+    (match) => match[1],
+  );
+}
+
+const fileContents = new Map();
+for (const row of rows) {
+  fileContents.set(row.file, await readFile(path.join(distAssets, row.file)));
+}
+
+const defaultRouteFileNames = new Set(initialFileNames);
+if (workbenchRow) defaultRouteFileNames.add(workbenchRow.file);
+const importQueue = [...defaultRouteFileNames];
+while (importQueue.length) {
+  const file = importQueue.pop();
+  if (!file) continue;
+  for (const importedFile of staticImports(file)) {
+    if (!defaultRouteFileNames.has(importedFile)) {
+      defaultRouteFileNames.add(importedFile);
+      importQueue.push(importedFile);
+    }
+  }
+}
+const defaultRouteRows = rows.filter((row) => defaultRouteFileNames.has(row.file));
+const defaultRouteJsBytes = defaultRouteRows.reduce((sum, row) => sum + row.bytes, 0);
+const defaultRouteGzipBytes = defaultRouteRows.reduce((sum, row) => sum + row.gzipBytes, 0);
 const atlasRows = rows.filter((row) => /aiAtlas/i.test(row.file));
 const atlasChunkBytes = atlasRows.reduce((sum, row) => sum + row.bytes, 0);
 const corpusRows = rows.filter((row) => /researchCorpus|policyBrief/i.test(row.file));
@@ -58,6 +92,14 @@ if (initialJsBytes > budgets.maxInitialJsBytes) {
 }
 if (initialGzipBytes > budgets.maxInitialGzipBytes) {
   issues.push(`Initial JS gzip ${initialGzipBytes} exceeds budget ${budgets.maxInitialGzipBytes}`);
+}
+if (!workbenchRow) {
+  issues.push("Default Workbench route chunk was not found");
+}
+if (defaultRouteGzipBytes > budgets.maxDefaultRouteGzipBytes) {
+  issues.push(
+    `Default Workbench route gzip ${defaultRouteGzipBytes} exceeds budget ${budgets.maxDefaultRouteGzipBytes}`,
+  );
 }
 if (atlasChunkBytes > budgets.maxAtlasChunkBytes) {
   issues.push(`Atlas lazy chunk ${atlasChunkBytes} exceeds budget ${budgets.maxAtlasChunkBytes}`);
@@ -77,6 +119,9 @@ console.log(
       initialFiles: [...initialFileNames].sort(),
       initialJsBytes,
       initialGzipBytes,
+      defaultRouteFiles: [...defaultRouteFileNames].sort(),
+      defaultRouteJsBytes,
+      defaultRouteGzipBytes,
       atlasChunkBytes,
       corpusChunkBytes,
       corpusGzipBytes,

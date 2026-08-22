@@ -1,6 +1,6 @@
 import { act } from "react";
 import { createRoot } from "react-dom/client";
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import type { VerificationMetadata } from "../types";
 import { VerificationMeta } from "./VerificationMeta";
 
@@ -42,6 +42,15 @@ function daysAgo(days: number) {
 }
 
 describe("VerificationMeta age", () => {
+  beforeAll(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-08-21T12:00:00Z"));
+  });
+
+  afterAll(() => {
+    vi.useRealTimers();
+  });
+
   it("tells the reader how old this record's check is, not just its date", () => {
     const { text } = renderMeta(daysAgo(38));
 

@@ -18,4 +18,5 @@ export const DATASET_COVERAGE_STATS = {
   countryIndicatorScores: 349,
   countryReadinessReports: 74,
   publicDataEndpoints: 29,
+  secondPersonReviewQueue: 2188,
 } as const;

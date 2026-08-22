@@ -322,7 +322,8 @@ export function serializeShareableState(state: ShareableAppState): string {
 }
 
 function parseWorkbenchCompareItems(value: string | null): WorkbenchCompareItem[] {
-  if (!value) return DEFAULT_WORKBENCH_STATE.compareItems;
+  if (value === null) return DEFAULT_WORKBENCH_STATE.compareItems;
+  if (value === "") return [];
   const items = value
     .split(",")
     .map((part) => {

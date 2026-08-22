@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { DEFAULT_FILTER_STATE } from "../types";
 import { buildWorkbenchAnswer } from "../utils/workbenchAnswer";
 import { INSTRUMENT_BY_ID } from "./internationalInstruments";
 import { INTERNATIONAL_PARTICIPATION } from "./participation";
@@ -17,7 +16,7 @@ describe("August release coherence", () => {
     const signatureOnly = rows.filter(
       (row) => row.participationType === "signed" && !ratifiedParties.has(row.countryIso3),
     );
-    const answer = buildWorkbenchAnswer("coe-signed-ratified", DEFAULT_FILTER_STATE);
+    const answer = buildWorkbenchAnswer("coe-signed-ratified");
     const conventionNote = SOURCE_NOTES.find((note) => note.id === "coe-convention-not-in-force");
     const releaseNote = SOURCE_NOTES.find((note) => note.id === "release-coverage-status");
 

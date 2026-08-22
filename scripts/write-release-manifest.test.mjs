@@ -4,7 +4,7 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { promisify } from "node:util";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import test from "node:test";
 
 import {
@@ -16,6 +16,7 @@ import {
 
 const execFileAsync = promisify(execFile);
 const scriptPath = fileURLToPath(new URL("./write-release-manifest.mjs", import.meta.url));
+const scriptUrl = pathToFileURL(scriptPath).href;
 
 async function fixture(releaseId = "2026-08-17") {
   const root = await mkdtemp(path.join(os.tmpdir(), "ai-regulations-release-"));
@@ -51,6 +52,28 @@ test("buildManifest emits sorted, slash-normalized SHA-256 entries", async (t) =
   assert.equal(manifest.algorithm, "sha256");
   assert.equal(manifest.generatedFrom, "deterministic public data build");
   assert.equal(await sha256File(path.join(dataDir, "schema.json")), manifest.files[1].sha256);
+});
+
+test("buildManifest rejects release paths that escape the data directory", async (t) => {
+  const { root, dataDir } = await fixture();
+  t.after(() => rm(root, { recursive: true, force: true }));
+
+  await assert.rejects(
+    buildManifest({ releaseId: "2026-08-17", baseDir: dataDir, files: ["../schema.json"] }),
+    /Release path escapes its base directory/,
+  );
+});
+
+test("buildManifest refuses to include either manifest in its own digest list", async (t) => {
+  const { root, dataDir } = await fixture();
+  t.after(() => rm(root, { recursive: true, force: true }));
+
+  for (const manifestName of ["manifest.json", "release-manifest.json"]) {
+    await assert.rejects(
+      buildManifest({ releaseId: "2026-08-17", baseDir: dataDir, files: [manifestName] }),
+      /cannot include itself/,
+    );
+  }
 });
 
 test("writeReleaseManifest reads the current release id and creates both manifests deterministically", async (t) => {
@@ -91,6 +114,42 @@ test("writeReleaseManifest refuses to replace a published archive with different
     /Refusing to overwrite immutable release 2026-08-17: schema\.json differs/
   );
   assert.equal(await readFile(archivedSchemaPath, "utf8"), publishedSchema);
+});
+
+test("an explicit release migration refreshes every archived release file", async (t) => {
+  const { root, dataDir } = await fixture();
+  t.after(() => rm(root, { recursive: true, force: true }));
+  await writeReleaseManifest({ dataDir });
+  const versionedDir = path.join(dataDir, "releases", "2026-08-17");
+  const unrelatedPath = path.join(versionedDir, "editorial-note.txt");
+  await writeFile(unrelatedPath, "keep me\n", "utf8");
+
+  await writeFile(path.join(dataDir, "full-dataset.json"), '{"releaseId":"2026-08-17","dataset":"migrated"}\n', "utf8");
+  await writeFile(path.join(dataDir, "schema.json"), '{"schema":"migrated"}\n', "utf8");
+  await writeFile(path.join(dataDir, "release-package.json"), '{"release":"migrated"}\n', "utf8");
+  await writeReleaseManifest({ dataDir, migrateRelease: true });
+
+  for (const filename of ["full-dataset.json", "schema.json", "release-package.json"]) {
+    assert.equal(
+      await readFile(path.join(versionedDir, filename), "utf8"),
+      await readFile(path.join(dataDir, filename), "utf8"),
+    );
+  }
+  assert.equal(await readFile(unrelatedPath, "utf8"), "keep me\n");
+  await verifyManifest(path.join(versionedDir, "manifest.json"), versionedDir);
+});
+
+test("the CLI release migration refreshes an existing archive only when explicitly requested", async (t) => {
+  const { root, dataDir } = await fixture();
+  t.after(() => rm(root, { recursive: true, force: true }));
+  await writeReleaseManifest({ dataDir });
+  const versionedSchemaPath = path.join(dataDir, "releases", "2026-08-17", "schema.json");
+  await writeFile(path.join(dataDir, "schema.json"), '{"schema":"cli-migrated"}\n', "utf8");
+
+  const { stdout } = await execFileAsync(process.execPath, [scriptPath, "--migrate-release"], { cwd: root });
+
+  assert.match(stdout, /Wrote deterministic manifests for release 2026-08-17/);
+  assert.equal(await readFile(versionedSchemaPath, "utf8"), '{"schema":"cli-migrated"}\n');
 });
 
 test("verifyManifest rejects a mutated release file", async (t) => {
@@ -171,4 +230,17 @@ test("CLI validates a supplied historical versioned directory", async (t) => {
   );
 
   assert.match(stdout, new RegExp(`Verified SHA-256 manifest for release ${releaseId}`));
+});
+
+test("manifest helpers can be imported when the process has no script argv", async () => {
+  const { stdout } = await execFileAsync(
+    process.execPath,
+    [
+      "--input-type=module",
+      "--eval",
+      `const module = await import(${JSON.stringify(scriptUrl)}); process.stdout.write(typeof module.buildManifest);`,
+    ],
+  );
+
+  assert.equal(stdout, "function");
 });

@@ -67,4 +67,23 @@ describe("dataset schema", () => {
       `counts.frontierLabs (${snapshot.counts.frontierLabs + 1}) does not match data.frontierLabs.length (${snapshot.data.frontierLabs.length})`
     );
   });
+
+  it.each([
+    "releaseId",
+    "releaseDate",
+    "coverageCutoff",
+    "statusAsOf",
+    "snapshotDate",
+  ] as const)("rejects a missing or mismatched %s", (key) => {
+    const snapshot = buildDatasetSnapshot();
+    const missing = { ...snapshot, [key]: undefined };
+    const mismatched = { ...snapshot, [key]: "1900-01-01" };
+
+    expect(validateDatasetSnapshotShape(missing)).toContainEqual(
+      expect.stringMatching(new RegExp(`^${key} must be `)),
+    );
+    expect(validateDatasetSnapshotShape(mismatched)).toContainEqual(
+      expect.stringMatching(new RegExp(`^${key} must be `)),
+    );
+  });
 });

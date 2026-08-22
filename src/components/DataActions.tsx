@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { DATASET_COVERAGE_STATS } from "../data/datasetCoverageStats";
 import { DATASET_RELEASES } from "../data/datasetReleases";
 import { RELEASE_METADATA } from "../data/releaseMetadata";
 import type { FilterState } from "../types";
@@ -11,27 +12,11 @@ interface Props {
 export function DataActions({ onOpenMethodology, filters }: Props) {
   const [open, setOpen] = useState(false);
   const [downloading, setDownloading] = useState<"dataset" | "filtered" | "citation" | null>(null);
-  const [reviewQueueCount, setReviewQueueCount] = useState<number | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const currentRelease =
     DATASET_RELEASES.find(
       (release) => release.id === RELEASE_METADATA.releaseId && release.status === "published"
     ) ?? [...DATASET_RELEASES].reverse().find((release) => release.status === "published");
-
-  useEffect(() => {
-    if (!open || reviewQueueCount !== null) return;
-    let cancelled = false;
-    void import("../utils/exportDataset").then(
-      ({ buildDatasetSnapshot, buildSourceMetadataEntries, countRecordsAwaitingSecondPersonReview }) => {
-        if (cancelled) return;
-        const entries = buildSourceMetadataEntries(buildDatasetSnapshot());
-        setReviewQueueCount(countRecordsAwaitingSecondPersonReview(entries));
-      }
-    );
-    return () => {
-      cancelled = true;
-    };
-  }, [open, reviewQueueCount]);
 
   useEffect(() => {
     if (!open) return;
@@ -148,9 +133,7 @@ export function DataActions({ onOpenMethodology, filters }: Props) {
             <p>Released {currentRelease?.releaseDate ?? RELEASE_METADATA.releaseDate}</p>
             <p>Coverage through {currentRelease?.coverageCutoff ?? RELEASE_METADATA.coverageCutoff}</p>
             <p>
-              {reviewQueueCount === null
-                ? "Calculating second-person review queue…"
-                : `${new Intl.NumberFormat("en-US").format(reviewQueueCount)} records awaiting second-person review`}
+              {`${new Intl.NumberFormat("en-US").format(DATASET_COVERAGE_STATS.secondPersonReviewQueue)} records awaiting second-person review`}
             </p>
             <p>Record checks have their own dates; verify time-sensitive legal status against official sources.</p>
           </div>

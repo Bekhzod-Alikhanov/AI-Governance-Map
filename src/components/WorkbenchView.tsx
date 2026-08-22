@@ -243,8 +243,8 @@ export function WorkbenchView({
     DEFAULT_WORKBENCH_STATE.activeQuestionId ??
     "binding-duties-by-jurisdiction";
   const activeAnswer = useMemo(
-    () => buildWorkbenchAnswer(activeQuestionId, filters),
-    [activeQuestionId, filters],
+    () => buildWorkbenchAnswer(activeQuestionId),
+    [activeQuestionId],
   );
   const filteredQuestions = useMemo(() => {
     const query = questionSearch.trim().toLowerCase();
@@ -264,8 +264,6 @@ export function WorkbenchView({
     onFiltersChange({ ...DEFAULT_FILTER_STATE, ...workflow.patch });
     updateWorkbenchState({
       activeWorkflowId: workflow.id,
-      activeQuestionId: null,
-      activeAnswerCardId: null,
     });
   }
 
@@ -1612,8 +1610,15 @@ function CollapsibleSection({
   note: string;
   children: React.ReactNode;
 }) {
+  const [hasOpened, setHasOpened] = useState(false);
+
   return (
-    <details className="mt-3 rounded-lg border border-canvas-line bg-white [&[open]>summary]:border-b [&[open]>summary]:border-canvas-line">
+    <details
+      className="mt-3 rounded-lg border border-canvas-line bg-white [&[open]>summary]:border-b [&[open]>summary]:border-canvas-line"
+      onToggle={(event) => {
+        if (event.currentTarget.open) setHasOpened(true);
+      }}
+    >
       <summary className="flex cursor-pointer items-center justify-between gap-3 px-3 py-2.5 text-left">
         <span className="min-w-0">
           <span className="block text-sm font-semibold text-ink-900">{summary}</span>
@@ -1634,7 +1639,7 @@ function CollapsibleSection({
           <path d="m6 9 6 6 6-6" />
         </svg>
       </summary>
-      <div className="p-3 pt-2">{children}</div>
+      {hasOpened ? <div className="p-3 pt-2">{children}</div> : null}
     </details>
   );
 }

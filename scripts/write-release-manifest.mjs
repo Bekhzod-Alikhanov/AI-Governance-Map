@@ -177,6 +177,6 @@ async function main() {
   process.stdout.write(`Wrote deterministic manifests for release ${manifest.releaseId}.\n`);
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   await main();
 }

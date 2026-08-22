@@ -13,7 +13,6 @@ import { PUBLIC_SECTOR_AI_RECORDS } from "../data/researchCorpus";
 import { SUBNATIONAL_BY_ID } from "../data/subnationalRules";
 import { WORKBENCH_QUESTION_BY_ID, WORKBENCH_QUESTIONS } from "../data/workbenchQuestions";
 import type {
-  FilterState,
   VerificationMetadata,
   WorkbenchAnswer,
   WorkbenchCompareItem,
@@ -325,7 +324,7 @@ const SELECTORS: Record<string, Selector> = {
   "citation-brief": (q) => configuredQuestion(q, "citable source rows"),
 };
 
-export function buildWorkbenchAnswer(questionId: string, _filters: FilterState): WorkbenchAnswer {
+export function buildWorkbenchAnswer(questionId: string): WorkbenchAnswer {
   const question = WORKBENCH_QUESTION_BY_ID[questionId] ?? WORKBENCH_QUESTIONS[0];
   return SELECTORS[question.id](question);
 }
