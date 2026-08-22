@@ -29,7 +29,13 @@ export default defineConfig({
   },
   test: {
     environment: "jsdom",
-    exclude: ["tests/e2e/**", "node_modules/**", "dist/**"],
+    exclude: [
+      "tests/e2e/**",
+      "node_modules/**",
+      "dist/**",
+      "scripts/check-manual-checks.test.mjs",
+      "scripts/write-release-manifest.test.mjs",
+    ],
     globals: true,
     setupFiles: ["./src/test/setup.ts"],
   },

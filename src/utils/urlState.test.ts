@@ -54,7 +54,7 @@ describe("shareable URL state", () => {
 
   it("drops invalid values rather than trusting arbitrary URLs", () => {
     const parsed = parseShareableState("?lens=bad&inst=bad-id&country=NOPE&density=nope");
-    expect(parsed.lens).toBe("geography");
+    expect(parsed.lens).toBe("workbench");
     expect(parsed.filters.selectedInstrumentIds).toEqual([]);
     expect(parsed.selectedIso3).toBeNull();
     expect(parsed.networkDensity).toBe("all");
@@ -102,6 +102,43 @@ describe("shareable URL state", () => {
     expect(parsed.workbench.atlasPresetId).toBe("ram-activity");
     expect(parsed.workbench.activeQuestionId).toBe("incident-reporting");
     expect(parsed.workbench.activeAnswerCardId).toBe("binding-obligations");
+  });
+
+  it("uses answer-first Workbench defaults without adding redundant question parameters", () => {
+    expect(DEFAULT_WORKBENCH_STATE.activeQuestionId).toBe("binding-duties-by-jurisdiction");
+    expect(DEFAULT_WORKBENCH_STATE.activeAnswerCardId).toBe("binding-obligations");
+    expect(serializeShareableState(DEFAULT_SHAREABLE_STATE)).not.toContain("wbQuestion");
+    expect(serializeShareableState(DEFAULT_SHAREABLE_STATE)).not.toContain("wbAnswer");
+    expect(parseShareableState("").workbench.activeQuestionId).toBe("binding-duties-by-jurisdiction");
+  });
+
+  it("round-trips an explicit non-default Workbench question", () => {
+    const serialized = serializeShareableState({
+      ...DEFAULT_SHAREABLE_STATE,
+      lens: "workbench",
+      workbench: {
+        ...DEFAULT_WORKBENCH_STATE,
+        activeQuestionId: "incident-reporting",
+        activeAnswerCardId: "binding-obligations",
+      },
+    });
+
+    expect(serialized).toContain("wbQuestion=incident-reporting");
+    expect(parseShareableState(serialized).workbench.activeQuestionId).toBe("incident-reporting");
+  });
+
+  it("preserves an explicitly cleared comparison list for a question with defaults", () => {
+    const serialized = serializeShareableState({
+      ...DEFAULT_SHAREABLE_STATE,
+      workbench: {
+        ...DEFAULT_WORKBENCH_STATE,
+        activeQuestionId: "incident-reporting",
+        compareItems: [],
+      },
+    });
+
+    expect(serialized).toContain("wbCompare=");
+    expect(parseShareableState(serialized).workbench.compareItems).toEqual([]);
   });
 
   it("round-trips the map colour mode so a recoloured map can be cited", () => {

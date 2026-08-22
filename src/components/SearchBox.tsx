@@ -8,13 +8,43 @@ interface Props {
   onSelectInstrument: (instrumentId: string) => void;
 }
 
+/** Turn machine-readable facets into compact reader-facing labels. */
+export function humanizeSearchMetadata(value: string): string {
+  const normalized = value.replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim();
+  if (!normalized) return "";
+
+  const allCapsValue = !/[a-z]/.test(normalized) && /[A-Z]/.test(normalized);
+  const words = normalized.split(" ").map((word) => {
+    if (!allCapsValue) return word;
+    return /^[A-Z0-9/]+$/.test(word) && word.length <= 6 ? word : word.toLowerCase();
+  });
+  const sentence = words.join(" ");
+  return `${sentence.charAt(0).toUpperCase()}${sentence.slice(1)}`;
+}
+
+function humanizeSubtitle(value: string): string {
+  return value
+    .split("•")
+    .map((part) => humanizeSearchMetadata(part))
+    .filter(Boolean)
+    .join(" • ");
+}
+
 export function SearchBox({ query, onQueryChange, onSelectCountry, onSelectInstrument }: Props) {
   const [open, setOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeState, setActiveState] = useState({ query, resultKey: "", index: 0 });
   const [searchFn, setSearchFn] = useState<((query: string, limit?: number) => SearchResult[]) | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
 
   const results = useMemo<SearchResult[]>(() => (searchFn ? searchFn(query, 12) : []), [query, searchFn]);
+  const resultKey = results.map((result) => `${result.kind}:${result.id}`).join("|");
+  const navigationChanged = activeState.query !== query || activeState.resultKey !== resultKey;
+  if (navigationChanged) {
+    setActiveState({ query, resultKey, index: 0 });
+  }
+  const activeIndex = navigationChanged
+    ? 0
+    : Math.min(activeState.index, Math.max(results.length - 1, 0));
   const listboxId = "global-search-results";
   const activeOptionId = results[activeIndex]
     ? `global-search-option-${results[activeIndex].kind}-${results[activeIndex].id}`
@@ -50,18 +80,21 @@ export function SearchBox({ query, onQueryChange, onSelectCountry, onSelectInstr
   }
 
   function onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Escape") {
+      setOpen(false);
+      return;
+    }
     if (!open || results.length === 0) return;
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      setActiveIndex((i) => Math.min(i + 1, results.length - 1));
+      setActiveState({ query, resultKey, index: Math.min(activeIndex + 1, results.length - 1) });
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      setActiveIndex((i) => Math.max(i - 1, 0));
+      setActiveState({ query, resultKey, index: Math.max(activeIndex - 1, 0) });
     } else if (e.key === "Enter") {
       e.preventDefault();
-      handleSelect(results[activeIndex]);
-    } else if (e.key === "Escape") {
-      setOpen(false);
+      const activeResult = results[activeIndex];
+      if (activeResult) handleSelect(activeResult);
     }
   }
 
@@ -100,7 +133,7 @@ export function SearchBox({ query, onQueryChange, onSelectCountry, onSelectInstr
           onChange={(e) => {
             onQueryChange(e.target.value);
             setOpen(true);
-            setActiveIndex(0);
+            setActiveState({ query: e.target.value, resultKey: "", index: 0 });
           }}
           onFocus={() => setOpen(true)}
           onKeyDown={onKeyDown}
@@ -113,7 +146,7 @@ export function SearchBox({ query, onQueryChange, onSelectCountry, onSelectInstr
         <ul
           id={listboxId}
           role="listbox"
-          className="policy-scroll absolute left-0 right-0 top-full z-40 mt-1.5 max-h-80 overflow-y-auto rounded-lg border border-canvas-line bg-white py-1 shadow-drawer"
+          className="policy-scroll absolute left-0 top-full z-40 mt-1.5 max-h-80 w-full max-w-[calc(100vw-2rem)] overflow-y-auto rounded-lg border border-canvas-line bg-white py-1 shadow-drawer sm:w-96"
         >
           {results.map((r, i) => (
             <li
@@ -121,7 +154,7 @@ export function SearchBox({ query, onQueryChange, onSelectCountry, onSelectInstr
               key={`${r.kind}:${r.id}`}
               role="option"
               aria-selected={i === activeIndex}
-              onMouseEnter={() => setActiveIndex(i)}
+              onMouseEnter={() => setActiveState({ query, resultKey, index: i })}
               onMouseDown={(e) => {
                 e.preventDefault();
                 handleSelect(r);
@@ -131,8 +164,8 @@ export function SearchBox({ query, onQueryChange, onSelectCountry, onSelectInstr
               }`}
             >
               <span className="font-medium leading-tight">{r.title}</span>
-              <span className="text-[11px] uppercase tracking-wide text-ink-500">
-                {r.kind} · {r.subtitle}
+              <span className="text-[11px] text-ink-500">
+                {humanizeSearchMetadata(r.kind)} · {humanizeSubtitle(r.subtitle)}
               </span>
             </li>
           ))}

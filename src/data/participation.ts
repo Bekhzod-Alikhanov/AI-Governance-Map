@@ -35,12 +35,18 @@ function makeRows(
     date,
     sourceName,
     sourceUrl,
-    notes: options.notes,
+    notes: options.notes ?? inst.notes,
     sourceKind: options.sourceKind ?? inst.sourceKind,
     verificationStatus: options.verificationStatus ?? inst.verificationStatus,
     confidence: options.confidence ?? inst.confidence,
     lastVerified: options.lastVerified ?? inst.lastVerified,
     verificationNotes: options.verificationNotes ?? inst.verificationNotes,
+    sourceLocator: options.sourceLocator ?? inst.sourceLocator,
+    sourceChain: options.sourceChain ?? inst.sourceChain,
+    reviewStatus: options.reviewStatus ?? inst.reviewStatus,
+    reviewNotes: options.reviewNotes ?? inst.reviewNotes,
+    archivedUrl: options.archivedUrl ?? inst.archivedUrl,
+    archivedAt: options.archivedAt ?? inst.archivedAt,
   }));
 }
 
@@ -75,6 +81,9 @@ const COE_CONVENTION_SIGNATORIES = [
   "AND","ARM","BIH","GEO","ISL","LIE","MNE","MKD","NOR","MDA","SMR","CHE","UKR","GBR",
   "CAN",EU,"ISR","JPN","USA","URY",
 ];
+
+const COE_CONVENTION_STATUS_NOTE =
+  "Council of Europe Treaty Office status reviewed on 2026-08-17: 20 signatures not followed by ratification, 1 ratification/accession, and the Convention was not yet in force.";
 
 const UN_MEMBER_ISO3: ReadonlyArray<string> = COUNTRIES.filter(
   (c) => c.iso3 !== EU
@@ -111,29 +120,42 @@ rows.push(
   }),
 );
 
-// Council of Europe Framework Convention on AI — signed (20), and EU ratified.
+// Council of Europe Framework Convention on AI — 20 signature-only parties,
+// plus the EU, which signed and later ratified.
 rows.push(
-    ...makeRows("coe-ai-convention", COE_CONVENTION_SIGNATORIES, "signed", {
-      sourceName: "Council of Europe — Treaty Office, CETS No. 225",
-      sourceUrl: "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=225",
-      notes:
-        "Signed 5 Sep 2024 or later. Manual Treaty Office check on 5 Jun 2026 confirmed status as of 22 May 2026: 19 signatures not followed by ratification and 1 EU ratification/accession; treaty not yet in force.",
-      sourceKind: "official",
-      verificationStatus: "verified",
-      confidence: "high",
-      lastVerified: "2026-06-05",
-    }),
+  ...makeRows("coe-ai-convention", COE_CONVENTION_SIGNATORIES, "signed", {
+    sourceName: "Council of Europe — Treaty Office, CETS No. 225",
+    sourceUrl: "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=225",
+    notes: `Signed 5 Sep 2024 or later. ${COE_CONVENTION_STATUS_NOTE}`,
+    sourceKind: "official",
+    verificationStatus: "verified",
+    confidence: "high",
+    lastVerified: "2026-08-17",
+    verificationNotes: COE_CONVENTION_STATUS_NOTE,
+  }),
+  ...makeRows("coe-ai-convention", ["ALB"], "signed", {
+    date: "2026-06-15",
+    sourceName: "Council of Europe — Treaty Office, CETS No. 225",
+    sourceUrl: "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=225",
+    notes: `Albania signed CETS No. 225 on 15 June 2026. ${COE_CONVENTION_STATUS_NOTE}`,
+    sourceKind: "official",
+    verificationStatus: "verified",
+    confidence: "high",
+    lastVerified: "2026-08-17",
+    verificationNotes: COE_CONVENTION_STATUS_NOTE,
+  }),
   ...makeRows("coe-ai-convention", [EU], "ratified", {
     date: "2026-05-15",
     sourceName: "Council of Europe — Treaty Office, CETS No. 225",
     sourceUrl: "https://www.coe.int/en/web/conventions/full-list?module=signatures-by-treaty&treatynum=225",
-      notes: "EU deposited its instrument of ratification on 15 May 2026.",
-      sourceKind: "official",
-      verificationStatus: "verified",
-      confidence: "high",
-      lastVerified: "2026-06-05",
-    }),
-  );
+    notes: `EU deposited its instrument of ratification on 15 May 2026. ${COE_CONVENTION_STATUS_NOTE}`,
+    sourceKind: "official",
+    verificationStatus: "verified",
+    confidence: "high",
+    lastVerified: "2026-08-17",
+    verificationNotes: COE_CONVENTION_STATUS_NOTE,
+  }),
+);
 
 // Bletchley Declaration
 rows.push(

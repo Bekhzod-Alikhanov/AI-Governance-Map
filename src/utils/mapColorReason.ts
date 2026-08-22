@@ -27,12 +27,12 @@ export function buildGovernanceColorReason(
     if (summary.hasAnyAIRule) {
       return {
         label: "AI rule context, but no confirmed binding law",
-        detail: "The country has proposed, guidance, strategy, subnational, or other non-binding AI entries in this snapshot.",
+        detail: "The country has proposed, guidance, strategy, subnational, or other non-binding AI entries in this release.",
       };
     }
     return {
       label: "No confirmed binding AI law",
-      detail: "No confirmed binding AI-specific national law is counted for map coloring in this snapshot.",
+      detail: "No confirmed binding AI-specific national law is counted for map coloring in this release.",
     };
   }
 

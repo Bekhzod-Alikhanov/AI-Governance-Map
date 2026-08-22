@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test.describe("visual QA captures", () => {
   test("captures map, workbench, and embed states", async ({ page }, testInfo) => {
-    await page.goto("/");
+    await page.goto("/?lens=geography");
     await expect(page.getByLabel("Map color mode")).toBeVisible();
     await page.screenshot({ path: testInfo.outputPath("map-overview.png"), fullPage: false });
 

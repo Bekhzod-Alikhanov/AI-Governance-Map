@@ -470,16 +470,6 @@ const LITIGATION_VERIFIED_2026_06_15 = {
   reviewStatus: "needs_review",
 } as const;
 
-// Status-sensitive matters (appeal pending, post-judgment, scope-in-flux):
-// real and AI-specific, but a key field is volatile — flagged uncertain.
-const LITIGATION_UNCERTAIN_2026_06_15 = {
-  sourceKind: "official",
-  verificationStatus: "uncertain",
-  confidence: "medium",
-  lastVerified: "2026-06-15",
-  reviewStatus: "needs_review",
-} as const;
-
 // Targeted re-verification pass (2026-06-16): volatile fields re-checked against
 // primary sources and editorially confirmed.
 const RECHECK_VERIFIED_2026_06_16 = {
@@ -512,15 +502,14 @@ const INGEST_ENFORCEMENT_2026_06_18 = {
   reviewStatus: "needs_review",
 } as const;
 
-// Litigation pass (2026-06-19): federal court cases sourced to the official
-// govinfo US-Courts case page. Posture is volatile and the specific document was
-// not individually read, so verificationStatus is "uncertain" + needs_review.
-const INGEST_LITIGATION_OFFICIAL_2026_06_19 = {
+// August litigation correction: each retained federal case below is narrowed
+// to a pinpointed primary court document and editorially checked.
+const PINPOINT_LITIGATION_2026_08_17 = {
   sourceKind: "official",
-  verificationStatus: "uncertain",
-  confidence: "medium",
-  lastVerified: "2026-06-19",
-  reviewStatus: "needs_review",
+  verificationStatus: "verified",
+  confidence: "high",
+  lastVerified: "2026-08-17",
+  reviewStatus: "editorial_checked",
 } as const;
 
 export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
@@ -859,23 +848,28 @@ export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
     jurisdiction: "United States (N.D. Cal., 23-cv-00201-WHO)",
     countryIso3: "USA",
     labIds: [],
-    date: "2024-02-08",
-    status: "pending; class-cert/summary-judgment hearing set 2026-11-04, trial 2027-04-05",
-    proceduralStage: "Ongoing pretrial litigation; plaintiffs moved for leave to file a Third Amended Complaint (2026-01-12)",
+    date: "2026-01-14",
+    status: "pending with discovery and protective-order activity",
+    proceduralStage: "Discovery; amended stipulated protective order entered (Document 380, 2026-01-14)",
     affectedActorClass: "AI image-generation developers (training data / artists' works)",
     outcomeOrRemedy:
-      "Broader copyright / right-of-publicity class action continues against the live defendants (Stability AI Ltd., Stability AI Inc., Midjourney, DeviantArt, Runway AI). Per research, a class-certification and summary-judgment hearing is set for 2026-11-04 and trial for 2027-04-05.",
-    officialDocketUrl: "https://www.govinfo.gov/content/pkg/USCOURTS-cand-3_23-cv-00201/pdf/USCOURTS-cand-3_23-cv-00201-1.pdf",
+      "Document 380 records an amended stipulated protective order governing discovery. It does not establish an amended pleading, merits-hearing date, or trial date.",
+    officialDocketUrl: "https://www.govinfo.gov/content/pkg/USCOURTS-cand-3_23-cv-00201/pdf/USCOURTS-cand-3_23-cv-00201-16.pdf",
     domains: ["synthetic-media", "enforcement-litigation"],
     summary:
-      "Artists' class action alleging Stable Diffusion and related AI image tools (Stability AI, Midjourney, DeviantArt, Runway) were trained on their works and infringe copyright and right of publicity.",
+      "Artists' claims involving Stable Diffusion and related image-generation systems remained pending in discovery as of the court's 14 January 2026 protective order.",
     caveat:
-      "Held for human review: the cited GovInfo PDF was not confirmed to be the specific February 2024 order, and the 2026/2027 hearing dates are from a research pass. Do not rely on procedural detail until a PACER/RECAP docket-authenticated order is obtained.",
-    sourceName: "GovInfo - Andersen v. Stability AI order",
-    sourceUrl: "https://www.govinfo.gov/content/pkg/USCOURTS-cand-3_23-cv-00201/pdf/USCOURTS-cand-3_23-cv-00201-1.pdf",
+      "Document 380 supports only a pending discovery/protective-order posture; it does not support broader scheduling or amendment assertions.",
+    sourceName: "GovInfo - Andersen v. Stability AI, Document 380",
+    sourceUrl: "https://www.govinfo.gov/content/pkg/USCOURTS-cand-3_23-cv-00201/pdf/USCOURTS-cand-3_23-cv-00201-16.pdf",
+    sourceLocator: {
+      label: "N.D. Cal. Document 380, filed 14 January 2026, pages 1–2",
+      documentId: "380",
+      page: "1–2",
+    },
     verificationNotes:
-      "Re-verification (2026-06-16) could not confirm the specific February 2024 order from the named docket source chain; sourceUrl/proceduralStage left unchanged pending a PACER/RECAP-authenticated document. A second research pass adds live defendants (Stability, Midjourney, DeviantArt, Runway) and 2026-11-04 hearing / 2027-04-05 trial dates — not primary-verified here. Stays in the human-review lane.",
-    ...LITIGATION_UNCERTAIN_2026_06_15,
+      "Editorially checked against N.D. Cal. Document 380 filed 2026-01-14. Pages 1–2 identify the amended stipulated protective order and discovery context; unsupported amendment, hearing, and trial assertions were removed.",
+    ...PINPOINT_LITIGATION_2026_08_17,
   },
   {
     id: "getty-v-stability-ai-uk-2025",
@@ -1405,23 +1399,28 @@ export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
     jurisdiction: "United States (N.D. Cal., 3:24-cv-05417)",
     countryIso3: "USA",
     labIds: ["anthropic"],
-    date: "2025-09-05",
-    status: "~$1.5B preliminary settlement after a split fair-use ruling",
-    proceduralStage: "Summary-judgment ruling (June 2025); preliminary settlement (Sept 2025)",
+    date: "2025-10-17",
+    status: "preliminary settlement approval granted",
+    proceduralStage: "Preliminary settlement approval (Document 437, 2025-10-17)",
     affectedActorClass: "Frontier model provider (training data)",
     outcomeOrRemedy:
-      "Judge Alsup ruled in June 2025 that training on lawfully-acquired books was fair use, but that building a library from pirated copies was not. The parties then announced a ~$1.5 billion settlement on 2025-09-05 — widely reported as the largest U.S. copyright settlement.",
-    officialDocketUrl: "https://www.govinfo.gov/app/details/USCOURTS-cand-3_24-cv-05417",
+      "Document 437 granted preliminary approval of the parties' class settlement and directed the next settlement-administration steps.",
+    officialDocketUrl: "https://www.govinfo.gov/content/pkg/USCOURTS-cand-3_24-cv-05417/pdf/USCOURTS-cand-3_24-cv-05417-5.pdf",
     domains: ["frontier-gpai", "enforcement-litigation"],
     summary:
-      "Authors (Andrea Bartz, Charles Graeber, Kirk Wallace Johnson) sued Anthropic over training Claude on their books; a landmark ruling split training (fair use) from piracy (not), followed by a ~$1.5B settlement.",
+      "The court granted preliminary approval of the proposed class settlement in Bartz v. Anthropic on 17 October 2025.",
     caveat:
-      "Litigation status is volatile (settlement approval was under review); confirm against the docket. The govinfo case page is the official record; the specific order was not individually read here.",
-    sourceName: "GovInfo - Bartz v. Anthropic (USCOURTS-cand-3_24-cv-05417)",
-    sourceUrl: "https://www.govinfo.gov/app/details/USCOURTS-cand-3_24-cv-05417",
+      "Preliminary approval is not final approval or final judgment; later settlement administration and docket developments are outside this source's scope.",
+    sourceName: "GovInfo - Bartz v. Anthropic, Document 437",
+    sourceUrl: "https://www.govinfo.gov/content/pkg/USCOURTS-cand-3_24-cv-05417/pdf/USCOURTS-cand-3_24-cv-05417-5.pdf",
+    sourceLocator: {
+      label: "N.D. Cal. Document 437, filed 17 October 2025, pages 1–2",
+      documentId: "437",
+      page: "1–2",
+    },
     verificationNotes:
-      "Source-checked 2026-06-19: N.D. Cal. 3:24-cv-05417, Judge Alsup; June 2025 fair-use ruling; ~$1.5B settlement announced 2025-09-05 (widely reported). Official govinfo case page used; flagged needs_review.",
-    ...INGEST_LITIGATION_OFFICIAL_2026_06_19,
+      "Editorially checked against N.D. Cal. Document 437 filed 2025-10-17. Pages 1–2 support preliminary settlement approval and no later or broader disposition.",
+    ...PINPOINT_LITIGATION_2026_08_17,
   },
   {
     id: "kadrey-v-meta-copyright-2025",
@@ -1430,48 +1429,28 @@ export const INCIDENT_ENFORCEMENT_RECORDS: IncidentEnforcementRecord[] = [
     jurisdiction: "United States (N.D. Cal., 3:23-cv-03417)",
     countryIso3: "USA",
     labIds: ["meta"],
-    date: "2025-06-25",
-    status: "summary judgment for Meta on fair use (with a 'market dilution' caveat); ongoing",
-    proceduralStage: "Order on summary judgment (2025-06-25, Judge Chhabria)",
+    date: "2026-03-25",
+    status: "named-plaintiff training claim lost on summary judgment; proposed-class claims unresolved",
+    proceduralStage: "Summary judgment for Meta as to named plaintiffs; proposed-class distribution and contributory claims unresolved (Document 700)",
     affectedActorClass: "Frontier model provider (training data)",
     outcomeOrRemedy:
-      "Judge Chhabria granted Meta summary judgment on the fair-use question for training Llama on the plaintiffs' books, calling the use highly transformative — but warned that a 'market dilution' theory (not properly developed on this record) could let future plaintiffs win.",
-    officialDocketUrl: "https://www.govinfo.gov/app/details/USCOURTS-cand-3_23-cv-03417",
+      "Document 700 states that the named plaintiffs lost their training claim on summary judgment while proposed-class distribution and contributory-infringement claims remained unresolved.",
+    officialDocketUrl: "https://www.govinfo.gov/content/pkg/USCOURTS-cand-3_23-cv-03417/pdf/USCOURTS-cand-3_23-cv-03417-41.pdf",
     domains: ["frontier-gpai", "enforcement-litigation"],
     summary:
-      "Thirteen authors (incl. Richard Kadrey, Sarah Silverman) sued Meta over training Llama on their books; the court found fair use on the record but expressly flagged 'market dilution' as a live future theory.",
+      "The named plaintiffs' training claim ended at summary judgment, but Document 700 did not resolve the proposed class's distribution and contributory claims.",
     caveat:
-      "The fair-use win was on the specific record; the court left 'market dilution' open. Confirm current posture against the docket.",
-    sourceName: "GovInfo - Kadrey v. Meta Platforms (USCOURTS-cand-3_23-cv-03417)",
-    sourceUrl: "https://www.govinfo.gov/app/details/USCOURTS-cand-3_23-cv-03417",
+      "The disposition is split: the named-plaintiff training claim is resolved, while the proposed-class distribution and contributory claims remained unresolved in this document.",
+    sourceName: "GovInfo - Kadrey v. Meta Platforms, Document 700",
+    sourceUrl: "https://www.govinfo.gov/content/pkg/USCOURTS-cand-3_23-cv-03417/pdf/USCOURTS-cand-3_23-cv-03417-41.pdf",
+    sourceLocator: {
+      label: "N.D. Cal. Document 700, filed 25 March 2026, pages 3–5",
+      documentId: "700",
+      page: "3–5",
+    },
     verificationNotes:
-      "Source-checked 2026-06-19: N.D. Cal. 3:23-cv-03417, Judge Chhabria, 2025-06-25 fair-use summary judgment for Meta with 'market dilution' dicta; official govinfo case page confirmed in search results. Flagged needs_review.",
-    ...INGEST_LITIGATION_OFFICIAL_2026_06_19,
-  },
-  {
-    id: "garcia-v-character-ai-wrongful-death-2024",
-    eventType: "litigation",
-    title: "Garcia v. Character Technologies (and Google) — AI-chatbot wrongful death",
-    jurisdiction: "United States (M.D. Fla., 6:24-cv-01903)",
-    countryIso3: "USA",
-    labIds: ["google-deepmind"],
-    date: "2024-10-22",
-    status: "pending; court allowed key claims to proceed (May 2025)",
-    proceduralStage: "Motion to dismiss largely denied; ongoing",
-    affectedActorClass: "AI companion-chatbot provider + co-defendant platform",
-    outcomeOrRemedy:
-      "The first wrongful-death suit against an AI-chatbot company (death of 14-year-old Sewell Setzer III). In May 2025 the court rejected a blanket First Amendment defense and let product-liability, wrongful-death, and Florida UDTPA claims proceed.",
-    officialDocketUrl: "https://www.govinfo.gov/app/details/USCOURTS-flmd-6_24-cv-01903",
-    domains: ["education-children", "frontier-gpai", "enforcement-litigation"],
-    summary:
-      "Megan Garcia sued Character.AI, its founders, and Google after her son's suicide following interactions with a Character.AI persona — a landmark AI product-liability / wrongful-death case.",
-    caveat:
-      "Volatile and high-profile; Google's exact role and the current posture should be confirmed against the docket. The govinfo M.D. Fla. case page should be verified to resolve to the right documents.",
-    sourceName: "GovInfo - Garcia v. Character Technologies (USCOURTS-flmd-6_24-cv-01903)",
-    sourceUrl: "https://www.govinfo.gov/app/details/USCOURTS-flmd-6_24-cv-01903",
-    verificationNotes:
-      "Source-checked 2026-06-19: M.D. Fla. 6:24-cv-01903; filed Oct 2024; May 2025 ruling allowing claims to proceed. govinfo case-page URL constructed from the docket (M.D. Fla. coverage not individually confirmed); flagged needs_review.",
-    ...INGEST_LITIGATION_OFFICIAL_2026_06_19,
+      "Editorially checked against N.D. Cal. Document 700 filed 2026-03-25. Pages 3–5 support the split posture between the named-plaintiff training claim and unresolved proposed-class claims.",
+    ...PINPOINT_LITIGATION_2026_08_17,
   },
 ];
 
@@ -1559,6 +1538,23 @@ export const COMPUTE_DEPENDENCY_RECORDS: ComputeDependencyRecord[] = [
 ];
 
 export const RECORD_CHANGE_LOG_ENTRIES = [
+  {
+    id: "2026-08-17-garcia-record-removed",
+    recordId: "garcia-v-character-ai-wrongful-death-2024",
+    recordKind: "incident_enforcement",
+    changeType: "removed",
+    date: "2026-08-17",
+    summary:
+      "Removed because the constructed GovInfo route was unconfirmed and no stable primary document supported the published claim; the record can return only with a confirmed primary document.",
+    reviewer: {
+      ...EDITORIAL_REVIEW,
+      reviewDate: "2026-08-17",
+      reviewScope: "Evidence-quality review of the public litigation corpus.",
+      unresolvedCaveats: [
+        "The underlying dispute may be real, but this dataset does not publish it without a stable primary document.",
+      ] as string[],
+    },
+  },
   {
     id: "2026-06-07-lab-intelligence-layer",
     recordId: "lab-intelligence-v1",

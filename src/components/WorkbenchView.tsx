@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import clsx from "clsx";
 import { COUNTRIES, COUNTRY_BY_ISO3 } from "../data/countries";
 import { FRONTIER_LABS, LAB_BY_ID } from "../data/frontierLabs";
@@ -15,16 +15,18 @@ import { PARTICIPATION_BY_INSTRUMENT } from "../data/participation";
 import { SUBNATIONAL_AI_RULES, SUBNATIONAL_BY_ID } from "../data/subnationalRules";
 import {
   DEFAULT_FILTER_STATE,
+  DEFAULT_WORKBENCH_STATE,
   type AtlasPresetId,
   type FilterState,
   type MapModeId,
   type WorkbenchCompareItem,
   type WorkbenchCompareKind,
+  type WorkbenchQuestion,
+  type WorkbenchQuestionCategory,
   type WorkbenchState,
 } from "../types";
 import type { RecordRoute, RecordRouteKind } from "../utils/recordRoutes";
 import { recordRoute } from "../utils/recordRoutes";
-import { DATA_SNAPSHOT_DATE } from "../utils/governanceTaxonomy";
 import { downloadTextFile } from "../utils/downloadTextFile";
 import { getCountryGovernanceSummary } from "../utils/getCountryGovernanceSummary";
 import {
@@ -64,6 +66,21 @@ import { LabIntelligenceBoard } from "./LabIntelligenceBoard";
 import { ResearchCorpusPanel } from "./ResearchCorpusPanel";
 import { PolicyBriefButton } from "./PolicyBriefButton";
 import { getLabIntelligenceSummary } from "../utils/labIntelligence";
+import { RELEASE_METADATA } from "../data/releaseMetadata";
+import {
+  FEATURED_WORKBENCH_QUESTIONS,
+  getQuestionEffectiveFilters,
+  getQuestionWorkbenchState,
+  WORKBENCH_QUESTIONS,
+  WORKBENCH_QUESTION_CATEGORY_LABELS,
+} from "../data/workbenchQuestions";
+import {
+  buildWorkbenchAnswer,
+  renderWorkbenchAnswerCitation,
+  renderWorkbenchAnswerCsv,
+} from "../utils/workbenchAnswer";
+import { formatReviewState, formatSourceLocator } from "../utils/sourceProvenance";
+import { CopyTextButton } from "./CopyTextButton";
 import {
   corpusKindLabel,
   corpusRoute,
@@ -140,236 +157,6 @@ const WORKFLOWS: Array<{
 ];
 
 const SCENARIO_MARKETS = ["EUU", "USA", "GBR", "KOR", "CHN", "CAN", "FRA", "ITA"];
-const TOP_RESEARCH_QUESTIONS: Array<{
-  id: string;
-  title: string;
-  detail: string;
-  patch: Partial<FilterState>;
-  compareItems?: WorkbenchCompareItem[];
-  scenario?: { labId: string; markets: string[] };
-  atlasPresetId?: AtlasPresetId;
-  answerCardId?: string;
-}> = [
-  {
-    id: "binding-duties-by-jurisdiction",
-    title: "Which countries have binding AI duties?",
-    detail: "Show confirmed binding-law countries and source-backed binding obligations.",
-    patch: { hasBindingNationalLaw: "yes" },
-    compareItems: [
-      { kind: "country", id: "EUU" },
-      { kind: "country", id: "CHN" },
-      { kind: "country", id: "KOR" },
-    ],
-    answerCardId: "binding-obligations",
-  },
-  {
-    id: "incident-reporting",
-    title: "Who requires incident reporting?",
-    detail: "Filter the obligation matrix to incident-reporting duties.",
-    patch: { selectedObligationCategories: ["incident_reporting"] },
-    compareItems: [
-      { kind: "obligation", id: "ca-sb-53-incident-reporting" },
-      { kind: "rule", id: "us-ca-sb-53-frontier" },
-    ],
-    answerCardId: "binding-obligations",
-  },
-  {
-    id: "model-evaluation",
-    title: "Who mentions model evaluation?",
-    detail: "Focus on evaluation, testing, and red-team style obligations.",
-    patch: { selectedObligationCategories: ["model_evaluation_red_teaming"] },
-    answerCardId: "binding-obligations",
-  },
-  {
-    id: "coe-signed-ratified",
-    title: "CoE signed vs ratified?",
-    detail: "Separate signature, ratification, and EU applicability.",
-    patch: { selectedInstrumentIds: ["coe-ai-convention"], selectedParticipationTypes: ["signed", "ratified", "applicable_via_eu"] },
-    compareItems: [{ kind: "instrument", id: "coe-ai-convention" }],
-    answerCardId: "coe-participation",
-  },
-  {
-    id: "eu-act-vs-national-law",
-    title: "EU AI Act vs national enactment?",
-    detail: "Compare regional applicability with country implementation activity.",
-    patch: { selectedDomains: ["frontier-gpai"], selectedImplementationStatuses: ["phased_application", "regulator_appointed", "implementing_rules_pending"] },
-    compareItems: [
-      { kind: "rule", id: "eu-ai-act-regional" },
-      { kind: "rule", id: "it-law-132-2025" },
-      { kind: "rule", id: "si-eu-ai-act-implementation-2025" },
-    ],
-    answerCardId: "implementation",
-  },
-  {
-    id: "frontier-lab-binding-exposure",
-    title: "Which labs face binding exposure?",
-    detail: "Compare binding and conditional lab exposure rows.",
-    patch: { frontierAIRelevant: "yes", selectedDomains: ["frontier-gpai"] },
-    compareItems: [
-      { kind: "lab", id: "openai" },
-      { kind: "lab", id: "google-deepmind" },
-      { kind: "exposure", id: "openai--market_access--eu-ai-act-regional" },
-    ],
-    scenario: { labId: "openai", markets: ["EUU", "USA", "GBR", "KOR"] },
-    answerCardId: "lab-exposure",
-  },
-  {
-    id: "labs-with-safety-frameworks",
-    title: "Which labs publish safety frameworks?",
-    detail: "Open the Lab Board and compare public framework and commitment evidence.",
-    patch: { frontierAIRelevant: "yes", selectedDomains: ["frontier-gpai"] },
-    compareItems: [
-      { kind: "lab", id: "openai" },
-      { kind: "lab", id: "anthropic" },
-      { kind: "lab", id: "google-deepmind" },
-    ],
-    answerCardId: "lab-safety-evidence",
-  },
-  {
-    id: "government-evaluation-exposure",
-    title: "Where is government evaluation evidence visible?",
-    detail: "Compare safety-institute and public evaluation evidence without treating it as binding law.",
-    patch: { frontierAIRelevant: "yes", selectedDomains: ["frontier-gpai", "cybersecurity-critical-infrastructure"] },
-    compareItems: [
-      { kind: "lab", id: "deepseek" },
-      { kind: "lab", id: "amazon" },
-    ],
-    answerCardId: "safety-evaluations",
-  },
-  {
-    id: "china-synthetic-media",
-    title: "China synthetic-media stack?",
-    detail: "Compare GenAI, deep synthesis, algorithmic recommendation, and labeling hooks.",
-    patch: { selectedRegions: ["East Asia"], selectedDomains: ["synthetic-media", "frontier-gpai"] },
-    compareItems: [
-      { kind: "rule", id: "cn-genai-interim-measures" },
-      { kind: "rule", id: "cn-deep-synthesis" },
-      { kind: "rule", id: "cn-ai-content-labeling" },
-    ],
-    answerCardId: "binding-obligations",
-  },
-  {
-    id: "high-readiness-weak-law",
-    title: "High readiness, weak confirmed law?",
-    detail: "Use Oxford readiness context while keeping legal status separate.",
-    patch: {},
-    atlasPresetId: "high-readiness-no-binding",
-    compareItems: [
-      { kind: "country", id: "USA" },
-      { kind: "country", id: "GBR" },
-      { kind: "country", id: "CAN" },
-    ],
-    answerCardId: "current-scope",
-  },
-  {
-    id: "unesco-ram-available",
-    title: "Where is UNESCO RAM activity visible?",
-    detail: "Show completed or in-process RAM/profile activity.",
-    patch: {},
-    atlasPresetId: "ram-activity",
-    answerCardId: "current-scope",
-  },
-  {
-    id: "standards-soft-law",
-    title: "Which standards and soft-law instruments matter?",
-    detail: "Separate standards, guidance, and voluntary commitments from binding law.",
-    patch: { selectedBindingStatuses: ["standard", "voluntary", "political_guidance"] },
-    compareItems: [
-      { kind: "instrument", id: "iso-iec-42001-2023" },
-      { kind: "instrument", id: "nist-genai-profile" },
-      { kind: "instrument", id: "seoul-frontier-ai-safety-commitments" },
-    ],
-    answerCardId: "lab-exposure",
-  },
-  {
-    id: "implementation-deadlines",
-    title: "What deadlines are next?",
-    detail: "Focus on phased application and next implementation milestones.",
-    patch: { selectedImplementationStatuses: ["phased_application", "implementing_rules_pending"] },
-    answerCardId: "implementation",
-  },
-  {
-    id: "employment-ai",
-    title: "What employment AI rules exist?",
-    detail: "Filter employment/hiring obligations and subnational rows.",
-    patch: { selectedDomains: ["employment-hiring"] },
-    compareItems: [
-      { kind: "rule", id: "us-nyc-local-law-144" },
-      { kind: "rule", id: "us-il-aivia" },
-    ],
-    answerCardId: "current-scope",
-  },
-  {
-    id: "biometrics",
-    title: "Where are biometric restrictions tracked?",
-    detail: "Focus on biometric-identification obligations and restrictions.",
-    patch: { selectedDomains: ["biometric-identification"] },
-    answerCardId: "binding-obligations",
-  },
-  {
-    id: "healthcare-ai",
-    title: "Which healthcare AI hooks are tracked?",
-    detail: "Filter healthcare-domain obligations and rules.",
-    patch: { selectedDomains: ["healthcare"] },
-    answerCardId: "current-scope",
-  },
-  {
-    id: "compute-dependencies",
-    title: "Where do compute constraints matter?",
-    detail: "Show compute, chip, cloud, and export-control dependency context.",
-    patch: { selectedDomains: ["compute-cloud-chips"] },
-    compareItems: [
-      { kind: "exposure", id: "deepseek--export_control_dependency--us-bis-export-controls" },
-      { kind: "lab", id: "deepseek" },
-    ],
-    answerCardId: "lab-exposure",
-  },
-  {
-    id: "source-confidence",
-    title: "Which claims are highest confidence?",
-    detail: "Use source metadata rather than legal-effect labels alone.",
-    patch: { frontierAIRelevant: "yes" },
-    answerCardId: "current-scope",
-  },
-  {
-    id: "proposed-laws",
-    title: "Which proposed laws should I watch?",
-    detail: "Show proposed national AI law rows and implementation planning.",
-    patch: { hasBindingNationalLaw: "no", selectedImplementationStatuses: ["proposed", "implementing_rules_pending"] },
-    answerCardId: "proposed-laws",
-  },
-  {
-    id: "gpai-market-access",
-    title: "How does GPAI market access work?",
-    detail: "Compare conditional exposure for EU-facing GPAI providers.",
-    patch: { selectedDomains: ["frontier-gpai"] },
-    compareItems: [
-      { kind: "exposure", id: "openai--market_access--eu-ai-act-regional" },
-      { kind: "exposure", id: "anthropic--market_access--eu-ai-act-regional" },
-      { kind: "exposure", id: "google-deepmind--market_access--eu-ai-act-regional" },
-    ],
-    answerCardId: "lab-exposure",
-  },
-  {
-    id: "public-sector-ai",
-    title: "Where is public-sector AI governance visible?",
-    detail: "Filter public-sector obligations and registry-context records.",
-    patch: { selectedDomains: ["public-sector"] },
-    answerCardId: "current-scope",
-  },
-  {
-    id: "citation-brief",
-    title: "What can I cite quickly?",
-    detail: "Compare source-backed records and open evidence dossiers.",
-    patch: {},
-    compareItems: [
-      { kind: "country", id: "EUU" },
-      { kind: "instrument", id: "eu-ai-act" },
-      { kind: "obligation", id: "eu-ai-act-transparency-disclosure" },
-    ],
-    answerCardId: "binding-obligations",
-  },
-];
 const ATLAS_PRESETS: Array<{ id: AtlasPresetId; title: string; detail: string }> = [
   {
     id: "high-readiness-no-binding",
@@ -441,6 +228,8 @@ export function WorkbenchView({
   const scenarioLabId = workbenchState.scenarioLabId;
   const scenarioMarkets = workbenchState.scenarioMarkets;
   const atlasPresetId = workbenchState.atlasPresetId;
+  const [questionSearch, setQuestionSearch] = useState("");
+  const [questionCategory, setQuestionCategory] = useState<WorkbenchQuestionCategory | "all">("all");
 
   const answerCards = useMemo(() => buildWorkbenchAnswerCards(filters), [filters]);
   const atlasRows = useMemo(() => buildAtlasPresetRows(atlasPresetId), [atlasPresetId]);
@@ -449,11 +238,23 @@ export function WorkbenchView({
     [scenarioLabId, scenarioMarkets]
   );
   const compareOptions = optionsForKind(compareKind);
-  const activeQuestion = TOP_RESEARCH_QUESTIONS.find((question) => question.id === workbenchState.activeQuestionId);
-  const activeAnswerCard =
-    answerCards.find((card) => card.id === workbenchState.activeAnswerCardId) ??
-    answerCards.find((card) => card.id === activeQuestion?.answerCardId) ??
-    null;
+  const activeQuestionId =
+    workbenchState.activeQuestionId ??
+    DEFAULT_WORKBENCH_STATE.activeQuestionId ??
+    "binding-duties-by-jurisdiction";
+  const activeAnswer = useMemo(
+    () => buildWorkbenchAnswer(activeQuestionId),
+    [activeQuestionId],
+  );
+  const filteredQuestions = useMemo(() => {
+    const query = questionSearch.trim().toLowerCase();
+    return WORKBENCH_QUESTIONS.filter((question) => {
+      if (question.featured) return false;
+      if (questionCategory !== "all" && question.category !== questionCategory) return false;
+      if (!query) return true;
+      return `${question.title} ${question.detail} ${question.categoryLabel}`.toLowerCase().includes(query);
+    });
+  }, [questionCategory, questionSearch]);
 
   function updateWorkbenchState(patch: Partial<WorkbenchState>) {
     onWorkbenchStateChange({ ...workbenchState, ...patch });
@@ -463,26 +264,12 @@ export function WorkbenchView({
     onFiltersChange({ ...DEFAULT_FILTER_STATE, ...workflow.patch });
     updateWorkbenchState({
       activeWorkflowId: workflow.id,
-      activeQuestionId: null,
-      activeAnswerCardId: null,
     });
   }
 
-  function applyQuestion(question: (typeof TOP_RESEARCH_QUESTIONS)[number]) {
-    const nextCompareItems = question.compareItems ?? compareItems;
-    const firstCompareItem = nextCompareItems[0];
-    onFiltersChange({ ...DEFAULT_FILTER_STATE, ...question.patch });
-    updateWorkbenchState({
-      compareKind: firstCompareItem?.kind ?? compareKind,
-      compareId: firstCompareItem?.id ?? compareId,
-      compareItems: nextCompareItems,
-      scenarioLabId: question.scenario?.labId ?? scenarioLabId,
-      scenarioMarkets: question.scenario?.markets ?? scenarioMarkets,
-      atlasPresetId: question.atlasPresetId ?? atlasPresetId,
-      activeWorkflowId: null,
-      activeQuestionId: question.id,
-      activeAnswerCardId: question.answerCardId ?? null,
-    });
+  function applyQuestion(question: WorkbenchQuestion) {
+    onFiltersChange(getQuestionEffectiveFilters(question.id));
+    onWorkbenchStateChange(getQuestionWorkbenchState(question.id));
   }
 
   function addCompareItem() {
@@ -519,13 +306,21 @@ export function WorkbenchView({
     );
   }
 
+  function exportAnswerCsv() {
+    downloadTextFile(
+      `ai-governance-workbench-${activeAnswer.questionId}.csv`,
+      renderWorkbenchAnswerCsv(activeAnswer),
+      "text/csv;charset=utf-8",
+    );
+  }
+
   return (
     <div className="policy-scroll h-full overflow-auto bg-canvas-surface">
       <div className="mx-auto max-w-[1600px] px-4 py-4">
         <header className="flex flex-wrap items-start justify-between gap-3 border-b border-canvas-line pb-3">
           <div className="min-w-0">
             <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-500">
-              Research-grade workbench · snapshot {DATA_SNAPSHOT_DATE}
+              Research-grade workbench · release {RELEASE_METADATA.releaseDate} · status as of {RELEASE_METADATA.statusAsOf}
             </p>
             <h2 className="mt-1 text-xl font-semibold tracking-tight text-ink-900">
               Answer concrete AI-governance questions
@@ -554,46 +349,30 @@ export function WorkbenchView({
           </section>
         )}
 
-        {activeQuestion && activeAnswerCard && (
-          <section className="mt-4 rounded-lg border border-accent/30 bg-accent/5 p-3">
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-accent">Answer</p>
-            <h3 className="mt-1 text-base font-semibold leading-snug text-ink-900">
-              {activeAnswerCard.sentence}
-            </h3>
-            <p className="mt-1 text-xs leading-relaxed text-ink-700">{activeAnswerCard.detail}</p>
-            <p className="mt-2 text-[11px] text-ink-600">
-              Answering: {activeQuestion.title} · snapshot {DATA_SNAPSHOT_DATE}
-            </p>
-          </section>
-        )}
-
-        <section className="mt-4 rounded-lg border border-canvas-line bg-white p-3">
+        <section
+          className="mt-4 rounded-lg border border-canvas-line bg-white p-3"
+          aria-label="Featured research questions"
+        >
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div>
-              <h3 className="text-sm font-semibold text-ink-900">Top research questions</h3>
+              <h3 className="text-sm font-semibold text-ink-900">Featured research questions</h3>
               <p className="text-xs text-ink-600">
                 One click applies the relevant filters, comparison records, scenario inputs, and answer card.
               </p>
             </div>
-            {activeAnswerCard && (
-              <div className="rounded-lg border border-accent/25 bg-accent/5 px-3 py-2 text-xs text-ink-700">
-                <p className="font-semibold text-ink-900">
-                  {activeAnswerCard.label}: {activeAnswerCard.value}
-                </p>
-                <p className="mt-1 max-w-xl leading-relaxed">{activeAnswerCard.detail}</p>
-              </div>
-            )}
           </div>
-          <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-            {TOP_RESEARCH_QUESTIONS.map((question) => (
+          <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {FEATURED_WORKBENCH_QUESTIONS.map((question) => (
               <button
                 key={question.id}
                 type="button"
                 onClick={() => applyQuestion(question)}
                 title={question.detail}
+                aria-pressed={activeQuestionId === question.id}
+                data-workbench-question={question.id}
                 className={clsx(
                   "rounded-lg border px-3 py-2 text-left transition-colors",
-                  workbenchState.activeQuestionId === question.id
+                  activeQuestionId === question.id
                     ? "border-accent bg-accent/10"
                     : "border-canvas-line bg-canvas/40 hover:border-accent hover:bg-accent/5"
                 )}
@@ -605,7 +384,148 @@ export function WorkbenchView({
           </div>
         </section>
 
-        <section className="mt-4 grid gap-3 lg:grid-cols-[1.1fr_1fr]">
+        <section
+          className="mt-4 rounded-lg border border-accent/30 bg-accent/5 p-4"
+          aria-label="Workbench answer"
+          aria-live="polite"
+        >
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-accent">
+                Answer · {activeAnswer.countLabel}
+              </p>
+              <h3 className="mt-1 text-base font-semibold leading-snug text-ink-900">
+                {activeAnswer.questionTitle}
+              </h3>
+              <p className="mt-2 text-sm font-semibold leading-relaxed text-ink-900">
+                {activeAnswer.sentence}
+              </p>
+              <p className="mt-1 max-w-4xl text-xs leading-relaxed text-ink-700">
+                {activeAnswer.caveat}
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              <CopyTextButton
+                text={renderWorkbenchAnswerCitation(activeAnswer)}
+                label="Cite answer"
+                copiedLabel="Citation copied"
+              />
+              <button type="button" onClick={exportAnswerCsv} className={smallButtonClass}>
+                Export answer CSV
+              </button>
+            </div>
+          </div>
+          <div className="mt-3 flex flex-wrap gap-1.5" aria-label="Named entities">
+            {activeAnswer.namedEntities.map((entity) => (
+              <span key={entity} className="rounded-full border border-accent/20 bg-white px-2 py-1 text-[11px] font-medium text-ink-700">
+                {entity}
+              </span>
+            ))}
+          </div>
+          <div className="mt-3">
+            <h4 className="text-xs font-semibold uppercase tracking-wide text-ink-600">Evidence</h4>
+            <ul className="mt-2 grid gap-2 lg:grid-cols-2 xl:grid-cols-5">
+              {activeAnswer.evidence.map((row) => (
+                <li key={row.id} className="rounded-lg border border-canvas-line bg-white p-2.5">
+                  <p className="text-xs font-semibold leading-snug text-ink-900">{row.name}</p>
+                  <p className="mt-1 text-[11px] text-ink-500">Record checked {row.lastVerified ?? "date not recorded"}</p>
+                  {row.sourceLocator && (
+                    <p className="mt-1 text-[11px] text-ink-600">
+                      Source pinpoint: {formatSourceLocator(row.sourceLocator)}
+                    </p>
+                  )}
+                  <p className="mt-1 text-[11px] text-ink-600">Review: {formatReviewState(row)}</p>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    <a
+                      href={row.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Official source for ${row.name}`}
+                      className={smallButtonClass}
+                    >
+                      Official source
+                    </a>
+                    {row.recordUrl && (
+                      <a
+                        href={row.recordUrl}
+                        aria-label={`Open record for ${row.name}`}
+                        className={smallButtonClass}
+                      >
+                        Open record
+                      </a>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <p className="mt-3 text-[11px] text-ink-600">
+            Release {RELEASE_METADATA.releaseDate} · answer status as of {activeAnswer.statusAsOf} · per-record check dates shown above
+          </p>
+        </section>
+
+        <details className="mt-3 rounded-lg border border-canvas-line bg-white [&[open]>summary]:border-b [&[open]>summary]:border-canvas-line">
+          <summary className="cursor-pointer px-3 py-2.5 text-sm font-semibold text-ink-900">
+            Browse all questions
+          </summary>
+          <div className="p-3">
+            <label className="block text-xs font-medium text-ink-700">
+              Search questions
+              <input
+                type="search"
+                value={questionSearch}
+                onChange={(event) => setQuestionSearch(event.target.value)}
+                placeholder="Search titles, details, or categories"
+                className="mt-1 h-9 w-full rounded-md border border-canvas-line bg-white px-2.5 text-sm text-ink-900 outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
+              />
+            </label>
+            <div className="mt-3 flex flex-wrap gap-1.5" aria-label="Question categories">
+              <button
+                type="button"
+                aria-pressed={questionCategory === "all"}
+                onClick={() => setQuestionCategory("all")}
+                className={smallButtonClass}
+              >
+                All
+              </button>
+              {(Object.entries(WORKBENCH_QUESTION_CATEGORY_LABELS) as Array<[WorkbenchQuestionCategory, string]>).map(([id, label]) => (
+                <button
+                  key={id}
+                  type="button"
+                  aria-pressed={questionCategory === id}
+                  onClick={() => setQuestionCategory(id)}
+                  className={smallButtonClass}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {filteredQuestions.map((question) => (
+                <button
+                  key={question.id}
+                  type="button"
+                  onClick={() => applyQuestion(question)}
+                  aria-pressed={activeQuestionId === question.id}
+                  data-workbench-question={question.id}
+                  className={clsx(
+                    "rounded-lg border px-3 py-2 text-left transition-colors focus:outline-none focus:ring-2 focus:ring-accent/30",
+                    activeQuestionId === question.id
+                      ? "border-accent bg-accent/10"
+                      : "border-canvas-line bg-canvas/40 hover:border-accent hover:bg-accent/5",
+                  )}
+                >
+                  <span className="block text-xs font-semibold leading-snug text-ink-900">{question.title}</span>
+                  <span className="mt-1 block text-[11px] font-medium text-accent">{question.categoryLabel}</span>
+                  <span className="mt-1 block text-[11px] leading-relaxed text-ink-600">{question.detail}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </details>
+
+        <CollapsibleSection summary="Research workflows and answer metrics" note="Apply legacy workflows or inspect all derived answer cards">
+        <section className="grid gap-3 lg:grid-cols-[1.1fr_1fr]">
           <div className="rounded-lg border border-canvas-line bg-white p-3">
             <h3 className="text-sm font-semibold text-ink-900">Research workflows</h3>
             <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
@@ -641,6 +561,7 @@ export function WorkbenchView({
             </div>
           </div>
         </section>
+        </CollapsibleSection>
         <CollapsibleSection summary="Frontier lab intelligence board" note="13 labs — safety frameworks, evaluations, compute, exposure">
           <LabIntelligenceBoard onSelectLab={onSelectLab} />
         </CollapsibleSection>
@@ -877,7 +798,7 @@ export function WorkbenchView({
             <MiniMatrix
               title="Public data endpoints"
               rows={[
-                { id: "full", name: "/data/full-dataset.json", detail: "Full static research snapshot" },
+                { id: "full", name: "/data/full-dataset.json", detail: "Full static research release" },
                 { id: "obligations", name: "/data/obligation-matrix.json", detail: "Structured obligation rows" },
                 { id: "labs", name: "/data/lab-exposure-matrix.json", detail: "Lab regulatory-exposure matrix" },
                 { id: "lab-intel", name: "/data/lab-intelligence.json", detail: "Frontier-lab intelligence profiles" },
@@ -917,7 +838,7 @@ function RecordRoutePanel({
             ["International rows", String(summary.participations.length)],
           ]}
         />
-        <RecordText label="Research summary" value={`${summary.country.name} has ${summary.nationalRegulations.length} national entries, ${summary.participations.length} international rows, and ${summary.hqLabs.length} headquartered frontier lab(s) in this snapshot.`} />
+        <RecordText label="Research summary" value={`${summary.country.name} has ${summary.nationalRegulations.length} national entries, ${summary.participations.length} international rows, and ${summary.hqLabs.length} headquartered frontier lab(s) in this release.`} />
         <RecordText label="Obligations" value={summarizeObligationCategories(obligations)} />
         <RecordText label="Implementation" value={summarizeImplementationStatuses(implementation)} />
         <RecordActions>
@@ -1689,8 +1610,15 @@ function CollapsibleSection({
   note: string;
   children: React.ReactNode;
 }) {
+  const [hasOpened, setHasOpened] = useState(false);
+
   return (
-    <details className="mt-3 rounded-lg border border-canvas-line bg-white [&[open]>summary]:border-b [&[open]>summary]:border-canvas-line">
+    <details
+      className="mt-3 rounded-lg border border-canvas-line bg-white [&[open]>summary]:border-b [&[open]>summary]:border-canvas-line"
+      onToggle={(event) => {
+        if (event.currentTarget.open) setHasOpened(true);
+      }}
+    >
       <summary className="flex cursor-pointer items-center justify-between gap-3 px-3 py-2.5 text-left">
         <span className="min-w-0">
           <span className="block text-sm font-semibold text-ink-900">{summary}</span>
@@ -1711,7 +1639,7 @@ function CollapsibleSection({
           <path d="m6 9 6 6 6-6" />
         </svg>
       </summary>
-      <div className="p-3 pt-2">{children}</div>
+      {hasOpened ? <div className="p-3 pt-2">{children}</div> : null}
     </details>
   );
 }

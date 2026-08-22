@@ -5,7 +5,7 @@
       "id": "ALB",
       "title": "Albania",
       "subtitle": "Europe",
-      "summary": "0 national entries; 5 international rows; 0 obligation rows.",
+      "summary": "0 national entries; 6 international rows; 1 obligation rows.",
       "url": "https://global-ai-governance-map.vercel.app/country/ALB",
       "embedUrl": "https://global-ai-governance-map.vercel.app/embed/country/ALB"
     },
@@ -2808,7 +2808,7 @@
       "id": "coe-ai-convention",
       "title": "Council of Europe Framework Convention on AI and Human Rights, Democracy and the Rule of Law",
       "subtitle": "binding_on_parties",
-      "summary": "First international legally binding treaty on AI. Requires that the AI lifecycle be compatible with human rights, democracy and the rule of law; mandates risk and impact assessments, remedies, transparency, and a follow-up mechanism. Adopted 17 May 2024; opened for signature 5 September 2024. Treaty Office status checked 5 June 2026: not yet in force (needs five ratifications including at least three Council of Europe member states); EU ratification is recorded on 15 May 2026.",
+      "summary": "First international legally binding treaty on AI. Requires that the AI lifecycle be compatible with human rights, democracy and the rule of law; mandates risk and impact assessments, remedies, transparency, and a follow-up mechanism. Adopted 17 May 2024; opened for signature 5 September 2024. Treaty Office status reviewed on 2026-08-17: not yet in force, with 20 signatures not followed by ratification and 1 ratification/accession.",
       "url": "https://global-ai-governance-map.vercel.app/instrument/coe-ai-convention",
       "embedUrl": "https://global-ai-governance-map.vercel.app/embed/instrument/coe-ai-convention"
     },
@@ -3225,10 +3225,46 @@
       "kind": "implementation-deadline-card",
       "id": "eu-ai-act-phased-application",
       "title": "EU AI Act phased application",
-      "subtitle": "Next deadline: 2026-08-02",
-      "summary": "The Act applies through phased deadlines; the next broad deadline tracked here is 2 August 2026.",
+      "subtitle": "phased_application",
+      "summary": "The Act applies through phased deadlines; separate milestones track the 2026 AI Omnibus and broad-application dates.",
       "url": "https://global-ai-governance-map.vercel.app/embed/implementation/eu-ai-act-phased-application",
       "embedUrl": "https://global-ai-governance-map.vercel.app/embed/implementation/eu-ai-act-phased-application"
+    },
+    {
+      "kind": "implementation-deadline-card",
+      "id": "eu-ai-omnibus-entered-force",
+      "title": "AI Omnibus entered into force",
+      "subtitle": "in_force",
+      "summary": "The AI Omnibus entered into force on 27 July 2026 and changed the application timeline for rules governing high-risk AI systems.",
+      "url": "https://global-ai-governance-map.vercel.app/embed/implementation/eu-ai-omnibus-entered-force",
+      "embedUrl": "https://global-ai-governance-map.vercel.app/embed/implementation/eu-ai-omnibus-entered-force"
+    },
+    {
+      "kind": "implementation-deadline-card",
+      "id": "eu-ai-act-broad-application-2026",
+      "title": "Broad AI Act application milestone",
+      "subtitle": "phased_application",
+      "summary": "Most AI Act provisions began applying on 2 August 2026, while deadlines for high-risk AI systems follow the timeline changed by the AI Omnibus.",
+      "url": "https://global-ai-governance-map.vercel.app/embed/implementation/eu-ai-act-broad-application-2026",
+      "embedUrl": "https://global-ai-governance-map.vercel.app/embed/implementation/eu-ai-act-broad-application-2026"
+    },
+    {
+      "kind": "implementation-deadline-card",
+      "id": "eu-ai-omnibus-high-risk-annex-iii-deadline",
+      "title": "AI Omnibus high-risk-system deadline (Annex III)",
+      "subtitle": "phased_application",
+      "summary": "The AI Omnibus changed the deadline for AI Act rules governing Annex III high-risk AI systems to 2 December 2027.",
+      "url": "https://global-ai-governance-map.vercel.app/embed/implementation/eu-ai-omnibus-high-risk-annex-iii-deadline",
+      "embedUrl": "https://global-ai-governance-map.vercel.app/embed/implementation/eu-ai-omnibus-high-risk-annex-iii-deadline"
+    },
+    {
+      "kind": "implementation-deadline-card",
+      "id": "eu-ai-omnibus-high-risk-products-deadline",
+      "title": "AI Omnibus regulated-product high-risk-system deadline (Annex I)",
+      "subtitle": "phased_application",
+      "summary": "The AI Omnibus changed the deadline for high-risk AI systems embedded in products regulated under Annex I to 2 August 2028.",
+      "url": "https://global-ai-governance-map.vercel.app/embed/implementation/eu-ai-omnibus-high-risk-products-deadline",
+      "embedUrl": "https://global-ai-governance-map.vercel.app/embed/implementation/eu-ai-omnibus-high-risk-products-deadline"
     },
     {
       "kind": "implementation-deadline-card",
@@ -3251,9 +3287,9 @@
     {
       "kind": "implementation-deadline-card",
       "id": "coe-ai-convention-not-in-force",
-      "title": "CoE AI Convention adopted; not yet in force in snapshot",
+      "title": "CoE AI Convention adopted; not yet in force as of release status date",
       "subtitle": "adopted",
-      "summary": "The Convention was adopted and opened for signature, but the snapshot notes that entry-into-force conditions had not yet been met.",
+      "summary": "The Convention was adopted and opened for signature, but entry-into-force conditions had not been met as of the release status date.",
       "url": "https://global-ai-governance-map.vercel.app/embed/implementation/coe-ai-convention-not-in-force",
       "embedUrl": "https://global-ai-governance-map.vercel.app/embed/implementation/coe-ai-convention-not-in-force"
     },

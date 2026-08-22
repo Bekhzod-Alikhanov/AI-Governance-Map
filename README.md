@@ -6,7 +6,7 @@ An interactive research instrument covering 192 countries, 37 international inst
 
 <p>
   <a href="https://global-ai-governance-map.vercel.app"><img alt="Live" src="https://img.shields.io/badge/live-global--ai--governance--map.vercel.app-1E40AF?style=flat-square&logo=vercel" /></a>
-  <img alt="Snapshot" src="https://img.shields.io/badge/dataset-19_June_2026-B45309?style=flat-square" />
+  <img alt="Release" src="https://img.shields.io/badge/release-17_August_2026-B45309?style=flat-square" />
   <img alt="Sources" src="https://img.shields.io/badge/sourced_records-2%2C320-0F766E?style=flat-square" />
   <img alt="Tests" src="https://img.shields.io/badge/tests-163_unit_%2B_40_e2e-6E9F18?style=flat-square" />
   <img alt="License" src="https://img.shields.io/badge/code-MIT-555?style=flat-square" />
@@ -73,7 +73,7 @@ This is where a governance map earns or loses its credibility.
 
 ## What's in the dataset
 
-Snapshot **19 June 2026** — the most recent verification date in the corpus, enforced by a test so the badge cannot drift from the data.
+Research release **17 August 2026**; coverage through **17 August 2026**; status as of **17 August 2026**. Per-record verification dates remain visible and test-enforced.
 
 | | |
 |---|---:|
@@ -129,8 +129,19 @@ The full reasoning, including a hostile three-perspective audit of this project 
 - The lens switcher implements the ARIA tabs pattern properly — roving tabindex, arrow keys, a real tab panel.
 - Automated WCAG 2.1 A/AA checks (axe) run in CI across every view.
 - Renders down to 390 px. No horizontal scroll; filters collapse behind one control on phones.
-- **194 KB gzipped** on first load. Heavy datasets, the workbench, the network and the corpus are lazy-loaded.
+- **127 KB gzipped** for the application shell and **259 KB gzipped** for the complete default Workbench route. Heavy non-default views remain lazy-loaded.
 - CSP, `nosniff`, `Referrer-Policy` and `Permissions-Policy` on every response; embed routes framed deliberately.
+
+Measured release budgets (`npm run build && npm run check:performance`):
+
+| Metric | Current | Budget |
+| --- | ---: | ---: |
+| Initial JavaScript | 459,822 B | 725,000 B |
+| Initial JavaScript gzip | 126,759 B | 220,000 B |
+| Default Workbench route gzip | 258,875 B | 270,000 B |
+| Atlas lazy chunk | 417,373 B | 430,000 B |
+| Corpus lazy gzip | 19,994 B | 20,500 B |
+| Total JavaScript | 1,426,354 B | 1,610,000 B |
 
 ---
 
@@ -143,8 +154,8 @@ Client-only: a static build, no backend, no API keys, no accounts. Data lives in
 ```bash
 npm install
 npm run dev          # http://localhost:5173
-npm test             # 163 unit tests
-npm run test:e2e     # 40 Playwright tests, including axe
+npm test             # 278 tests (260 Vitest + 18 Node-native)
+npm run test:e2e     # 56 desktop/mobile Playwright tests, including axe
 npm run build        # validates data, generates JSON, sitemap and 543 record pages
 ```
 

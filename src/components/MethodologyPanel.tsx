@@ -1,5 +1,5 @@
 import { DATASET_COVERAGE_STATS } from "../data/datasetCoverageStats";
-import { DATA_SNAPSHOT_DATE } from "../utils/governanceTaxonomy";
+import { RELEASE_METADATA } from "../data/releaseMetadata";
 import { useDialogFocus } from "../utils/useDialogFocus";
 
 interface Props {
@@ -84,7 +84,7 @@ export function MethodologyPanel({ onClose }: Props) {
               How to read this map
             </h2>
             <p className="mt-1 text-sm leading-relaxed text-ink-600">
-              Static research snapshot: {DATA_SNAPSHOT_DATE}. This dashboard is not legal advice.
+              Release {RELEASE_METADATA.releaseDate}; coverage through {RELEASE_METADATA.coverageCutoff}; status as of {RELEASE_METADATA.statusAsOf}. This dashboard is not legal advice.
             </p>
           </div>
           <button

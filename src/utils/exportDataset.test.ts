@@ -25,18 +25,27 @@ import {
   buildCitationText,
   buildDatasetSnapshot,
   buildFilteredDatasetSnapshot,
+  buildSourceMetadataEntries,
   DATASET_SCHEMA_VERSION,
   toPrettyJson,
 } from "./exportDataset";
 import { DATASET_SCHEMA_ID, validateDatasetSnapshotShape } from "./datasetSchema";
 import { DEFAULT_FILTER_STATE } from "../types";
+import { RELEASE_METADATA } from "../data/releaseMetadata";
+import releasePackageRaw from "../../public/data/release-package.json?raw";
+import { countRecordsAwaitingSecondPersonReview } from "./exportDataset";
 
 describe("dataset export helpers", () => {
   it("builds a snapshot with declared schema, counts, and primary data arrays", () => {
     const snapshot = buildDatasetSnapshot();
 
     expect(snapshot.schemaVersion).toBe(DATASET_SCHEMA_VERSION);
-    expect(snapshot.snapshotDate).toBe(DATA_SNAPSHOT_DATE);
+    expect(snapshot).toMatchObject({
+      releaseDate: RELEASE_METADATA.releaseDate,
+      coverageCutoff: RELEASE_METADATA.coverageCutoff,
+      statusAsOf: RELEASE_METADATA.statusAsOf,
+      snapshotDate: RELEASE_METADATA.statusAsOf,
+    });
     expect(snapshot.schema).toEqual({
       id: DATASET_SCHEMA_ID,
       version: DATASET_SCHEMA_VERSION,
@@ -62,14 +71,82 @@ describe("dataset export helpers", () => {
     expect(snapshot.counts.countryIndicatorScores).toBe(COUNTRY_INDICATOR_SCORES.length);
     expect(snapshot.counts.countryReadinessReports).toBe(COUNTRY_READINESS_REPORTS.length);
     expect(snapshot.data.countries).toBe(COUNTRIES);
-    expect(snapshot.data.frontierLabs).toBe(FRONTIER_LABS);
-    expect(snapshot.data.labRegulatoryExposures).toBe(LAB_REGULATORY_EXPOSURES);
-    expect(snapshot.data.labIntelligenceProfiles).toBe(LAB_INTELLIGENCE_PROFILES);
-    expect(snapshot.data.modelGovernanceEvidence).toBe(MODEL_GOVERNANCE_EVIDENCE);
-    expect(snapshot.data.institutionRecords).toBe(INSTITUTION_RECORDS);
-    expect(snapshot.data.euAiActAuthorityMatrix).toBe(EU_AI_ACT_AUTHORITY_MATRIX);
-    expect(snapshot.data.countryIndicatorScores).toBe(COUNTRY_INDICATOR_SCORES);
+    expect(snapshot.data.frontierLabs).toHaveLength(FRONTIER_LABS.length);
+    expect(snapshot.data.frontierLabs[0]).toMatchObject({ id: FRONTIER_LABS[0].id, reviewStatus: "unreviewed" });
+    expect(snapshot.data.labRegulatoryExposures).not.toBe(LAB_REGULATORY_EXPOSURES);
+    expect(snapshot.data.labIntelligenceProfiles).not.toBe(LAB_INTELLIGENCE_PROFILES);
+    expect(snapshot.data.modelGovernanceEvidence).toEqual(MODEL_GOVERNANCE_EVIDENCE);
+    expect(snapshot.data.institutionRecords).toEqual(INSTITUTION_RECORDS);
+    expect(snapshot.data.euAiActAuthorityMatrix).toEqual(EU_AI_ACT_AUTHORITY_MATRIX);
+    expect(snapshot.data.countryIndicatorScores).toHaveLength(COUNTRY_INDICATOR_SCORES.length);
+    expect(snapshot.data.countryIndicatorScores[0]).toMatchObject({
+      id: COUNTRY_INDICATOR_SCORES[0].id,
+      reviewStatus: "unreviewed",
+    });
     expect(validateDatasetSnapshotShape(snapshot)).toEqual([]);
+  });
+
+  it("publishes pinpoint locators and review metadata in source metadata", () => {
+    const sources = buildSourceMetadataEntries(buildDatasetSnapshot());
+    const located = sources.find((source) => source.id === "andersen-v-stability-ai-2024");
+
+    expect(located).toMatchObject({
+      sourceLocator: {
+        documentId: "380",
+        page: "1–2",
+      },
+      reviewStatus: "editorial_checked",
+      reviewNotes: "",
+    });
+  });
+
+  it("exports missing source review state as unreviewed", () => {
+    const sources = buildSourceMetadataEntries({
+      data: {
+        records: [
+          {
+            id: "primary-without-review",
+            name: "Primary source without review metadata",
+            sourceName: "Official source",
+            sourceUrl: "https://example.gov/primary",
+            sourceChain: [
+              {
+                sourceName: "Supporting source",
+                sourceUrl: "https://example.gov/supporting",
+              },
+            ],
+          },
+        ],
+      },
+    });
+
+    expect(sources.map((source) => source.reviewStatus)).toEqual(["unreviewed", "unreviewed"]);
+  });
+
+  it("defaults legacy source-backed records to unreviewed in full data, source metadata, and release package", () => {
+    const snapshot = buildDatasetSnapshot();
+    const exportedLab = snapshot.data.frontierLabs.find((row) => row.id === "openai");
+    const sources = buildSourceMetadataEntries(snapshot);
+    const exportedSource = sources.find(
+      (row) => row.collection === "frontierLabs" && row.id === "openai",
+    );
+    const releasePackage = JSON.parse(releasePackageRaw) as {
+      dataset: { data: { frontierLabs: Array<{ id: string; reviewStatus?: string }> } };
+      sources: Array<{ collection: string; id: string; reviewStatus?: string }>;
+    };
+
+    expect(FRONTIER_LABS.find((row) => row.id === "openai")?.reviewStatus).toBeUndefined();
+    expect(exportedLab?.reviewStatus).toBe("unreviewed");
+    expect(exportedSource?.reviewStatus).toBe("unreviewed");
+    expect(
+      releasePackage.dataset.data.frontierLabs.find((row) => row.id === "openai")?.reviewStatus,
+    ).toBe("unreviewed");
+    expect(
+      releasePackage.sources.find(
+        (row) => row.collection === "frontierLabs" && row.id === "openai",
+      )?.reviewStatus,
+    ).toBe("unreviewed");
+    expect(countRecordsAwaitingSecondPersonReview(sources)).toBe(2188);
   });
 
   it("builds citation text with snapshot date and public project URLs", () => {
@@ -106,7 +183,9 @@ describe("dataset export helpers", () => {
     const full = buildDatasetSnapshot();
 
     expect(filtered.counts).toEqual(full.counts);
-    expect(filtered.data.internationalInstruments).toBe(INTERNATIONAL_INSTRUMENTS);
+    expect(filtered.data.internationalInstruments).toEqual(
+      full.data.internationalInstruments,
+    );
   });
 
   it("includes search-matched labs and their HQ countries", () => {

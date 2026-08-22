@@ -1,7 +1,7 @@
 {
   "title": "Global AI Governance Map data dictionary",
-  "schemaVersion": "2026.06.4",
-  "snapshotDate": "2026-06-19",
+  "schemaVersion": "2026.08.0",
+  "snapshotDate": "2026-08-17",
   "caveat": "This dictionary defines research data fields. It is not legal advice and should not be read as a substitute for checking official sources.",
   "legalSeparationInvariant": "Legal records drive legal map modes. Atlas, corpus, process, standards, public-sector, safety, procurement, and infrastructure records drive only context modes unless a separate verified legal record establishes legal effect.",
   "collections": [

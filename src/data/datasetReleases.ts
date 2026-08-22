@@ -1,9 +1,12 @@
-import { DATA_SNAPSHOT_DATE } from "../utils/governanceTaxonomy";
+import { RELEASE_METADATA } from "./releaseMetadata";
 
 export interface DatasetRelease {
   id: string;
   snapshotDate: string;
-  status: "published" | "planned";
+  releaseDate?: string;
+  coverageCutoff?: string;
+  statusAsOf?: string;
+  status: "published" | "superseded";
   title: string;
   summary: string;
   recordsAdded: string[];
@@ -17,7 +20,10 @@ export interface DatasetRelease {
 export const DATASET_RELEASES: DatasetRelease[] = [
   {
     id: "2026-05",
-    snapshotDate: DATA_SNAPSHOT_DATE,
+    snapshotDate: "2026-05-19",
+    releaseDate: "2026-05-19",
+    coverageCutoff: "2026-05-19",
+    statusAsOf: "2026-05-19",
     status: "published",
     title: "May 2026 research snapshot",
     summary:
@@ -49,10 +55,10 @@ export const DATASET_RELEASES: DatasetRelease[] = [
   {
     id: "2026-06",
     snapshotDate: "2026-06-30",
-    status: "planned",
-    title: "June 2026 planned refresh",
+    status: "superseded",
+    title: "June 2026 refresh plan (superseded)",
     summary:
-      "Planned monthly refresh target for source deltas, treaty status, EU implementation milestones, national enactments, Atlas source families, and frontier-lab model/safety-framework updates.",
+      "Historical plan for a June refresh. It was not published as a release and was superseded by the 17 August 2026 research release; the planned scope is retained for auditability.",
     recordsAdded: [
       "Planned: Workbench comparison coverage for obligations and exposure rows, plus stable obligation/exposure routes.",
       "Planned: AI Atlas source-family tracking for EU AI Factories, U.S. NAIRR, and UK public-sector AI procurement guidance.",
@@ -64,12 +70,54 @@ export const DATASET_RELEASES: DatasetRelease[] = [
     sourceCorrections: [
       "Source-only Atlas families remain context rows until country-level normalization is reviewed.",
     ],
-    unresolvedManualReview: ["Populate after the June refresh is completed."],
+    unresolvedManualReview: [],
     artifacts: [
       "docs/RELEASE_2026-06.md",
       "docs/SOURCE_DELTA_REPORT.md",
       "docs/SOURCE_AUDIT_CURRENT.md",
       "docs/ROADMAP_BACKLOG_LEDGER.md",
+    ],
+  },
+  {
+    id: RELEASE_METADATA.releaseId,
+    releaseDate: RELEASE_METADATA.releaseDate,
+    coverageCutoff: RELEASE_METADATA.coverageCutoff,
+    statusAsOf: RELEASE_METADATA.statusAsOf,
+    snapshotDate: RELEASE_METADATA.statusAsOf,
+    status: "published",
+    title: "August 2026 reproducible research release",
+    summary:
+      "Citable, schema-versioned release with deterministic SHA-256 manifests, immutable release copies, source pinpoint locators, and explicit review status metadata.",
+    recordsAdded: [
+      "Release-level dates distinguish publication, coverage cutoff, and status currency while retaining snapshotDate for one compatibility cycle.",
+      "Deterministic latest and immutable versioned manifests cover the full dataset, JSON Schema, and release package.",
+    ],
+    recordsChanged: [
+      "Andersen v. Stability AI, Bartz v. Anthropic, and Kadrey v. Meta were narrowed to claims supported by pinpointed GovInfo court documents.",
+      "EU AI Act implementation milestones and treaty-participation language were updated without changing older per-record verification dates wholesale.",
+    ],
+    recordsDowngradedOrRemoved: [
+      "Garcia v. Character Technologies was removed because no stable primary document supported the published claim.",
+      "Unsupported litigation scheduling, disposition, and party-role assertions were removed from retained records.",
+    ],
+    sourceCorrections: [
+      "Retained federal litigation records now cite exact documents and page ranges rather than constructed case landing pages.",
+      "Verification and review vocabularies now expose unverified, superseded, editorial, expert, and review-needed states without implying expert review.",
+    ],
+    unresolvedManualReview: [
+      "Council of Europe Treaty Office participation changes require a browser/manual check when automated access is blocked.",
+      "Records marked needs_review or unreviewed still require the documented second-person review step.",
+      "Zenodo publication and DOI assignment remain a manual maintainer action; no DOI has been assigned in this repository.",
+    ],
+    artifacts: [
+      "CITATION.cff",
+      ".zenodo.json",
+      "docs/RELEASE_2026-08.md",
+      "public/data/release-manifest.json",
+      "public/data/releases/2026-08-17/manifest.json",
+      "public/data/releases/2026-08-17/full-dataset.json",
+      "public/data/releases/2026-08-17/schema.json",
+      "public/data/releases/2026-08-17/release-package.json",
     ],
   },
 ];

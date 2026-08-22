@@ -6,7 +6,7 @@ import { IMPLEMENTATION_MILESTONES, IMPLEMENTATION_STATUS_LABELS } from "../data
 import { INSTRUMENT_BY_ID } from "../data/internationalInstruments";
 import { LAB_REGULATORY_EXPOSURES } from "../data/labRegulatoryExposures";
 import type { EmbedRoute } from "../utils/embedRoutes";
-import { DATA_SNAPSHOT_DATE } from "../utils/governanceTaxonomy";
+import { RELEASE_METADATA } from "../data/releaseMetadata";
 import { getCountryGovernanceSummary } from "../utils/getCountryGovernanceSummary";
 import { getLabExposureTarget, getLabRegulatoryExposures, LAB_EXPOSURE_EFFECT_LABELS } from "../utils/labExposure";
 import { recordRoute } from "../utils/recordRoutes";
@@ -41,7 +41,7 @@ export function EmbedView({ route }: Props) {
         ) : (
           <>
             <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-500">
-              AI Governance Map embed - snapshot {DATA_SNAPSHOT_DATE}
+              AI Governance Map embed - release {RELEASE_METADATA.releaseDate}; status as of {RELEASE_METADATA.statusAsOf}
             </p>
             <h1 className="mt-1 text-lg font-semibold leading-tight">{card.title}</h1>
             <p className="mt-1 text-xs font-medium text-ink-500">{card.subtitle}</p>

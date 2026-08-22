@@ -6,6 +6,12 @@ import {
   SOURCE_KIND_LABELS,
   VERIFICATION_STATUS_LABELS,
 } from "../utils/getVerificationLabel";
+import {
+  formatSourceLocator,
+  getReviewStatus,
+  REVIEW_STATUS_CLASSES,
+  REVIEW_STATUS_LABELS,
+} from "../utils/sourceProvenance";
 import { getVerificationAge } from "../utils/verificationAge";
 
 interface Props {
@@ -15,14 +21,11 @@ interface Props {
 }
 
 export function VerificationMeta({ item, label = "Source verification", compact = false }: Props) {
-  // A snapshot date describes the corpus; this describes the record in hand.
   const age = getVerificationAge(item.lastVerified);
+  const reviewStatus = getReviewStatus(item);
   const hasMetadata = Boolean(
-    item.sourceKind ||
-      item.verificationStatus ||
-      item.confidence ||
-      item.lastVerified ||
-      item.verificationNotes
+    item.sourceKind || item.verificationStatus || item.confidence || item.lastVerified ||
+      item.verificationNotes || item.reviewStatus || item.reviewNotes || item.sourceLocator
   );
 
   if (!hasMetadata) {
@@ -43,13 +46,11 @@ export function VerificationMeta({ item, label = "Source verification", compact 
             {VERIFICATION_STATUS_LABELS[item.verificationStatus]}
           </span>
         )}
+        <span className={clsx("rounded-md border px-1.5 py-0.5 font-medium", REVIEW_STATUS_CLASSES[reviewStatus])}>
+          {REVIEW_STATUS_LABELS[reviewStatus]}
+        </span>
         {item.confidence && (
-          <span
-            className={clsx(
-              "rounded-md border px-1.5 py-0.5 font-medium",
-              CONFIDENCE_BADGE_CLASSES[item.confidence]
-            )}
-          >
+          <span className={clsx("rounded-md border px-1.5 py-0.5 font-medium", CONFIDENCE_BADGE_CLASSES[item.confidence])}>
             {DATA_CONFIDENCE_LABELS[item.confidence]}
           </span>
         )}
@@ -70,16 +71,14 @@ export function VerificationMeta({ item, label = "Source verification", compact 
                 {age && (
                   <>
                     {" "}
-                    <span
-                      className={clsx(
-                        "rounded px-1 py-0.5 text-[10px] font-medium",
-                        age.freshness === "stale"
-                          ? "bg-amber-100 text-amber-900"
-                          : age.freshness === "ageing"
-                            ? "bg-canvas text-ink-700"
-                            : "text-ink-500"
-                      )}
-                    >
+                    <span className={clsx(
+                      "rounded px-1 py-0.5 text-[10px] font-medium",
+                      age.freshness === "stale"
+                        ? "bg-amber-100 text-amber-900"
+                        : age.freshness === "ageing"
+                          ? "bg-canvas text-ink-700"
+                          : "text-ink-500"
+                    )}>
                       {age.label}
                     </span>
                   </>
@@ -89,7 +88,14 @@ export function VerificationMeta({ item, label = "Source verification", compact 
           )}
         </dl>
       )}
+      {item.sourceLocator && (
+        <p className="mt-1 text-ink-700">
+          <span className="font-medium text-ink-800">Source pinpoint:</span>{" "}
+          {formatSourceLocator(item.sourceLocator)}
+        </p>
+      )}
       {item.verificationNotes && <p className="mt-1 text-ink-700">{item.verificationNotes}</p>}
+      {item.reviewNotes && <p className="mt-1 text-ink-700">{item.reviewNotes}</p>}
     </div>
   );
 }

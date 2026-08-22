@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { buildCountryCitation, buildRecordCitation } from "./citation";
 import { DATA_SNAPSHOT_DATE } from "./governanceTaxonomy";
+import { RELEASE_METADATA } from "../data/releaseMetadata";
+import { DATASET_CITATION_TITLE } from "./citation";
 
 describe("citation helpers", () => {
   it("builds source-backed record citations", () => {
@@ -31,5 +33,12 @@ describe("citation helpers", () => {
 
     expect(citation).toContain("United States");
     expect(citation).toContain("country=USA");
+  });
+
+  it("distinguishes the current release, coverage cutoff, and status date", () => {
+    expect(DATASET_CITATION_TITLE).toContain(`release ${RELEASE_METADATA.releaseDate}`);
+    expect(DATASET_CITATION_TITLE).toContain(`coverage through ${RELEASE_METADATA.coverageCutoff}`);
+    expect(DATASET_CITATION_TITLE).toContain(`status as of ${RELEASE_METADATA.statusAsOf}`);
+    expect(DATASET_CITATION_TITLE).not.toMatch(/snapshot/i);
   });
 });

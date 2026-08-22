@@ -60,11 +60,21 @@ export type ExpertReviewStatus =
   | "expert_reviewed"
   | "needs_review";
 
+export interface SourceLocator {
+  label: string;
+  documentId?: string;
+  article?: string;
+  section?: string;
+  page?: string;
+  paragraph?: string;
+}
+
 export interface SourceChainEntry {
   sourceName: string;
   sourceUrl: string;
   sourceKind?: SourceKind;
   note?: string;
+  sourceLocator?: SourceLocator;
 }
 
 export interface VerificationMetadata {
@@ -73,6 +83,7 @@ export interface VerificationMetadata {
   confidence?: DataConfidence;
   lastVerified?: string;
   verificationNotes?: string;
+  sourceLocator?: SourceLocator;
   sourceChain?: SourceChainEntry[];
   reviewStatus?: ExpertReviewStatus;
   reviewNotes?: string;
@@ -918,6 +929,50 @@ export interface WorkbenchCompareItem {
   id: string;
 }
 
+export type WorkbenchQuestionCategory =
+  | "legal-duties"
+  | "implementation"
+  | "treaties"
+  | "frontier-labs"
+  | "sector-rules"
+  | "context-evidence";
+
+export interface WorkbenchQuestion {
+  id: string;
+  title: string;
+  detail: string;
+  category: WorkbenchQuestionCategory;
+  categoryLabel: string;
+  featured: boolean;
+  patch: Partial<FilterState>;
+  compareItems?: WorkbenchCompareItem[];
+  scenario?: { labId: string; markets: string[] };
+  atlasPresetId?: AtlasPresetId;
+  answerCardId?: string;
+}
+
+export interface WorkbenchEvidenceRow extends VerificationMetadata {
+  id: string;
+  name: string;
+  entity: string;
+  sourceName: string;
+  sourceUrl: string;
+  recordUrl?: string;
+}
+
+export interface WorkbenchAnswer {
+  questionId: string;
+  questionTitle: string;
+  sentence: string;
+  caveat: string;
+  countLabel: string;
+  namedEntities: string[];
+  evidence: WorkbenchEvidenceRow[];
+  releaseDate: string;
+  coverageCutoff: string;
+  statusAsOf: string;
+}
+
 export interface WorkbenchState {
   compareKind: WorkbenchCompareKind;
   compareId: string;
@@ -941,8 +996,8 @@ export const DEFAULT_WORKBENCH_STATE: WorkbenchState = {
   scenarioMarkets: ["EUU", "USA", "GBR", "KOR"],
   atlasPresetId: "high-readiness-no-binding",
   activeWorkflowId: null,
-  activeQuestionId: null,
-  activeAnswerCardId: null,
+  activeQuestionId: "binding-duties-by-jurisdiction",
+  activeAnswerCardId: "binding-obligations",
 };
 
 export interface MapFitTarget {

@@ -12,6 +12,10 @@ const args = new Map(
 );
 
 const now = new Date();
+const releaseDescriptor = JSON.parse(
+  await fs.readFile(path.join(root, "public", "data", "full-dataset.json"), "utf8")
+);
+const freshnessAsOf = new Date(`${releaseDescriptor.statusAsOf}T23:59:59Z`);
 const STALE_SOON_DAYS = 90;
 const STALE_DAYS = 180;
 const STRONG_LEGAL_EFFECT_STATUSES = new Set([
@@ -215,7 +219,7 @@ function formatReviewItem(item) {
 function ageInDays(dateText) {
   const date = new Date(`${dateText}T00:00:00Z`);
   if (Number.isNaN(date.getTime())) return null;
-  return Math.floor((now.getTime() - date.getTime()) / 86_400_000);
+  return Math.floor((freshnessAsOf.getTime() - date.getTime()) / 86_400_000);
 }
 
 function isCli() {

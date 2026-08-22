@@ -2,6 +2,11 @@ import { COUNTRIES } from "../data/countries";
 import { FRONTIER_LABS } from "../data/frontierLabs";
 import { GOVERNANCE_DOMAINS } from "../data/governanceDomains";
 import { INTERNATIONAL_INSTRUMENTS } from "../data/internationalInstruments";
+import {
+  getQuestionEffectiveFilters,
+  getQuestionWorkbenchState,
+  WORKBENCH_QUESTION_BY_ID,
+} from "../data/workbenchQuestions";
 import type {
   AtlasPresetId,
   FilterState,
@@ -153,7 +158,7 @@ const WORKBENCH_COMPARE_KINDS = new Set<WorkbenchCompareKind>([
 ]);
 
 export const DEFAULT_SHAREABLE_STATE: ShareableAppState = {
-  lens: "geography",
+  lens: "workbench",
   filters: DEFAULT_FILTER_STATE,
   selectedIso3: null,
   selectedLabId: null,
@@ -185,7 +190,7 @@ function enumValue<T extends string>(value: string | null, allowed: Set<T>, fall
 
 export function parseShareableState(search: string): ShareableAppState {
   const params = new URLSearchParams(search);
-  const filters: FilterState = {
+  const parsedFilters: FilterState = {
     ...DEFAULT_FILTER_STATE,
     selectedInstrumentIds: parseList(params.get("inst"), INSTRUMENT_IDS),
     selectedParticipationTypes: parseList(params.get("part"), PARTICIPATION_TYPES),
@@ -208,9 +213,25 @@ export function parseShareableState(search: string): ShareableAppState {
   const networkSelection = params.get("node")?.slice(0, 120) || null;
   const compareKind = enumValue(params.get("wbKind"), WORKBENCH_COMPARE_KINDS, DEFAULT_WORKBENCH_STATE.compareKind);
   const scenarioMarkets = parseList(params.get("wbMarkets"), COUNTRY_IDS);
+  const requestedQuestionId = params.get("wbQuestion")?.slice(0, 80);
+  const questionId = requestedQuestionId && WORKBENCH_QUESTION_BY_ID[requestedQuestionId]
+    ? requestedQuestionId
+    : null;
+  const questionState = questionId ? getQuestionWorkbenchState(questionId) : DEFAULT_WORKBENCH_STATE;
+  const effectiveCompareKind = params.has("wbKind") ? compareKind : questionState.compareKind;
+  const hasExplicitFilters = [
+    "inst", "part", "effect", "org", "region", "labs", "mode", "bindingLaw",
+    "anyRule", "frontier", "obl", "domain", "impl", "q",
+  ].some((key) => params.has(key));
+  const filters = questionId && !hasExplicitFilters
+    ? { ...parsedFilters, ...getQuestionEffectiveFilters(questionId) }
+    : parsedFilters;
 
   return {
-    lens: enumValue(params.get("lens"), LENSES, DEFAULT_SHAREABLE_STATE.lens),
+    lens:
+      params.get("lens") === "layer"
+        ? "geography"
+        : enumValue(params.get("lens"), LENSES, DEFAULT_SHAREABLE_STATE.lens),
     filters,
     selectedIso3,
     selectedLabId,
@@ -224,21 +245,27 @@ export function parseShareableState(search: string): ShareableAppState {
     networkFrontierOnly: params.get("frontierNetwork") === "1",
     timelineLane: enumValue(params.get("timeline"), TIMELINE_LANES, "all"),
     workbench: {
-      compareKind,
-      compareId: validWorkbenchId(compareKind, params.get("wbId")) ?? DEFAULT_WORKBENCH_STATE.compareId,
-      compareItems: parseWorkbenchCompareItems(params.get("wbCompare")),
-      scenarioLabId: enumValue(params.get("wbScenarioLab"), LAB_IDS, DEFAULT_WORKBENCH_STATE.scenarioLabId),
-      scenarioMarkets: scenarioMarkets.length ? scenarioMarkets : DEFAULT_WORKBENCH_STATE.scenarioMarkets,
-      atlasPresetId: enumValue(params.get("wbAtlas"), ATLAS_PRESETS, DEFAULT_WORKBENCH_STATE.atlasPresetId),
+      compareKind: effectiveCompareKind,
+      compareId: validWorkbenchId(effectiveCompareKind, params.get("wbId")) ?? questionState.compareId,
+      compareItems: params.has("wbCompare") ? parseWorkbenchCompareItems(params.get("wbCompare")) : questionState.compareItems,
+      scenarioLabId: enumValue(params.get("wbScenarioLab"), LAB_IDS, questionState.scenarioLabId),
+      scenarioMarkets: scenarioMarkets.length ? scenarioMarkets : questionState.scenarioMarkets,
+      atlasPresetId: enumValue(params.get("wbAtlas"), ATLAS_PRESETS, questionState.atlasPresetId),
       activeWorkflowId: params.get("wbWorkflow")?.slice(0, 80) || null,
-      activeQuestionId: params.get("wbQuestion")?.slice(0, 80) || null,
-      activeAnswerCardId: params.get("wbAnswer")?.slice(0, 80) || null,
+      activeQuestionId: questionState.activeQuestionId,
+      activeAnswerCardId:
+        params.get("wbAnswer")?.slice(0, 80) || questionState.activeAnswerCardId,
     },
   };
 }
 
 export function serializeShareableState(state: ShareableAppState): string {
   const params = new URLSearchParams();
+  const questionDefaults =
+    state.workbench.activeQuestionId &&
+    state.workbench.activeQuestionId !== DEFAULT_WORKBENCH_STATE.activeQuestionId
+      ? getQuestionWorkbenchState(state.workbench.activeQuestionId)
+      : DEFAULT_WORKBENCH_STATE;
   if (state.lens !== DEFAULT_SHAREABLE_STATE.lens) params.set("lens", state.lens);
   setList(params, "inst", state.filters.selectedInstrumentIds);
   setList(params, "part", state.filters.selectedParticipationTypes);
@@ -263,29 +290,40 @@ export function serializeShareableState(state: ShareableAppState): string {
   if (state.networkDensity !== "all") params.set("density", state.networkDensity);
   if (state.networkFrontierOnly) params.set("frontierNetwork", "1");
   if (state.timelineLane !== "all") params.set("timeline", state.timelineLane);
-  if (state.workbench.compareKind !== DEFAULT_WORKBENCH_STATE.compareKind) params.set("wbKind", state.workbench.compareKind);
-  if (state.workbench.compareId !== DEFAULT_WORKBENCH_STATE.compareId) params.set("wbId", state.workbench.compareId);
-  if (!sameCompareItems(state.workbench.compareItems, DEFAULT_WORKBENCH_STATE.compareItems)) {
+  if (state.workbench.compareKind !== questionDefaults.compareKind) params.set("wbKind", state.workbench.compareKind);
+  if (state.workbench.compareId !== questionDefaults.compareId) params.set("wbId", state.workbench.compareId);
+  if (!sameCompareItems(state.workbench.compareItems, questionDefaults.compareItems)) {
     params.set("wbCompare", state.workbench.compareItems.map((item) => `${item.kind}:${item.id}`).join(","));
   }
-  if (state.workbench.scenarioLabId !== DEFAULT_WORKBENCH_STATE.scenarioLabId) {
+  if (state.workbench.scenarioLabId !== questionDefaults.scenarioLabId) {
     params.set("wbScenarioLab", state.workbench.scenarioLabId);
   }
-  if (!sameStrings(state.workbench.scenarioMarkets, DEFAULT_WORKBENCH_STATE.scenarioMarkets)) {
+  if (!sameStrings(state.workbench.scenarioMarkets, questionDefaults.scenarioMarkets)) {
     setList(params, "wbMarkets", state.workbench.scenarioMarkets);
   }
-  if (state.workbench.atlasPresetId !== DEFAULT_WORKBENCH_STATE.atlasPresetId) {
+  if (state.workbench.atlasPresetId !== questionDefaults.atlasPresetId) {
     params.set("wbAtlas", state.workbench.atlasPresetId);
   }
   if (state.workbench.activeWorkflowId) params.set("wbWorkflow", state.workbench.activeWorkflowId);
-  if (state.workbench.activeQuestionId) params.set("wbQuestion", state.workbench.activeQuestionId);
-  if (state.workbench.activeAnswerCardId) params.set("wbAnswer", state.workbench.activeAnswerCardId);
+  if (
+    state.workbench.activeQuestionId &&
+    state.workbench.activeQuestionId !== DEFAULT_WORKBENCH_STATE.activeQuestionId
+  ) {
+    params.set("wbQuestion", state.workbench.activeQuestionId);
+  }
+  if (
+    state.workbench.activeAnswerCardId &&
+    state.workbench.activeAnswerCardId !== questionDefaults.activeAnswerCardId
+  ) {
+    params.set("wbAnswer", state.workbench.activeAnswerCardId);
+  }
   const serialized = params.toString();
   return serialized ? `?${serialized}` : "";
 }
 
 function parseWorkbenchCompareItems(value: string | null): WorkbenchCompareItem[] {
-  if (!value) return DEFAULT_WORKBENCH_STATE.compareItems;
+  if (value === null) return DEFAULT_WORKBENCH_STATE.compareItems;
+  if (value === "") return [];
   const items = value
     .split(",")
     .map((part) => {

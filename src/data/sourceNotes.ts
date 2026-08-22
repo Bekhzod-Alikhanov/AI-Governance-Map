@@ -11,7 +11,7 @@ export const SOURCE_NOTES: SourceNote[] = [
     id: "coe-convention-not-in-force",
     appliesTo: "coe-ai-convention",
     note:
-      "The Council of Europe Framework Convention on AI is not yet in force as of 19 May 2026. Entry into force requires five ratifications, including at least three Council of Europe member states.",
+      "Council of Europe Treaty Office status as of 2026-08-17: the Framework Convention on AI was not yet in force, with 20 signatures not followed by ratification and 1 ratification/accession. Entry into force requires five ratifications, including at least three Council of Europe member states.",
   },
   {
     id: "un-coverage",
@@ -50,9 +50,9 @@ export const SOURCE_NOTES: SourceNote[] = [
       "The Paris AI Action Summit Statement on Inclusive and Sustainable AI was notably not signed by the United States or the United Kingdom.",
   },
   {
-    id: "snapshot",
+    id: "release-coverage-status",
     appliesTo: "global",
     note:
-      "This dataset is a May 2026 snapshot. Treaty and signature status can change quickly. Always verify time-sensitive details against official sources before relying on them.",
+      "Release 2026-08-17; coverage through 2026-08-17; status as of 2026-08-17. Treaty and signature status can change quickly. Always verify time-sensitive details against official sources before relying on them.",
   },
 ];

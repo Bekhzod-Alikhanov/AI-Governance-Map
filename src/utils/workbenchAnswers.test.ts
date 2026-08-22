@@ -22,6 +22,7 @@ describe("workbench answer sentences", () => {
     // A reader who takes the number without the caveat gets it wrong.
     const coe = cards.find((card) => card.id === "coe-participation");
 
+    expect(coe?.sentence).toContain("1 ratification and 20 signature-only rows");
     expect(coe?.sentence).toMatch(/ratif/i);
     expect(coe?.sentence).toMatch(/signature is not ratification/i);
   });

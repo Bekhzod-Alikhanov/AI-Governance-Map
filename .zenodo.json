@@ -1,0 +1,18 @@
+{
+  "title": "Global AI Governance Map: 17 August 2026 research release",
+  "description": "A reproducible research dataset and software release mapping national, subnational, international, and frontier-lab AI governance evidence. The release separates release, coverage-cutoff, status, verification, and review metadata and includes SHA-256 manifests.",
+  "creators": [
+    {
+      "name": "Alikhanov, Bekhzodkhon (Beck)"
+    }
+  ],
+  "license": "MIT",
+  "keywords": [
+    "artificial intelligence",
+    "AI governance",
+    "AI regulation",
+    "research dataset",
+    "public policy"
+  ],
+  "upload_type": "dataset"
+}

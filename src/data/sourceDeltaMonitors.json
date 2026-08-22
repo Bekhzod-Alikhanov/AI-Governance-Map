@@ -1,5 +1,5 @@
 {
-  "snapshotDate": "2026-05-19",
+  "snapshotDate": "2026-08-17",
   "monitors": [
     {
       "id": "coe-ai-convention-treaty-office",
@@ -11,7 +11,7 @@
         "coe-ai-convention::generated::signed",
         "coe-ai-convention::generated::ratified"
       ],
-      "currentAppClaim": "CETS No. 225 is represented as signed by the listed states and organizations, ratified by the EU on 15 May 2026, and not yet in force because five ratifications including at least three Council of Europe member states are required.",
+      "currentAppClaim": "CETS No. 225 has 20 signatures not followed by ratification and one ratification/accession by the EU; Albania signed on 15 June 2026, and the treaty is not yet in force because five ratifications including at least three Council of Europe member states are required.",
       "requiredPatterns": [
         {
           "label": "Treaty 225 identity",
@@ -28,7 +28,7 @@
         {
           "label": "signatures not followed by ratifications",
           "pattern": "Total number of signatures not followed by ratifications\\s*\\|\\s*(\\d+)",
-          "expected": "19",
+          "expected": "20",
           "recommendedAction": "Review signed participation rows for CETS No. 225."
         }
       ],
@@ -41,56 +41,55 @@
       ],
       "manualVerification": {
         "status": "unchanged",
-        "reviewedAt": "2026-06-05",
-        "validUntil": "2026-07-05",
+        "reviewedAt": "2026-08-17",
+        "validUntil": "2026-11-15",
         "reviewer": "Codex manual source check",
-        "observedStatus": "Manual review of official Council of Europe Treaty Office and AI news pages confirms the current app claim: Treaty 225 has 19 signatures not followed by ratification, 1 ratification/accession, the EU ratified on 15 May 2026, and the treaty is not yet in force.",
+        "observedStatus": "Manual review of the official Council of Europe Treaty Office confirms the current app claim: Treaty 225 has 20 signatures not followed by ratification, 1 ratification/accession, Albania signed on 15 June 2026, the EU ratified on 15 May 2026, and the treaty is not yet in force.",
         "evidence": [
-          "Council of Europe Treaty Office CETS No. 225 status excerpt reports status as of 22/05/2026, 19 signatures not followed by ratifications, 1 ratification/accession, and entry into force requiring 5 ratifications including at least 3 Council of Europe member states.",
+          "Council of Europe Treaty Office CETS No. 225 status reviewed 17 August 2026 reports 20 signatures not followed by ratifications, 1 ratification/accession, and entry into force requiring 5 ratifications including at least 3 Council of Europe member states.",
           "Council of Europe AI news page states that the European Union ratified CETS No. 225 on 15 May 2026.",
-          "Council of Europe AI news page states that North Macedonia signed CETS No. 225 on 8 May 2026, bringing the total number of signatories up to 20.",
-          "The app's 20 signed participation rows include the European Union; the separate EU ratified row records the 15 May 2026 ratification."
+          "Council of Europe Treaty Office records Albania's signature on 15 June 2026.",
+          "The app's signed participation rows include the European Union, but the derived signature-only count removes the EU because the separate ratified row records its 15 May 2026 ratification."
         ],
-        "recommendedAction": "No repo action needed until 2026-07-05 unless the Treaty Office page shows a newer signature, ratification, or entry-into-force status."
+        "recommendedAction": "No repo action needed until 2026-11-15 unless the Treaty Office page shows a newer signature, ratification, or entry-into-force status."
       }
     },
     {
       "id": "eu-ai-act-eur-lex",
-      "name": "EU AI Act EUR-Lex status",
-      "sourceLabel": "EUR-Lex Regulation (EU) 2024/1689",
-      "sourceUrl": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
-      "recordIds": ["eu-ai-act", "eu-ai-act-regional"],
-      "currentAppClaim": "Regulation (EU) 2024/1689 is the EU AI Act, entered into force on 1 August 2024, with phased application across EU member states.",
+      "name": "EU AI Act and AI Omnibus status",
+      "sourceLabel": "European Commission - AI Omnibus enters into force",
+      "sourceUrl": "https://digital-strategy.ec.europa.eu/en/news/ai-omnibus-enters-force",
+      "recordIds": ["eu-ai-act", "eu-ai-act-regional", "eu-ai-omnibus-entered-force", "eu-ai-act-broad-application-2026"],
+      "currentAppClaim": "The AI Omnibus entered into force on 27 July 2026; most AI Act provisions began applying on 2 August 2026, while high-risk-system deadlines follow the timeline changed by the Omnibus.",
       "requiredPatterns": [
         {
-          "label": "Regulation number",
-          "pattern": "Regulation\\s*\\(EU\\)\\s*2024/1689"
+          "label": "AI Omnibus identity",
+          "pattern": "AI Omnibus"
         },
         {
-          "label": "Artificial intelligence act text",
-          "pattern": "artificial intelligence"
+          "label": "Entry into force date",
+          "pattern": "27 July 2026|27\\s+July\\s+2026"
         }
       ],
       "changeSignals": [
         {
-          "label": "possible repeal/end-of-validity language",
-          "pattern": "repealed|no longer in force|end of validity",
-          "recommendedAction": "Review EU AI Act status and update binding-law summaries only if EUR-Lex confirms a legal-status change."
+          "label": "further application-timeline changes",
+          "pattern": "further delay|postpone|new deadline|amended timeline",
+          "recommendedAction": "Review the AI Act milestones and high-risk-system caveats if the Commission announces another application-timeline change."
         }
       ],
       "manualVerification": {
         "status": "unchanged",
-        "reviewedAt": "2026-06-13",
-        "validUntil": "2026-07-13",
+        "reviewedAt": "2026-08-17",
+        "validUntil": "2026-11-15",
         "reviewer": "Codex manual source check",
-        "observedStatus": "Manual review of the official EUR-Lex Regulation (EU) 2024/1689 page confirms the current app claim: the document is Regulation (EU) 2024/1689, the Artificial Intelligence Act, published in OJ L 2024/1689 on 12 July 2024, and marked in force.",
+        "observedStatus": "Manual review of official European Commission pages confirms that the AI Omnibus entered into force on 27 July 2026 and that most AI Act provisions applied from 2 August 2026, with changed deadlines for high-risk AI systems.",
         "evidence": [
-          "EUR-Lex page identifies Document 32024R1689 and Regulation (EU) 2024/1689 of 13 June 2024 laying down harmonised rules on artificial intelligence.",
-          "EUR-Lex page title includes Artificial Intelligence Act.",
-          "EUR-Lex page shows OJ L, 2024/1689, 12.7.2024, with ELI http://data.europa.eu/eli/reg/2024/1689/oj.",
-          "EUR-Lex page legal-status display says In force."
+          "European Commission AI Omnibus announcement states that the Omnibus entered into force on 27 July 2026.",
+          "European Commission Navigating the AI Act FAQ identifies 2 August 2026 as the broad application milestone.",
+          "The Commission sources distinguish broad application from the high-risk-system deadlines changed by the AI Omnibus."
         ],
-        "recommendedAction": "No repo action needed until 2026-07-13 unless EUR-Lex shows a newer consolidation, corrigendum, or legal-status change."
+        "recommendedAction": "No repo action needed until 2026-11-15 unless the Commission publishes a newer AI Act or AI Omnibus application timeline."
       }
     },
     {

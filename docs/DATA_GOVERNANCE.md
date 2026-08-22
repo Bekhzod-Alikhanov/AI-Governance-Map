@@ -6,7 +6,10 @@ For the practical contribution workflow, templates, and pull-request checklist, 
 
 ## Snapshot Discipline
 
-- Current snapshot date: 19 May 2026.
+- Current release date, coverage cutoff, and status-as-of date: 17 August 2026.
+- `releaseDate` is when the bundle was published; `coverageCutoff` is the last date intentionally covered by the release; `statusAsOf` is the date to which displayed status claims are scoped.
+- `snapshotDate` is a compatibility alias for `statusAsOf` for the 2026.08 release cycle and should not be used to overwrite record-level dates.
+- Preserve every record's own `lastVerified`. A release must never imply that older sources were checked on the release date.
 - Do not silently update one item past the snapshot date without either updating the full snapshot or marking the item as post-snapshot.
 - Dates should use `YYYY-MM-DD` where known. If an official source gives only a month or year, leave the date blank and explain the uncertainty in `notes`.
 
@@ -15,19 +18,22 @@ For the practical contribution workflow, templates, and pull-request checklist, 
 New or revised records should include:
 
 - `sourceKind`: `official`, `secondary`, `mixed`, or `unknown`.
-- `verificationStatus`: `verified`, `likely_correct`, `uncertain`, or `needs_external_check`.
+- `verificationStatus`: `verified`, `likely_correct`, `uncertain`, `needs_external_check`, `unverified`, or `superseded`.
 - `confidence`: `high`, `medium`, or `low`.
 - `lastVerified`: date checked, using `YYYY-MM-DD`.
 - `verificationNotes`: short caveat when the source does not fully prove the displayed claim.
+- `sourceLocator`: a human-readable `label` plus any available `documentId`, `article`, `section`, `page`, or `paragraph`. Locators identify the precise support within the canonical source; they do not replace `sourceUrl`.
+- `reviewStatus` and `reviewNotes`: second-person review state and any remaining caveat.
 
 These fields are optional during migration, but `npm run validate:data` reports aggregate warnings when records do not include them.
 
 ## Public Dataset Export
 
 - The in-app Data menu exports the exact static arrays bundled into the client build.
-- The export uses schema version `2026.05` and the project snapshot date, not the browser download date.
+- The export uses schema version `2026.08.0` and fixed release metadata, not the browser download date.
 - Keep the export helper in `src/utils/exportDataset.ts` aligned with any new data file so public JSON exports do not silently omit a dataset category.
-- The citation download is intentionally short; the release package, methodology, and verification notes live in `docs/RELEASE_2026-05.md`, this document, and the `docs/SOURCE_VERIFICATION_*.md` files.
+- The citation download is intentionally short; the release package, methodology, and verification notes live in `docs/RELEASE_2026-08.md`, this document, and the `docs/SOURCE_VERIFICATION_*.md` files.
+- `public/data/release-manifest.json` and the immutable versioned manifest list byte counts and lowercase SHA-256 digests for the full dataset, schema, and release package. Run `npm run validate:release` to detect drift.
 
 ## Taxonomy Rules
 

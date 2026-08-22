@@ -60,7 +60,7 @@ export interface CorpusCoverageReport {
   staleVerificationRecords: string[];
   officialSourceGaps: string[];
   caveat:
-    "Corpus coverage is an editorial snapshot. Missing records mean not yet collected, not absence of governance activity.";
+    "Curated release: missing records mean not yet collected, not absence of governance activity.";
 }
 
 const CORPUS_KIND_LABELS: Record<CorpusRecordKind, string> = {
@@ -262,7 +262,7 @@ export function getCorpusCoverageReport(today = "2026-06-10"): CorpusCoverageRep
       (record) => `${record.routeKind}:${record.id}`
     ),
     caveat:
-      "Corpus coverage is an editorial snapshot. Missing records mean not yet collected, not absence of governance activity.",
+      "Curated release: missing records mean not yet collected, not absence of governance activity.",
   };
 }
 

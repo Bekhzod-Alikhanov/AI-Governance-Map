@@ -1,11 +1,11 @@
 {
-  "totalRecords": 92,
+  "totalRecords": 91,
   "recordsByKind": {
     "institution": 23,
     "policy_process": 10,
     "standards_conformity": 11,
     "public_sector_ai": 10,
-    "enforcement": 38
+    "enforcement": 37
   },
   "countriesWithInstitutionData": [
     "AUT",
@@ -207,5 +207,5 @@
   "recordsMissingDeadlines": [],
   "staleVerificationRecords": [],
   "officialSourceGaps": [],
-  "caveat": "Corpus coverage is an editorial snapshot. Missing records mean not yet collected, not absence of governance activity."
+  "caveat": "Curated release: missing records mean not yet collected, not absence of governance activity."
 }

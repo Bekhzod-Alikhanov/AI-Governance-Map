@@ -219,7 +219,7 @@ export function buildAtlasPresetRows(presetId: AtlasPresetId): AtlasPresetRow[] 
         iso3: country.iso3,
         countryName: country.name,
         primary: `Readiness ${formatAtlasScore(score)}`,
-        secondary: "No confirmed binding AI-specific law in this snapshot",
+        secondary: "No confirmed binding AI-specific law in this release",
       }));
   }
   if (presetId === "ram-activity") {

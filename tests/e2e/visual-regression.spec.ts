@@ -38,7 +38,7 @@ test.describe("visual regression baselines", () => {
   // wearing a mobile user agent.
   test("map SVG remains visually stable", async ({ page }, testInfo) => {
     skipWithoutBaseline(testInfo, "map-overview-svg.png");
-    await page.goto("/");
+    await page.goto("/?lens=geography");
     // Target the projection explicitly. "first svg in main" silently captured a
     // control-button icon once the control cluster moved ahead of the map in DOM
     // order for keyboard focus.

@@ -104,7 +104,7 @@
       "public-sector"
     ],
     "summary": "The CoE AI Convention requires parties to maintain measures addressing AI lifecycle risks and impacts on human rights, democracy, and rule of law.",
-    "caveat": "As of the snapshot, the Convention was not yet in force; treaty duties apply only for parties once entry-into-force conditions are met.",
+    "caveat": "As of the release status date, the Convention was not yet in force; treaty duties apply only for parties once entry-into-force conditions are met.",
     "sourceName": "Council of Europe - Framework Convention on Artificial Intelligence",
     "sourceUrl": "https://www.coe.int/en/web/artificial-intelligence/the-framework-convention-on-artificial-intelligence",
     "sourceKind": "official",
@@ -337,7 +337,7 @@
       "healthcare"
     ],
     "summary": "Australia's proposed mandatory guardrails would turn selected high-risk AI safety expectations into mandatory duties.",
-    "caveat": "This remains a proposal in the snapshot and must not be treated as binding law.",
+    "caveat": "This remains a proposal in the release and must not be treated as binding law.",
     "sourceName": "Department of Industry, Science and Resources - Proposed mandatory guardrails",
     "sourceUrl": "https://www.industry.gov.au/publications/introducing-mandatory-guardrails-ai-high-risk-settings-proposals-paper",
     "sourceKind": "official",
