@@ -105,6 +105,7 @@ export function NetworkView({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [dims, setDims] = useState({ w: 1200, h: 700 });
   const [showNodeList, setShowNodeList] = useState(false);
+  const [showLegend, setShowLegend] = useState(false);
   const [nodeQuery, setNodeQuery] = useState("");
 
   useEffect(() => {
@@ -459,47 +460,65 @@ export function NetworkView({
       </div>
 
       {/* Legend */}
-      <div className="absolute left-4 top-4 rounded-xl border border-canvas-line bg-white/90 p-3 text-xs shadow-panel backdrop-blur">
-        <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wide text-ink-500">
-          Node type
-        </p>
-        <ul className="space-y-1">
-          {(Object.entries(KIND_COLOR) as Array<[NodeKind, string]>).map(([k, c]) => (
-            <li key={k} className="flex items-center gap-2">
-              <span
-                aria-hidden="true"
-                className="inline-block h-3 w-3 rounded-full"
-                style={{ backgroundColor: c }}
-              />
-              <span className="capitalize text-ink-700">{k.replace(/_/g, " ")}</span>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-3 text-[10px] font-semibold uppercase tracking-wide text-ink-500">
-          Relationship
-        </p>
-        <ul className="mt-1.5 grid grid-cols-2 gap-x-3 gap-y-1">
-          {Object.entries(RELATIONSHIP_STYLE).map(([kind, style]) => (
-            <li key={kind} className="flex items-center gap-1.5 text-[10px] text-ink-700">
-              <svg width="18" height="6" aria-hidden="true" className="shrink-0">
-                <line
-                  x1="0"
-                  y1="3"
-                  x2="18"
-                  y2="3"
-                  stroke={style.color}
-                  strokeDasharray={style.dash}
-                  strokeWidth="2"
-                />
-              </svg>
-              {style.label}
-            </li>
-          ))}
-        </ul>
-        <p className="mt-2 text-[10px] text-ink-500">
-          Node size = number of connections shown · Line thickness = edge strength · Click a node to
-          highlight its 1-hop neighbours. Position carries no meaning: the layout is force-directed.
-        </p>
+      <div
+        className={clsx(
+          "absolute left-4 top-20 z-10 max-w-[calc(100vw-2rem)] rounded-xl border border-canvas-line bg-white/90 p-3 text-xs shadow-panel backdrop-blur sm:top-4",
+          showLegend ? "w-96" : "w-40",
+        )}
+      >
+        <button
+          type="button"
+          onClick={() => setShowLegend((open) => !open)}
+          className="flex w-full items-center justify-between gap-3 rounded-md border border-canvas-line bg-white px-2.5 py-1.5 text-left text-xs font-semibold text-ink-800 hover:bg-canvas"
+          aria-label={`${showLegend ? "Close" : "Open"} node type and relationship legend`}
+          aria-expanded={showLegend}
+          aria-controls="network-legend-content"
+        >
+          <span>Node type</span>
+          <span aria-hidden="true">{showLegend ? "Close" : "Open"}</span>
+        </button>
+
+        {showLegend && (
+          <div id="network-legend-content" className="mt-3">
+            <ul className="space-y-1">
+              {(Object.entries(KIND_COLOR) as Array<[NodeKind, string]>).map(([k, c]) => (
+                <li key={k} className="flex items-center gap-2">
+                  <span
+                    aria-hidden="true"
+                    className="inline-block h-3 w-3 rounded-full"
+                    style={{ backgroundColor: c }}
+                  />
+                  <span className="capitalize text-ink-700">{k.replace(/_/g, " ")}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-3 text-[10px] font-semibold uppercase tracking-wide text-ink-500">
+              Relationship
+            </p>
+            <ul className="mt-1.5 grid grid-cols-2 gap-x-3 gap-y-1">
+              {Object.entries(RELATIONSHIP_STYLE).map(([kind, style]) => (
+                <li key={kind} className="flex items-center gap-1.5 text-[10px] text-ink-700">
+                  <svg width="18" height="6" aria-hidden="true" className="shrink-0">
+                    <line
+                      x1="0"
+                      y1="3"
+                      x2="18"
+                      y2="3"
+                      stroke={style.color}
+                      strokeDasharray={style.dash}
+                      strokeWidth="2"
+                    />
+                  </svg>
+                  {style.label}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-2 text-[10px] leading-relaxed text-ink-500">
+              Node size = number of connections shown · Line thickness = edge strength · Click a node to
+              highlight its 1-hop neighbours. Position carries no meaning: the layout is force-directed.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

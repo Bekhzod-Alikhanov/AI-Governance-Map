@@ -137,6 +137,28 @@ test.describe("governance map smoke flows", () => {
     await expect(page.getByRole("dialog", { name: "United States AI governance details" })).toBeVisible();
   });
 
+  test("keeps the network legend collapsed until requested", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("tab", { name: "Network" }).click();
+
+    const openLegend = page.getByRole("button", { name: "Open node type and relationship legend" });
+    await expect(openLegend).toHaveAttribute("aria-expanded", "false");
+    await expect(page.locator("#network-legend-content")).toHaveCount(0);
+    expect((await openLegend.boundingBox())?.width).toBeLessThanOrEqual(192);
+
+    await openLegend.click();
+    const legend = page.locator("#network-legend-content");
+    await expect(legend).toBeVisible();
+    await expect(page.getByRole("button", { name: "Close node type and relationship legend" })).toHaveAttribute(
+      "aria-expanded",
+      "true",
+    );
+    expect((await legend.boundingBox())?.width).toBeLessThanOrEqual(384);
+
+    await page.getByRole("button", { name: "Close node type and relationship legend" }).click();
+    await expect(legend).toHaveCount(0);
+  });
+
   test("supports in-page map maximize mode", async ({ page }) => {
     await page.goto("/?lens=geography");
 
